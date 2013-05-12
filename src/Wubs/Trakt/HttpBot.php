@@ -1,5 +1,6 @@
 <?php namespace Wubs\Trakt;
 
+use Wubs\Settings\Settings;
 class HttpBot{
 
 	protected $params;
@@ -8,6 +9,8 @@ class HttpBot{
 
 	public $url = 'http://api.trakt.tv/';
 
+	public $response;
+	
 	public function setParams($params){
 		if(is_array($params)){
 			$this->params = json_encode($params);
@@ -22,6 +25,7 @@ class HttpBot{
 	 * @return string the result from the request
 	 */
 	public function execute(){
+		$this->addApiToUri();
 		$curl = curl_init($this->url);
 		curl_setopt($curl, CURLOPT_HEADER, false);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -53,5 +57,11 @@ class HttpBot{
 		if(in_array($type, $types)){
 			$this->type = $type;
 		}
+	}
+
+	private function addApiToUri(){
+		$s = new Settings();
+		$api = $s->get('trakt.api');
+		$this->setUri('/'.$api);
 	}
 }

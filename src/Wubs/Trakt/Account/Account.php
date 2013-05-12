@@ -16,7 +16,9 @@ class Account extends HttpBot{
 	}
 
 	public function settings(){
-		
-		return $this;
+		$this->type = 'post';
+		$this->setUri('account/settings');
+		$this->execute();
+		return $this->response;
 	}
 }
