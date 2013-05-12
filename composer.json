@@ -1,0 +1,17 @@
+{
+    "name": "wubs/trakt",
+    "description": "Trakt api wrapper for php",
+    "authors": [
+        {
+            "name": "megawubs",
+            "email": "bwubs@me.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+
+    },
+    "autoload": {
+            "psr-0": {"Wubs": "src/"}
+        }
+}
