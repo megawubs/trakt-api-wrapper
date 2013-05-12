@@ -1,2 +1,13 @@
 <phpunit bootstrap="vendor/autoload.php">
+	<testsuites>
+        <testsuite name="account">
+            <directory>test/Wubs/Trakt/Account/</directory>
+        </testsuite>
+        <testsuite name="global">
+        	<directory>test/Wubs/</directory>
+        </testsuite>
+        <testsuite name="settings">
+        	<directory>test/Wubs/Settings</directory>
+        </testsuite>
+    </testsuites>
 </phpunit>
