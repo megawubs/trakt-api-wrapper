@@ -1,6 +1,8 @@
 <?php namespace Wubs\Trakt\Account;
 
-class Account{
+use Wubs\Trakt\HttpBot;
+
+class Account extends HttpBot{
 
 	public function __construct(){
 	}
@@ -10,10 +12,11 @@ class Account{
 	 * @return bool indicator if creating account has succeded
 	 */
 	public function create(){
-		return true;
+		return $this;
 	}
 
 	public function settings(){
+		
 		return $this;
 	}
 }
