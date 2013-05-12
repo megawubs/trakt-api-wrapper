@@ -4,20 +4,33 @@ use Wubs\Settings\Settings;
 
 class Trakt{
 
-	public static function get($string){
-		$s = new Settings();
-		$getList = explode('/', $string);
+	public static function get($request){
+		$func = Trakt::getFunc($request);
+		return Trakt::getClass($request)->$func();
+	}
+
+	public static function post($request, $params){
+		$func = Trakt::getFunc($request);
+		return Trakt::getClass($request, $params)->$func();
+	}
+
+	public static function getClass($request, $params = null){
+		$getList = explode('/', $request);
 		$className = __NAMESPACE__;
 		$count = count($getList);
-		$func = end($getList);
 		for ($i=0; $i < $count-1; $i++) {
-				$name = ucfirst($getList[$i]); 
+			$name = ucfirst($getList[$i]); 
+			$className .= '\\'.$name;
+			if($i == $count-2){
 				$className .= '\\'.$name;
-				if($i == $count-2){
-					$className .= '\\'.$name;
-				}
+			}
 		}
-		$class = new $className($s->get('trakt'));
-		return $class->$func();
+		$class = new $className();
+		return ($params == null ? $class : $class->setParams($params));
+	}
+
+	public static function getFunc($request){
+		$getList = explode('/', $request);
+		return end($getList);
 	}
 }
