@@ -5,9 +5,14 @@
         </testsuite>
         <testsuite name="global">
         	<directory>test/Wubs/</directory>
+            <directory>test/Wubs/Settings</directory>
         </testsuite>
         <testsuite name="settings">
         	<directory>test/Wubs/Settings</directory>
+        </testsuite>
+        <testsuite name="trakt">
+            <file>test/Wubs/Trakt/TraktTest.php</file>
+            <file>test/Wubs/Trakt/HttpBotTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
