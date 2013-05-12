@@ -93,8 +93,13 @@ class Settings{
 	 * Resets the setting file
 	 * @return void
 	 */
-	public function reset(){
-		$this->settings = json_decode($this->baseSettingString);
+	public function reset($settings = null){
+		if(!$settings){
+			$this->settings = json_decode($this->baseSettingString);
+		}
+		else{
+			$this->settings = json_decode($settings);
+		}
 		return $this->write();
 	}
 
