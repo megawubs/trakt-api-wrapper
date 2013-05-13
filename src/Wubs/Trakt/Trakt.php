@@ -5,13 +5,13 @@ use Wubs\Settings\Settings;
 class Trakt{
 
 	public static function get($request){
-		$func = Trakt::getFunc($request);
-		return Trakt::getClass($request)->$func();
+		$func = self::getFunc($request);
+		return self::getClass($request)->$func();
 	}
 
 	public static function post($request, $params){
-		$func = Trakt::getFunc($request);
-		return Trakt::getClass($request, $params)->$func();
+		$func = self::getFunc($request);
+		return self::getClass($request, $params)->$func();
 	}
 
 	public static function getClass($request, $params = null){
