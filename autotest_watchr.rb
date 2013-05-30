@@ -1,9 +1,19 @@
-def notify title, msg, img, show_time
-  images_dir='~/.autotest/images'
-  system "notify-send '#{title}' '#{msg}' -i #{images_dir}/#{img} -t #{show_time}"
+def clear_console
+  puts "\e[H\e[2J"  #clear console
+end
+
+def notify title, msg
+  system "growlnotify -n 'autotest' -m '#{title}' '#{msg}' "
+end
+
+def notify_failed cmd, result
+  failed_examples = result.scan(/failure:\n\n(.*)\n/)
+  errors = result[/.*errors/]
+  notify "#{cmd}", "'#{errors}.'"
 end
 
 def run_test(file)
+  clear_console
   unless File.exist?(file)
     puts "#{file} does not exist"
     return
@@ -13,7 +23,10 @@ def run_test(file)
   result = `phpunit #{file}`
   puts result
   if result.match(/OK/)
-      notify "#{file}", "Tests Passed Successfuly", "success.png", 2000
+      num = result[/\((.*)\s(.*),\s(.*).\s(.*)\)/]
+      notify "#{file}", "Tests Passed Successfuly #{num}"
+  elsif result.match(/FAILURES\!/)
+    notify_failed file, result
     end
 end
 
