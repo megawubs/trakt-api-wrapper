@@ -2,6 +2,7 @@
 	"trakt":{
 		"user":"",
 		"api":"",
-		"pass":""
+		"pass":"",
+		"email": ""
 	}
 }
