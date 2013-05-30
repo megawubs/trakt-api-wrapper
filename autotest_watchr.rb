@@ -30,10 +30,10 @@ def run_test(file)
     end
 end
 
-watch("test/.*Test.php") do |match|
+watch("tests/.*Test.php") do |match|
   run_test match[0]
 end
 
 watch("src/(.*).php") do |match|
-  run_test %{test/#{match[1]}Test.php}
+  run_test %{tests/#{match[1]}Test.php}
 end
