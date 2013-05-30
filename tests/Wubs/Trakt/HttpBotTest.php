@@ -24,27 +24,27 @@ class HttpBotTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	public function testSetUri(){
-		$uri = 'account/settings/'.$this->key;
+		$uri = 'account/settings';
 		$this->bot->setUri($uri);
-		$this->assertEquals('http://api.trakt.tv/account/settings/'.$this->key, $this->bot->url);
+		$this->assertEquals('http://api.trakt.tv/account/settings', $this->bot->url);
 	}
 
 	public function testGet(){
-		$uri = 'activity/community.json/'.$this->key;
+		$uri = 'activity/community.json';
 		$this->bot->setUri($uri);
-		$this->assertTrue($this->bot->execute());
+		$this->assertTrue($this->bot->execute(), "Failed to execute Get to ".$this->bot->url."\n with result: ".json_encode($this->bot->getResponse()));
 		$this->assertContainsOnly('array',$this->bot->response);
 	}
 
 	public function testPostWithJson(){
-		$uri = 'account/test/'.$this->key;
+		$uri = 'account/test';
 		$this->bot->setUri($uri);
 		$this->bot->setType('post');
 		$username = $this->s->get('trakt.user');
-		$pass = sha1($this->s->get('trakt.pass'));
+		$pass =$this->s->get('trakt.pass');
 		$params = '{"username":"'.$username.'","password":"'.$pass.'"}';
 		$this->bot->setParams($params);
-		$this->assertTrue($this->bot->execute(), 'Failed to execute Post to '.$this->bot->url.' With values: '. $params);
+		$this->assertTrue($this->bot->execute(), "\n Failed to execute Post to ".$this->bot->url."\nWith values: ". $params."\nGiven result was:".json_encode($this->bot->getResponse()));
 		$this->assertArrayHasKey('status', $this->bot->response);
 		$this->assertEquals('success', $this->bot->response['status']);
 	}
