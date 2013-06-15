@@ -17,7 +17,7 @@ class Settings{
 	 * The json string for the settings
 	 * @var string
 	 */
-	private $baseSettingString = '{"trakt":{"user":"","api":"","pass":""}}';
+	private $baseSettingString = '{"trakt":{"username":"","api":"","password":" ","email":""}}';
 
 	/**
 	 * Sets the file, and loads the settings from the file
@@ -93,7 +93,7 @@ class Settings{
 	 * Resets the setting file
 	 * @return void
 	 */
-	public function reset($settings = null){
+	public function reset($settings = false){
 		if(!$settings){
 			$this->settings = json_decode($this->baseSettingString);
 		}
@@ -115,12 +115,15 @@ class Settings{
 	}
 
 	/**
-	 * checks if the provided setting exsists
+	 * checks if the provided setting exists
 	 * @param  string $settings dotted string of setting to check
 	 * @return bool           true when the setting can be set, false if not
 	 */
 	private function settingsExsists($settings){
-		return (property_exists($this->settings, $settings[0]) && property_exists($this->settings->$settings[0],$settings[1] ));
+
+		// var_dump($this->settings);
+		// return property_exists($this->settings,$settings[0]);
+		return (property_exists($this->settings, $settings[0]) && property_exists($this->settings->$settings[0],$settings[1]));
 	}
 
 	/**
@@ -139,9 +142,9 @@ class Settings{
 	}
 
 	/**
-	 * prettify's the object or string it's given
+	 * prettify the object or string it's given
 	 * @param  mixed $var the variable to prettify
-	 * @return string      prettifyed string
+	 * @return string      prettified string
 	 */
 	private function prettify($var){
 		$str = '';
@@ -164,8 +167,8 @@ class Settings{
 	}
 
 	/**
-	 * shows the complete settings file, prettifyed
-	 * @return string $this->settings prettifyed as a string
+	 * shows the complete settings file, prettified
+	 * @return string $this->settings prettified as a string
 	 */
 	public function show(){
 		return $this->prettify($this->settings);
