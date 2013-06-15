@@ -33,4 +33,21 @@ class Trakt{
 		$getList = explode('/', $request);
 		return end($getList);
 	}
+
+	public static function getParams(array$params){
+		$s = new Settings();
+		$returnParams = array();
+		foreach ($params as $param) {
+			$value = $s->get('trakt.'.$param);
+			if($param == 'password'){
+				$value = sha1($value);
+			}
+			$returnParams[$param] = $value;
+		}
+		return json_encode($returnParams);
+	}
+
+	// public static function setting($string){
+
+	// }
 }
