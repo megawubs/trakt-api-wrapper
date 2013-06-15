@@ -43,9 +43,9 @@ class SettingsTest extends \PHPUnit_Framework_TestCase{
 
 	public function testSettingsReset(){
 		$this->assertTrue($this->s->reset());
-		$this->assertEquals('', $this->s->get('trakt.user'));
-		$this->assertTrue($this->s->set('trakt.user', 'John'));
-		$this->assertEquals('John', $this->s->get('trakt.user'));
+		$this->assertEquals('', $this->s->get('trakt.username'));
+		$this->assertTrue($this->s->set('trakt.username', 'John'));
+		$this->assertEquals('John', $this->s->get('trakt.username'));
 	}
 
 	public function testGetAllSettingsFromTrakt(){
