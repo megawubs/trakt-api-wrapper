@@ -1,2 +1,5 @@
 vendor/*
 *.json
+Gemfile
+Gemfile.lock
+Guardfile
