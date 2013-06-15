@@ -12,13 +12,17 @@ class Account extends HttpBot{
 	 * @return bool indicator if creating account has succeded
 	 */
 	public function create(){
-		return $this;
+		$this->type = 'post';
+		return $this->run('account/create');
 	}
 
 	public function settings(){
 		$this->type = 'post';
-		$this->setUri('account/settings');
-		$this->execute();
-		return $this->response;
+		return $this->run('account/settings');
+	}
+
+	public function test(){
+		$this->type = 'post';
+		return $this->run('account/test');
 	}
 }
