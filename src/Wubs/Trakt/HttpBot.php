@@ -21,6 +21,23 @@ class HttpBot{
 	}
 
 	/**
+	 * Runs the bot
+	 * @param  string $uri the trakt api request string like
+	 * 'account/test'
+	 * @return array      the response from the api 
+	 *                    call mapped to a array
+	 * @throws \Exceptoin If api call fails to execute
+	 */
+	public function run($uri){
+		$this->setUri($uri);
+		if($this->execute()){
+			return $this->response;
+		}
+		else{
+			throw new \Exception("Failed requesting $this->url, got response: ".json_encode($this->response), 1);
+		}
+	}
+	/**
 	 * execute the http post or get request
 	 * @return string the result from the request
 	 */
