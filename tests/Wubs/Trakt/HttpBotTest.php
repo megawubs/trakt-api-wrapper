@@ -40,8 +40,8 @@ class HttpBotTest extends \PHPUnit_Framework_TestCase{
 		$uri = 'account/test';
 		$this->bot->setUri($uri);
 		$this->bot->setType('post');
-		$username = $this->s->get('trakt.user');
-		$pass =$this->s->get('trakt.pass');
+		$username = $this->s->get('trakt.username');
+		$pass =$this->s->get('trakt.password');
 		$params = '{"username":"'.$username.'","password":"'.$pass.'"}';
 		$this->bot->setParams($params);
 		$this->assertTrue($this->bot->execute(), "\n Failed to execute Post to ".$this->bot->url."\nWith values: ". $params."\nGiven result was:".json_encode($this->bot->getResponse()));
