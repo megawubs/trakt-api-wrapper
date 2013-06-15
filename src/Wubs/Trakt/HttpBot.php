@@ -31,7 +31,6 @@ class HttpBot{
 	public function run($uri){
 		$this->setUri($uri);
 		if($this->execute()){
-			
 			return $this->response;
 		}
 		else{
