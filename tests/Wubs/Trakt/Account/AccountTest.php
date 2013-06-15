@@ -1,6 +1,7 @@
 <?php namespace Wubs\Trakt\Account;
 
 use Wubs\Settings\Settings;
+use Wubs\Trakt\Trakt;
 
 class AccountTest extends \PHPUnit_Framework_TestCase{
 	
@@ -29,14 +30,30 @@ class AccountTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	public function testGetAccountInformation(){
-		$username = $this->s->get('trakt.user');
+		$username = $this->s->get('trakt.username');
 		$this->assertEquals('megawubs', $username);
-		$pass = $this->s->get('trakt.pass');
+		$pass = $this->s->get('trakt.password');
 		$params = '{"username":"'.$username.'","password":"'.$pass.'"}';
 		$account = $this->account->setParams($params);
 		$this->assertInstanceOf('Wubs\\Trakt\\Account\\Account', $account);
 		$res = $this->account->settings();
 		$this->assertArrayHasKey('status', $res);
 		$this->assertEquals('success', $res['status']);
+	}
+
+	public function testTestAccount(){
+		$params = Trakt::getParams(array('username', 'password'));
+		$account = $this->account->setParams($params);
+		$res = $this->account->test();
+		$this->assertArrayHasKey('status', $res);
+		$this->assertEquals('success', $res['status']);
+	}
+
+	public function testCreateAccount(){
+		$params = '{"username": "justin", "password": "sha1hash","email": "username@gmail.com"}';
+		$account = $this->account->setParams($params);
+		$res = $this->account->create();
+		$this->assertInternalType('array', $res);
+		$this->assertArrayHasKey('status', $res);
 	}
 }
