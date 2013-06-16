@@ -85,6 +85,6 @@ class Trakt{
 	 */
 	public static function setting($string){
 		$s = new Settings();
-		return $s->get('trakt.'$string);
+		return $s->get('trakt.'.$string);
 	}
 }
