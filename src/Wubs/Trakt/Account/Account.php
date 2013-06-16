@@ -16,11 +16,19 @@ class Account extends HttpBot{
 		return $this->run('account/create');
 	}
 
+	/**
+	 * Retrieves the settings from the user given in the params
+	 * @return array the settings of the user mapped to an array
+	 */
 	public function settings(){
 		$this->type = 'post';
 		return $this->run('account/settings');
 	}
 
+	/**
+	 * Test if the given user can access Trakt.tv
+	 * @return array the response form Trakt.tv mapped to an array
+	 */
 	public function test(){
 		$this->type = 'post';
 		return $this->run('account/test');

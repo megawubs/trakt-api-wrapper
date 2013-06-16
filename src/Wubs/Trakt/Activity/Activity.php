@@ -12,14 +12,30 @@ class Activity extends HttpBot{
 	
 	protected $needsType  = false;
 
+	/**
+	 * Runs when calling Trakt::get('activity/community');
+	 * @return Wubs\Trakt\Activity\Community 
+	 * Object with specific methods for the Community call
+	 */
 	public function community(){
 		return new Community();
 	}
 
+	/**
+	 * Runs when calling Trakt::get('activity/episodes');
+	 * @return Wubs\Trakt\Activity\Episodes 
+	 * Object with specific methods for the Episodes call
+	 */
 	public function episodes(){
 		return new Episodes();
 	}
 
+	/**
+	 * Sets the actions part of the uri
+	 * @param array $actions list of actions to set
+	 * @return  Wubs\Trakt\Activity\[mixed]
+	 * @throws \Exception If Type is needed and it's not set
+	 */
 	public function setActions(array$actions){
 		$allowed = array('watching','scrobble','checkin','seen','collection','rating','watchlist','shout','review','created','item_added');
 		$actionsString = '/'.$this->filterToCSV($actions, $allowed);
@@ -32,6 +48,11 @@ class Activity extends HttpBot{
 		return $this;
 	}
 
+	/**
+	 * Sets the startdate part of the rui
+	 * @param string $date Ymd (20130616) time string
+	 * @return Wubs\Trakt\Activity\[mixed]
+	 */
 	public function setStartDate($date){
 		date_default_timezone_set('UTC');
 		$date = strtotime($date);
@@ -40,6 +61,11 @@ class Activity extends HttpBot{
 		return $this;
 	}
 
+	/**
+	 * Sets the endate part of the uri
+	 * @param string $date Ymd (20130616) time string
+	 * @throws \Exception If start date isn't set
+	 */
 	public function setEndDate($date){
 		if($this->startDateSet){
 			$date = strtotime($date);
@@ -51,6 +77,13 @@ class Activity extends HttpBot{
 		}
 	}
 
+	/**
+	 * Makes comma separated list from array, with only
+	 * the allowed items in $allowed
+	 * @param  array $array   the array to map to commas
+	 * @param  array $allowed the array with allowed values
+	 * @return string          filtered string with comma's
+	 */
 	protected function filterToCSV($array, $allowed){
 		$keyString = '';
 		foreach ($array as $key) {
