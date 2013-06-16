@@ -121,14 +121,11 @@ class Settings{
 	 * @return bool           true when the setting can be set, false if not
 	 */
 	private function settingsExsists($settings){
-
-		// var_dump($this->settings);
-		// return property_exists($this->settings,$settings[0]);
 		return (property_exists($this->settings, $settings[0]) && property_exists($this->settings->$settings[0],$settings[1]));
 	}
 
 	/**
-	 * gets te conten from $this->file and maps it 
+	 * gets the content from $this->file and maps it 
 	 * to an object
 	 * @return void
 	 */
