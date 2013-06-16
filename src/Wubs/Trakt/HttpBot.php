@@ -9,7 +9,11 @@ class HttpBot{
 
 	public $url = 'http://api.trakt.tv/';
 
+	private $uri = '';
+
 	public $response;
+
+	private $apiAdded = false;
 	
 	public function setParams($params){
 		if(is_array($params)){
@@ -25,11 +29,14 @@ class HttpBot{
 	 * @param  string $uri the trakt api request string like
 	 * 'account/test'
 	 * @return array      the response from the api 
-	 *                    call mapped to a array
+	 *                    call mapped to an array
 	 * @throws \Exceptoin If api call fails to execute
 	 */
-	public function run($uri){
-		$this->setUri($uri);
+	public function run($uri = ''){
+		if($uri != ''){
+			$this->setUri($uri);
+		}
+		
 		if($this->execute()){
 			return $this->response;
 		}
@@ -42,7 +49,7 @@ class HttpBot{
 	 * @return string the result from the request
 	 */
 	public function execute(){
-		$this->addApiToUri();
+		$this->generateUrl();
 		$curl = curl_init($this->url);
 		curl_setopt($curl, CURLOPT_HEADER, false);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -59,18 +66,23 @@ class HttpBot{
 		}
 		$json_response = curl_exec($curl);
 		$status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+		$this->response = json_decode($json_response, true);
+		curl_close($curl);
 		if($status != 200){
-			curl_close($curl);
-			$this->response = json_decode($json_response, true);
 			return false;
 		}
-		curl_close($curl);
-		$this->response = json_decode($json_response, true);
+		if(array_key_exists('status', $this->response)){
+			if($this->response['status'] == 'failure'){
+				throw new \Exception("API request failed, ".$this->response['error']);
+			}
+		}
 		return true;
 	}
 
 	public function setUri($uri){
-		$this->url .= $uri;
+		$this->uri = $uri;
+		$this->addApiToUri();
+		return $this;
 	}
 
 	public function setType($type){
@@ -80,13 +92,32 @@ class HttpBot{
 		}
 	}
 
-	private function addApiToUri(){
+	public function addApiToUri(){
 		$s = new Settings();
 		$api = $s->get('trakt.api');
-		$this->setUri('/'.$api);
+		if(!$this->apiAdded){
+			$this->appendUri('/'.$api);
+			$this->apiAdded = true;
+		}
+	}
+
+	public function appendUri($uri){
+		$this->uri .= $uri;
+	}
+
+	private function generateUrl(){
+		$this->url .= $this->uri;
 	}
 
 	public function getResponse(){
 		return $this->response;
+	}
+
+	public function getUri(){
+		return $this->uri;
+	}
+
+	public function getUrl(){
+		return $this->url;
 	}
 }
