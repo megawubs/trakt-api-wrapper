@@ -50,6 +50,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	public function testCreateAccount(){
+		$this->markTestSkipped("I don't have a dev api key yet");
 		$params = '{"username": "justin", "password": "sha1hash","email": "username@gmail.com"}';
 		$account = $this->account->setParams($params);
 		$res = $this->account->create();
