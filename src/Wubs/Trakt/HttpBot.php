@@ -79,22 +79,35 @@ class HttpBot{
 		return true;
 	}
 
+	/**
+	 * Sets the uri
+	 * @param string $uri the first part of the uri
+	 */
 	public function setUri($uri){
 		$this->uri = $uri;
 		$this->addApiToUri();
 		return $this;
 	}
 
+	/**
+	 * sets the type of the http request
+	 * @param string $type get or post
+	 */
 	public function setType($type){
 		$types = array('get', 'post');
 		if(in_array($type, $types)){
 			$this->type = $type;
 		}
+		else{
+			throw new \Exception("Can't set http request type to $type");
+		}
 	}
 
+	/**
+	 * Adds the api key stored in the settings to the uri
+	 */
 	public function addApiToUri(){
-		$s = new Settings();
-		$api = $s->get('trakt.api');
+		$api = Trakt::setting('api');
 		if(!$this->apiAdded){
 			$this->appendUri('/'.$api);
 			$this->apiAdded = true;
