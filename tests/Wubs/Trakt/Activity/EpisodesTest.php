@@ -22,7 +22,7 @@ class EpisodesTest extends \PHPUnit_Framework_TestCase
 	}
 
 	public function testGetEpisodesActivity(){
-		// $this->markTestSkipped('Not implementd yet!');
+		$this->markTestSkipped('Not implementd yet!');
 		$this->episodes->setShow('fringe');
 		$uri = 'activity/episodes.json/'.$this->s->get('trakt.api');
 		$this->assertEquals($uri.'/fringe', $this->episodes->getUri());
