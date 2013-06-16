@@ -26,7 +26,8 @@ class HttpBotTest extends \PHPUnit_Framework_TestCase{
 	public function testSetUri(){
 		$uri = 'account/settings';
 		$this->bot->setUri($uri);
-		$this->assertEquals('http://api.trakt.tv/account/settings', $this->bot->url);
+		$api = $this->s->get('trakt.api');
+		$this->assertEquals('account/settings/'.$api, $this->bot->getUri());
 	}
 
 	public function testGet(){
@@ -44,8 +45,20 @@ class HttpBotTest extends \PHPUnit_Framework_TestCase{
 		$pass =$this->s->get('trakt.password');
 		$params = '{"username":"'.$username.'","password":"'.$pass.'"}';
 		$this->bot->setParams($params);
+		$this->bot->addApiToUri();
 		$this->assertTrue($this->bot->execute(), "\n Failed to execute Post to ".$this->bot->url."\nWith values: ". $params."\nGiven result was:".json_encode($this->bot->getResponse()));
 		$this->assertArrayHasKey('status', $this->bot->response);
 		$this->assertEquals('success', $this->bot->response['status']);
+	}
+
+	/**
+     * @expectedException \Exception
+     */
+	public function testAPIResponseWithFailure(){
+		$uri = 'activity/episodes.json';
+		$this->bot->setUri($uri);
+		$this->bot->execute();
+		$res = $this->bot->response;
+		print_r($res);
 	}
 }
