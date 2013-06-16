@@ -31,6 +31,7 @@ class Settings{
 	 * Get the given setting from the settings file
 	 * @param  string $name the name of the setting separated with dots
 	 * @return string       the value of the setting
+	 * @throws \Exception If requested setting doesn't exist
 	 */
 	public function get($name){
 		$error = "Setting with name: $name not present in the settings";
@@ -40,7 +41,7 @@ class Settings{
 				return $this->prettify($this->settings->$settings[0]->$settings[1]);
 			}
 			else{
-				return $error;
+				throw new \Exception($error);
 			}
 		}
 		else{
@@ -48,7 +49,7 @@ class Settings{
 				return $this->settings->$name;
 			}
 			else{
-				return $error;
+				throw new \Exception($error);
 			}
 			
 		}
