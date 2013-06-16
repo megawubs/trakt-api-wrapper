@@ -18,8 +18,8 @@ class Community extends Activity{
 	 * @param array $types list of types
 	 */
 	public function setTypes(array$types){
-		$allowed = array('episode','show','movie','list');
-		$typesString = '/'.$this->filterToCSV($types, $allowed);
+		$allowed        = array('episode','show','movie','list');
+		$typesString    = '/'.$this->filterToCSV($types, $allowed);
 		$this->appendUri($typesString);
 		$this->typesSet = true;
 		return $this;

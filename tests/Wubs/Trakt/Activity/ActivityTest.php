@@ -8,7 +8,7 @@ class ActivityTest extends \PHPUnit_Framework_TestCase
 {
 	public function setUp()
 	{
-		$this->s = new Settings();
+		$this->s        = new Settings();
 		$this->activity = new Activity();
 	}
 
@@ -22,7 +22,7 @@ class ActivityTest extends \PHPUnit_Framework_TestCase
 		$community = $this->activity->community();
 		$this->assertInternalType('object', $community);
 		$this->assertInstanceOf('Wubs\Trakt\Activity\Community', $community);
-		$res = $community->run();
+		$res       = $community->run();
 		$this->assertInternalType('array', $res);
 	}
 
@@ -30,7 +30,7 @@ class ActivityTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Exception
      */
 	public function testSettingActivityBeforeSettingTypes(){
-		$actions = array('watching');
+		$actions   = array('watching');
 		$community = $this->activity->community()->setActions($actions)->run();
 	}
 

@@ -111,7 +111,7 @@ class Settings{
 	 */
 	private function parseSettingName($name){
 		$rootSetting = explode('.', $name)[0];
-		$subSetting = explode('.', $name)[1];
+		$subSetting  = explode('.', $name)[1];
 		return array($rootSetting, $subSetting);
 	}
 

@@ -5,7 +5,7 @@ use Wubs\Settings\Settings;
 class HttpBotTest extends \PHPUnit_Framework_TestCase{
 	public function setUp(){
 		$this->bot = new HttpBot();
-		$this->s = new Settings();
+		$this->s   = new Settings();
 		$this->key = $this->s->get('trakt.api');
 	}
 
@@ -38,12 +38,12 @@ class HttpBotTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	public function testPostWithJson(){
-		$uri = 'account/test';
+		$uri      = 'account/test';
 		$this->bot->setUri($uri);
 		$this->bot->setType('post');
 		$username = $this->s->get('trakt.username');
-		$pass =$this->s->get('trakt.password');
-		$params = '{"username":"'.$username.'","password":"'.$pass.'"}';
+		$pass     = $this->s->get('trakt.password');
+		$params   = '{"username":"'.$username.'","password":"'.$pass.'"}';
 		$this->bot->setParams($params);
 		$this->bot->addApiToUri();
 		$this->assertTrue($this->bot->execute(), "\n Failed to execute Post to ".$this->bot->url."\nWith values: ". $params."\nGiven result was:".json_encode($this->bot->getResponse()));

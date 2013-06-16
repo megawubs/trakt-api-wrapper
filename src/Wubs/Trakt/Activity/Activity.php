@@ -37,7 +37,7 @@ class Activity extends HttpBot{
 	 * @throws \Exception If Type is needed and it's not set
 	 */
 	public function setActions(array$actions){
-		$allowed = array('watching','scrobble','checkin','seen','collection','rating','watchlist','shout','review','created','item_added');
+		$allowed       = array('watching','scrobble','checkin','seen','collection','rating','watchlist','shout','review','created','item_added');
 		$actionsString = '/'.$this->filterToCSV($actions, $allowed);
 		if($this->needsType){
 			if(!$this->typesSet){

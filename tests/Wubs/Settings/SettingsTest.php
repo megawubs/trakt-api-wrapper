@@ -6,7 +6,7 @@ class SettingsTest extends \PHPUnit_Framework_TestCase{
 	protected static $content;
 
 	public static function setUpBeforeClass(){
-		self::$file = dirname(__FILE__).'/../../../settings/settings.json';
+		self::$file    = dirname(__FILE__).'/../../../settings/settings.json';
 		self::$content = file_get_contents(self::$file);
 	}
 	public function setUp(){

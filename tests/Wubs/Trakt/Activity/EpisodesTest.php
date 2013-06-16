@@ -6,8 +6,8 @@ class EpisodesTest extends \PHPUnit_Framework_TestCase
 {
 	public function setUp()
 	{	
-		$activity = new Activity();
-		$this->s = new Settings();
+		$activity       = new Activity();
+		$this->s        = new Settings();
 		$this->episodes = $activity->episodes();
 	}
 

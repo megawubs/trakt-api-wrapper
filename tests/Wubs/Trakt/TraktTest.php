@@ -4,10 +4,10 @@ use Wubs\Settings\Settings;
 class TraktTest extends \PHPUnit_Framework_TestCase{
 
 	public function testPostAccount(){
-		$s = new Settings();
+		$s        = new Settings();
 		$username = $s->get('trakt.username');
-		$pass = sha1($s->get('trakt.password'));
-		$params = '{"username":"'.$username.'","password":"'.$pass.'"}';
+		$pass     = sha1($s->get('trakt.password'));
+		$params   = '{"username":"'.$username.'","password":"'.$pass.'"}';
 		$this->assertArrayHasKey('status', Trakt::post('account/settings', $params));
 	}
 
@@ -24,7 +24,7 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 
 	public function testPostTestRequest(){
 		$params = Trakt::getParams(array('username', 'password'));
-		$res = Trakt::post('account/test', $params);
+		$res    = Trakt::post('account/test', $params);
 		$this->assertInternalType('array', $res);
 		$this->assertArrayHasKey('status', $res);
 		$this->assertEquals('success',$res['status']);
@@ -36,9 +36,9 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	public function testActivityCommunityWithChaining(){
-		$types = array('episode', 'show', 'list');
+		$types   = array('episode', 'show', 'list');
 		$actions = array('watching', 'scrobble', 'seen');
-		$res = Trakt::get('activity/community')->setTypes($types)->setActions($actions)->setStartDate('20130512')->setEndDate('20130614')->run();
+		$res     = Trakt::get('activity/community')->setTypes($types)->setActions($actions)->setStartDate('20130512')->setEndDate('20130614')->run();
 		$this->assertInternalType('array', $res);
 		$this->assertArrayHasKey('activity', $res);
 	}
