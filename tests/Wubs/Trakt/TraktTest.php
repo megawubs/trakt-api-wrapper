@@ -8,13 +8,13 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 		$username = $s->get('trakt.username');
 		$pass     = sha1($s->get('trakt.password'));
 		$params   = '{"username":"'.$username.'","password":"'.$pass.'"}';
-		$this->assertArrayHasKey('status', Trakt::post('account/settings', $params));
+		$this->assertArrayHasKey('status', Trakt::post('account/settings')->setParams($params)->run());
 	}
 
 	public function testPostSomething(){
 		$this->markTestSkipped("I don't have a dev api key yet");
 		$json = '{"username": "justin","password": "sha1hash","email": "username@gmail.com"}';
-		$this->assertInstanceOf('Wubs\Trakt\Account\Account', Trakt::post('account/test', $json));
+		$this->assertInstanceOf('Wubs\Trakt\Account\Account', Trakt::post('account/test')->setParams($params)->run());
 	}
  
 	public function testGetParams(){
@@ -24,7 +24,7 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 
 	public function testPostTestRequest(){
 		$params = Trakt::getParams(array('username', 'password'));
-		$res    = Trakt::post('account/test', $params);
+		$res    = Trakt::post('account/test')->setParams($params)->run();
 		$this->assertInternalType('array', $res);
 		$this->assertArrayHasKey('status', $res);
 		$this->assertEquals('success',$res['status']);
@@ -50,7 +50,7 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 
 	public function testActivityFriends(){
 		$params = Trakt::getParams(array('username', 'password'));
-		$res = Trakt::post('activity/friends', $params)->run();
+		$res = Trakt::post('activity/friends')->setParams($params)->run();
 		$this->assertInternalType('array', $res);
 		$this->assertArrayHasKey('activity', $res);
 	}

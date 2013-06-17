@@ -20,7 +20,6 @@ class HttpBot{
 	protected $required = array();
 
 	public function setParams($params){
-		print_r($params);
 		if(is_array($params)){
 			$this->params = json_encode($params);
 			return $this;
@@ -191,6 +190,4 @@ class HttpBot{
 	public function getUrl(){
 		return $this->url.$this->generateUri();
 	}
-
-	public function getPrams()
 }

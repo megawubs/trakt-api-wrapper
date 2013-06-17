@@ -37,7 +37,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase{
 		$params   = '{"username":"'.$username.'","password":"'.$pass.'"}';
 		$account  = $this->account->setParams($params);
 		$this->assertInstanceOf('Wubs\\Trakt\\Account\\Account', $account);
-		$res      = $this->account->settings();
+		$res      = $this->account->settings()->run();
 		$this->assertArrayHasKey('status', $res);
 		$this->assertEquals('success', $res['status']);
 	}
@@ -45,7 +45,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase{
 	public function testTestAccount(){
 		$params  = Trakt::getParams(array('username', 'password'));
 		$account = $this->account->setParams($params);
-		$res     = $this->account->test();
+		$res     = $this->account->test()->run();
 		$this->assertArrayHasKey('status', $res);
 		$this->assertEquals('success', $res['status']);
 	}

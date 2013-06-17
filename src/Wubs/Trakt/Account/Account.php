@@ -13,7 +13,7 @@ class Account extends HttpBot{
 	 */
 	public function create(){
 		$this->type = 'post';
-		return $this->run('account/create');
+		return $this->setUri('account/create');
 	}
 
 	/**
@@ -22,7 +22,7 @@ class Account extends HttpBot{
 	 */
 	public function settings(){
 		$this->type = 'post';
-		return $this->run('account/settings');
+		return $this->setUri('account/settings');
 	}
 
 	/**
@@ -31,6 +31,6 @@ class Account extends HttpBot{
 	 */
 	public function test(){
 		$this->type = 'post';
-		return $this->run('account/test');
+		return $this->setUri('account/test');
 	}
 }

@@ -9,6 +9,5 @@ class Friends extends Activity{
 	public function __construct(){
 		$this->setUri('activity/friends.json');
 		$this->type = 'post';
-		// echo "$this->type\n";
 	}
 }

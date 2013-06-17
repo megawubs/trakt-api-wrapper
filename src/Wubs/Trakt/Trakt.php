@@ -22,9 +22,9 @@ class Trakt{
 	 * can be found here: http://trakt.tv/api-docs
 	 * @return mixed
 	 */
-	public static function post($request, $params){
+	public static function post($request){
 		$func = self::getFunc($request);
-		return self::getClass($request, $params)->$func();
+		return self::getClass($request)->$func();
 	}
 
 	/**
@@ -33,7 +33,7 @@ class Trakt{
 	 * @param  string $params  the params if it's a post request
 	 * @return string          the name of the mapped class
 	 */
-	public static function getClass($request, $params = null){
+	public static function getClass($request){
 		$getList = explode('/', $request);
 		$className = __NAMESPACE__;
 		$count = count($getList);
@@ -44,8 +44,7 @@ class Trakt{
 				$className .= '\\'.$name;
 			}
 		}
-		$class = new $className();
-		return ($params == null ? $class : $class->setParams($params));
+		return new $className();
 	}
 
 	/**
@@ -75,7 +74,6 @@ class Trakt{
 			}
 			$returnParams[$param] = $value;
 		}
-		// echo json_encode($returnParams)."\n";
 		return json_encode($returnParams);
 	}
 

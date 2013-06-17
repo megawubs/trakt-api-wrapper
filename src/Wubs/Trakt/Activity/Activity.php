@@ -31,7 +31,7 @@ class Activity extends HttpBot{
 	}
 
 	public function friends(){
-		return new Friends($this->params);
+		return new Friends();
 	}
 	/**
 	 * Sets the actions part of the uri
