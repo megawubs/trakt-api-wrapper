@@ -33,8 +33,8 @@ class HttpBotTest extends \PHPUnit_Framework_TestCase{
 	public function testGet(){
 		$uri = 'activity/community.json';
 		$this->bot->setUri($uri);
-		$this->assertTrue($this->bot->execute(), "Failed to execute Get to ".$this->bot->url."\n with result: ".json_encode($this->bot->getResponse()));
-		$this->assertContainsOnly('array',$this->bot->response);
+		$this->assertTrue($this->bot->execute(), "Failed to execute Get to ".$this->bot->getUrl()."\n with result: ".json_encode($this->bot->getResponse()));
+		$this->assertContainsOnly('array',$this->bot->getResponse());
 	}
 
 	public function testPostWithJson(){
@@ -46,9 +46,9 @@ class HttpBotTest extends \PHPUnit_Framework_TestCase{
 		$params   = '{"username":"'.$username.'","password":"'.$pass.'"}';
 		$this->bot->setParams($params);
 		$this->bot->addApiToUri();
-		$this->assertTrue($this->bot->execute(), "\n Failed to execute Post to ".$this->bot->url."\nWith values: ". $params."\nGiven result was:".json_encode($this->bot->getResponse()));
-		$this->assertArrayHasKey('status', $this->bot->response);
-		$this->assertEquals('success', $this->bot->response['status']);
+		$this->assertTrue($this->bot->execute(), "\n Failed to execute Post to ".$this->bot->getUrl()."\nWith values: ". $params."\nGiven result was:".json_encode($this->bot->getResponse()));
+		$this->assertArrayHasKey('status', $this->bot->getResponse());
+		$this->assertEquals('success', $this->bot->getResponse()['status']);
 	}
 
 	/**
@@ -58,7 +58,6 @@ class HttpBotTest extends \PHPUnit_Framework_TestCase{
 		$uri = 'activity/episodes.json';
 		$this->bot->setUri($uri);
 		$this->bot->execute();
-		$res = $this->bot->response;
-		print_r($res);
+		$res = $this->bot->getResponse();
 	}
 }
