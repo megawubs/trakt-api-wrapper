@@ -38,7 +38,7 @@ class EpisodesTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException \Exception
+	 * @expectedException Wubs\Trakt\Exceptions\TraktException
 	 */
 	public function testRequestWithoutRequiredUriParts(){
 		$this->episodes->setEpisodes('1,3,4')->setTitles('fringe')->run();
