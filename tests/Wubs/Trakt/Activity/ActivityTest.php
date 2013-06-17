@@ -31,7 +31,7 @@ class ActivityTest extends \PHPUnit_Framework_TestCase
      */
 	public function testSettingActivityBeforeSettingTypes(){
 		$actions   = array('watching');
-		$community = $this->activity->community()->setActions($actions)->run();
+		$request = $this->activity->community()->setActions($actions)->run();
 	}
 
 	/**

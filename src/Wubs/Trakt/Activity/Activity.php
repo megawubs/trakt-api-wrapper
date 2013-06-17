@@ -38,14 +38,8 @@ class Activity extends HttpBot{
 	 */
 	public function setActions(array$actions){
 		$allowed       = array('watching','scrobble','checkin','seen','collection','rating','watchlist','shout','review','created','item_added');
-		$actionsString = '/'.$this->filterToCSV($actions, $allowed);
-		if($this->needsType){
-			if(!$this->typesSet){
-				throw new \Exception("Can't set actions if types are not set");
-			}
-		}
-		$this->appendUri($actionsString);
-		return $this;
+		$actionsString = $this->filterToCSV($actions, $allowed);
+		return $this->appendUri('actions', $actionsString);
 	}
 
 	/**
@@ -56,25 +50,18 @@ class Activity extends HttpBot{
 	public function setStartDate($date){
 		date_default_timezone_set('UTC');
 		$date = strtotime($date);
-		$this->appendUri('/'.$date);
-		$this->startDateSet = true;
-		return $this;
+		return $this->appendUri('start_ts',$date);
+		
 	}
 
 	/**
 	 * Sets the endate part of the uri
 	 * @param string $date Ymd (20130616) time string
-	 * @throws \Exception If start date isn't set
 	 */
 	public function setEndDate($date){
-		if($this->startDateSet){
-			$date = strtotime($date);
-			$this->appendUri('/'.$date);
-			return $this;
-		}
-		else{
-			throw new \Exception("Can't set end date if start date isn't set.");
-		}
+		date_default_timezone_set('UTC');
+		$date = strtotime($date);
+		return $this->appendUri('end_ts', $date);
 	}
 
 	/**

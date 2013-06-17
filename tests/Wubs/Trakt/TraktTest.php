@@ -45,7 +45,7 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 
 	public function testActivityEpisodes(){
 		// $this->markTestSkipped('Not implementd yet!');
-		$res = Trakt::get('activity/episodes')->setShow('game-of-thrones')->setSeasons('1,2,3')->setEpisodes('1,2,3')->run();
+		$res = Trakt::get('activity/episodes')->setTitles('game-of-thrones')->setSeasons('1,2,3')->setEpisodes('1,2,3')->run();
 		$this->assertInternalType('array', $res);
 	}
 

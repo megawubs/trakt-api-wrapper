@@ -3,14 +3,15 @@
 
 class Community extends Activity{
 
-	protected $typesSet = false;
+	protected $uriOrder = array('types', 'actions', 'start_ts', 'end_ts');
+	
+	protected $required = array();
 
 	/**
 	 * Sets the uri
 	 */
 	public function __construct(){
 		$this->setUri('activity/community.json');
-		$this->needsType = true;
 	}
 
 	/**
@@ -19,9 +20,8 @@ class Community extends Activity{
 	 */
 	public function setTypes(array$types){
 		$allowed        = array('episode','show','movie','list');
-		$typesString    = '/'.$this->filterToCSV($types, $allowed);
-		$this->appendUri($typesString);
-		$this->typesSet = true;
+		$typesString    = $this->filterToCSV($types, $allowed);
+		$this->appendUri('types', $typesString);
 		return $this;
 	}
 }

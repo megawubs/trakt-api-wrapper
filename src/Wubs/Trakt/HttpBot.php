@@ -4,17 +4,21 @@ use Wubs\Settings\Settings;
 class HttpBot{
 
 	protected $params;
-
-	protected $type = 'get';
-
-	protected $url = 'http://api.trakt.tv/';
-
-	private $uri = '';
-
-	private $response;
-
-	private $apiAdded = false;
 	
+	protected $type     = 'get';
+	
+	protected $url      = 'http://api.trakt.tv/';
+	
+	private $uri        = array();
+	
+	private $response;
+	
+	private $apiAdded   = false;
+	
+	protected $uriOrder = array();
+	
+	protected $required = array();
+
 	public function setParams($params){
 		if(is_array($params)){
 			$this->params = json_encode($params);
@@ -84,7 +88,7 @@ class HttpBot{
 	 * @param string $uri the first part of the uri
 	 */
 	public function setUri($uri){
-		$this->uri = $uri;
+		$this->uri['base'] = $uri;
 		$this->addApiToUri();
 		return $this;
 	}
@@ -108,29 +112,82 @@ class HttpBot{
 	 */
 	public function addApiToUri(){
 		$api = Trakt::setting('api');
-		if(!$this->apiAdded){
-			$this->appendUri('/'.$api);
-			$this->apiAdded = true;
-		}
+		$this->appendUri('api', $api);
 	}
-	
-	public function appendUri($uri){
-		$this->uri .= $uri;
+
+	public function appendUri($part, $uri){
+		$this->uri[$part] = $uri;
+		return $this;
 	}
 
 	private function generateUrl(){
-		$this->url .= $this->uri;
+		$this->url .= $this->generateUri();
+	}
+
+	/**
+	 * Generates the uri. This function makes it possible
+	 * to build the api request without thinking about the order
+	 * @return string the uri formatted in the right order.
+	 * @throws \Exception If required api request part isn't set
+	 */
+	private function generateUri(){
+		$uri = $this->uri['base'];
+		$uri .='/'.$this->uri['api'];
+		//check if start_ts is set when end_ts is set
+		
+		if(array_key_exists('end_ts', $this->uri)){
+			if(!array_key_exists('start_ts', $this->uri)){
+				throw new \Exception("Cannot add end date if start date isn't set", 1);
+			}
+		}
+		//check if all required uri parts are set
+		foreach ($this->required as $part) {
+			if(!array_key_exists($part, $this->uri)){
+				throw new \Exception("The parameter '$part' is required", 1);
+			}
+		}
+		//build the uri based on the uri order
+		foreach ($this->uriOrder as $part) {
+			if(array_key_exists($part, $this->uri)){
+				if(in_array($part, $this->uriOrder)){
+					//lookup the index of the required api part
+					$index = array_search($part, $this->uriOrder);
+					if($index > 0){
+						$previousIndex = $index-1;
+						if($previousIndex > -1){
+							//get the value of the previous required api part
+							$value = $this->uriOrder[$previousIndex];
+							//check if the previous index isn't lower than 0
+							//check if the uri array has the previous required part
+							if(!array_key_exists($value, $this->uri)){
+								throw new \Exception("Cannot add '".$this->uriOrder[$index]."' because '".$this->uriOrder[$previousIndex]."' isn't set ");
+							}
+						}
+					}
+				}
+				$uri .= '/'.$this->uri[$part];
+			}
+		}
+		return $uri;
 	}
 
 	public function getResponse(){
 		return $this->response;
 	}
 
+	/**
+	 * Returns the formated uri
+	 * @return string the uri formated based on $this->required
+	 */
 	public function getUri(){
-		return $this->uri;
+		return $this->generateUri();
 	}
 
+	/**
+	 * Gets the full url
+	 * @return string
+	 */
 	public function getUrl(){
-		return $this->url;
+		return $this->url.$this->generateUri();
 	}
 }
