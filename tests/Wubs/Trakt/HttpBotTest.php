@@ -52,7 +52,7 @@ class HttpBotTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	/**
-     * @expectedException \Exception
+     * @expectedException Wubs\Trakt\Exceptions\TraktException
      */
 	public function testAPIResponseWithFailure(){
 		$uri = 'activity/episodes.json';
