@@ -2,6 +2,8 @@
 
 class Actions{
 
+	protected $uri = array();
+
 	/**
 	 * Sets the actions part of the uri
 	 * @param array $actions list of actions to set
@@ -101,5 +103,30 @@ class Actions{
 	 */
 	public function setEpisode($episode){
 		return $this->setEpisodes($episode);
+	}
+
+	/**
+	 * Adds the api key stored in the settings to the uri
+	 */
+	public function addApiToUri(){
+		$api = Trakt::setting('api');
+		return $this->appendUri('api', $api);
+	}
+
+	public function appendUri($part, $uri){
+		$uri = str_replace(' ', '', $uri);
+		$this->uri[$part] = $uri;
+		return $this;
+	}
+	
+	/**
+	 * Sets the types part of the uri
+	 * @param array $types list of types
+	 */
+	public function setTypes($types){
+		$allowed        = array('episode','show','movie','list');
+		$typesString    = $this->filterToCSV($types, $allowed);
+		$this->appendUri('types', $typesString);
+		return $this;
 	}
 }

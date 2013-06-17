@@ -23,7 +23,6 @@ class Trakt{
 	 * @return mixed
 	 */
 	public static function post($request){
-		echo "It's a post request\n";
 		$func = self::getFunc($request);
 		return self::getClass($request)->$func();
 	}

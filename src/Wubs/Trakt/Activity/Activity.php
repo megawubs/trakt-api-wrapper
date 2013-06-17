@@ -10,7 +10,9 @@ class Activity extends HttpBot{
 	 * Object with specific methods for the Community call
 	 */
 	public function community(){
-		return new Community();
+		$this->uriOrder = array('types', 'actions', 'start_ts', 'end_ts');
+		return $this->setUri('activity/community.json');
+		// return new Community();
 	}
 
 	/**

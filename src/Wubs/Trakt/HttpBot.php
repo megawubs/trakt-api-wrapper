@@ -11,11 +11,7 @@ class HttpBot extends Actions{
 	
 	protected $url      = 'http://api.trakt.tv/';
 	
-	private $uri        = array();
-	
 	private $response;
-	
-	private $apiAdded   = false;
 	
 	protected $uriOrder = array();
 	
@@ -93,8 +89,8 @@ class HttpBot extends Actions{
 	 * @param string $uri the first part of the uri
 	 */
 	public function setUri($uri){
-		$this->uri['base'] = $uri;
-		$this->addApiToUri();
+		$this->appendUri('base', $uri);
+		$this->appendUri('api', Trakt::setting('api'));
 		return $this;
 	}
 
@@ -102,7 +98,7 @@ class HttpBot extends Actions{
 	 * sets the type of the http request
 	 * @param string $type get or post
 	 */
-	public function setType($type){
+	public function setHTTPType($type){
 		$types = array('get', 'post');
 		if(in_array($type, $types)){
 			$this->type = $type;
@@ -110,20 +106,6 @@ class HttpBot extends Actions{
 		else{
 			throw new TraktException("Can't set http request type to $type");
 		}
-	}
-
-	/**
-	 * Adds the api key stored in the settings to the uri
-	 */
-	public function addApiToUri(){
-		$api = Trakt::setting('api');
-		$this->appendUri('api', $api);
-	}
-
-	public function appendUri($part, $uri){
-		$uri = str_replace(' ', '', $uri);
-		$this->uri[$part] = $uri;
-		return $this;
 	}
 
 	private function generateUrl(){
@@ -197,7 +179,7 @@ class HttpBot extends Actions{
 		return $this->url.$this->generateUri();
 	}
 
-	public function getType(){
+	public function getHTTPType(){
 		return $this->type;
 	}
 
