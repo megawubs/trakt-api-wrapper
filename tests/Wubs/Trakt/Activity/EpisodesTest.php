@@ -4,15 +4,13 @@ use Wubs\Settings\Settings;
 
 class EpisodesTest extends \PHPUnit_Framework_TestCase
 {
-	public function setUp()
-	{	
+	public function setUp(){
 		$activity       = new Activity();
 		$this->s        = new Settings();
 		$this->episodes = $activity->episodes();
 	}
 
-	public function tearDown()
-	{
+	public function tearDown(){
 		unset($this->s);
 		unset($this->episodes);
 	}

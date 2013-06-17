@@ -62,4 +62,16 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 		Trakt::post('account/test')->run();
 	}
 
+	public function testActivityMoviesWithOneTitle(){
+		$res = Trakt::get('activity/movies')->setTitle('toy-story-3-2010')->run();
+		$this->assertInternalType('array', $res);
+		$this->assertArrayHasKey('activity', $res);
+	}
+
+	public function testActivityMoviesWithMultipleTitles(){
+		$res = Trakt::get('activity/movies')->setTitles('toy-story-3-2010, zero-dark-thirty-2012')->run();
+		$this->assertInternalType('array', $res);
+		$this->assertArrayHasKey('activity', $res);
+	}
+
 }
