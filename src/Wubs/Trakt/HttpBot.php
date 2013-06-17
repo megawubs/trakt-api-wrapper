@@ -7,11 +7,11 @@ class HttpBot{
 
 	protected $type = 'get';
 
-	public $url = 'http://api.trakt.tv/';
+	protected $url = 'http://api.trakt.tv/';
 
 	private $uri = '';
 
-	public $response;
+	private $response;
 
 	private $apiAdded = false;
 	
@@ -113,7 +113,7 @@ class HttpBot{
 			$this->apiAdded = true;
 		}
 	}
-
+	
 	public function appendUri($uri){
 		$this->uri .= $uri;
 	}
