@@ -2,11 +2,12 @@
 
 use Wubs\Settings\Settings;
 use Wubs\Trakt\Exceptions\TraktException;
-class HttpBot{
+
+class HttpBot extends Actions{
 
 	protected $params = null;
 	
-	protected $type     = 'get';
+	private $type     = 'get';
 	
 	protected $url      = 'http://api.trakt.tv/';
 	
@@ -46,7 +47,7 @@ class HttpBot{
 			return $this->response;
 		}
 		else{
-			throw new TraktException("Failed requesting $this->url, got response: ".json_encode($this->response), 1);
+			throw new TraktException("Failed requesting $this->url, got response: ".json_encode($this->response)." With parameters: ".$this->getParameters(), 1);
 		}
 	}
 	/**
@@ -120,6 +121,7 @@ class HttpBot{
 	}
 
 	public function appendUri($part, $uri){
+		$uri = str_replace(' ', '', $uri);
 		$this->uri[$part] = $uri;
 		return $this;
 	}
@@ -193,5 +195,18 @@ class HttpBot{
 	 */
 	public function getUrl(){
 		return $this->url.$this->generateUri();
+	}
+
+	public function getType(){
+		return $this->type;
+	}
+
+	public function getParameters(){
+		if(!is_string($this->params)){
+			return json_encode($this->params);
+		}
+		else{
+			return $this->params;
+		}
 	}
 }

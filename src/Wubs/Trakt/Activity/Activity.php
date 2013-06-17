@@ -3,14 +3,6 @@
 use Wubs\Trakt\HttpBot;
 
 class Activity extends HttpBot{
-	
-	private $actionsSet   = false;
-	
-	private $startDateSet = false;
-	
-	private $endDateSet   = false;
-	
-	protected $needsType  = false;
 
 	/**
 	 * Runs when calling Trakt::get('activity/community');
@@ -33,53 +25,13 @@ class Activity extends HttpBot{
 	public function friends(){
 		return new Friends();
 	}
-	/**
-	 * Sets the actions part of the uri
-	 * @param array $actions list of actions to set
-	 * @return  Wubs\Trakt\Activity\[mixed]
-	 */
-	public function setActions(array$actions){
-		$allowed       = array('watching','scrobble','checkin','seen','collection','rating','watchlist','shout','review','created','item_added');
-		$actionsString = $this->filterToCSV($actions, $allowed);
-		return $this->appendUri('actions', $actionsString);
+
+	public function movies(){
+		return new Movies();
 	}
 
-	/**
-	 * Sets the startdate part of the rui
-	 * @param string $date Ymd (20130616) time string
-	 * @return Wubs\Trakt\Activity\[mixed]
-	 */
-	public function setStartDate($date){
-		date_default_timezone_set('UTC');
-		$date = strtotime($date);
-		return $this->appendUri('start_ts',$date);
-		
+	public function seasons(){
+		return new Seasons();
 	}
 
-	/**
-	 * Sets the endate part of the uri
-	 * @param string $date Ymd (20130616) time string
-	 */
-	public function setEndDate($date){
-		date_default_timezone_set('UTC');
-		$date = strtotime($date);
-		return $this->appendUri('end_ts', $date);
-	}
-
-	/**
-	 * Makes comma separated list from array, with only
-	 * the allowed items in $allowed
-	 * @param  array $array   the array to map to commas
-	 * @param  array $allowed the array with allowed values
-	 * @return string          filtered string with comma's
-	 */
-	protected function filterToCSV($array, $allowed){
-		$keyString = '';
-		foreach ($array as $key) {
-			if(in_array($key, $allowed)){
-				$keyString .= $key.' ';
-			}
-		}
-		return str_replace(' ', ',', trim($keyString));
-	}
 }
