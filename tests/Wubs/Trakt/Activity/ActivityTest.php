@@ -27,7 +27,7 @@ class ActivityTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-     * @expectedException \Exception
+     * @expectedException Wubs\Trakt\Exceptions\TraktException
      */
 	public function testSettingActivityBeforeSettingTypes(){
 		$actions   = array('watching');
@@ -35,7 +35,7 @@ class ActivityTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-     * @expectedException \Exception
+     * @expectedException Wubs\Trakt\Exceptions\TraktException
      */
 	public function testSettingEndDateBeforeSettingStartDate(){
 		$endate = '20130616';
