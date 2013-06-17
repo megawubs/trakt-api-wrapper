@@ -1,9 +1,10 @@
 <?php namespace Wubs\Trakt;
 
 use Wubs\Settings\Settings;
+use Wubs\Trakt\Exceptions\TraktException;
 class HttpBot{
 
-	protected $params;
+	protected $params = null;
 	
 	protected $type     = 'get';
 	
@@ -45,7 +46,7 @@ class HttpBot{
 			return $this->response;
 		}
 		else{
-			throw new \Exception("Failed requesting $this->url, got response: ".json_encode($this->response), 1);
+			throw new TraktException("Failed requesting $this->url, got response: ".json_encode($this->response), 1);
 		}
 	}
 	/**
@@ -65,6 +66,9 @@ class HttpBot{
 			else{
 				$content = $this->params;
 			}
+			if(!$content){
+				throw new TraktException("Cannot execute request without parameters");
+			}
 			curl_setopt($curl, CURLOPT_POST, true);
 			curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
 		}
@@ -77,7 +81,7 @@ class HttpBot{
 		}
 		if(array_key_exists('status', $this->response)){
 			if($this->response['status'] == 'failure'){
-				throw new \Exception("API request failed, ".$this->response['error']);
+				throw new TraktException("API request failed, ".$this->response['error']);
 			}
 		}
 		return true;
@@ -103,7 +107,7 @@ class HttpBot{
 			$this->type = $type;
 		}
 		else{
-			throw new \Exception("Can't set http request type to $type");
+			throw new TraktException("Can't set http request type to $type");
 		}
 	}
 
@@ -128,7 +132,7 @@ class HttpBot{
 	 * Generates the uri. This function makes it possible
 	 * to build the api request without thinking about the order
 	 * @return string the uri formatted in the right order.
-	 * @throws \Exception If required api request part isn't set
+	 * @throws TraktException If required api request part isn't set
 	 */
 	private function generateUri(){
 		$uri = $this->uri['base'];
@@ -137,13 +141,13 @@ class HttpBot{
 		
 		if(array_key_exists('end_ts', $this->uri)){
 			if(!array_key_exists('start_ts', $this->uri)){
-				throw new \Exception("Cannot add end date if start date isn't set", 1);
+				throw new TraktException("Cannot add end date if start date isn't set", 1);
 			}
 		}
 		//check if all required uri parts are set
 		foreach ($this->required as $part) {
 			if(!array_key_exists($part, $this->uri)){
-				throw new \Exception("The parameter '$part' is required", 1);
+				throw new TraktException("The parameter '$part' is required", 1);
 			}
 		}
 		//build the uri based on the uri order
@@ -160,7 +164,7 @@ class HttpBot{
 							$value = $this->uriOrder[$previousIndex];
 							//check if the uri array has the previous required part
 							if(!array_key_exists($value, $this->uri)){
-								throw new \Exception("Cannot add '".$this->uriOrder[$index]."' because '".$this->uriOrder[$previousIndex]."' isn't set ");
+								throw new TraktException("Cannot add '".$this->uriOrder[$index]."' because '".$this->uriOrder[$previousIndex]."' isn't set ");
 							}
 						}
 					}
