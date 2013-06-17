@@ -75,6 +75,7 @@ class Trakt{
 			}
 			$returnParams[$param] = $value;
 		}
+		// echo json_encode($returnParams)."\n";
 		return json_encode($returnParams);
 	}
 

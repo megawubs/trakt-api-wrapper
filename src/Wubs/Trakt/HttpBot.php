@@ -20,6 +20,7 @@ class HttpBot{
 	protected $required = array();
 
 	public function setParams($params){
+		print_r($params);
 		if(is_array($params)){
 			$this->params = json_encode($params);
 			return $this;
@@ -154,10 +155,10 @@ class HttpBot{
 					$index = array_search($part, $this->uriOrder);
 					if($index > 0){
 						$previousIndex = $index-1;
+						//check if the previous index isn't lower than 0
 						if($previousIndex > -1){
 							//get the value of the previous required api part
 							$value = $this->uriOrder[$previousIndex];
-							//check if the previous index isn't lower than 0
 							//check if the uri array has the previous required part
 							if(!array_key_exists($value, $this->uri)){
 								throw new \Exception("Cannot add '".$this->uriOrder[$index]."' because '".$this->uriOrder[$previousIndex]."' isn't set ");
@@ -190,4 +191,6 @@ class HttpBot{
 	public function getUrl(){
 		return $this->url.$this->generateUri();
 	}
+
+	public function getPrams()
 }

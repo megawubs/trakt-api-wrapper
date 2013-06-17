@@ -44,9 +44,15 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	public function testActivityEpisodes(){
-		// $this->markTestSkipped('Not implementd yet!');
 		$res = Trakt::get('activity/episodes')->setTitles('game-of-thrones')->setSeasons('1,2,3')->setEpisodes('1,2,3')->run();
 		$this->assertInternalType('array', $res);
+	}
+
+	public function testActivityFriends(){
+		$params = Trakt::getParams(array('username', 'password'));
+		$res = Trakt::post('activity/friends', $params)->run();
+		$this->assertInternalType('array', $res);
+		$this->assertArrayHasKey('activity', $res);
 	}
 
 }
