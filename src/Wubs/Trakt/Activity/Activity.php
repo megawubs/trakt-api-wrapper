@@ -12,7 +12,6 @@ class Activity extends HttpBot{
 	public function community(){
 		$this->uriOrder = array('types', 'actions', 'start_ts', 'end_ts');
 		return $this->setUri('activity/community.json');
-		// return new Community();
 	}
 
 	/**
@@ -21,19 +20,26 @@ class Activity extends HttpBot{
 	 * Object with specific methods for the Episodes call
 	 */
 	public function episodes(){
-		return new Episodes();
+		$this->uriOrder = array('title', 'season', 'episode', 'actions', 'start_ts', 'end_ts');
+		$this->required = array('title', 'season', 'episode');
+		return $this->setUri('activity/episodes.json');
 	}
 
 	public function friends(){
-		return new Friends();
+		$this->uriOrder = array('types','actions','start_ts','end_ts');
+		return $this->setUri('activity/friends.json')->setHTTPType('post');
 	}
 
 	public function movies(){
-		return new Movies();
+		$this->uriOrder = array('title','actions','start_ts','end_ts');
+		$this->required = array('title');
+		return $this->setUri('activity/movies.json');
 	}
 
 	public function seasons(){
-		return new Seasons();
+		$this->uriOrder = array('title','season','actions','start_ts','end_ts');
+		$this->required = array('title', 'season');
+		return $this->setUri('activity/seasons.json');
 	}
 
 }

@@ -16,7 +16,7 @@ class EpisodesTest extends \PHPUnit_Framework_TestCase
 	}
 
 	public function testEpisodeObject(){
-		$this->assertInstanceOf('Wubs\Trakt\Activity\Episodes', $this->episodes);
+		$this->assertInstanceOf('Wubs\Trakt\Activity\Activity', $this->episodes);
 	}
 
 	public function testGetEpisodesActivity(){
@@ -32,7 +32,7 @@ class EpisodesTest extends \PHPUnit_Framework_TestCase
 	public function testSettingParametersInWrongOrder(){
 		// $this->markTestSkipped('Not implementd yet!');
 		$request = $this->episodes->setEpisodes('1,3,4')->setTitles('fringe');
-		$this->assertInstanceOf('Wubs\Trakt\Activity\Episodes', $request);
+		$this->assertInstanceOf('Wubs\Trakt\Activity\Activity', $request);
 	}
 
 	/**

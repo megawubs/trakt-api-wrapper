@@ -102,6 +102,7 @@ class HttpBot extends Actions{
 		$types = array('get', 'post');
 		if(in_array($type, $types)){
 			$this->type = $type;
+			return $this;
 		}
 		else{
 			throw new TraktException("Can't set http request type to $type");

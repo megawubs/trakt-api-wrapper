@@ -40,7 +40,7 @@ class HttpBotTest extends \PHPUnit_Framework_TestCase{
 	public function testPostWithJson(){
 		$uri      = 'account/test';
 		$this->bot->setUri($uri);
-		$this->bot->setType('post');
+		$this->bot->setHTTPType('post');
 		$username = $this->s->get('trakt.username');
 		$pass     = $this->s->get('trakt.password');
 		$params   = '{"username":"'.$username.'","password":"'.$pass.'"}';

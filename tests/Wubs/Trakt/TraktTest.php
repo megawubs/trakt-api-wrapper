@@ -12,9 +12,8 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	public function testPostSomething(){
-		$this->markTestSkipped("I don't have a dev api key yet");
-		$json = '{"username": "justin","password": "sha1hash","email": "username@gmail.com"}';
-		$this->assertInstanceOf('Wubs\Trakt\Account\Account', Trakt::post('account/test')->setParams($params)->run());
+		$json = Trakt::getParams(array('username', 'password'));
+		$this->assertInstanceOf('Wubs\Trakt\Account\Account', Trakt::post('account/test')->setParams($json));
 	}
  
 	public function testGetParams(){

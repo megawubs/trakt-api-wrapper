@@ -21,7 +21,7 @@ class ActivityTest extends \PHPUnit_Framework_TestCase
 	public function testGetCommunity(){
 		$community = $this->activity->community();
 		$this->assertInternalType('object', $community);
-		$this->assertInstanceOf('Wubs\Trakt\Activity\Community', $community);
+		$this->assertInstanceOf('Wubs\Trakt\Activity\Activity', $community);
 		$res       = $community->run();
 		$this->assertInternalType('array', $res);
 	}
