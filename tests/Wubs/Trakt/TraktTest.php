@@ -55,4 +55,11 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 		$this->assertArrayHasKey('activity', $res);
 	}
 
+	/**
+	 * @expectedException Wubs\Trakt\Exceptions\TraktException
+	 */
+	public function testPostWithoudParameters(){
+		Trakt::post('account/test')->run();
+	}
+
 }
