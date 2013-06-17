@@ -10,7 +10,8 @@ class AccountTest extends \PHPUnit_Framework_TestCase{
 	protected static $content;
 
 	public static function setUpBeforeClass(){
-		self::$file    = dirname(__FILE__).'/../../../../settings/settings.json';
+		$s = new Settings();
+		self::$file    = $s->getFileLocation();
 		self::$content = file_get_contents(self::$file);
 	}
 

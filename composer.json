@@ -9,7 +9,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
-
+        "wubs/json-settings":"dev-master"
     },
     "autoload": {
             "psr-0": {"Wubs": "src/"}
