@@ -17,7 +17,7 @@ The goal of this wrapper is to make communicating with the Trakt api easier. It 
 //getting the params from the settings using Wubs\Settings\Settings inside Trakt as json
 $params = Trakt::getParams(array('username', 'password'));
 //Retrieving account settings from trakt from the account stored in the settings.
-$res = Trakt::post('account/settings', $params); //$res is now an array of the json response
+$res = Trakt::post('account/settings')->setParams($params)->run(); //$res is now an array of the json response
 
 /**
  * Get requests
