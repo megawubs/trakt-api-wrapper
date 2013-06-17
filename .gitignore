@@ -1,5 +1,5 @@
 vendor/*
 *.json
 Gemfile
-Gemfile.lock
+*.lock
 Guardfile
