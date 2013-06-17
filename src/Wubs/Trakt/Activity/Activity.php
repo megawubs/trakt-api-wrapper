@@ -37,7 +37,6 @@ class Activity extends HttpBot{
 	 * Sets the actions part of the uri
 	 * @param array $actions list of actions to set
 	 * @return  Wubs\Trakt\Activity\[mixed]
-	 * @throws \Exception If Type is needed and it's not set
 	 */
 	public function setActions(array$actions){
 		$allowed       = array('watching','scrobble','checkin','seen','collection','rating','watchlist','shout','review','created','item_added');
