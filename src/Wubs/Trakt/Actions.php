@@ -129,4 +129,8 @@ class Actions{
 		$this->appendUri('types', $typesString);
 		return $this;
 	}
+
+	public function setUsername($name){
+		return $this->appendUri('username', $name);
+	}
 }
