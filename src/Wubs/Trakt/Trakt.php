@@ -2,6 +2,7 @@
 
 use Wubs\Settings\Settings;
 use Wubs\Trakt\Exceptions\TraktException;
+use Wubs\Trakt\HttpBot;
 class Trakt{
 
 	/**
@@ -11,20 +12,25 @@ class Trakt{
 	 * @return mixed
 	 */
 	public static function get($request){
-		$func = self::getFunc($request);
-		return self::getClass($request)->$func();
+		$request .='.json';
+		// $func = self::getFunc($request);
+		return self::bot($request)->setHTTPType('get');
+		// return self::getClass($request)->$func()
+		// ->setUri($request.'.json')
+		// ->setHTTPType('get');
 	}
 
 	/**
-	 * Maps a post request, with the needed parameters
-	 * to the corresponding class and function
+	 * Maps a post request to the corresponding class and function
 	 * @param  string $request a api post request sting, all api methods 
 	 * can be found here: http://trakt.tv/api-docs
 	 * @return mixed
 	 */
 	public static function post($request){
-		$func = self::getFunc($request);
-		return self::getClass($request)->$func();
+		// $func = self::getFunc($request);
+		return self::bot($request)->setHTTPType('post');
+		// return self::getClass($request)
+		// ->setUri($request)->setHTTPType('post');
 	}
 
 	/**
@@ -93,5 +99,9 @@ class Trakt{
 	public static function setting($string){
 		$s = new Settings();
 		return $s->get('trakt.'.$string);
+	}
+
+	public function bot($uri){
+		return new HttpBot($uri);
 	}
 }

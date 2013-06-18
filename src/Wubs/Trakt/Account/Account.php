@@ -12,8 +12,7 @@ class Account extends HttpBot{
 	 * @return bool indicator if creating account has succeded
 	 */
 	public function create(){
-		$this->setHTTPType('post');
-		return $this->setUri('account/create');
+		return $this;
 	}
 
 	/**
@@ -21,8 +20,9 @@ class Account extends HttpBot{
 	 * @return array the settings of the user mapped to an array
 	 */
 	public function settings(){
-		$this->setHTTPType('post');
-		return $this->setUri('account/settings');
+		return $this;
+		// $this->setHTTPType('post');
+		// return $this->setUri('account/settings');
 	}
 
 	/**
@@ -30,7 +30,6 @@ class Account extends HttpBot{
 	 * @return array the response form Trakt.tv mapped to an array
 	 */
 	public function test(){
-		$this->setHTTPType('post');
-		return $this->setUri('account/test');
+		return $this;
 	}
 }

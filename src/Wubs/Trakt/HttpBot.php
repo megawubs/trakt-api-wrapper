@@ -3,7 +3,7 @@
 use Wubs\Settings\Settings;
 use Wubs\Trakt\Exceptions\TraktException;
 
-class HttpBot extends Actions{
+class HttpBot extends Uri{
 
 	protected $params = null;
 	
@@ -12,10 +12,11 @@ class HttpBot extends Actions{
 	protected $url      = 'http://api.trakt.tv/';
 	
 	private $response;
-	
-	private $uriOrder = array();
-	
-	private $required = array();
+
+	public function __construct($uri){
+		$this->setUri($uri);
+		parent::__construct();
+	}
 
 	public function setParams($params){
 		if(is_array($params)){
@@ -80,16 +81,6 @@ class HttpBot extends Actions{
 	}
 
 	/**
-	 * Sets the uri
-	 * @param string $uri the first part of the uri
-	 */
-	public function setUri($uri){
-		$this->appendUri('base', $uri);
-		$this->appendUri('api', Trakt::setting('api'));
-		return $this;
-	}
-
-	/**
 	 * sets the type of the http request
 	 * @param string $type get or post
 	 */
@@ -108,52 +99,7 @@ class HttpBot extends Actions{
 		$this->url .= $this->generateUri();
 	}
 
-	/**
-	 * Generates the uri. This function makes it possible
-	 * to build the api request without thinking about the order
-	 * @return string the uri formatted in the right order.
-	 * @throws TraktException If required api request part isn't set
-	 */
-	private function generateUri(){
-		$uri = $this->uri['base'];
-		$uri .='/'.$this->uri['api'];
-		//check if start_ts is set when end_ts is set
-		
-		if(array_key_exists('end_ts', $this->uri)){
-			if(!array_key_exists('start_ts', $this->uri)){
-				throw new TraktException("Cannot add end date if start date isn't set", 1);
-			}
-		}
-		//check if all required uri parts are set
-		foreach ($this->required as $part) {
-			if(!array_key_exists($part, $this->uri)){
-				throw new TraktException("The parameter '$part' is required", 1);
-			}
-		}
-		//build the uri based on the uri order
-		foreach ($this->uriOrder as $part) {
-			if(array_key_exists($part, $this->uri)){
-				if(in_array($part, $this->uriOrder)){
-					//lookup the index of the required api part
-					$index = array_search($part, $this->uriOrder);
-					if($index > 0){
-						$previousIndex = $index-1;
-						//check if the previous index isn't lower than 0
-						if($previousIndex > -1){
-							//get the value of the previous required api part
-							$value = $this->uriOrder[$previousIndex];
-							//check if the uri array has the previous required part
-							if(!array_key_exists($value, $this->uri)){
-								throw new TraktException("Cannot add '".$this->uriOrder[$index]."' because '".$this->uriOrder[$previousIndex]."' isn't set ");
-							}
-						}
-					}
-				}
-				$uri .= '/'.$this->uri[$part];
-			}
-		}
-		return $uri;
-	}
+	
 
 	public function getResponse(){
 		return $this->response;
@@ -174,7 +120,11 @@ class HttpBot extends Actions{
 	public function getUrl(){
 		return $this->url.$this->generateUri();
 	}
-
+	
+	public function getUriArray(){
+		return $this->uri;
+	}
+	
 	public function getHTTPType(){
 		return $this->type;
 	}
@@ -186,15 +136,5 @@ class HttpBot extends Actions{
 		else{
 			return $this->params;
 		}
-	}
-
-	protected function setUriOrder(array$order){
-		$this->uriOrder = $order;
-		return $this;
-	}
-
-	protected function setRequired(array$required){
-		$this->required = $required;
-		return $this;
 	}
 }
