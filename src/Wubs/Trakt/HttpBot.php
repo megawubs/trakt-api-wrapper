@@ -13,9 +13,9 @@ class HttpBot extends Actions{
 	
 	private $response;
 	
-	protected $uriOrder = array();
+	private $uriOrder = array();
 	
-	protected $required = array();
+	private $required = array();
 
 	public function setParams($params){
 		if(is_array($params)){
@@ -31,14 +31,14 @@ class HttpBot extends Actions{
 	 * @param  string $uri the trakt api request string like
 	 * 'account/test'
 	 * @return array      the response from the api 
-	 *                    call mapped to an array
-	 * @throws \Exceptoin If api call fails to execute
+	 * call mapped to an array
+	 * @throws TraktExceptoin If api call fails to execute
 	 */
 	public function run($uri = ''){
 		if($uri != ''){
 			$this->setUri($uri);
 		}
-		
+	
 		if($this->execute()){
 			return $this->response;
 		}
@@ -57,12 +57,7 @@ class HttpBot extends Actions{
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
 		if($this->type == 'post'){
-			if(is_array($this->params)){
-				$content = json_encode($this->params);
-			}
-			else{
-				$content = $this->params;
-			}
+			$content = (is_array($this->params) ? json_encode($this->params) : $this->params);
 			if(!$content){
 				throw new TraktException("Cannot execute request without parameters");
 			}
@@ -191,5 +186,15 @@ class HttpBot extends Actions{
 		else{
 			return $this->params;
 		}
+	}
+
+	protected function setUriOrder(array$order){
+		$this->uriOrder = $order;
+		return $this;
+	}
+
+	protected function setRequired(array$required){
+		$this->required = $required;
+		return $this;
 	}
 }
