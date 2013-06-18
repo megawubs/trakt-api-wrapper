@@ -1,7 +1,7 @@
 <?php namespace Wubs\Trakt;
 
 use Wubs\Settings\Settings;
-
+use Wubs\Trakt\Exceptions\TraktException;
 class Trakt{
 
 	/**
@@ -31,7 +31,7 @@ class Trakt{
 	 * Parses the class name from the request string
 	 * @param  string $request the request string
 	 * @param  string $params  the params if it's a post request
-	 * @return string          the name of the mapped class
+	 * @return object          an object of the mapped class
 	 */
 	public static function getClass($request){
 		$getList = explode('/', $request);
@@ -44,7 +44,15 @@ class Trakt{
 				$className .= '\\'.$name;
 			}
 		}
-		return new $className();
+		$file = dirname(__FILE__).'/../../'.str_replace('\\', '/', $className.".php");
+		if(file_exists($file)){
+			return new $className();
+		}
+		else{
+			throw new TraktException("The request $request does not exists", 1);
+		}
+
+		
 	}
 
 	/**
