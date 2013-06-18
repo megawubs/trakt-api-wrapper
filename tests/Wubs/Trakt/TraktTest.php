@@ -89,4 +89,24 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 		$res = Trakt::get('activity/user')->setUsername('megawubs')->run();
 		$this->assertInternalType('array', $res);
 	}
+
+	public function testGetCalenderPremieres(){
+		$res = Trakt::get('calendar/premieres')->run();
+		$this->assertInternalType('array', $res);
+	}
+
+	public function testPostCalenderPremiers(){
+		$params = Trakt::getParams(array('username', 'password'));
+		$res = Trakt::post('calendar/premieres')->setParams($params)->run();
+		$this->assertInternalType('array', $res);
+	}
+
+	public function testPostCalenderPremiersWithApiParams(){
+		$params = Trakt::getParams(array('username', 'password'));
+		$res = Trakt::post('calendar/premieres')->setParams($params)
+		->setDate('20110421')->setDays(14)->run();
+		$this->assertInternalType('array', $res);
+		$this->assertArrayHasKey('date', $res);
+		$this->assertEquals('2011-04-16', $res['date']);
+	}
 }
