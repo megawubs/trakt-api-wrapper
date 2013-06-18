@@ -3,6 +3,13 @@
 use Wubs\Settings\Settings;
 class TraktTest extends \PHPUnit_Framework_TestCase{
 
+	/**
+	 * @expectedException Wubs\Trakt\Exceptions\TraktException
+	 */
+	public function testRequestNotExsistingApiRequest(){
+		$res = Trakt::get('foo/bar')->run();
+	}
+
 	public function testPostAccount(){
 		$s        = new Settings();
 		$username = $s->get('trakt.username');
@@ -73,4 +80,13 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 		$this->assertArrayHasKey('activity', $res);
 	}
 
+	public function testActivityShows(){
+		$res = Trakt::get('activity/shows')->setTitle('fringe')->run();
+		$this->assertInternalType('array', $res);
+	}
+
+	public function testActivityUser(){
+		$res = Trakt::get('activity/user')->setUsername('megawubs')->run();
+		$this->assertInternalType('array', $res);
+	}
 }
