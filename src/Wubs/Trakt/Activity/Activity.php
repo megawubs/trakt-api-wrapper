@@ -53,7 +53,7 @@ class Activity extends HttpBot{
 	 */
 	public function seasons(){
 		return $this->setUri('activity/seasons.json')
-		->setUriOrder(array('title','season','actions','start_ts','end_ts'))
+		->setUriOrder(array('title', 'season','actions','start_ts','end_ts'))
 		->setRequired(array('title', 'season'));
 	}
 
