@@ -4,60 +4,65 @@ use Wubs\Settings\Settings;
 
 class HttpBotTest extends \PHPUnit_Framework_TestCase{
 	public function setUp(){
-		$this->bot = new HttpBot();
 		$this->s   = new Settings();
 		$this->key = $this->s->get('trakt.api');
 	}
 
 	public function tearDown(){
-		unset($this->bot);
+		unset($this->s);
 	}
 
 	public function testSetParamsAsArray(){
+		$bot = new HttpBot('account/test');
 		$params = array('username'=>'John');
-		$this->assertInstanceOf('Wubs\\Trakt\\HttpBot', $this->bot->setParams($params));
+		$this->assertInstanceOf('Wubs\\Trakt\\HttpBot', $bot->setParams($params));
 	}
 
 	public function testSetParamsAsString(){
+		$bot = new HttpBot('account/test');
 		$params = array('username'=>'John');
-		$this->assertInstanceOf('Wubs\\Trakt\\HttpBot', $this->bot->setParams(json_encode($params)));
+		$this->assertInstanceOf('Wubs\\Trakt\\HttpBot', $bot->setParams(json_encode($params)));
 	}
 
 	public function testSetUri(){
+		$bot = new HttpBot('account/test');
 		$uri = 'account/settings';
-		$this->bot->setUri($uri);
+		$bot->setUri($uri);
 		$api = $this->s->get('trakt.api');
-		$this->assertEquals('account/settings/'.$api, $this->bot->getUri());
+		$this->assertEquals('account/settings/'.$api, $bot->getUri());
 	}
 
 	public function testGet(){
+		$bot = new HttpBot('account/test');
 		$uri = 'activity/community.json';
-		$this->bot->setUri($uri);
-		$this->assertTrue($this->bot->execute(), "Failed to execute Get to ".$this->bot->getUrl()."\n with result: ".json_encode($this->bot->getResponse()));
-		$this->assertContainsOnly('array',$this->bot->getResponse());
+		$bot->setUri($uri);
+		$this->assertTrue($bot->execute(), "Failed to execute Get to ".$bot->getUrl()."\n with result: ".json_encode($bot->getResponse()));
+		$this->assertContainsOnly('array',$bot->getResponse());
 	}
 
 	public function testPostWithJson(){
+		$bot = new HttpBot('account/test');
 		$uri      = 'account/test';
-		$this->bot->setUri($uri);
-		$this->bot->setHTTPType('post');
+		$bot->setUri($uri);
+		$bot->setHTTPType('post');
 		$username = $this->s->get('trakt.username');
 		$pass     = $this->s->get('trakt.password');
 		$params   = '{"username":"'.$username.'","password":"'.$pass.'"}';
-		$this->bot->setParams($params);
-		$this->bot->addApiToUri();
-		$this->assertTrue($this->bot->execute(), "\n Failed to execute Post to ".$this->bot->getUrl()."\nWith values: ". $params."\nGiven result was:".json_encode($this->bot->getResponse()));
-		$this->assertArrayHasKey('status', $this->bot->getResponse());
-		$this->assertEquals('success', $this->bot->getResponse()['status']);
+		$bot->setParams($params);
+		$bot->addApiToUri();
+		$this->assertTrue($bot->execute(), "\n Failed to execute Post to ".$bot->getUrl()."\nWith values: ". $params."\nGiven result was:".json_encode($bot->getResponse()));
+		$this->assertArrayHasKey('status', $bot->getResponse());
+		$this->assertEquals('success', $bot->getResponse()['status']);
 	}
 
 	/**
      * @expectedException Wubs\Trakt\Exceptions\TraktException
      */
 	public function testAPIResponseWithFailure(){
+		$bot = new HttpBot('account/test');
 		$uri = 'activity/episodes.json';
-		$this->bot->setUri($uri);
-		$this->bot->execute();
-		$res = $this->bot->getResponse();
+		$bot->setUri($uri);
+		$bot->execute();
+		$res = $bot->getResponse();
 	}
 }

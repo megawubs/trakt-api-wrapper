@@ -9,7 +9,7 @@ class HttpBot extends Uri{
 	
 	private $type     = 'get';
 	
-	protected $url      = 'http://api.trakt.tv/';
+	protected $url    = 'http://api.trakt.tv/';
 	
 	private $response;
 
@@ -106,23 +106,11 @@ class HttpBot extends Uri{
 	}
 
 	/**
-	 * Returns the formated uri
-	 * @return string the uri formated based on $this->required
-	 */
-	public function getUri(){
-		return $this->generateUri();
-	}
-
-	/**
 	 * Gets the full url
 	 * @return string
 	 */
 	public function getUrl(){
 		return $this->url.$this->generateUri();
-	}
-	
-	public function getUriArray(){
-		return $this->uri;
 	}
 	
 	public function getHTTPType(){

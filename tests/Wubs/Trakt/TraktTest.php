@@ -91,33 +91,33 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	public function testGetCalenderPremieres(){
-		$this->markTestSkipped("Doesn't work yet..");
 		$res = Trakt::get('calendar/premieres')->run();
 		$this->assertInternalType('array', $res);
 	}
 
 	public function testPostCalenderPremiers(){
-		$this->markTestSkipped("Doesn't work yet..");
 		$params = Trakt::getParams(array('username', 'password'));
 		$res = Trakt::post('calendar/premieres')->setParams($params)->run();
 		$this->assertInternalType('array', $res);
 	}
 
 	public function testPostCalenderPremiersWithApiParams(){
-		$this->markTestSkipped("Doesn't work yet..");
 		$params = Trakt::getParams(array('username', 'password'));
-		$res = Trakt::post('calendar/premieres')->setParams($params)
-		->setDate('20110421')->setDays(14)->run();
-		$this->assertInternalType('array', $res);
-		$this->assertArrayHasKey('date', $res);
-		$this->assertEquals('2011-04-16', $res['date']);
+		$days = Trakt::post('calendar/premieres.json')->setParams($params)
+		->setDate('20130410')->setDays(14)->run();
+		$this->assertInternalType('array', $days);
+		$count = 10;
+		foreach ($days as $day) {
+			$this->assertArrayHasKey('date', $day);
+			$this->assertEquals('2013-04-'.$count, $day['date']);
+			$count +=1;
+		}
 	}
 
 	public function testMagicSetter(){
-		$this->markTestSkipped("Doesn't work yet..");
 		$params = Trakt::getParams(array('username', 'password'));
 		$res = Trakt::post('calendar/premieres')->setParams($params)
-		->setDate('20110421');
-		$this->assertEquals('Calling setDate', $res);
+		->setDate('20110421')->getUriArray();
+		$this->assertArrayHasKey('date', $res);
 	}
 }
