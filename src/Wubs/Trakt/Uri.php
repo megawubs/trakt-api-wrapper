@@ -79,8 +79,14 @@ class Uri{
 	protected function setUriOrderAndRequired(){
 		$base = $this->uri['base'];
 		$base = str_replace('.json', '', $base);
-		$this->setUriOrder($this->uriOrderAndRequiredList[$base]['order']);
-		$this->setRequired($this->uriOrderAndRequiredList[$base]['required']);
+		if(array_key_exists($base, $this->uriOrderAndRequiredList)){
+			$this->setUriOrder($this->uriOrderAndRequiredList[$base]['order']);
+			$this->setRequired($this->uriOrderAndRequiredList[$base]['required']);
+		}
+		else{
+			throw new TraktException("The api request $base isn't implemented yet", 1);
+			
+		}
 	}
 
 	protected function setUriOrder(array$order){
@@ -181,15 +187,19 @@ class Uri{
 	}
 
 	public function __call($name, $params){
-		echo "Called $name \n";
 		if(strstr($name, 'set')){
-			$func = strtolower(substr($name, 3));
-			echo "$func\n";
-			if(in_array($func, $this->uriOrder)){
-				return $this->setUri($name, $params[0]);
+			$part = strtolower(substr($name, 3));
+			if(in_array($part, $this->uriOrder)){
+				return $this->appendUri($part, $params[0]);
+			}
+			elseif($part[strlen($part)-1] === 's'){
+				$part = substr_replace($part, '', -1);
+				if(in_array($part, $this->uriOrder)){
+					return $this->appendUri($part, $params[0]);
+				}
 			}
 			else{
-				throw new TraktException("Setting $name is not required for this call", 1);
+				throw new TraktException("Setting $part is not required for this call", 1);
 			}
 		}
 		else{
