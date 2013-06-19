@@ -45,13 +45,15 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 		$actions = 'watching, scrobble, seen';
 		$res     = Trakt::get('activity/community')
 		->setTypes($types)->setActions($actions)
-		//->setStart_ts('20130512')->setEnd_ts('20130614')
-		// ->setParams($this->params)
+		->setStart_ts('20130610')->setEnd_ts('20130614')
+		->setParams($this->params)
 		->run();
 		$this->assertInternalType('array', $res);
 		$this->assertArrayHasKey('activity', $res);
+		$this->assertArrayHasKey('timestamps', $res);
+		$this->assertEquals(strtotime('20130610'), $res['timestamps']['start']);
+		$this->assertEquals(strtotime('20130614'), $res['timestamps']['end']);
 		$count = count($res['activity']);
-		print_r($res['activity']);
 		$this->assertGreaterThan(0, $count);
 	}
 

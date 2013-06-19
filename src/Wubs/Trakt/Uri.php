@@ -78,8 +78,14 @@ class Uri{
 	 * @param  array $allowed the array with allowed values
 	 * @return string          filtered string with comma's
 	 */
-	protected function filter($var){
-		return str_replace(' ', ',', trim($var));
+	protected function filter($var, $key){
+		if(($key != 'start_ts') && ($key != 'end_ts')){
+			return str_replace(' ', '', trim($var));
+		}
+		else{
+			date_default_timezone_set('UTC');
+			return strtotime($var);
+		}
 	}
 	/**
 	 * Returns the formated uri
@@ -145,8 +151,8 @@ class Uri{
 
 	public function __call($name, $params){
 		if(strstr($name, 'set')){
-			$param = $this->filter($params[0]);
 			$part = strtolower(substr($name, 3));
+			$param = $this->filter($params[0], $part);
 			if(in_array($part, $this->uriOrder)){
 				return $this->appendUri($part, $param);
 			}
