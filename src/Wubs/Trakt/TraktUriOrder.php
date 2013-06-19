@@ -56,4 +56,20 @@ return array(
 			,'required' => array()
 			,'format'   => 'json'
 		)
+	,'comment/episode' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'comment/movie' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'comment/show' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+
 	);
