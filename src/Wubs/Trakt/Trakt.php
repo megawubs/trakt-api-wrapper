@@ -3,21 +3,17 @@
 use Wubs\Settings\Settings;
 use Wubs\Trakt\Exceptions\TraktException;
 use Wubs\Trakt\HttpBot;
+
 class Trakt{
 
 	/**
 	 * Maps a get request to the corresponding class and function
 	 * @param  string $request a api get request sting, all api methods 
 	 * can be found here: http://trakt.tv/api-docs
-	 * @return mixed
+	 * @return HttpBot
 	 */
 	public static function get($request){
-		$request .='.json';
-		// $func = self::getFunc($request);
 		return self::bot($request)->setHTTPType('get');
-		// return self::getClass($request)->$func()
-		// ->setUri($request.'.json')
-		// ->setHTTPType('get');
 	}
 
 	/**
@@ -27,49 +23,9 @@ class Trakt{
 	 * @return mixed
 	 */
 	public static function post($request){
-		// $func = self::getFunc($request);
 		return self::bot($request)->setHTTPType('post');
-		// return self::getClass($request)
-		// ->setUri($request)->setHTTPType('post');
 	}
 
-	/**
-	 * Parses the class name from the request string
-	 * @param  string $request the request string
-	 * @param  string $params  the params if it's a post request
-	 * @return object          an object of the mapped class
-	 */
-	public static function getClass($request){
-		$getList = explode('/', $request);
-		$className = __NAMESPACE__;
-		$count = count($getList);
-		for ($i=0; $i < $count-1; $i++) {
-			$name = ucfirst($getList[$i]); 
-			$className .= '\\'.$name;
-			if($i == $count-2){
-				$className .= '\\'.$name;
-			}
-		}
-		$file = dirname(__FILE__).'/../../'.str_replace('\\', '/', $className.".php");
-		if(file_exists($file)){
-			return new $className();
-		}
-		else{
-			throw new TraktException("The request $request does not exists", 1);
-		}
-
-		
-	}
-
-	/**
-	 * Parses the function name from the request
-	 * @param  string $request the api request
-	 * @return string          the name of the function
-	 */
-	public static function getFunc($request){
-		$getList = explode('/', $request);
-		return end($getList);
-	}
 
 	/**
 	 * Gets the values for the parameter names you give it

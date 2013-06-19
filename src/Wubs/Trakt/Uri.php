@@ -11,19 +11,22 @@ class Uri{
 	
 	private $required = array();
 
-	public function __construct(){
-		$this->setUriOrderAndRequired();
+	private $format;
+
+	public function __construct($base){
+		$this->setUriOrderAndRequired($base);
+		$uri = (is_string($this->format)) ? $base.'.'.$this->format : $base;
+		$this->setUri($uri);
 	}
 
-	protected function setUriOrderAndRequired(){
-		$base = $this->uri['base'];
-		$base = str_replace('.json', '', $base);
+	protected function setUriOrderAndRequired($base){
 		$dir = dirname(__FILE__);
 		$this->uriOrderAndRequiredList = require $dir.'/TraktUriOrder.php';
 
 		if(array_key_exists($base, $this->uriOrderAndRequiredList)){
 			$this->setUriOrder($this->uriOrderAndRequiredList[$base]['order']);
 			$this->setRequired($this->uriOrderAndRequiredList[$base]['required']);
+			$this->setFormat($this->uriOrderAndRequiredList[$base]['format']);
 		}
 		else{
 			throw new TraktException("The api request $base isn't implemented yet", 1);
@@ -31,14 +34,18 @@ class Uri{
 		}
 	}
 
-	protected function setUriOrder(array$order){
+	private function setUriOrder(array$order){
 		$this->uriOrder = $order;
 		return $this;
 	}
 
-	protected function setRequired(array$required){
+	private function setRequired(array$required){
 		$this->required = $required;
 		return $this;
+	}
+
+	private function setFormat($format){
+		$this->format = $format;
 	}
 	/**
 	 * Sets the uri
@@ -71,14 +78,8 @@ class Uri{
 	 * @param  array $allowed the array with allowed values
 	 * @return string          filtered string with comma's
 	 */
-	protected function filterToCSV($array, $allowed){
-		$keyString = '';
-		foreach ($array as $key) {
-			if(in_array($key, $allowed)){
-				$keyString .= $key.' ';
-			}
-		}
-		return str_replace(' ', ',', trim($keyString));
+	protected function filter($var){
+		return str_replace(' ', ',', trim($var));
 	}
 	/**
 	 * Returns the formated uri
@@ -144,14 +145,15 @@ class Uri{
 
 	public function __call($name, $params){
 		if(strstr($name, 'set')){
+			$param = $this->filter($params[0]);
 			$part = strtolower(substr($name, 3));
 			if(in_array($part, $this->uriOrder)){
-				return $this->appendUri($part, $params[0]);
+				return $this->appendUri($part, $param);
 			}
 			elseif($part[strlen($part)-1] === 's'){
 				$part = substr_replace($part, '', -1);
 				if(in_array($part, $this->uriOrder)){
-					return $this->appendUri($part, $params[0]);
+					return $this->appendUri($part, $param);
 				}
 			}
 			else{

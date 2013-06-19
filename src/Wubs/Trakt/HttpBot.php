@@ -14,8 +14,7 @@ class HttpBot extends Uri{
 	private $response;
 
 	public function __construct($uri){
-		$this->setUri($uri);
-		parent::__construct();
+		parent::__construct($uri);
 	}
 
 	public function setParams($params){

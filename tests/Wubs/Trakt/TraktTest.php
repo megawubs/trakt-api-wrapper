@@ -2,7 +2,9 @@
 
 use Wubs\Settings\Settings;
 class TraktTest extends \PHPUnit_Framework_TestCase{
-
+	public function setUp(){
+		$this->params = Trakt::getParams(array('username', 'password'));
+	}
 	/**
 	 * @expectedException Wubs\Trakt\Exceptions\TraktException
 	 */
@@ -19,18 +21,15 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	public function testPostSomething(){
-		$json = Trakt::getParams(array('username', 'password'));
-		$this->assertInstanceOf('Wubs\Trakt\HttpBot', Trakt::post('account/test')->setParams($json));
+		$this->assertInstanceOf('Wubs\Trakt\HttpBot', Trakt::post('account/test')->setParams($this->params));
 	}
  
 	public function testGetParams(){
-		$params = Trakt::getParams(array('username', 'password'));
-		$this->assertInternalType('string', $params);
+		$this->assertInternalType('string', $this->params);
 	}
 
 	public function testPostTestRequest(){
-		$params = Trakt::getParams(array('username', 'password'));
-		$res    = Trakt::post('account/test')->setParams($params)->run();
+		$res    = Trakt::post('account/test')->setParams($this->params)->run();
 		$this->assertInternalType('array', $res);
 		$this->assertArrayHasKey('status', $res);
 		$this->assertEquals('success',$res['status']);
@@ -42,15 +41,22 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	public function testActivityCommunityWithChaining(){
-		$types   = 'episode,show,list';
-		$actions = 'watching,scrobble,seen';
-		$res     = Trakt::get('activity/community')->setTypes($types)->setActions($actions)->setStart_ts('20130512')->setEnd_ts('20130614')->run();
+		$types   = 'episode, show, list';
+		$actions = 'watching, scrobble, seen';
+		$res     = Trakt::get('activity/community')
+		->setTypes($types)->setActions($actions)
+		//->setStart_ts('20130512')->setEnd_ts('20130614')
+		// ->setParams($this->params)
+		->run();
 		$this->assertInternalType('array', $res);
 		$this->assertArrayHasKey('activity', $res);
+		$count = count($res['activity']);
+		print_r($res['activity']);
+		$this->assertGreaterThan(0, $count);
 	}
 
 	public function testActivityEpisodes(){
-		$res = Trakt::get('activity/episodes')->setTitles('game-of-thrones')->setSeasons('1,2,3')->setEpisodes('1,2,3')->run();
+		$res = Trakt::get('activity/episodes')->setTitles('game-of-thrones')->setSeasons('1, 2, 3')->setEpisodes('1 , 2, 3')->run();
 		$this->assertInternalType('array', $res);
 	}
 
@@ -103,7 +109,7 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 
 	public function testPostCalenderPremiersWithApiParams(){
 		$params = Trakt::getParams(array('username', 'password'));
-		$days = Trakt::post('calendar/premieres.json')->setParams($params)
+		$days = Trakt::post('calendar/premieres')->setParams($params)
 		->setDate('20130410')->setDays(14)->run();
 		$this->assertInternalType('array', $days);
 		$count = 10;
