@@ -5,7 +5,7 @@ For one of my projects I have to communicate with the Trakt.tv api, I searched t
 
 ## The goal
 
-The goal of this wrapper is to make communicating with the Trakt api easier. It aims to me easy, readable and usable in many cases. Designed as a composer package it can be easy installed.
+The goal of this wrapper is to make communicating with the Trakt api easier. It aims to be easy, readable and usable in many cases. Designed as a composer package it can be easy installed inside a lager application.
 
 ### Usage example
 
