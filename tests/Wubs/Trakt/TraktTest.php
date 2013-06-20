@@ -13,11 +13,7 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	public function testPostAccount(){
-		$s        = new Settings();
-		$username = $s->get('trakt.username');
-		$pass     = sha1($s->get('trakt.password'));
-		$params   = '{"username":"'.$username.'","password":"'.$pass.'"}';
-		$this->assertArrayHasKey('status', Trakt::post('account/settings')->setParams($params)->run());
+		$this->assertArrayHasKey('status', Trakt::post('account/settings')->setParams($this->params)->run());
 	}
 
 	public function testPostSomething(){
@@ -46,7 +42,6 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 		$res     = Trakt::get('activity/community')
 		->setTypes($types)->setActions($actions)
 		->setStart_ts('20130610')->setEnd_ts('20130614')
-		->setParams($this->params)
 		->run();
 		$this->assertInternalType('array', $res);
 		$this->assertArrayHasKey('activity', $res);
@@ -63,8 +58,7 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	public function testActivityFriends(){
-		$params = Trakt::getParams(array('username', 'password'));
-		$res = Trakt::post('activity/friends')->setParams($params)->run();
+		$res = Trakt::post('activity/friends')->setParams($this->params)->run();
 		$this->assertInternalType('array', $res);
 		$this->assertArrayHasKey('activity', $res);
 	}
@@ -104,14 +98,12 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	public function testPostCalenderPremiers(){
-		$params = Trakt::getParams(array('username', 'password'));
-		$res = Trakt::post('calendar/premieres')->setParams($params)->run();
+		$res = Trakt::post('calendar/premieres')->setParams($this->params)->run();
 		$this->assertInternalType('array', $res);
 	}
 
 	public function testPostCalenderPremiersWithApiParams(){
-		$params = Trakt::getParams(array('username', 'password'));
-		$days = Trakt::post('calendar/premieres')->setParams($params)
+		$days = Trakt::post('calendar/premieres')->setParams($this->params)
 		->setDate('20130410')->setDays(14)->run();
 		$this->assertInternalType('array', $days);
 		$count = 10;
@@ -123,9 +115,19 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	public function testMagicSetter(){
-		$params = Trakt::getParams(array('username', 'password'));
-		$res = Trakt::post('calendar/premieres')->setParams($params)
+		$uri = Trakt::post('calendar/premieres')->setParams($this->params)
 		->setDate('20110421')->getUriArray();
-		$this->assertArrayHasKey('date', $res);
+		$this->assertArrayHasKey('date', $uri);
+	}
+
+	public function testCommentShow(){
+		$user = Trakt::setting('username');
+		$password = Trakt::setting('password');
+		$params = array('username'=>$user, 'password'=>$password, 'tvdb_id'=>205281,'title'=>'Falling Skies', 'year' => 2011, 'comment' => 'It has grown into one of my favorite shows!');
+		$res = Trakt::post('comment/show')->setParams($params)->run();
+		$this->assertInternalType('array', $res);
+		$this->assertArrayHasKey('status', $res);
+		$this->assertEquals('success', $res['status']);
+		$this->assertContains('Falling Skies', $res['message']);
 	}
 }

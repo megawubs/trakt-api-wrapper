@@ -12,13 +12,27 @@ class Uri{
 	private $required = array();
 
 	private $format;
-
+	
+	/**
+	 * Initiates the uri object by getting a list
+	 * of exsisting api requests, the order, required and
+	 * format set per request.
+	 * @param  string $base the api start point
+	 */
 	public function __construct($base){
 		$this->setUriOrderAndRequired($base);
 		$uri = (is_string($this->format)) ? $base.'.'.$this->format : $base;
 		$this->setUri($uri);
 	}
-
+	
+	/**
+	 * gets the list with availble api calls and 
+	 * stores them. Sets uriOrder and uriRequired based on
+	 * $base
+	 * @param  string $base the api start point
+	 * @return void
+	 * @throws TraktException If $base isn't in the api list
+	 */
 	protected function setUriOrderAndRequired($base){
 		$dir = dirname(__FILE__);
 		$this->uriOrderAndRequiredList = require $dir.'/TraktUriOrder.php';
@@ -34,16 +48,28 @@ class Uri{
 		}
 	}
 
+	/**
+	 * Sets the uriOrder
+	 * @param array $order
+	 */
 	private function setUriOrder(array$order){
 		$this->uriOrder = $order;
 		return $this;
 	}
 
+	/**
+	 * Sets the required parts for the uri
+	 * @param array $required list of requiered uri parts
+	 */
 	private function setRequired(array$required){
 		$this->required = $required;
 		return $this;
 	}
 
+	/**
+	 * Sets the format for the uri
+	 * @param string|bool $format the format or false if none
+	 */
 	private function setFormat($format){
 		$this->format = $format;
 	}
@@ -57,6 +83,11 @@ class Uri{
 		return $this;
 	}
 
+	/**
+	 * appends the uri
+	 * @param string $part the name of the uri part
+	 * @param mixed $uri the value for the uri part
+	 */
 	public function appendUri($part, $uri){
 		$uri = str_replace(' ', '', $uri);
 		$this->uri[$part] = $uri;
@@ -149,6 +180,14 @@ class Uri{
 		return $uri;
 	}
 
+	/**
+	 * magic method, runs when method called isnt found. 
+	 * checks based on the uri order if set* method can be called.
+	 * @param string $name the name of the method
+	 * @param array $params the parameters given to the method
+	 * @throws TraktException If the called set* method isnt in uriOrder
+	 * @throws TraktException If $name doesnt start with 'set'
+	 */
 	public function __call($name, $params){
 		if(strstr($name, 'set')){
 			$part = strtolower(substr($name, 3));

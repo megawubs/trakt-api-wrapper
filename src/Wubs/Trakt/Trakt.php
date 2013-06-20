@@ -35,10 +35,9 @@ class Trakt{
 	 * @return string         json string of the retrieved parameters
 	 */
 	public static function getParams(array$params){
-		$s = new Settings();
 		$returnParams = array();
 		foreach ($params as $param) {
-			$value = $s->get('trakt.'.$param);
+			$value = self::setting($param);
 			if($param == 'password'){
 				$value = sha1($value);
 			}
@@ -56,7 +55,12 @@ class Trakt{
 		$s = new Settings();
 		return $s->get('trakt.'.$string);
 	}
-
+	
+	/**
+	 * returns a new instance of HttpBot with the uri set
+	 * @param  string $uri the uri call to make (without the format part)
+	 * @return HttpBot         an intstance of HttpBot
+	 */
 	public function bot($uri){
 		return new HttpBot($uri);
 	}
