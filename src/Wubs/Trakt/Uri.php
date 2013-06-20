@@ -110,14 +110,8 @@ class Uri{
 	 * @return string          filtered string with comma's
 	 */
 	protected function filter($var, $key){
-		if(($key != 'start_ts') && ($key != 'end_ts')){
 			return str_replace(' ', '', trim($var));
 		}
-		else{
-			date_default_timezone_set('UTC');
-			return strtotime($var);
-		}
-	}
 	/**
 	 * Returns the formated uri
 	 * @return string the uri formated based on $this->required
