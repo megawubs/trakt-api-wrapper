@@ -7,7 +7,7 @@ For one of my projects I have to communicate with the Trakt.tv api, I searched t
 
 The goal of this wrapper is to make communicating with the Trakt api easier. It aims to be easy, readable and usable in many cases. Designed as a composer package it can be easy installed inside a lager application.
 
-### Usage example
+### Usage examples
 
 __Post request__
 ```PHP
@@ -23,7 +23,10 @@ $user = 'megawubs';
 $password = sha1('mysupersecretpassword');
 $params = array('username'=>$user, 'password'=>$password, 'tvdb_id'=>205281,'title'=>'Falling Skies', 'year' => 2011, 'comment' => 'It has grown into one of my favorite shows!');
 $res = Trakt::post('comment/show')->setParams($params)->run();
+```
+
 __Get request__
+
 
 ```PHP
 //getting http://api.trakt.tv/activity/community/ with no parameters
@@ -32,8 +35,7 @@ $res = Trakt::get('activity/community')->run(); //gets all activity
 //getting http://api.trakt.tv/activity/community/ with parameters
 $types = 'episode, show, list';
 $actions = 'watching, scrobble, seen';
-$res = Trakt::get('activity/community')
-		->setTypes($types)
+$res = Trakt::get('activity/community')->setTypes($types)
 		->setActions($actions)
 		->setStartDate(strtotime('20130512'))
 		->setEndDate(strtotime('20130614'))
