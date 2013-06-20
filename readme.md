@@ -9,33 +9,37 @@ The goal of this wrapper is to make communicating with the Trakt api easier. It 
 
 ### Usage example
 
+__Post request__
 ```PHP
-/**
- * Post requests
- */
-
 //getting the params from the settings using Wubs\Settings\Settings inside Trakt as json
 $params = Trakt::getParams(array('username', 'password'));
 //Retrieving account settings from trakt from the account stored in the settings.
 $res = Trakt::post('account/settings')->setParams($params)->run(); //$res is now an array of the json response
+```
+__Post request with custom parameters__
 
-/**
- * Get requests
- */
+```PHP
+$user = 'megawubs';
+$password = sha1('mysupersecretpassword');
+$params = array('username'=>$user, 'password'=>$password, 'tvdb_id'=>205281,'title'=>'Falling Skies', 'year' => 2011, 'comment' => 'It has grown into one of my favorite shows!');
+$res = Trakt::post('comment/show')->setParams($params)->run();
+__Get request__
+
+```PHP
 //getting http://api.trakt.tv/activity/community/ with no parameters
 $res = Trakt::get('activity/community')->run(); //gets all activity
 
 //getting http://api.trakt.tv/activity/community/ with parameters
-$types = array('episode', 'show', 'list');
-$actions = array('watching', 'scrobble', 'seen');
+$types = 'episode, show, list';
+$actions = 'watching, scrobble, seen';
 $res = Trakt::get('activity/community')
 		->setTypes($types)
 		->setActions($actions)
-		->setStartDate('20130512')
-		->setEndDate('20130614')
+		->setStartDate(strtotime('20130512'))
+		->setEndDate(strtotime('20130614'))
 		->run();
-
 ```
 
 ## Note
-It's still in development, please check back later.
+Development is going fast at the moment. The current working api calls are in the TraktUriOrder.php file. Not all calls are implemented and/or tested yet.
+
