@@ -71,5 +71,229 @@ return array(
 			,'required' => array()
 			,'format'   => false
 		)
-
+	,'genres/movies' => array(
+			'order' => array()
+			,'required' => array()
+			,'format'   => 'json'
+		)
+	,'genres/shows' => array(
+			'order' => array()
+			,'required' => array()
+			,'format'   => 'json'
+		)
+	,'lists/add' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'lists/delete' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'lists/items/add' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'lists/items/delete' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'lists/update' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'movie/cancelcheckin' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'movie/cancelwatching' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'movie/checkin' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'movie/comments' => array(
+			'order'     => array('title','type')
+			,'required' => array('title')
+			,'format'   => 'json'
+		)
+	,'movie/scrobble' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'movie/seen' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'movie/library' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'movie/related' => array(
+			'order'     => array('title','hidewatched')
+			,'required' => array('title')
+			,'format'   => 'json'
+		)
+	,'movie/summary' => array(
+			'order'     => array('title')
+			,'required' => array('title')
+			,'format'   => 'json'
+		)
+	,'movie/unlibrary' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'movie/unseen' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'movie/unwatchlist' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'movie/watching' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'movie/watchingnow' => array(
+			'order'     => array('title')
+			,'required' => array('title')
+			,'format'   => 'json'
+		)
+	,'movie/watchlist' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'movies/trending' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => 'json'
+		)
+	,'movies/updated' => array(
+			'order'     => array('timestamp')
+			,'required' => array()
+			,'format'   => 'json'
+		)
+	,'network/approve' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'network/deny' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'rate/episode' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'rate/episodes' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'rate/movie' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'rate/movies		' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'rate/show' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'rate/shows' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'rate/movie' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'recommendations/movies' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'recommendations/movies/dismiss' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'recommendations/shows' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'recommendations/shows/dismiss' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'search/episodes' => array(
+			'order'     => array("query")
+			,'required' => array("query")
+			,'format'   => 'json'
+		)
+	,'search/movies' => array(
+			'order'     => array("query")
+			,'required' => array("query")
+			,'format'   => 'json'
+		)
+	,'search/people' => array(
+			'order'     => array("query")
+			,'required' => array("query")
+			,'format'   => 'json'
+		)
+	,'search/shows' => array(
+			'order'     => array("query")
+			,'required' => array("query")
+			,'format'   => 'json'
+		)
+	,'search/users' => array(
+			'order'     => array("query")
+			,'required' => array("query")
+			,'format'   => 'json'
+		)
+	,'server/time' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => 'json'
+		)
+	,'shows/trending' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => 'json'
+		)
+	,'shows/updated' => array(
+			'order'     => array('timestamp')
+			,'required' => array('timestamp')
+			,'format'   => 'json'
+		)
 	);
