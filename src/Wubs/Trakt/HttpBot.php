@@ -98,8 +98,6 @@ class HttpBot extends Uri{
 		$this->url .= $this->generateUri();
 	}
 
-	
-
 	public function getResponse(){
 		return $this->response;
 	}
@@ -112,10 +110,17 @@ class HttpBot extends Uri{
 		return $this->url.$this->generateUri();
 	}
 	
+	/**
+	 * @return string post or get
+	 */
 	public function getHTTPType(){
 		return $this->type;
 	}
 
+	/**
+	 * Gets array of given parameters
+	 * @return array the parameters as array
+	 */
 	public function getParameters(){
 		if(!is_string($this->params)){
 			return json_encode($this->params);
