@@ -121,6 +121,7 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	public function testCommentShow(){
+		$this->markTestSkipped('Tested once, works!');
 		$user = Trakt::setting('username');
 		$password = Trakt::setting('password');
 		$params = array('username'=>$user, 'password'=>$password, 'tvdb_id'=>205281,'title'=>'Falling Skies', 'year' => 2011, 'comment' => 'It has grown into one of my favorite shows!');
@@ -130,4 +131,27 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 		$this->assertEquals('success', $res['status']);
 		$this->assertContains('Falling Skies', $res['message']);
 	}
+
+	public function testGenresMovies(){
+		$res = Trakt::get('genres/movies')->run();
+		$this->assertInternalType('array', $res);
+		$this->assertArrayHasKey('name', $res[0]);
+	}
+
+	public function testListAdd(){
+		$this->markTestSkipped('not done yet');
+		$params = array(
+				"username"=>Trakt::setting('username'),
+				"password"=>Trakt::setting('password')
+				,"name"=>"Top 10 of 2011"
+				,"description"=>"These movies and shows really defined 2011 for me."
+				,"privacy"=>"public"
+				,"show_numbers"=>true
+				,"allow_shouts"=>true
+			);
+		$res = Trakt::post('list/add')->setParams($params)->run();
+		// $params = array('')
+	}
+
+
 }
