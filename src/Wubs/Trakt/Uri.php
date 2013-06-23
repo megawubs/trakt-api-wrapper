@@ -173,7 +173,6 @@ class Uri{
 		}
 		return $uri;
 	}
-
 	/**
 	 * magic method, runs when method called isnt found. 
 	 * checks based on the uri order if set* method can be called.
@@ -202,5 +201,13 @@ class Uri{
 		else{
 			throw new TraktException("Called method does not exists", 1);
 		}
+	}
+	
+	public function getUriOrder(){
+		return $this->uriOrder;
+	}
+
+	public function getUriRequired(){
+		return $this->required;
 	}
 }
