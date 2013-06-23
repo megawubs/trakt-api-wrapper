@@ -46,6 +46,7 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 		$this->assertInternalType('array', $res);
 		$this->assertArrayHasKey('activity', $res);
 		$this->assertArrayHasKey('timestamps', $res);
+		date_default_timezone_set('Europe/Amsterdam');
 		$this->assertEquals(strtotime('20130610'), $res['timestamps']['start']);
 		$this->assertEquals(strtotime('20130614'), $res['timestamps']['end']);
 		$count = count($res['activity']);
@@ -136,21 +137,6 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 		$res = Trakt::get('genres/movies')->run();
 		$this->assertInternalType('array', $res);
 		$this->assertArrayHasKey('name', $res[0]);
-	}
-
-	public function testListAdd(){
-		$this->markTestSkipped('not done yet');
-		$params = array(
-				"username"=>Trakt::setting('username'),
-				"password"=>Trakt::setting('password')
-				,"name"=>"Top 10 of 2011"
-				,"description"=>"These movies and shows really defined 2011 for me."
-				,"privacy"=>"public"
-				,"show_numbers"=>true
-				,"allow_shouts"=>true
-			);
-		$res = Trakt::post('list/add')->setParams($params)->run();
-		// $params = array('')
 	}
 
 
