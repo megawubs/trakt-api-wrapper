@@ -182,6 +182,12 @@ class Uri{
 	 * @throws TraktException If $name doesnt start with 'set'
 	 */
 	public function __call($name, $params){
+		//encode part if second parameter is set to true
+		if(count($params) > 1){
+			if($params[1] === true){
+				$params[0] = urlencode($params[0]);
+			}
+		}
 		if(strstr($name, 'set')){
 			$part = strtolower(substr($name, 3));
 			$param = $this->filter($params[0], $part);
