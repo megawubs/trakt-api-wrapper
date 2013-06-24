@@ -1,6 +1,6 @@
 <?php namespace Wubs\Trakt;
 
-class TraktTest extends \PHPUnit_Framework_TestCase{
+class ListTest extends \PHPUnit_Framework_TestCase{
 
 	public function setup(){
 		$this->json = '{
