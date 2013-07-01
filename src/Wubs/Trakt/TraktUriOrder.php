@@ -201,6 +201,26 @@ return array(
 			,'required' => array()
 			,'format'   => false
 		)
+	,'network/follow' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'network/requests' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'network/deny' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'network/unfollow' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
 	,'rate/episode' => array(
 			'order'     => array()
 			,'required' => array()
@@ -216,7 +236,7 @@ return array(
 			,'required' => array()
 			,'format'   => false
 		)
-	,'rate/movies		' => array(
+	,'rate/movies' => array(
 			'order'     => array()
 			,'required' => array()
 			,'format'   => false
