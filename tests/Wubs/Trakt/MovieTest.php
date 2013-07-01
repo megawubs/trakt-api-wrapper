@@ -157,8 +157,13 @@ class MovieTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	public function testMoviesUpdated(){
-		$today = strtotime(date('Ymd'));
-		$res = Trakt::get('movies/updated')->setTimeStamp($today)
+		date_default_timezone_set('UTC');
+		$today = date('Ymd');
+		$daysAgo = strtotime("-5 days");
+		$res = Trakt::get('movies/updated')->setTimeStamp($daysAgo)->run();
+		$this->assertInternalType('array', $res);
+		$this->assertEquals($daysAgo, $res['timestamps']['start']);
+		$this->assertEquals($today, date('Ymd',$res['timestamps']['current']));
 	}
 }
 ?>
