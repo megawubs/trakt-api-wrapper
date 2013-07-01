@@ -42,6 +42,31 @@ $res = Trakt::get('activity/community')->setTypes($types)
 		->run();
 ```
 
+## Todo's
+
+[ ] Finish implementing all api requests and the corresponding tests
+
+[ ] Create `Wubs\Trakt\Movie`, `Wubs\Trakt\Show`, `Wubs\Trakt\Episode` and `Wubs\Trakt\User` classes that will wrap a lot of `Trakt::get()` and `Trakt::post()` functions together
+
+__Preview__ 
+
+This is how I think it'll be implemented:
+```PHP
+//initiate the movie
+$movie = Trakt::movie('slug/IMDB ID or TMDB ID');
+
+//some actions
+$success = $movie->checkin();
+$success = $movie->cancleCheckin();
+$success = $movie->addToWatchlist();
+$success = $movie->addToList('list name');
+
+//a way to get info
+$watchers = $movie->getWatchingNow();
+$comments = $movie->getComments();
+```
 ## Note
 Development is going fast at the moment. The current working api calls are in the TraktUriOrder.php file. Not all calls are implemented and/or tested yet.
+
+Feel free to contact me or help development :)
 
