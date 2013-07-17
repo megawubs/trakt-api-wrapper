@@ -316,4 +316,144 @@ return array(
 			,'required' => array('timestamp')
 			,'format'   => 'json'
 		)
+	,'show/cancelcheckin' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'show/cancelwatching' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'show/checkin' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'show/comments' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'show/cancelwatching' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'show/episode/comments' => array(
+			'order'     => array('title', 'type');
+			,'required' => array('title', 'type')
+			,'format'   => 'json'
+		)
+	,'show/episode/library' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'show/episode/seen' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'show/episode/summary' => array(
+			'order'     => array('title','season','episode')
+			,'required' => array('title','season','episode')
+			,'format'   => 'json'
+		)
+	,'show/episode/unlibrary' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'show/episode/unseen' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'show/episode/unwatchlist' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'show/episode/watchingnow' => array(
+			'order'     => array('title','season','episode')
+			,'required' => array('title','season','episode')
+			,'format'   => 'json'
+		)
+	,'show/episode/watchlist' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'show/library' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'show/related' => array(
+			'order'     => array('title','extended','hidewatched')
+			,'required' => array('title')
+			,'format'   => false
+		)
+	,'show/scrobble' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'show/season' => array(
+			'order'     => array('title', 'season')
+			,'required' => array('title', 'season')
+			,'format'   => 'json'
+		)
+	,'show/season/library' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'show/season/seen' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'show/seasons' => array(
+			'order'     => array('title')
+			,'required' => array('title')
+			,'format'   => 'json'
+		)
+	,'show/seen' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'show/summary' => array(
+			'order'     => array('title','extended')
+			,'required' => array('title')
+			,'format'   => 'json'
+		)
+	,'show/unlibrary' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'show/unwatchlist' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'show/watching' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
+	,'show/watchingnow' => array(
+			'order'     => array('title')
+			,'required' => array('title')
+			,'format'   => false
+		)
+	,'show/watchlist' => array(
+			'order'     => array()
+			,'required' => array()
+			,'format'   => false
+		)
 	);
