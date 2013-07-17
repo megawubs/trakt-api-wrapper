@@ -342,7 +342,7 @@ return array(
 			,'format'   => false
 		)
 	,'show/episode/comments' => array(
-			'order'     => array('title', 'type');
+			'order'     => array('title', 'type')
 			,'required' => array('title', 'type')
 			,'format'   => 'json'
 		)
