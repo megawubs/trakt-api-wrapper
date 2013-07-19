@@ -44,9 +44,9 @@ $res = Trakt::get('activity/community')->setTypes($types)
 
 ## Todo's
 
-- [x] Finish implementing all api requests and the corresponding tests
+Finish implementing all api requests and the corresponding tests
 
-- [] Create `Wubs\Trakt\Movie`, `Wubs\Trakt\Show`, `Wubs\Trakt\Episode` and `Wubs\Trakt\User` classes that will wrap a lot of `Trakt::get()` and `Trakt::post()` functions together
+Create `Wubs\Trakt\Movie`, `Wubs\Trakt\Show`, `Wubs\Trakt\Episode` and `Wubs\Trakt\User` classes that will wrap a lot of `Trakt::get()` and `Trakt::post()` functions together
 
 __Preview__ 
 
