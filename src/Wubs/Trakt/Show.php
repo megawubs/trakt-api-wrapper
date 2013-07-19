@@ -1,18 +1,18 @@
 <?php namespace Wubs\Trakt;
 
-class Show{
-	/**
-	 * Contains all data returned by trakt requests, where
-	 * the key is the request uri
-	 * @var array
-	 */
-	private $data = array();
-
-	/**
-	 * The shows slug or TVDB id
-	 * @var mixed
-	 */
-	private $identifier;
+use Wubs\Trakt\Base\Media;
+/**
+ * Show object that combines a lot of Trakt::get() and 
+ * Trakt::post() commands together.
+ *
+ * Usage
+ * $show = Trakt::show(153021); // TVDB id or slug
+ * echo $show->title;
+ * echo $show->year;
+ * $seasons = $show->seasons(); //this will get all seasons with the episode information
+ * $seasons = $show->seasons(false) //this will get the original unmapped response from trakt
+ */
+class Show extends Media{
 
 	/**
 	 * Initiates the Show by preforming the show/summary request
@@ -22,31 +22,14 @@ class Show{
 	 * @param boolean $extended   get back extended information or not, defaults to false
 	 */
 	public function __construct($identifier, $extended = false){
-		if(is_string($identifier)){
-			if(!strstr($identifier, '-')){
-				$identifier = str_replace(' ', '-', $identifier);
-			}
-		}
-		$this->identifier = $identifier;
-		$show = Trakt::get('show/summary')->setTitle($identifier);
+		parent::__construct($identifier);
+		$request = 'show/summary';
+		$show = Trakt::get($request)->setTitle($this->identifier);
 		if($extended){
 			$show->setExtended($extended);
 		}
-		$this->data['show/summary'] = $show->run();
-	}
-
-	/**
-	 * Magical getter. 
-	 *
-	 * Searches the requested property in $this->data['show/summary']
-	 * and returns it if it finds it.
-	 * @param  string $key the name of the key
-	 * @return mixed      the stored value of the key
-	 */
-	public function __get($key){
-		if(array_key_exists($key, $this->data['show/summary'])){
-			return $this->data['show/summary'][$key];
-		}
+		$this->data[$request] = $show->run();
+		$this->dataKey = $request;
 	}
 
 	/**
@@ -55,16 +38,18 @@ class Show{
 	 *
 	 * If the request has been made before, it'll simply return the stored
 	 * value in $this->data[$request];
+	 * @param boolean $map flag to map or not to map
 	 * @return array the mapped response from Trakt
 	 */
-	public function seasons(){
+	public function seasons($map = true){
 		$request = 'show/seasons';
 		if(!$this->requestHasMade($request)){
 			$seasons = Trakt::get($request)->setTitle($this->identifier)->run();
-			for ($i=0; $i <count($seasons); $i++) { 
-				$seasons[$i]['data'] = Trakt::get('show/season')->setTitle($this->identifier)->setSeason($seasons[$i]['season'])->run();
-			}
-			print_r($seasons);
+				for ($i=0; $i < count($seasons); $i++) { 
+					if($map){
+						$seasons[$i] = new Season($this->identifier, $seasons[$i]);
+					}
+				}
 			return $this->setData($request, $seasons);
 		}
 		else{
@@ -75,43 +60,16 @@ class Show{
 	/**
 	 * Gets the given season from trakt, with the season data 
 	 * in the 'data' key. All Episodes are mapped to Wubs\Trakt\Episode
-	 * @param  integer| $number the number of the season
+	 * @param  integer $number the number of the season
 	 * @return array         Mapped list of episodes for this season
 	 */
-	public function season($number){
-		$request = 'show/season';
-		if(!$this->requestHasMade('show/seasons')){ //note, i check for seasonS here!
-			if(!$this->requestHasMade($request) && !array_key_exists($this->data[$request], $number)){
-				$season = Trakt::get($request)->setTitle($this->identifier)->setSeason($number)->run();
-				return $this->setData($request, array($number=>$season));
-			}
-			else{
-				return $this->data[$request][$number];
+	public function season($number, $map = true){
+		$dataKey = 'show/season';
+		$seasons = $this->seasons($map);
+		foreach ($seasons as $season) {
+			if($season->season == $number){
+				return $season;
 			}
 		}
-		else{
-			return $this->data['show/seasons'][$number];
-		}
-	}
-
-	/**
-	 * Checks if the given request has already been made
-	 * by checking if $this->data has the provided 
-	 * $request as a key.
-	 * @param  string $request the uri for the request
-	 * @return boolean       true when the key exists
-	 */
-	private function requestHasMade($request){
-		return array_key_exists($request, $this->data);
-	}
-
-	/**
-	 * Sets the data for $this->data
-	 * @param string $request the uri for the request
-	 * @param array $data the response or mapped from trakt.
-	 */
-	private function setData($request, $data){
-		$this->data[$request] = $data;
-		return $data;
 	}
 }
