@@ -21,8 +21,8 @@ class ShowTest extends \PHPUnit_Framework_TestCase{
 
 	public function testGetOneSeason(){
 		$season = Trakt::show(153021)->season(1);
-		$this->assertInternalType('array', $season);
-		$this->assertEquals(1, $season['season']);
+		$this->assertInternalType('object', $season);
+		$this->assertEquals(1, $season->season);
 	}
 
 	public function testGetAllSeasonFirstThanOneSeason(){
