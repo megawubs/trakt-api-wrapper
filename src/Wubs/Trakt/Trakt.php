@@ -2,10 +2,30 @@
 
 use Wubs\Settings\Settings;
 use Wubs\Trakt\Exceptions\TraktException;
-use Wubs\Trakt\HttpBot;
+use Wubs\Trakt\Base\HttpBot;
+use Wubs\Trakt\User;
+use Wubs\Trakt\Show;
 
 class Trakt{
 
+	/**
+	 * Return a new show object
+	 * @param  mixed $identifier Either the slug (i.e. the-walking-dead) or TVDB ID.
+	 * @return Wubs\Trakt\Show             The show data mapped as a object
+	 */
+	public static function show($identifier){
+		return new Show($identifier);
+	}
+
+	/**
+	 * Create a new trakt user object
+	 * @param  string $name A username from tratk.tv
+	 * @return Wubs\Trakt\User       A object containing the user data;
+	 */
+	public static function user($name){
+		return new User($name);
+	}
+	
 	/**
 	 * Maps a get request to the corresponding class and function
 	 * @param  string $request a api get request sting, all api methods 

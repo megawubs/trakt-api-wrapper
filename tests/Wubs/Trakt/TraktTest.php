@@ -24,7 +24,7 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	public function testPostSomething(){
-		$this->assertInstanceOf('Wubs\Trakt\HttpBot', Trakt::post('account/test')->setParams($this->params));
+		$this->assertInstanceOf('Wubs\\Trakt\\Base\\HttpBot', Trakt::post('account/test')->setParams($this->params));
 	}
  
 	public function testGetParams(){
