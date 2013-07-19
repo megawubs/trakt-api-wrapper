@@ -456,4 +456,119 @@ return array(
 			,'required' => array()
 			,'format'   => false
 		)
+	,'user/calendar/shows' => array(
+			'order'     => array('username','date','days')
+			,'required' => array('username')
+			,'format'   => 'json'
+		)
+	,'user/lastactivitys' => array(
+			'order'     => array('username')
+			,'required' => array('username')
+			,'format'   => 'json'
+		)
+	,'user/library/movies/all' => array(
+			'order'     => array('username')
+			,'required' => array('username')
+			,'format'   => 'json'
+		)
+	,'user/library/movies/collection' => array(
+			'order'     => array('username')
+			,'required' => array('username')
+			,'format'   => 'json'
+		)
+	,'user/library/movies/watched' => array(
+			'order'     => array('username')
+			,'required' => array('username')
+			,'format'   => 'json'
+		)
+	,'user/library/shows/all' => array(
+			'order'     => array('username')
+			,'required' => array('username')
+			,'format'   => 'json'
+		)
+	,'user/library/shows/collection' => array(
+			'order'     => array('username')
+			,'required' => array('username')
+			,'format'   => 'json'
+		)
+	,'user/library/shows/watched' => array(
+			'order'     => array('username')
+			,'required' => array('username')
+			,'format'   => 'json'
+		)
+	,'user/list' => array(
+			'order'     => array('username', 'slug')
+			,'required' => array('username', 'slug')
+			,'format'   => 'json'
+		)
+	,'user/lists' => array(
+			'order'     => array('username')
+			,'required' => array('username')
+			,'format'   => 'json'
+		)
+	,'user/network/followers' => array(
+			'order'     => array('username')
+			,'required' => array('username')
+			,'format'   => 'json'
+		)
+	,'user/network/following' => array(
+			'order'     => array('username')
+			,'required' => array('username')
+			,'format'   => 'json'
+		)
+	,'user/network/friends' => array(
+			'order'     => array('username')
+			,'required' => array('username')
+			,'format'   => 'json'
+		)
+	,'user/profile' => array(
+			'order'     => array('username')
+			,'required' => array('username')
+			,'format'   => 'json'
+		)
+	,'user/progress/collected' => array(
+			'order'     => array('username', 'title', 'sort', 'extended')
+			,'required' => array('username')
+			,'format'   => 'json'
+		)
+	,'user/progress/watched' => array(
+			'order'     => array('username', 'title', 'sort', 'extended')
+			,'required' => array('username')
+			,'format'   => 'json'
+		)
+	,'user/ratings/episodes' => array(
+			'order'     => array('username','rating','extended')
+			,'required' => array('username')
+			,'format'   => 'json'
+		)
+	,'user/ratings/movies' => array(
+			'order'     => array('username','rating','extended')
+			,'required' => array('username')
+			,'format'   => 'json'
+		)
+	,'user/ratings/shows' => array(
+			'order'     => array('username', 'rating', 'extended')
+			,'required' => array('username')
+			,'format'   => 'json'
+		)
+	,'user/watching' => array(
+			'order'     => array('username')
+			,'required' => array('username')
+			,'format'   => 'json'
+		)
+	,'user/watchlist/episodes' => array(
+			'order'     => array('username')
+			,'required' => array('username')
+			,'format'   => 'json'
+		)
+	,'user/watchlist/movies' => array(
+			'order'     => array('username')
+			,'required' => array('username')
+			,'format'   => 'json'
+		)
+	,'user/watchlist/shows' => array(
+			'order'     => array('username')
+			,'required' => array('username')
+			,'format'   => 'json'
+		)
 	);
