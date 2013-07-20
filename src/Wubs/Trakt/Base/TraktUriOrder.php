@@ -333,7 +333,7 @@ return array(
 		)
 	,'show/comments' => array(
 			'order'     => array('title','type')
-			,'required' => array('title');
+			,'required' => array('title')
 			,'format'   => 'json'
 		)
 	,'show/cancelwatching' => array(
