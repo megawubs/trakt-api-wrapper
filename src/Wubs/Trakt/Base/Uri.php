@@ -13,6 +13,8 @@ class Uri{
 	private $required = array();
 
 	private $format;
+
+	private $base;
 	
 	/**
 	 * Initiates the uri object by getting a list
@@ -21,6 +23,7 @@ class Uri{
 	 * @param  string $base the api start point
 	 */
 	public function __construct($base){
+		$this->base = $base;
 		$this->setUriOrderAndRequired($base);
 		$uri = (is_string($this->format)) ? $base.'.'.$this->format : $base;
 		$this->setUri($uri);
@@ -117,8 +120,8 @@ class Uri{
 	 * Returns the formated uri
 	 * @return string the uri formated based on $this->required
 	 */
-	public function getUri(){
-		return $this->generateUri();
+	public function getUri($base = false){
+		return ($base) ? $this->base : $this->generateUri();
 	}
 
 	/**
