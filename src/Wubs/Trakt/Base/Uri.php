@@ -182,8 +182,8 @@ class Uri{
 	 * checks based on the uri order if set* method can be called.
 	 * @param string $name the name of the method
 	 * @param array $params the parameters given to the method
-	 * @throws TraktException If the called set* method isnt in uriOrder
-	 * @throws TraktException If $name doesnt start with 'set'
+	 * @throws TraktException If the called set* method isn't in uriOrder
+	 * @throws TraktException If $name doesn't start with 'set'
 	 */
 	public function __call($name, $params){
 		//encode part if second parameter is set to true
