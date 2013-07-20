@@ -332,9 +332,9 @@ return array(
 			,'format'   => false
 		)
 	,'show/comments' => array(
-			'order'     => array()
-			,'required' => array()
-			,'format'   => false
+			'order'     => array('title','type',)
+			,'required' => array('title');
+			,'format'   => 'json'
 		)
 	,'show/cancelwatching' => array(
 			'order'     => array()
