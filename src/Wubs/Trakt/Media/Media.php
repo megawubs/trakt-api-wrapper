@@ -1,5 +1,5 @@
 <?php namespace Wubs\Trakt\Media;
-
+use Wubs\Trakt\Base\HttpBot;
 class Media{
 	/**
 	 * Contains all data returned by trakt requests, where
@@ -66,5 +66,16 @@ class Media{
 		if(array_key_exists($key, $this->data[$this->dataKey]['array'])){
 			return $this->data[$this->dataKey]['array'][$key];
 		}
+	}
+
+	protected function runAndSave(HttpBot $bot, $type){
+		$uri = $bot->getUri(true);
+		if(!$this->requestHasMade($uri)){
+			return $this->setData($uri, $bot->run(), $type);
+		}
+		else{
+			return $this->getData($uri, $type);
+		}
+		
 	}
 }
