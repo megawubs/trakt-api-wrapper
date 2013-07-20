@@ -50,7 +50,7 @@ class User{
 	}
 
 	private function mapEpisode($episodeData){
-		print_r($episodeData);
+		// print_r($episodeData);
 	}
 }
 ?>

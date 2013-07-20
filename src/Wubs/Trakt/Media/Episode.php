@@ -1,6 +1,6 @@
-<?php namespace Wubs\Trakt;
+<?php namespace Wubs\Trakt\Media;
 
-use Wubs\Trakt\Base\Media;
+use Wubs\Trakt\Media\Media;
 class Episode extends Media{
 	public $show;
 

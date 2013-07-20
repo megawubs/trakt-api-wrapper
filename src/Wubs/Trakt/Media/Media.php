@@ -1,4 +1,4 @@
-<?php namespace Wubs\Trakt\Base;
+<?php namespace Wubs\Trakt\Media;
 
 class Media{
 	/**
@@ -40,9 +40,18 @@ class Media{
 	 * @param string $request the uri for the request
 	 * @param array $data the response or mapped from trakt.
 	 */
-	protected function setData($request, $data){
-		$this->data[$request] = $data;
+	protected function setData($request, $data, $type = null){
+		$type = (is_null($type)) ? gettype($data) : $type;
+		$this->data[$request][$type] = $data;
 		return $data;
+	}
+
+	protected function getData($request, $type){
+		return $this->data[$request][$type];
+	}
+
+	protected function checkIfTypeIsInData($request, $type){
+		return array_key_exists($type, $this->data[$request]);
 	}
 
 	/**
@@ -54,8 +63,8 @@ class Media{
 	 * @return mixed      the stored value of the key
 	 */
 	public function __get($key){
-		if(array_key_exists($key, $this->data[$this->dataKey])){
-			return $this->data[$this->dataKey][$key];
+		if(array_key_exists($key, $this->data[$this->dataKey]['array'])){
+			return $this->data[$this->dataKey]['array'][$key];
 		}
 	}
 }

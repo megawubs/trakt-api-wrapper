@@ -1,6 +1,7 @@
-<?php namespace Wubs\Trakt;
+<?php namespace Wubs\Trakt\Media;
 
-use Wubs\Trakt\Base\Media;
+use Wubs\Trakt\Media\Media;
+use Wubs\Trakt\Trakt;
 /**
  * Show object that combines a lot of Trakt::get() and 
  * Trakt::post() commands together.
@@ -28,8 +29,9 @@ class Show extends Media{
 		if($extended){
 			$show->setExtended($extended);
 		}
-		$this->data[$request] = $show->run();
 		$this->dataKey = $request;
+		$this->setData($request, $show->run(), 'array');
+		
 	}
 
 	/**
@@ -45,15 +47,26 @@ class Show extends Media{
 		$request = 'show/seasons';
 		if(!$this->requestHasMade($request)){
 			$seasons = Trakt::get($request)->setTitle($this->identifier)->run();
-				for ($i=0; $i < count($seasons); $i++) { 
-					if($map){
-						$seasons[$i] = new Season($this->identifier, $seasons[$i]);
-					}
-				}
-			return $this->setData($request, $seasons);
+			$seasons = $this->setData($request, $seasons, 'array'); //populates the 'array' key of $this->data[$request]
+			if($map){
+				$seasons = $this->mapSeasons($seasons);
+				return $this->setData($request, $seasons, 'object'); //populates the 'object' key of $this->data[$request]
+			}
+			else{
+				return $seasons;
+			}
 		}
 		else{
-			return $this->data[$request];
+			$seasons = $this->getData($request,'array');
+			if($map){
+				if($this->checkIfTypeIsInData($request, 'object')){
+					$seasons = $this->getData($request, 'object');
+				}
+				else{
+					$seasons = $this->mapSeasons($seasons);
+				} 
+			}
+			return $seasons;
 		}
 	}
 
@@ -67,9 +80,38 @@ class Show extends Media{
 		$dataKey = 'show/season';
 		$seasons = $this->seasons($map);
 		foreach ($seasons as $season) {
-			if($season->season == $number){
-				return $season;
+			//make sure we can always access the season
+			if($map){
+				if($season->season == $number){
+					return $season;
+				}
+			}
+			else{
+				if($season['season'] == $number){
+					return $season;
+				}
 			}
 		}
+	}
+
+	public function comments($type = 'all'){
+		$types = array('shouts', 'reviews', 'all');
+		$comments = Trakt::get('show/comments')->setTitle($this->identifier);
+		if(in_array($type, $types)){
+			$comments->setType($type);
+		}
+		return $comments->run();
+
+	}
+	/**
+	 * Maps all season in array to a Wubs\Trakt\Media\Season object
+	 * @param  array $seasons A list of seasons
+	 * @return array          A list of mapped season objects
+	 */
+	private function mapSeasons($seasons){
+		for ($i=0; $i < count($seasons); $i++) { 
+			$seasons[$i] = new Season($this->identifier, $seasons[$i]);
+		}
+		return $seasons;
 	}
 }

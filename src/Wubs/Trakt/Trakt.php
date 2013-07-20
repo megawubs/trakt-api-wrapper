@@ -4,7 +4,7 @@ use Wubs\Settings\Settings;
 use Wubs\Trakt\Exceptions\TraktException;
 use Wubs\Trakt\Base\HttpBot;
 use Wubs\Trakt\User;
-use Wubs\Trakt\Show;
+use Wubs\Trakt\Media\Show;
 
 class Trakt{
 
