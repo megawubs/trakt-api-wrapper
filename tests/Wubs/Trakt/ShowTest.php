@@ -4,13 +4,6 @@ use Wubs\Trakt\Trakt;
 
 class ShowTest extends \PHPUnit_Framework_TestCase{
 
-	public static $sShow;
-
-	public static function setUpBeforeClass(){
-		self::$sShow = Trakt::show(153021);
-	}
-
-
 	public function setUp(){
 		$this->show = Trakt::show(153021);
 	}
@@ -73,7 +66,7 @@ class ShowTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	public function testGetShowAllComments(){
-		$comments = self::$sShow->comments();
+		$comments = $this->show->comments();
 		$this->assertInternalType('array', $comments);
 		foreach ($comments as $comment) {
 			$this->assertArrayHasKey('inserted', $comment);
@@ -81,7 +74,7 @@ class ShowTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	public function testGetShowShoutComments(){
-		$comments = self::$sShow->comments('shouts');
+		$comments = $this->show->comments('shouts');
 		foreach ($comments as $comment) {
 			$this->assertArrayHasKey('inserted', $comment);
 			$this->assertEquals('shout', $comment['type']);
@@ -89,7 +82,7 @@ class ShowTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	public function testGetShowReviewComments(){
-		$comments = self::$sShow->comments('reviews');
+		$comments = $this->show->comments('reviews');
 		foreach ($comments as $comment) {
 			$this->assertArrayHasKey('inserted', $comment);
 			$this->assertEquals('review', $comment['type']);
@@ -97,7 +90,7 @@ class ShowTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	public function testGetShowReviewsByReviewMethod(){
-		$reviews = self::$sShow->reviews();
+		$reviews = $this->show->reviews();
 		foreach ($reviews as $review) {
 			$this->assertArrayHasKey('inserted', $review);
 			$this->assertEquals('review', $review['type']);
@@ -105,7 +98,7 @@ class ShowTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	public function testGetShoutsByShoutsMethod(){
-		$shouts = self::$sShow->shouts();
+		$shouts = $this->show->shouts();
 		foreach ($shouts as $shout) {
 			$this->assertArrayHasKey('inserted', $shout);
 			$this->assertEquals('shout', $shout['type']);
