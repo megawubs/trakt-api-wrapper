@@ -12,7 +12,7 @@ class SeasonTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	public function testGetSeason(){
-		$this->show->season(2);
+		$season = $this->show->season(2);
 		$this->assertInternalType('object', $season);
 		$this->assertInstanceOf('Wubs\\Trakt\\Media\\Season', $season);
 	}
