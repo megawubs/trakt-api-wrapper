@@ -332,7 +332,7 @@ return array(
 			,'format'   => false
 		)
 	,'show/comments' => array(
-			'order'     => array('title','type',)
+			'order'     => array('title','type')
 			,'required' => array('title');
 			,'format'   => 'json'
 		)
