@@ -1,8 +1,13 @@
 <phpunit bootstrap="vendor/autoload.php">
 	<testsuites>
-        <testsuite name="trakt">
-            <file>test/Wubs/Trakt/TraktTest.php</file>
-            <file>test/Wubs/Trakt/HttpBotTest.php</file>
+        <testsuite name="base">
+            <folder>tests/Wubs/Trakt/Base</folder>
+            <file>tests/Wubs/Trakt/TraktTest.php</file>
+        </testsuite>
+        <testsuite name="types">
+            <file>tests/Wubs/Trakt/SeasonTest.php</file>
+            <file>tests/Wubs/Trakt/ShowTest.php</file>
+            <file>tests/Wubs/Trakt/UserTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
