@@ -1,23 +1,19 @@
 <?php namespace Wubs\Trakt;
 
 use Wubs\Trakt\Exceptions\TraktException;
+use Wubs\Trakt\Base\TraktClass;
 
-class User{
-
-	private $data = array();
-
-	private $username;
+class User extends TraktClass{
 
 	private $inputDateFormat = 'Y-m-d';
 
-	private $traktDateFormat = 'Ymd';
-
 	public function __construct($username){
-		$this->username = $username;
-		$this->data['user/profile'] = Trakt::get('user/profile')->setUsername($username)->run();
+		$this->dataKey = 'user/profile';
+		$profile = Trakt::get($this->dataKey)->setUsername($username);
+		$this->runAndSave($profile, 'array');
 	}
 
-	public function getCalendar($date = false, $days = false){
+	public function getCalendar($date = false, $days = false, $map = false){
 		$calendar = Trakt::get('user/calendar/shows')->setUsername($this->username);
 		// check if the date provided is a valid date
 		if($date){
@@ -26,10 +22,12 @@ class User{
 				$calendar->setDate($date);
 			}
 		}
-		$dates = $calendar->run();
-		foreach ($dates as $date) {
-			foreach ($date['episodes'] as $episode) {
-				$this->mapEpisode($episode); //Episode object is a child of the show object...
+		$dates = $this->runAndSave($calendar, 'array');
+		if($map){
+			foreach ($dates as $date) {
+				foreach ($date['episodes'] as $episode) {
+					$this->mapEpisode($episode); //Episode object is a child of the show object...
+				}
 			}
 		}
 	}
@@ -47,10 +45,6 @@ class User{
 
 	private function convertDate(){
 		return date_format($this->dateObject, $this->traktDateFormat);
-	}
-
-	private function mapEpisode($episodeData){
-		// print_r($episodeData);
 	}
 }
 ?>

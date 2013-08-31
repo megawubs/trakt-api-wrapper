@@ -1,31 +1,24 @@
-<?php namespace Wubs\Trakt\Base;
+<?php
 
+use Wubs\Trakt\Base\HttpBot;
 use Wubs\Settings\Settings;
 
-class HttpBotTest extends \PHPUnit_Framework_TestCase{
-	public function setUp(){
-		$this->s   = new Settings();
-		$this->key = $this->s->get('trakt.api');
-	}
-
-	public function tearDown(){
-		unset($this->s);
-	}
+class HttpBotTest extends TraktTestCase{
 
 	public function testSetParamsAsArray(){
-		$bot = new HttpBot('account/test');
+		$bot = new HttpBot('account/test', $this->key);
 		$params = array('username'=>'John');
 		$this->assertInstanceOf('Wubs\\Trakt\\Base\\HttpBot', $bot->setParams($params));
 	}
 
 	public function testSetParamsAsString(){
-		$bot = new HttpBot('account/test');
+		$bot = new HttpBot('account/test', $this->key);
 		$params = array('username'=>'John');
 		$this->assertInstanceOf('Wubs\\Trakt\\Base\\HttpBot', $bot->setParams(json_encode($params)));
 	}
 
 	public function testSetUri(){
-		$bot = new HttpBot('account/test');
+		$bot = new HttpBot('account/test', $this->key);
 		$uri = 'account/settings';
 		$bot->setUri($uri);
 		$api = $this->s->get('trakt.api');
@@ -33,7 +26,7 @@ class HttpBotTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	public function testGet(){
-		$bot = new HttpBot('account/test');
+		$bot = new HttpBot('account/test', $this->key);
 		$uri = 'activity/community.json';
 		$bot->setUri($uri);
 		$this->assertTrue($bot->execute(), "Failed to execute Get to ".$bot->getUrl()."\n with result: ".json_encode($bot->getResponse()));
@@ -41,7 +34,7 @@ class HttpBotTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	public function testPostWithJson(){
-		$bot = new HttpBot('account/test');
+		$bot = new HttpBot('account/test', $this->key);
 		$uri      = 'account/test';
 		$bot->setUri($uri);
 		$bot->setHTTPType('post');
@@ -59,7 +52,7 @@ class HttpBotTest extends \PHPUnit_Framework_TestCase{
      * @expectedException Wubs\Trakt\Exceptions\TraktException
      */
 	public function testAPIResponseWithFailure(){
-		$bot = new HttpBot('account/test');
+		$bot = new HttpBot('account/test', $this->key);
 		$uri = 'activity/episodes.json';
 		$bot->setUri($uri);
 		$bot->execute();

@@ -1,21 +1,17 @@
-<?php namespace Wubs\Trakt;
+<?php
 
+use Wubs\Trakt\Trakt;
+use Wubs\Settings\Settings;
 
-class NetworkTest extends \PHPUnit_Framework_TestCase{
-
-	public function setUp(){
-		$this->params = array('username'=>Trakt::setting('username'), 'password'=>Trakt::setting('password'));
-	}
+class NetworkTest extends TraktTestCase{
 
 	public function testNetworkFollow(){
-		// $this->markTestIncomplete();
 		$this->params['user'] = 'megawubs';
 		$res = Trakt::post('network/follow')->setParams($this->params)->run();
 		$this->assertEquals('success', $res['status']);
 	}
 
 	public function testNetworkRequests(){
-		// $this->markTestIncomplete();
 		$res = Trakt::post('network/requests')->setParams($this->params)->run();
 		if(!$this->identicalTo(array(), $res)){
 			$this->assertEquals('megawubs', $res[0]['username']);
@@ -26,7 +22,6 @@ class NetworkTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	public function testNetworkDeny(){
-		// $this->markTestIncomplete();
 		$this->params['user'] = 'megawubs';
 		$res = Trakt::post('network/deny')->setParams($this->params)->run();
 		$this->assertEquals('denied megawubs', $res['message']);

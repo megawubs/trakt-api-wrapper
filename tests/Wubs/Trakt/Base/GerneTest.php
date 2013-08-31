@@ -1,10 +1,9 @@
-<?php namespace Wubs\Trakt;
+<?php
 
-class GerneTest extends \PHPUnit_Framework_TestCase{
+use Wubs\Trakt\Trakt;
+use Wubs\Settings\Settings;
 
-	public function setUp(){
-		$this->params = Trakt::getParams(array('username', 'password'));
-	}
+class GerneTest extends TraktTestCase{
 
 	public function testGenresMovies(){
 		$res = Trakt::get('genres/movies')->run();

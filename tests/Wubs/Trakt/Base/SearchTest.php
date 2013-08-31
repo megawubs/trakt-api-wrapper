@@ -1,12 +1,9 @@
-<?php namespace Wubs\Trakt;
+<?php
 
-class SearchTest extends \PHPUnit_Framework_TestCase{
+use Wubs\Trakt\Trakt;
+use Wubs\Settings\Settings;
 
-	public function setUp(){
-		$this->params = Trakt::getParams(array('username', 'password'));
-	}
-
-	public function tearDown(){}
+class SearchTest extends TraktTestCase{
 
 	public function testSearchMovie(){
 		$res = Trakt::get('search/movies')->setQuery('lucky number slevin', true)->run();

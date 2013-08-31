@@ -1,15 +1,7 @@
 <?php
 use Wubs\Trakt\Trakt;
 
-class SeasonTest extends \PHPUnit_Framework_TestCase{
-
-	public function setUp(){
-		$this->show = Trakt::show(153021);
-	}
-
-	public function tearDown(){
-		unset($this->show);
-	}
+class SeasonTest extends TraktTestCase{
 
 	public function testGetSeason(){
 		$season = $this->show->season(2);

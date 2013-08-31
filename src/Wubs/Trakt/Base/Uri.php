@@ -15,6 +15,8 @@ class Uri{
 	private $format;
 
 	private $base;
+
+	private $api;
 	
 	/**
 	 * Initiates the uri object by getting a list
@@ -22,9 +24,11 @@ class Uri{
 	 * format set per request.
 	 * @param  string $base the api start point
 	 */
-	public function __construct($base){
+	public function __construct($base, $api){
 		$this->base = $base;
+		$this->api = $api;
 		$this->setUriOrderAndRequired($base);
+		//place the .format part (most of the time its empty or .json)
 		$uri = (is_string($this->format)) ? $base.'.'.$this->format : $base;
 		$this->setUri($uri);
 	}
@@ -83,7 +87,7 @@ class Uri{
 	 */
 	public function setUri($uri){
 		$this->appendUri('base', $uri);
-		$this->appendUri('api', Trakt::setting('api'));
+		$this->appendUri('api', $this->api);
 		return $this;
 	}
 
@@ -102,8 +106,8 @@ class Uri{
 	 * Adds the api key stored in the settings to the uri
 	 */
 	public function addApiToUri(){
-		$api = Trakt::setting('api');
-		return $this->appendUri('api', $api);
+		// $api = Trakt::setting('api');
+		return $this->appendUri('api', $this->api);
 	}
 
 	/**
@@ -115,7 +119,8 @@ class Uri{
 	 */
 	protected function filter($var, $key){
 			return str_replace(' ', '', trim($var));
-		}
+	}
+
 	/**
 	 * Returns the formated uri
 	 * @return string the uri formated based on $this->required

@@ -1,10 +1,9 @@
-<?php namespace Wubs\Trakt;
+<?php
 
-class CalendarTest extends \PHPUnit_Framework_TestCase{
-	
-	public function setUp(){
-		$this->params = Trakt::getParams(array('username', 'password'));
-	}
+use Wubs\Trakt\Trakt;
+use Wubs\Settings\Settings;
+
+class CalendarTest extends TraktTestCase{
 
 	public function testGetCalenderPremieres(){
 		$res = Trakt::get('calendar/premieres')->run();

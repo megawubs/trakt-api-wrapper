@@ -1,10 +1,9 @@
-<?php namespace Wubs\Trakt;
+<?php
 
-class RateTest extends \PHPUnit_Framework_Testcase{
+use Wubs\Trakt\Trakt;
+use Wubs\Settings\Settings;
 
-	public function setUp(){
-		$this->params = array('username'=>Trakt::setting('username'), 'password'=>Trakt::setting('password'));
-	}
+class RateTest extends TraktTestCase{
 
 	public function testRateEpisode(){
 		// $this->markTestIncomplete();

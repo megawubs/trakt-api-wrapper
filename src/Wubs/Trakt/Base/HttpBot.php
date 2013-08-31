@@ -1,6 +1,5 @@
 <?php namespace Wubs\Trakt\Base;
 
-use Wubs\Settings\Settings;
 use Wubs\Trakt\Exceptions\TraktException;
 
 class HttpBot extends Uri{
@@ -13,8 +12,8 @@ class HttpBot extends Uri{
 	
 	private $response;
 
-	public function __construct($uri){
-		parent::__construct($uri);
+	public function __construct($uri, $api){
+		parent::__construct($uri, $api);
 	}
 
 	public function setParams($params){

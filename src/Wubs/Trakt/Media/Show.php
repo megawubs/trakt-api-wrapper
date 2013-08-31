@@ -44,7 +44,6 @@ class Show extends Media{
 	 * @return array the mapped response from Trakt
 	 */
 	public function seasons($map = true){
-		// $type = ($map) ? 'object' : 'array';
 		$uri = 'show/seasons';
 		$request = Trakt::get($uri)->setTitle($this->identifier);
 		$seasons = $this->runAndSave($request, 'array');
@@ -55,29 +54,6 @@ class Show extends Media{
 		else{
 			return $seasons;
 		}
-		// if(!$this->requestHasMade($request)){
-		// 	$seasons = Trakt::get($request)->setTitle($this->identifier)->run();
-		// 	$seasons = $this->setData($request, $seasons, 'array'); //populates the 'array' key of $this->data[$request]
-		// 	if($map){
-		// 		$seasons = $this->mapSeasons($seasons);
-		// 		return $this->setData($request, $seasons, 'object'); //populates the 'object' key of $this->data[$request]
-		// 	}
-		// 	else{
-		// 		return $seasons;
-		// 	}
-		// }
-		// else{
-		// 	$seasons = $this->getData($request,'array');
-		// 	if($map){
-		// 		if($this->checkIfTypeIsInData($request, 'object')){
-		// 			$seasons = $this->getData($request, 'object');
-		// 		}
-		// 		else{
-		// 			$seasons = $this->mapSeasons($seasons);
-		// 		} 
-		// 	}
-		// 	return $seasons;
-		// }
 	}
 
 	/**
@@ -132,17 +108,5 @@ class Show extends Media{
 	 */
 	public function reviews(){
 		return $this->comments('reviews');
-	}
-
-	/**
-	 * Maps all season in array to a Wubs\Trakt\Media\Season object
-	 * @param  array $seasons A list of seasons
-	 * @return array          A list of mapped season objects
-	 */
-	private function mapSeasons($seasons){
-		for ($i=0; $i < count($seasons); $i++) { 
-			$seasons[$i] = new Season($this->identifier, $seasons[$i]);
-		}
-		return $seasons;
 	}
 }

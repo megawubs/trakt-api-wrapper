@@ -1,12 +1,14 @@
 <?php namespace Wubs\Trakt;
 
-use Wubs\Settings\Settings;
+// use Wubs\Settings\Settings;
 use Wubs\Trakt\Exceptions\TraktException;
 use Wubs\Trakt\Base\HttpBot;
 use Wubs\Trakt\User;
 use Wubs\Trakt\Media\Show;
 
 class Trakt{
+
+	public static $api;
 
 	/**
 	 * Return a new show object
@@ -46,34 +48,12 @@ class Trakt{
 		return self::bot($request)->setHTTPType('post');
 	}
 
-
 	/**
-	 * Gets the values for the parameter names you give it
-	 * example: $params Trakt::getParams(array('username', 'password'));
-	 * will return a valid json string that contains the username and password
-	 * @param  array $params list of the parameters to get
-	 * @return string         json string of the retrieved parameters
+	 * Sets the api key for trakt
+	 * @param string $key your trakt api key (see your account to find it)
 	 */
-	public static function getParams(array$params){
-		$returnParams = array();
-		foreach ($params as $param) {
-			$value = self::setting($param);
-			if($param == 'password'){
-				$value = sha1($value);
-			}
-			$returnParams[$param] = $value;
-		}
-		return json_encode($returnParams);
-	}
-
-	/**
-	 * Shorthand for getting trakt related settings
-	 * @param  string $string the name of the setting
-	 * @return string         the value of the setting
-	 */
-	public static function setting($string){
-		$s = new Settings();
-		return $s->get('trakt.'.$string);
+	public static function setApiKey($key){
+		self::$api = $key;
 	}
 	
 	/**
@@ -82,6 +62,6 @@ class Trakt{
 	 * @return HttpBot         an intstance of HttpBot
 	 */
 	public function bot($uri){
-		return new HttpBot($uri);
+		return new HttpBot($uri, self::$api);
 	}
 }

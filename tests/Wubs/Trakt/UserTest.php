@@ -1,17 +1,11 @@
 <?php
 
 use Wubs\Trakt\Trakt;
+use Wubs\Settings\Settings;
 
-class UserTest extends \PHPUnit_Framework_TestCase{
+class UserTest extends TraktTestCase{
 	public static function setUpBeforeClass(){
 		date_default_timezone_set('UTC');
-	}
-	public function setUp(){
-
-	}
-
-	public function tearDown(){
-
 	}
 
 	public function testSetUser(){

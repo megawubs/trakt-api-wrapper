@@ -1,11 +1,15 @@
-<?php namespace Wubs\Trakt;
+<?php
 
-class ListTest extends \PHPUnit_Framework_TestCase{
+use Wubs\Trakt\Trakt;
+use Wubs\Settings\Settings;
+
+class ListTest extends TraktTestCase{
 
 	public function setup(){
+		parent::setUp();
 		$this->json = '{
-					"username": "'.Trakt::setting('username').'",
-					"password": "'.Trakt::setting('password').'",
+					"username": "'.$this->s->get('trakt.username').'",
+					"password": "'.$this->s->get('trakt.password').'",
 					"slug": "top-10-of-2013",
 					"items": [
 						{
@@ -42,8 +46,8 @@ class ListTest extends \PHPUnit_Framework_TestCase{
 
 	public function testListAdd(){
 		$params = array(
-				"username"=>Trakt::setting('username')
-				,"password"=>Trakt::setting('password')
+				"username"=>$this->s->get('trakt.username')
+				,"password"=> $this->s->get('trakt.password')
 				,"name"=>"Top 10 of 2013"
 				,"description"=>"These movies and shows really defined 2013 for me."
 				,"privacy"=>"public"
@@ -69,8 +73,8 @@ class ListTest extends \PHPUnit_Framework_TestCase{
 
 	public function testListsUpdate(){
 		$params = array(
-				"username"=>Trakt::setting('username')
-				,"password"=>Trakt::setting('password')
+				"username"=>$this->s->get('trakt.username')
+				,"password"=>$this->s->get('trakt.password')
 				,"slug"=>"top-10-of-2013"
 				,"name"=>"Top 20 of 2013"
 				,"description"=>"These movies and shows really defined 2013 for me."
@@ -83,8 +87,8 @@ class ListTest extends \PHPUnit_Framework_TestCase{
 	}
 	public function testListDelete(){
 		$params = array(
-				"username"=>Trakt::setting('username')
-				,"password"=>Trakt::setting('password')
+				"username"=>$this->s->get('trakt.username')
+				,"password"=>$this->s->get('trakt.password')
 				,"slug"=>"top-20-of-2013");
 		$res = Trakt::post('lists/delete')->setParams($params)->run();
 		$this->assertInternalType('array', $res);

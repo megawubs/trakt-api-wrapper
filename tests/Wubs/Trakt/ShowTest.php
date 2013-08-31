@@ -1,16 +1,8 @@
 <?php
 
 use Wubs\Trakt\Trakt;
-
-class ShowTest extends \PHPUnit_Framework_TestCase{
-
-	public function setUp(){
-		$this->show = Trakt::show(153021);
-	}
-
-	public function tearDown(){
-		unset($this->show);
-	}
+use Wubs\Settings\Settings;
+class ShowTest extends TraktTestCase{
 
 	public function testGetShowObject(){
 		$this->assertInstanceOf('Wubs\\Trakt\\Media\\Show', $this->show);

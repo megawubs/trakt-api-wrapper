@@ -1,12 +1,15 @@
-<?php namespace Wubs\Trakt;
+<?php
 
-class MovieTest extends \PHPUnit_Framework_TestCase{
+use Wubs\Trakt\Trakt;
+use Wubs\Settings\Settings;
+
+class MovieTest extends TraktTestCase{
 
 	public function setUp(){
-		$this->params = Trakt::getParams(array('username', 'password'));
+		parent::setUp();
 		$this->json = '{
-					"username": "'.Trakt::setting('username').'",
-					"password": "'.Trakt::setting('password').'",
+					"username": "'.$this->s->get('trakt.username').'",
+					"password": "'.$this->s->get('trakt.password').'",
 					"movies": [
 						{
 							"imdb_id": "tt0114746",
@@ -19,8 +22,6 @@ class MovieTest extends \PHPUnit_Framework_TestCase{
 				}';
 	}
 
-	public function tearDown(){}
-
 	public function testMovieSeen(){
 		$res = Trakt::post('movie/seen')->setParams($this->json)->run();
 		$this->assertInternalType('array', $res);
@@ -32,8 +33,8 @@ class MovieTest extends \PHPUnit_Framework_TestCase{
 		$result = Trakt::get('search/movies')->setQuery('the matrix', true)->run();
 		$movie = $result[0];
 		$params = array(
-			'username'=>Trakt::setting('username')
-			,'password'=>Trakt::setting('password')
+			'username'=>$this->s->get('trakt.username')
+			,'password'=>$this->s->get('trakt.password')
 			,'imdb_id'=>$movie['imdb_id']
 			,'title'=>$movie['title']
 			,'year'=>$movie['year']
@@ -60,8 +61,8 @@ class MovieTest extends \PHPUnit_Framework_TestCase{
 		$movie = $result[0];
 		// print_r($movie);
 		$params = array(
-			'username'=>Trakt::setting('username')
-			,'password'=>Trakt::setting('password')
+			'username'=>$this->s->get('trakt.username')
+			,'password'=>$this->s->get('trakt.password')
 			,'imdb_id'=>$movie['imdb_id']
 			,'duration' =>$movie['runtime']
 			,'progress'=>25
@@ -83,8 +84,8 @@ class MovieTest extends \PHPUnit_Framework_TestCase{
 		$result = Trakt::get('search/movies')->setQuery('the matrix', true)->run();
 		$movie = $result[0];
 		$params = array(
-			'username'=>Trakt::setting('username')
-			,'password'=>Trakt::setting('password')
+			'username'=>$this->s->get('trakt.username')
+			,'password'=>$this->s->get('trakt.password')
 			,'imdb_id'=>$movie['imdb_id']
 			,'duration' =>$movie['runtime']
 			,'progress'=>25

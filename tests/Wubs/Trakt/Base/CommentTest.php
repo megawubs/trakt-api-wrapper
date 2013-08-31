@@ -1,10 +1,9 @@
-<?php namespace Wubs\Trakt;
+<?php
 
-class CommentTest extends \PHPUnit_Framework_TestCase{
+use Wubs\Trakt\Trakt;
+use Wubs\Settings\Settings;
 
-	public function setUp(){
-		$this->params = Trakt::getParams(array('username', 'password'));
-	}
+class CommentTest extends TraktTestCase{
 
 	public function testCommentShow(){
 		$this->markTestSkipped('Tested once, works!');

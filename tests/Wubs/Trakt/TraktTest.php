@@ -1,10 +1,9 @@
-<?php namespace Wubs\Trakt;
+<?php
 
+use Wubs\Trakt\Trakt;
 use Wubs\Settings\Settings;
-class TraktTest extends \PHPUnit_Framework_TestCase{
-	public function setUp(){
-		$this->params = Trakt::getParams(array('username', 'password'));
-	}
+
+class TraktTest extends TraktTestCase{
 
 	public function testCreateAccount(){
 		$this->markTestSkipped('henk123 already created');
@@ -49,6 +48,12 @@ class TraktTest extends \PHPUnit_Framework_TestCase{
 		$uri = Trakt::post('calendar/premieres')->setParams($this->params)
 		->setDate('20110421')->getUriArray();
 		$this->assertArrayHasKey('date', $uri);
+	}
+
+	public function testUser(){
+		$user = Trakt::user('megawubs');
+		$this->assertInstanceOf('Wubs\\Trakt\\User', $user);
+		$this->assertEquals('megawubs', $user->username);
 	}
 
 

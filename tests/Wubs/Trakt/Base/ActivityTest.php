@@ -1,10 +1,9 @@
-<?php namespace Wubs\Trakt;
+<?php
 
-class ActivityTest extends \PHPUnit_Framework_TestCase{
+use Wubs\Trakt\Trakt;
+use Wubs\Settings\Settings;
 
-	public function setUp(){
-		$this->params = Trakt::getParams(array('username', 'password'));
-	}
+class ActivityTest extends TraktTestCase{
 
 	public function testActivityCommunity(){
 		$res = Trakt::get('activity/community')->run();

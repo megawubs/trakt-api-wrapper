@@ -8,10 +8,11 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {
+    "require-dev": {
         "wubs/json-settings":"dev-master"
     },
     "autoload": {
-            "psr-0": {"Wubs": "src/"}
+            "psr-0": {"Wubs": "src/"},
+            "classmap": ["tests"]
         }
 }
