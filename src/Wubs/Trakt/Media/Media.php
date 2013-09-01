@@ -11,7 +11,6 @@ class Media extends TraktClass{
 	protected $identifier;
 
 	public function __construct($identifier){
-		// parent::__construct();
 		$this->setIdentifier($identifier);
 	}
 
