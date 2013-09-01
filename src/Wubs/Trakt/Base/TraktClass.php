@@ -4,6 +4,7 @@ use Wubs\Trakt\Media\Episode;
 use Wubs\Trakt\Media\Season;
 use Wubs\Trakt\Media\Show;
 use Wubs\Trakt\Base\HttpBot;
+use Wubs\Trakt\Exceptions\TraktException;
 
 class TraktClass{
 	/**
@@ -62,8 +63,14 @@ class TraktClass{
 	 * @return mixed      the stored value of the key
 	 */
 	public function __get($key){
-		if(array_key_exists($key, $this->data[$this->dataKey]['array'])){
-			return $this->data[$this->dataKey]['array'][$key];
+		$data = $this->data[$this->dataKey]['array'];
+		if(array_key_exists($key, $data)){
+			return $data[$key];
+		}
+		elseif(array_key_exists('status', $data)){
+			if($data['status'] == 'error'){
+				throw new TraktException($data['message'], 0);
+			}
 		}
 	}
 
