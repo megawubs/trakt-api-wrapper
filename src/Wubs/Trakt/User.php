@@ -7,8 +7,11 @@ class User extends TraktClass{
 
 	private $inputDateFormat = 'Y-m-d';
 
-	public function __construct($username){
+	private $password;
+
+	public function __construct($username, $password = null){
 		$this->dataKey = 'user/profile';
+		$this->password = $password;
 		$profile = Trakt::get($this->dataKey)->setUsername($username);
 		$this->runAndSave($profile, 'array');
 	}
@@ -45,6 +48,14 @@ class User extends TraktClass{
 
 	private function convertDate(){
 		return date_format($this->dateObject, $this->traktDateFormat);
+	}
+
+	public function setPassword($password){
+		$this->password = $password;
+	}
+
+	public function getPassword(){
+		return $this->password;
 	}
 }
 ?>
