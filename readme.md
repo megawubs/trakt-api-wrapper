@@ -9,18 +9,28 @@ The goal of this wrapper is to make communicating with the Trakt api easier. It 
 
 ### Usage examples
 
-__Post request__
-```PHP
-//getting the params from the settings using Wubs\Settings\Settings inside Trakt as json
-$params = Trakt::getParams(array('username', 'password'));
-//Retrieving account settings from trakt from the account stored in the settings.
-$res = Trakt::post('account/settings')->setParams($params)->run(); //$res is now an array of the json response
-```
-__Post request with custom parameters__
+__setup__
+
+As of now, the api wrapper doesn't use a settings file. Only for the require-dev is a settings library included. This means that you need to provide the wrapper with you api key before you start using it. This is done like so:
 
 ```PHP
-$user = 'megawubs';
-$password = sha1('mysupersecretpassword');
+Trakt::setApiKey('your-api-key');
+
+//continue to use the trakt-api library
+```
+
+__Post request__
+```PHP
+//setting the required parameters
+$params = array('username'=>'john', 'password'=>sha1('ilovejane'));
+//Retrieving account settings from trakt 
+$res = Trakt::post('account/settings')->setParams($params)->run(); //$res is now an array of the json response
+```
+__Another post request__
+
+```PHP
+$user = 'jane';
+$password = sha1('ilovejohn');
 $params = array('username'=>$user, 'password'=>$password, 'tvdb_id'=>205281,'title'=>'Falling Skies', 'year' => 2011, 'comment' => 'It has grown into one of my favorite shows!');
 $res = Trakt::post('comment/show')->setParams($params)->run();
 ```
@@ -42,31 +52,30 @@ $res = Trakt::get('activity/community')->setTypes($types)
 		->run();
 ```
 
-## Todo's
+## Doing right now:
 
-Finish implementing all api requests and the corresponding tests
-
-Create `Wubs\Trakt\Movie`, `Wubs\Trakt\Show`, `Wubs\Trakt\Episode` and `Wubs\Trakt\User` classes that will wrap a lot of `Trakt::get()` and `Trakt::post()` functions together
+As for a time now, i'm done with writing the core and started on writing some wrapper classes/methods for common usage.
 
 __Preview__ 
 
-This is how I think it'll be implemented:
+This is what I'm currently trying to create:
+
 ```PHP
 //initiate the movie
-$movie = Trakt::movie('slug/IMDB ID or TMDB ID');
+$movie = Trakt::movie('riddick-2013'); //can be TVDB id or slug
 
 //some actions
 $success = $movie->checkin();
 $success = $movie->cancleCheckin();
 $success = $movie->addToWatchlist();
-$success = $movie->addToList('list name');
+$success = $movie->addToList('list-name'); //slug of the list name
 
 //a way to get info
 $watchers = $movie->getWatchingNow();
 $comments = $movie->getComments();
 ```
 ## Note
-Development is going fast at the moment. The current working api calls are in the TraktUriOrder.php file. Not all calls are implemented and/or tested yet.
+The api of trakt, just as everything else on the world wide web, changes over time. Currently, this means that when something changes on the api, i have to add these changes to the TraktUriOrder list. 
 
 Feel free to contact me or help development :)
 
