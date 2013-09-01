@@ -2,6 +2,7 @@
 
 use Wubs\Trakt\Media\Media;
 use Wubs\Trakt\Trakt;
+use Wubs\Trakt\User;
 /**
  * Show object that combines a lot of Trakt::get() and 
  * Trakt::post() commands together.
@@ -31,7 +32,6 @@ class Show extends Media{
 		}
 		$this->dataKey = $request;
 		$this->setData($request, $show->run(), 'array');
-		
 	}
 
 	/**
@@ -108,5 +108,43 @@ class Show extends Media{
 	 */
 	public function reviews(){
 		return $this->comments('reviews');
+	}
+
+	/**
+	 * Checks in to the show
+	 * @param  string  $username
+	 * @param  string  $password
+	 * @return bool    Indicator if the checkin was success or not
+	 */
+	public function checkIn($username, $password, $season, $episode, $message, array$shared = array()){
+		$data = $this->getData($this->dataKey, 'array');
+		$params = array(
+			'username'=>$username
+			,'password'=>$password
+			,'season'=> $season
+			,'episode' => $episode
+			,'imdb_id'=> $data['imdb_id']
+			,'tvdb_id' => $data['tvdb_id']
+			,'title' => $data['title']
+			,'year' => $data['year']
+			,'shared'=> $shared
+			,'message' => $message
+			,'app_version'=> Trakt::$version
+		);
+		
+		$res = Trakt::post('show/checkin')->setParams($params)->run();
+		return ($res['status'] == 'success') ? true : false;
+	}
+
+	/**
+	 * Cancels the check-in
+	 * @param  string $username
+	 * @param  string $password
+	 * @return boolean           indicator if cancelCheckin was success 
+	 */
+	public function cancelCheckIn($username, $password){
+		$params = array('username'=>$username, 'password'=>$password);
+		$res = Trakt::post('show/cancelcheckin')->setParams($params)->run();
+		return ($res['status'] == 'success') ? true : false;
 	}
 }
