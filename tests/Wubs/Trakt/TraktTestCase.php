@@ -9,12 +9,15 @@ class TraktTestCase extends PHPUnit_Framework_TestCase{
 		parent::setUp();
 		$this->s = new Settings();
 		Trakt::setApiKey($this->s->get('trakt.api'));
-		$this->params = array("username"=>$this->s->get('trakt.username'), "password"=>$this->s->get('trakt.password'));
-		$this->show = Trakt::show(153021);
+		$password = sha1($this->s->get('trakt.password'));
+		$this->user = Trakt::user($this->s->get('trakt.username'), $password);
+		$this->params = array("username"=>$this->user->username, "password"=>$this->user->getPassword());
+		$this->show = Trakt::show(153021, $this->user); //The Walking Dead
 		$this->key = $this->s->get('trakt.api');
 	}
 
 	public function tearDown(){
-		unset($this->s, $this->params, $this->show, $this->key);
+		unset($this->s, $this->params, $this->show, $this->key, $this->user);
+		parent::tearDown();
 	}
 }

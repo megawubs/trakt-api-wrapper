@@ -96,4 +96,18 @@ class ShowTest extends TraktTestCase{
 			$this->assertEquals('shout', $shout['type']);
 		}
 	}
+
+	public function testCheckInShow(){
+		$username = $this->user->username;
+		$password = $this->user->getPassword();
+		$result = $this->show->checkIn($username, $password, 1, 1, 'Re-watching season one');
+		$this->assertTrue($result);
+	}
+
+	public function testCancleCheckIn(){
+		$username = $this->user->username;
+		$password = $this->user->getPassword();
+		$result = $this->show->cancelCheckIn($username, $password);
+		$this->assertTrue($result);
+	}
 }
