@@ -1,8 +1,9 @@
 <?php namespace Wubs\Trakt\Base;
 
 use Wubs\Trakt\Exceptions\TraktException;
-use Wubs\Trakt\Trakt;;
-class Uri{
+use Wubs\Trakt\Trakt;
+use Wubs\Trakt\Interfaces\UriInterface;
+class Uri implements UriInterface{
 
 	protected $uri = array();
 
@@ -86,6 +87,7 @@ class Uri{
 	 * @param string $uri the first part of the uri
 	 */
 	public function setUri($uri){
+		$this->reset();
 		$this->appendUri('base', $uri);
 		$this->appendUri('api', $this->api);
 		return $this;
@@ -111,17 +113,6 @@ class Uri{
 	}
 
 	/**
-	 * Makes comma separated list from array, with only
-	 * the allowed items in $allowed
-	 * @param  array $array   the array to map to commas
-	 * @param  array $allowed the array with allowed values
-	 * @return string          filtered string with comma's
-	 */
-	protected function filter($var, $key){
-			return str_replace(' ', '', trim($var));
-	}
-
-	/**
 	 * Returns the formated uri
 	 * @return string the uri formated based on $this->required
 	 */
@@ -142,7 +133,7 @@ class Uri{
 	 * @return string the uri formatted in the right order.
 	 * @throws TraktException If required api request part isn't set
 	 */
-	protected function generateUri(){
+	public function generateUri(){
 		$uri = $this->uri['base'];
 		$uri .='/'.$this->uri['api'];
 		//check if start_ts is set when end_ts is set
@@ -182,41 +173,6 @@ class Uri{
 		}
 		return $uri;
 	}
-	/**
-	 * magic method, runs when method called isnt found. 
-	 * checks based on the uri order if set* method can be called.
-	 * @param string $name the name of the method
-	 * @param array $params the parameters given to the method
-	 * @throws TraktException If the called set* method isn't in uriOrder
-	 * @throws TraktException If $name doesn't start with 'set'
-	 */
-	public function __call($name, $params){
-		//encode part if second parameter is set to true
-		if(count($params) > 1){
-			if($params[1] === true){
-				$params[0] = urlencode($params[0]);
-			}
-		}
-		if(strstr($name, 'set')){
-			$part = strtolower(substr($name, 3));
-			$param = $this->filter($params[0], $part);
-			if(in_array($part, $this->uriOrder)){
-				return $this->appendUri($part, $param);
-			}
-			elseif($part[strlen($part)-1] === 's'){
-				$part = substr_replace($part, '', -1);
-				if(in_array($part, $this->uriOrder)){
-					return $this->appendUri($part, $param);
-				}
-			}
-			else{
-				throw new TraktException("Setting $part is not required for this call", 1);
-			}
-		}
-		else{
-			throw new TraktException("Called method does not exists", 1);
-		}
-	}
 	
 	public function getUriOrder(){
 		return $this->uriOrder;
@@ -224,5 +180,9 @@ class Uri{
 
 	public function getUriRequired(){
 		return $this->required;
+	}
+
+	private function reset(){
+		$this->uri = array();
 	}
 }

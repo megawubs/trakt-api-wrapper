@@ -4,9 +4,28 @@ use Wubs\Trakt\Trakt;
 use Wubs\Settings\Settings;
 class ShowTest extends TraktTestCase{
 
+	public function setUp(){
+		parent::setUp();
+		$this->show = Trakt::show(153021); //The Walking Dead
+		$this->show->setUser($this->user);
+	}
+
+	public function tearDown(){
+		unset($this->user, $this->show);
+	}
+
 	public function testGetShowObject(){
 		$this->assertInstanceOf('Wubs\\Trakt\\Media\\Show', $this->show);
 		$this->assertEquals('The Walking Dead', $this->show->title);
+	}
+
+
+	public function testSetUserOnShowObject(){
+		$show = Trakt::show(153021);
+		$user = Trakt::user($this->s->get('trakt.username'), $this->s->get('trakt.password'));
+		$show->setUser($user);
+		$this->assertInstanceOf('Wubs\\Trakt\\User', $show->getUser());
+		$this->assertEquals($user, $show->getUser());
 	}
 
 	public function testGetShowSeasons(){
@@ -98,16 +117,26 @@ class ShowTest extends TraktTestCase{
 	}
 
 	public function testCheckInShow(){
-		$username = $this->user->username;
-		$password = $this->user->getPassword();
-		$result = $this->show->checkIn($username, $password, 1, 1, 'Re-watching season one');
+		$result = $this->show->checkIn(1, 1, 'Re-watching season one');
 		$this->assertTrue($result);
 	}
 
-	public function testCancleCheckIn(){
-		$username = $this->user->username;
+	public function testCancelCheckIn(){
+		$result = $this->show->cancelCheckIn();
+		$this->assertTrue($result);
+	}
+
+	public function testShowWatching(){
+		$season = 1;
+		$episode = 2;
+		$progress = 25;
+		$result = $this->show->watching($season, $episode, $progress);
+		$this->assertTrue($result);
+	}
+
+	public function testCancleWatching(){
 		$password = $this->user->getPassword();
-		$result = $this->show->cancelCheckIn($username, $password);
+		$result = $this->show->cancelWatching();
 		$this->assertTrue($result);
 	}
 }

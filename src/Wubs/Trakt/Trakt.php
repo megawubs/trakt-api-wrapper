@@ -1,6 +1,7 @@
 <?php namespace Wubs\Trakt;
 
 use Wubs\Trakt\Exceptions\TraktException;
+use Wubs\Trakt\Base\Uri;
 use Wubs\Trakt\Base\HttpBot;
 use Wubs\Trakt\User;
 use Wubs\Trakt\Media\Show;
@@ -25,7 +26,7 @@ class Trakt{
 	 * @param  string $name A username from tratk.tv
 	 * @return Wubs\Trakt\User       A object containing the user data;
 	 */
-	public static function user($name, $password){
+	public static function user($name, $password = null){
 		return new User($name, $password);
 	}
 	
@@ -63,6 +64,7 @@ class Trakt{
 	 * @return HttpBot         an intstance of HttpBot
 	 */
 	public function bot($uri){
-		return new HttpBot($uri, self::$api);
+		$uri = new Uri($uri, self::$api);
+		return new HttpBot($uri);
 	}
 }

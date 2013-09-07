@@ -1,8 +1,9 @@
 <?php namespace Wubs\Trakt\Base;
 
 use Wubs\Trakt\Exceptions\TraktException;
+use Wubs\Trakt\Interfaces\HttpBotInterface;
 
-class HttpBot extends Uri{
+class HttpBot implements HttpBotInterface{
 
 	protected $params = null;
 	
@@ -12,8 +13,9 @@ class HttpBot extends Uri{
 	
 	private $response;
 
-	public function __construct($uri, $api){
-		parent::__construct($uri, $api);
+	public function __construct(Uri $uri){
+		$this->uri = $uri;
+		// parent::__construct($uri, $api);
 	}
 
 	public function setParams($params){
@@ -35,7 +37,7 @@ class HttpBot extends Uri{
 	 */
 	public function run($uri = ''){
 		if($uri != ''){
-			$this->setUri($uri);
+			$this->uri->setUri($uri);
 		}
 	
 		if($this->execute()){
@@ -93,8 +95,12 @@ class HttpBot extends Uri{
 		}
 	}
 
+	public function setUri($uri){
+		$this->uri->setUri($uri);
+	}
+
 	private function generateUrl(){
-		$this->url .= $this->generateUri();
+		$this->url .= $this->uri->generateUri();
 	}
 
 	public function getResponse(){
@@ -106,7 +112,7 @@ class HttpBot extends Uri{
 	 * @return string
 	 */
 	public function getUrl(){
-		return $this->url.$this->generateUri();
+		return $this->url;//.$this->uri->generateUri();
 	}
 	
 	/**
@@ -127,5 +133,56 @@ class HttpBot extends Uri{
 		else{
 			return $this->params;
 		}
+	}
+
+	/**
+	 * Makes comma separated list from array, with only
+	 * the allowed items in $allowed
+	 * @param  array $array   the array to map to commas
+	 * @param  array $allowed the array with allowed values
+	 * @return string          filtered string with comma's
+	 */
+	protected function filter($var, $key){
+			return str_replace(' ', '', trim($var));
+	}
+
+	/**
+	 * magic method, runs when method called isnt found. 
+	 * checks based on the uri order if set* method can be called.
+	 * @param string $name the name of the method
+	 * @param array $params the parameters given to the method
+	 * @throws TraktException If the called set* method isn't in uriOrder
+	 * @throws TraktException If $name doesn't start with 'set'
+	 */
+	public function __call($name, $params){
+		//encode part if second parameter is set to true
+		if(count($params) > 1){
+			if($params[1] === true){
+				$params[0] = urlencode($params[0]);
+			}
+		}
+		if(strstr($name, 'set')){
+			$part = strtolower(substr($name, 3));
+			$param = $this->filter($params[0], $part);
+			if(in_array($part, $this->uri->getUriArray())){
+				return $this->uri->appendUri($part, $param);
+			}
+			elseif($part[strlen($part)-1] === 's'){
+				$part = substr_replace($part, '', -1);
+				if(in_array($part, $this->uriOrder)){
+					return $this->uri->appendUri($part, $param);
+				}
+			}
+			else{
+				throw new TraktException("Setting $part is not required for this call", 1);
+			}
+		}
+		else{
+			throw new TraktException("Called method '$name' does not exists", 0);
+		}
+	}
+
+	public function getUri(){
+		return $this->uri;
 	}
 }

@@ -16,6 +16,7 @@ use Wubs\Trakt\User;
  */
 class Show extends Media{
 
+	protected $type = 'show';
 	/**
 	 * Initiates the Show by preforming the show/summary request
 	 * all non found propertys will be searched in this array
@@ -25,13 +26,14 @@ class Show extends Media{
 	 */
 	public function __construct($identifier, $extended = false){
 		parent::__construct($identifier);
-		$request = 'show/summary';
-		$show = Trakt::get($request)->setTitle($this->identifier);
+		$request = 'summary';
+		$show = $this->get($request)->setTitle($this->identifier);
 		if($extended){
 			$show->setExtended($extended);
 		}
-		$this->dataKey = $request;
-		$this->setData($request, $show->run(), 'array');
+		$this->setDataKey($request);
+		$this->runAndSave($show, 'array');
+		// $this->setData($request, $show->run(), 'array');
 	}
 
 	/**
@@ -44,12 +46,11 @@ class Show extends Media{
 	 * @return array the mapped response from Trakt
 	 */
 	public function seasons($map = true){
-		$uri = 'show/seasons';
-		$request = Trakt::get($uri)->setTitle($this->identifier);
+		$uri = 'seasons';
+		$request = $this->get($uri)->setTitle($this->identifier);
 		$seasons = $this->runAndSave($request, 'array');
 		if($map){
-			$seasons = $this->mapSeasons($seasons);
-			return $this->setData($uri, $seasons, 'object'); //populates the 'object' key of $this->data[$request]
+			return $this->mapSeasons($seasons);
 		}
 		else{
 			return $seasons;
@@ -63,7 +64,6 @@ class Show extends Media{
 	 * @return array         Mapped list of episodes for this season
 	 */
 	public function season($number, $map = true){
-		$dataKey = 'show/season';
 		$seasons = $this->seasons($map);
 		foreach ($seasons as $season) {
 			//make sure we can always access the season
@@ -87,7 +87,7 @@ class Show extends Media{
 	 */
 	public function comments($type = 'all'){
 		$types = array('shouts', 'reviews', 'all');
-		$comments = Trakt::get('show/comments')->setTitle($this->identifier);
+		$comments = $this->get('comments')->setTitle($this->identifier);
 		if(in_array($type, $types)){
 			$comments->setType($type);
 		}
@@ -116,11 +116,12 @@ class Show extends Media{
 	 * @param  string  $password
 	 * @return bool    Indicator if the checkin was success or not
 	 */
-	public function checkIn($username, $password, $season, $episode, $message, array$shared = array()){
+	public function checkIn($season, $episode, $message = null, $username = null, $password = null, array$shared = array()){
+		$user = $this->resolveUser($username, $password);
 		$data = $this->getData($this->dataKey, 'array');
 		$params = array(
-			'username'=>$username
-			,'password'=>$password
+			'username'=>$user->username
+			,'password'=>$user->getPassword()
 			,'season'=> $season
 			,'episode' => $episode
 			,'imdb_id'=> $data['imdb_id']
@@ -131,9 +132,8 @@ class Show extends Media{
 			,'message' => $message
 			,'app_version'=> Trakt::$version
 		);
-		
-		$res = Trakt::post('show/checkin')->setParams($params)->run();
-		return ($res['status'] == 'success') ? true : false;
+		$res = $this->post('checkin', $params);
+		return $this->checkStatus($res);
 	}
 
 	/**
@@ -142,9 +142,37 @@ class Show extends Media{
 	 * @param  string $password
 	 * @return boolean           indicator if cancelCheckin was success 
 	 */
-	public function cancelCheckIn($username, $password){
-		$params = array('username'=>$username, 'password'=>$password);
-		$res = Trakt::post('show/cancelcheckin')->setParams($params)->run();
-		return ($res['status'] == 'success') ? true : false;
+	public function cancelCheckIn($username = null, $password = null){
+		$user = $this->resolveUser($username, $password);
+		$params = array('username'=>$user->username, 'password'=>$user->getPassword());
+		$res = $this->post('cancelcheckin', $params);
+		return $this->checkStatus($res);
+	}
+
+	public function watching($season, $episode, $progress, $username = null, $password = null){
+		$user = $this->resolveUser($username, $password);
+		$data = $this->getData($this->dataKey, 'array');
+		$params = array(
+			'username'=>$user->username
+			,'password'=>$user->getPassword()
+			,'season'=> $season
+			,'episode' => $episode
+			,'imdb_id'=> $data['imdb_id']
+			,'tvdb_id' => $data['tvdb_id']
+			,'title' => $data['title']
+			,'year' => $data['year']
+			,'plugin_version'=> Trakt::$version
+			,'progress' => $progress
+		);
+		$res = $this->post('watching', $params);
+		return $this->checkStatus($res);
+	}
+
+	public function cancelWatching($username = null, $password = null){
+		$user = $this->resolveUser($username, $password);
+		$params = $user->getAuthParams();
+		$res = $this->post('cancelwatching', $user->getAuthParams());
+		return $this->checkStatus($res);
+		
 	}
 }

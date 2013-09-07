@@ -5,6 +5,7 @@ use Wubs\Trakt\Media\Season;
 use Wubs\Trakt\Media\Show;
 use Wubs\Trakt\Base\HttpBot;
 use Wubs\Trakt\Exceptions\TraktException;
+use Wubs\Trakt\Trakt;
 
 class TraktClass{
 	/**
@@ -13,6 +14,8 @@ class TraktClass{
 	 * @var array
 	 */
 	protected $data = array();
+
+	protected $type;
 
 	protected $dataKey;
 
@@ -24,6 +27,9 @@ class TraktClass{
 	 */
 	protected $identifier;
 
+	protected function setDataKey($key){
+		$this->dataKey = $this->type . '/' . $key; 
+	}
 	/**
 	 * Checks if the given request has already been made
 	 * by checking if $this->data has the provided 
@@ -41,8 +47,17 @@ class TraktClass{
 	 * @param array $data the response or mapped from trakt.
 	 */
 	protected function setData($request, $data, $type = null){
+		echo "SetData for: $request\n";
+		// $request = $this->type . '/' . $request;
 		$type = (is_null($type)) ? gettype($data) : $type;
-		$this->data[$request][$type] = $data;
+		if(array_key_exists($request, $this->data)){
+			$this->data[$request][$type] = $data;
+			var_dump($data);
+		}
+		else{
+			$this->data[$request] = array("$type" => $data);
+		}
+		
 		return $data;
 	}
 
@@ -63,7 +78,8 @@ class TraktClass{
 	 * @return mixed      the stored value of the key
 	 */
 	public function __get($key){
-		$data = $this->data[$this->dataKey]['array'];
+		$dataKey = $this->dataKey;
+		$data = $this->data[$dataKey]['array'];
 		if(array_key_exists($key, $data)){
 			return $data[$key];
 		}
@@ -76,6 +92,7 @@ class TraktClass{
 
 	protected function runAndSave(HttpBot $bot, $type){
 		$uri = $bot->getUri(true);
+		echo "$uri \n";
 		if(!$this->requestHasMade($uri)){
 			return $this->setData($uri, $bot->run(), $type);
 		}
@@ -98,5 +115,28 @@ class TraktClass{
 
 	protected function mapEpisode($episodeData){
 		// print_r($episodeData);
+	}
+
+	/**
+	 * Helper function to check if the response was success
+	 * @param  array $res
+	 * @return boolean
+	 */
+	protected function checkStatus($res){
+		return ($res['status'] == 'success') ? true : false;
+	}
+
+	/**
+	 * Helper function for posting to trakt
+	 * @param  string $uri    the api end point
+	 * @param  array|string $params the parameters for the post request. either an array or a json srting
+	 * @return array         the response from trakt
+	 */
+	protected function post($uri, $params){
+		return Trakt::post($this->type.'/'.$uri)->setParams($params)->run();
+	}
+
+	protected function get($uri){
+		return Trakt::get($this->type.'/'.$uri);
 	}
 }

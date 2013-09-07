@@ -9,12 +9,20 @@ class UserTest extends TraktTestCase{
 	}
 
 	public function testSetUser(){
-		$user = Trakt::user($this->s->get('trakt.user'));
+		$user = Trakt::user($this->s->get('trakt.username'));
 		$this->assertInstanceOf('Wubs\\Trakt\\User', $user);
 	}
 
+	/**
+	 * @expectedException Wubs\Trakt\Exceptions\TraktException
+	 */
+	public function testGetPasswordWhenNoPasswordIsSet(){
+		$user = Trakt::user($this->s->get('trakt.username'));
+		$user->getPassword();
+	}
+
 	public function testUserGetShowsInCalendarWithDateAsEpisodeInstance(){
-		$user = Trakt::user($this->s->get('trakt.user'));
+		$user = Trakt::user($this->s->get('trakt.username'));
 		$calendar = $user->getCalendar('2013-07-18');
 		// foreach ($calendar[0]['episodes'] as $episode) {
 		// 	$this->assertInstanceOf('Wubs\\Trakt\\Episode', $episode);
@@ -25,13 +33,11 @@ class UserTest extends TraktTestCase{
 	 * @expectedException Wubs\Trakt\Exceptions\TraktException
 	 */
 	public function testUserGetShowInCalendarWithWrongDateFormat(){
-		$user = Trakt::user($this->s->get('trakt.user'));
+		$user = Trakt::user($this->s->get('trakt.username'));
 		$calendar = $user->getCalendar('12-08-2012');
 	}
 
 	public function testUserWithPassword(){
-		// $username = $this->s->get('trakt.username');
-		// $password = sha1($this->s->get('trakt.password'));
 		$username = $this->user->username;
 		$password = $this->user->getPassword();
 		$this->assertNotNull($password);

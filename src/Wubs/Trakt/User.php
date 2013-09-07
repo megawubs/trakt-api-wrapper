@@ -4,20 +4,23 @@ use Wubs\Trakt\Exceptions\TraktException;
 use Wubs\Trakt\Base\TraktClass;
 
 class User extends TraktClass{
+	protected $type = 'user';
 
 	private $inputDateFormat = 'Y-m-d';
 
-	private $password;
+	private $password = null;
 
 	public function __construct($username, $password = null){
-		$this->dataKey = 'user/profile';
-		$this->password = $password;
-		$profile = Trakt::get($this->dataKey)->setUsername($username);
+		$this->setDataKey('profile');
+		if($password != null){
+			$this->password = $password;
+		}
+		$profile = $this->get('profile')->setUsername($username);
 		$this->runAndSave($profile, 'array');
 	}
 
 	public function getCalendar($date = false, $days = false, $map = false){
-		$calendar = Trakt::get('user/calendar/shows')->setUsername($this->username);
+		$calendar = $this->get('calendar/shows')->setUsername($this->username);
 		// check if the date provided is a valid date
 		if($date){
 			if($this->checkDate($date)){
@@ -55,7 +58,17 @@ class User extends TraktClass{
 	}
 
 	public function getPassword(){
-		return $this->password;
+		if($this->password != null){
+			return $this->password;
+		}
+		else{
+			throw new TraktException("Trying to access password while it isn't set", 1);
+			
+		}
+	}
+
+	public function getAuthParams(){
+		return array('username'=>$this->username, 'password'=>$this->getPassword());
 	}
 }
 ?>
