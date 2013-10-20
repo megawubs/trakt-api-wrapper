@@ -27,7 +27,7 @@ class TraktTest extends TraktTestCase{
 	}
  
 	public function testGetParams(){
-		$this->assertInternalType('string', $this->params);
+		$this->assertInternalType('array', $this->params);
 	}
 
 	public function testPostTestRequest(){
@@ -46,7 +46,7 @@ class TraktTest extends TraktTestCase{
 
 	public function testMagicSetter(){
 		$uri = Trakt::post('calendar/premieres')->setParams($this->params)
-		->setDate('20110421')->getUriArray();
+		->setDate('20110421')->uri->getUriArray();
 		$this->assertArrayHasKey('date', $uri);
 	}
 

@@ -8,7 +8,7 @@ class Episode extends Media{
 
 	public function __construct($identifier, Show $show = null){
 		if(is_null($show)){
-			$this->show = new Show();
+			$this->show = new Show($identifier);
 		}
 		else{
 			$this->show = $show;

@@ -58,9 +58,10 @@ class Show extends Media{
 	}
 
 	/**
-	 * Gets the given season from trakt, with the season data 
+	 * Gets the given season from trakt, with the season data
 	 * in the 'data' key. All Episodes are mapped to Wubs\Trakt\Episode
 	 * @param  integer $number the number of the season
+	 * @param bool $map
 	 * @return array         Mapped list of episodes for this season
 	 */
 	public function season($number, $map = true){
@@ -112,8 +113,12 @@ class Show extends Media{
 
 	/**
 	 * Checks in to the show
-	 * @param  string  $username
-	 * @param  string  $password
+	 * @param $season
+	 * @param $episode
+	 * @param null $message
+	 * @param  string $username
+	 * @param  string $password
+	 * @param array $shared
 	 * @return bool    Indicator if the checkin was success or not
 	 */
 	public function checkIn($season, $episode, $message = null, $username = null, $password = null, array$shared = array()){
@@ -170,7 +175,6 @@ class Show extends Media{
 
 	public function cancelWatching($username = null, $password = null){
 		$user = $this->resolveUser($username, $password);
-		$params = $user->getAuthParams();
 		$res = $this->post('cancelwatching', $user->getAuthParams());
 		return $this->checkStatus($res);
 		

@@ -5,7 +5,7 @@ use Wubs\Trakt\Trakt;
 
 class Season extends Media{
 
-	protected $type = 'season';
+	protected $type = 'show';
 
 	public function __construct($identifier, array$info){
 		parent::__construct($identifier);
@@ -15,7 +15,7 @@ class Season extends Media{
 
 	public function episodes($map = true){
 		$request = $this->get('season')->setTitle($this->identifier)->setSeason($this->season);
-		$episodes = $this->runAndSave($request);
+		$episodes = $this->runAndSave($request, 'array');
 		return $episodes;
 	}
 }

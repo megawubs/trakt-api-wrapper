@@ -38,6 +38,7 @@ class TraktClass{
 	 * @return boolean       true when the key exists
 	 */
 	protected function requestHasMade($request){
+		$request = (string) $request;
 		return array_key_exists($request, $this->data);
 	}
 
@@ -45,11 +46,14 @@ class TraktClass{
 	 * Sets the data for $this->data
 	 * @param string $request the uri for the request
 	 * @param array $data the response or mapped from trakt.
+	 * @param null $type
+	 * @return array
 	 */
 	protected function setData($request, $data, $type = null){
 		echo "SetData for: $request\n";
 		// $request = $this->type . '/' . $request;
 		$type = (is_null($type)) ? gettype($data) : $type;
+		$request = (string) $request;
 		if(array_key_exists($request, $this->data)){
 			$this->data[$request][$type] = $data;
 			var_dump($data);
@@ -62,6 +66,7 @@ class TraktClass{
 	}
 
 	protected function getData($request, $type){
+		$request = (string) $request;
 		return $this->data[$request][$type];
 	}
 
@@ -70,11 +75,12 @@ class TraktClass{
 	}
 
 	/**
-	 * Magical getter. 
+	 * Magical getter.
 	 *
 	 * Searches the requested property in $this->data[$this->dataKey]
 	 * and returns it if it finds it.
 	 * @param  string $key the name of the key
+	 * @throws \Wubs\Trakt\Exceptions\TraktException
 	 * @return mixed      the stored value of the key
 	 */
 	public function __get($key){

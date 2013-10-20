@@ -2,8 +2,8 @@
 
 use Wubs\Trakt\Exceptions\TraktException;
 use Wubs\Trakt\Trakt;
-use Wubs\Trakt\Interfaces\UriInterface;
-class Uri implements UriInterface{
+
+class Uri{
 
 	protected $uri = array();
 
@@ -18,12 +18,13 @@ class Uri implements UriInterface{
 	private $base;
 
 	private $api;
-	
+
 	/**
 	 * Initiates the uri object by getting a list
 	 * of exsisting api requests, the order, required and
 	 * format set per request.
 	 * @param  string $base the api start point
+	 * @param $api
 	 */
 	public function __construct($base, $api){
 		$this->base = $base;
@@ -60,6 +61,7 @@ class Uri implements UriInterface{
 	/**
 	 * Sets the uriOrder
 	 * @param array $order
+	 * @return $this
 	 */
 	private function setUriOrder(array$order){
 		$this->uriOrder = $order;
@@ -69,6 +71,7 @@ class Uri implements UriInterface{
 	/**
 	 * Sets the required parts for the uri
 	 * @param array $required list of requiered uri parts
+	 * @return $this
 	 */
 	private function setRequired(array$required){
 		$this->required = $required;
@@ -85,6 +88,7 @@ class Uri implements UriInterface{
 	/**
 	 * Sets the uri
 	 * @param string $uri the first part of the uri
+	 * @return $this
 	 */
 	public function setUri($uri){
 		$this->reset();
@@ -97,6 +101,7 @@ class Uri implements UriInterface{
 	 * appends the uri
 	 * @param string $part the name of the uri part
 	 * @param mixed $uri the value for the uri part
+	 * @return $this
 	 */
 	public function appendUri($part, $uri){
 		$uri = str_replace(' ', '', $uri);
@@ -114,6 +119,7 @@ class Uri implements UriInterface{
 
 	/**
 	 * Returns the formated uri
+	 * @param bool $base
 	 * @return string the uri formated based on $this->required
 	 */
 	public function getUri($base = false){
@@ -184,5 +190,9 @@ class Uri implements UriInterface{
 
 	private function reset(){
 		$this->uri = array();
+	}
+
+	public function __toString(){
+		return $this->base;
 	}
 }

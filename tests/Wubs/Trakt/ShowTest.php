@@ -4,6 +4,8 @@ use Wubs\Trakt\Trakt;
 use Wubs\Settings\Settings;
 class ShowTest extends TraktTestCase{
 
+	public $show;
+
 	public function setUp(){
 		parent::setUp();
 		$this->show = Trakt::show(153021); //The Walking Dead

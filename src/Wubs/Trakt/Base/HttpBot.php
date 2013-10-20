@@ -31,9 +31,9 @@ class HttpBot implements HttpBotInterface{
 	 * Runs the bot
 	 * @param  string $uri the trakt api request string like
 	 * 'account/test'
-	 * @return array      the response from the api 
+	 * @throws \Wubs\Trakt\Exceptions\TraktException
+	 * @return array      the response from the api
 	 * call mapped to an array
-	 * @throws TraktExceptoin If api call fails to execute
 	 */
 	public function run($uri = ''){
 		if($uri != ''){
@@ -47,8 +47,10 @@ class HttpBot implements HttpBotInterface{
 			throw new TraktException("Failed requesting $this->url, got response: ".json_encode($this->response)." With parameters: ".$this->getParameters(), 1);
 		}
 	}
+
 	/**
 	 * execute the http post or get request
+	 * @throws \Wubs\Trakt\Exceptions\TraktException
 	 * @return string the result from the request
 	 */
 	public function execute(){
@@ -83,6 +85,8 @@ class HttpBot implements HttpBotInterface{
 	/**
 	 * sets the type of the http request
 	 * @param string $type get or post
+	 * @throws \Wubs\Trakt\Exceptions\TraktException
+	 * @return $this
 	 */
 	public function setHTTPType($type){
 		$types = array('get', 'post');
@@ -138,9 +142,9 @@ class HttpBot implements HttpBotInterface{
 	/**
 	 * Makes comma separated list from array, with only
 	 * the allowed items in $allowed
-	 * @param  array $array   the array to map to commas
-	 * @param  array $allowed the array with allowed values
-	 * @return string          filtered string with comma's
+	 * @param $var
+	 * @param $key
+	 * @return string filtered string with comma's
 	 */
 	protected function filter($var, $key){
 			return str_replace(' ', '', trim($var));
@@ -151,6 +155,7 @@ class HttpBot implements HttpBotInterface{
 	 * checks based on the uri order if set* method can be called.
 	 * @param string $name the name of the method
 	 * @param array $params the parameters given to the method
+	 * @return $this
 	 * @throws TraktException If the called set* method isn't in uriOrder
 	 * @throws TraktException If $name doesn't start with 'set'
 	 */
@@ -164,13 +169,16 @@ class HttpBot implements HttpBotInterface{
 		if(strstr($name, 'set')){
 			$part = strtolower(substr($name, 3));
 			$param = $this->filter($params[0], $part);
-			if(in_array($part, $this->uri->getUriArray())){
-				return $this->uri->appendUri($part, $param);
+			if(in_array($part, $this->uri->getUriOrder())){
+				$this->uri->appendUri($part, $param);
+				return $this;
 			}
-			elseif($part[strlen($part)-1] === 's'){
+			//get last char to check if they are setting more of something
+			elseif($part[strlen($part)-1] === 's'){ 
 				$part = substr_replace($part, '', -1);
-				if(in_array($part, $this->uriOrder)){
-					return $this->uri->appendUri($part, $param);
+				if(in_array($part, $this->uri->getUriOrder())){
+					$this->uri->appendUri($part, $param);
+					return $this;
 				}
 			}
 			else{

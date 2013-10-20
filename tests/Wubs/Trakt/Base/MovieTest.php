@@ -5,6 +5,8 @@ use Wubs\Settings\Settings;
 
 class MovieTest extends TraktTestCase{
 
+	public $json;
+
 	public function setUp(){
 		parent::setUp();
 		$this->json = '{
@@ -106,7 +108,7 @@ class MovieTest extends TraktTestCase{
 
 	public function testMovieRelated(){
 		$res = Trakt::get('movie/related')->setTitle('tt0111161', true)->setHideWatched('false');
-		$uri = $res->getUriArray();
+		$uri = $res->uri->getUriArray();
 		$this->assertArrayHasKey('hidewatched', $uri);
 		$this->assertEquals('false', $uri['hidewatched']);
 		$res = $res->run();

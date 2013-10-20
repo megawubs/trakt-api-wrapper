@@ -5,6 +5,8 @@ use Wubs\Settings\Settings;
 
 class ListTest extends TraktTestCase{
 
+	public $json;
+
 	public function setup(){
 		parent::setUp();
 		$this->json = '{
@@ -47,7 +49,7 @@ class ListTest extends TraktTestCase{
 	public function testListAdd(){
 		$params = array(
 				"username"=>$this->s->get('trakt.username')
-				,"password"=> $this->s->get('trakt.password')
+				,"password"=> sha1($this->s->get('trakt.password'))
 				,"name"=>"Top 10 of 2013"
 				,"description"=>"These movies and shows really defined 2013 for me."
 				,"privacy"=>"public"
@@ -66,7 +68,7 @@ class ListTest extends TraktTestCase{
 
 	}
 
-	public function testListsDelteItems(){
+	public function testListsDeleteItems(){
 		$res = Trakt::post('lists/items/delete')->setParams($this->json)->run();
 		$this->assertEquals("4 items deleted", $res['message']);
 	}
@@ -97,4 +99,3 @@ class ListTest extends TraktTestCase{
 		$this->assertContains('deleted', $res['message']);
 	}
 }
-?>

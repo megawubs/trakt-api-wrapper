@@ -31,7 +31,8 @@ class Media extends TraktClass{
 
 	/**
 	 * Sets $this->user
-	 * @param Wubs\Trakt\User $user an existing user object
+	 * @param User $user an existing user object
+	 * @return $this
 	 */
 	public function setUser(User $user){
 		$this->user = $user;
@@ -58,13 +59,13 @@ class Media extends TraktClass{
 	}
 
 	/**
-	 * Resolves the user object. Returns this->user if it matches 
+	 * Resolves the user object. Returns this->user if it matches
 	 * the given username. If not, it'll create a new user instance.
 	 * When $this->user doesn't exists it'll create a new instance of User.
 	 * @param  string $username
 	 * @param  string $password sha1 hash of the user's password
+	 * @throws \Wubs\Trakt\Exceptions\TraktException If the user can't be resolved.
 	 * @return Wubs\Trakt\User
-	 * @throws Wubs\Trakt\Exceptions\TraktException If the user can't be resolved.
 	 */
 	public function resolveUser($username = null, $password = null){
 		if($username != null){
