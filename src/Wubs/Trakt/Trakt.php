@@ -7,14 +7,14 @@ use Wubs\Trakt\Media\Show;
 
 class Trakt{
 
-	public static $api;
+	public static $apiKey;
 
 	public static $version = '0.1';
 
 	/**
 	 * Return a new show object
 	 * @param  mixed $identifier Either the slug (i.e. the-walking-dead) or TVDB ID.
-	 * @return Wubs\Trakt\Show             The show data mapped as a object
+	 * @return Show             The show data mapped as a object
 	 */
 	public static function show($identifier){
 		return new Show($identifier);
@@ -24,7 +24,7 @@ class Trakt{
 	 * Create a new trakt user object
 	 * @param  string $name A username from tratk.tv
 	 * @param null $password
-	 * @return Wubs\Trakt\User       A object containing the user data;
+	 * @return User       A object containing the user data;
 	 */
 	public static function user($name, $password = null){
 		return new User($name, $password);
@@ -55,7 +55,7 @@ class Trakt{
 	 * @param string $key your trakt api key (see your account to find it)
 	 */
 	public static function setApiKey($key){
-		self::$api = $key;
+		self::$apiKey = $key;
 	}
 	
 	/**
@@ -64,7 +64,7 @@ class Trakt{
 	 * @return HttpBot         an intstance of HttpBot
 	 */
 	public function bot($uri){
-		$uri = new Uri($uri, self::$api);
+		$uri = new Uri($uri, self::$apiKey);
 		return new HttpBot($uri);
 	}
 }

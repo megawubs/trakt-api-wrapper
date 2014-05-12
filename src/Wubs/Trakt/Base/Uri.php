@@ -17,18 +17,18 @@ class Uri{
 
 	private $base;
 
-	private $api;
+	private $apiKey;
 
 	/**
 	 * Initiates the uri object by getting a list
 	 * of exsisting api requests, the order, required and
 	 * format set per request.
 	 * @param  string $base the api start point
-	 * @param $api
+	 * @param $apiKey
 	 */
-	public function __construct($base, $api){
+	public function __construct($base, $apiKey){
 		$this->base = $base;
-		$this->api = $api;
+		$this->apiKey = $apiKey;
 		$this->setUriOrderAndRequired($base);
 		//place the .format part (most of the time its empty or .json)
 		$uri = (is_string($this->format)) ? $base.'.'.$this->format : $base;
@@ -36,7 +36,7 @@ class Uri{
 	}
 	
 	/**
-	 * gets the list with availble api calls and 
+	 * gets the list with available api calls and
 	 * stores them. Sets uriOrder and uriRequired based on
 	 * $base
 	 * @param  string $base the api start point
@@ -93,7 +93,7 @@ class Uri{
 	public function setUri($uri){
 		$this->reset();
 		$this->appendUri('base', $uri);
-		$this->appendUri('api', $this->api);
+		$this->appendUri('api', $this->apiKey);
 		return $this;
 	}
 
@@ -114,7 +114,7 @@ class Uri{
 	 */
 	public function addApiToUri(){
 		// $api = Trakt::setting('api');
-		return $this->appendUri('api', $this->api);
+		return $this->appendUri('api', $this->apiKey);
 	}
 
 	/**
@@ -174,7 +174,13 @@ class Uri{
 						}
 					}
 				}
-				$uri .= '/'.$this->uri[$part];
+				if($index === 0){
+					$uri .= '?' . $part . '=' . $this->uri[$part];
+				}
+				else{
+
+				}
+				$uri .= '?' . $part . '=' .$this->uri[$part];
 			}
 		}
 		return $uri;

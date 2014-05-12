@@ -2,12 +2,8 @@
 	<testsuites>
         <testsuite name="base">
             <folder>tests/Wubs/Trakt/Base</folder>
-            <file>tests/Wubs/Trakt/TraktTest.php</file>
         </testsuite>
         <testsuite name="types">
-            <file>tests/Wubs/Trakt/SeasonTest.php</file>
-            <file>tests/Wubs/Trakt/ShowTest.php</file>
-            <file>tests/Wubs/Trakt/UserTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>

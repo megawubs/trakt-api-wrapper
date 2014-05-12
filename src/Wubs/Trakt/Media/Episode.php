@@ -1,6 +1,7 @@
 <?php namespace Wubs\Trakt\Media;
 
 use Wubs\Trakt\Media\Media;
+
 class Episode extends Media{
 	public $show;
 
