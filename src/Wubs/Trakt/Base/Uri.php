@@ -1,9 +1,9 @@
 <?php namespace Wubs\Trakt\Base;
 
 use Wubs\Trakt\Exceptions\TraktException;
-use Wubs\Trakt\Trakt;
+use Wubs\Trakt\Interfaces\UriInterface;
 
-class Uri{
+class Uri implements UriInterface{
 
 	protected $uri = array();
 
@@ -182,6 +182,7 @@ class Uri{
 				}
 			}
 		}
+//        echo $uri . "\n";
 		return $uri;
 	}
 	

@@ -19,7 +19,8 @@ class TraktTestCase extends PHPUnit_Framework_TestCase{
 		Trakt::setApiKey($this->s->get('trakt.api'));
 		$password = sha1($this->s->get('trakt.password'));
 		$this->user = Trakt::user($this->s->get('trakt.username'), $password);
-		$this->params = array("username"=>$this->user->username, "password"=>$this->user->getPassword());
+//        print_r($this->user);
+		$this->params = array("username"=>"henk123", "password"=>$this->user->getPassword());
 		$this->key = $this->s->get('trakt.api');
 
 	}

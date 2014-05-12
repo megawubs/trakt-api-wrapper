@@ -50,7 +50,6 @@ class TraktClass{
 	 * @return array
 	 */
 	protected function setData($request, $data, $type = null){
-		echo "SetData for: $request\n";
 		// $request = $this->type . '/' . $request;
 		$type = (is_null($type)) ? gettype($data) : $type;
 		$request = (string) $request;

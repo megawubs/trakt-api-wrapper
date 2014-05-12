@@ -1,7 +1,8 @@
 <?php namespace Wubs\Trakt\Base;
 
 use Wubs\Trakt\Exceptions\TraktException;
-use Wubs\Trakt\Interfaces;
+use Wubs\Trakt\Interfaces\HttpBotInterface;
+use Wubs\Trakt\Interfaces\UriInterface;
 
 class HttpBot implements HttpBotInterface{
 
@@ -63,6 +64,7 @@ class HttpBot implements HttpBotInterface{
 			if(!$content){
 				throw new TraktException("Cannot execute request without parameters");
 			}
+//            print_r($content);
 			curl_setopt($curl, CURLOPT_POST, true);
 			curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
 		}

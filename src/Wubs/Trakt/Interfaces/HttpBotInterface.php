@@ -1,8 +1,7 @@
 <?php namespace Wubs\Trakt\Interfaces;
-use Wubs\Trakt\Base\Uri;
 
 interface HttpBotInterface{
-	public function __construct(Uri $uri);
+	public function __construct(UriInterface $uri);
 
 	public function setParams($params);
 
