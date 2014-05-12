@@ -1,10 +1,8 @@
 <?php namespace Wubs\Trakt\Base;
 
 use Wubs\Trakt\Exceptions\TraktException;
-use Wubs\Trakt\Interfaces\HttpBotInterface;
-use Wubs\Trakt\Interfaces\UriInterface;
 
-class HttpBot implements HttpBotInterface{
+class HttpBot{
 
 	protected $params = null;
 	
@@ -14,7 +12,7 @@ class HttpBot implements HttpBotInterface{
 	
 	private $response;
 
-	public function __construct(UriInterface $uri){
+	public function __construct(Uri $uri){
 		$this->uri = $uri;
 	}
 
