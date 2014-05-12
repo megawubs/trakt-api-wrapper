@@ -174,13 +174,12 @@ class Uri{
 						}
 					}
 				}
-				if($index === 0){
+				if($index === 1){
 					$uri .= '?' . $part . '=' . $this->uri[$part];
 				}
 				else{
-
+					$uri .= '?' . $part . '=' .$this->uri[$part];
 				}
-				$uri .= '?' . $part . '=' .$this->uri[$part];
 			}
 		}
 		return $uri;
