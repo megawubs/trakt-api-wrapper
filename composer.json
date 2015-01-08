@@ -1,18 +1,19 @@
 {
-    "name": "wubs/trakt",
-    "description": "Trakt api wrapper for php",
-    "authors": [
-        {
-            "name": "megawubs",
-            "email": "bwubs@me.com"
-        }
-    ],
-    "minimum-stability": "dev",
-    "require-dev": {
-        "wubs/json-settings":"dev-master"
-    },
-    "autoload": {
-            "psr-0": {"Wubs": "src/"},
-            "classmap": ["tests"]
-        }
+  "name": "wubs/trakt",
+  "description": "Trakt api wrapper for php",
+  "authors": [
+    {
+      "name": "megawubs",
+      "email": "bwubs@me.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require-dev": {
+    "wubs/json-settings": "dev-master",
+    "phpunit/phpunit": "4.4.*"
+  },
+  "autoload": {
+    "psr-0": {"Wubs": "src/"},
+    "classmap": ["tests"]
+  }
 }
