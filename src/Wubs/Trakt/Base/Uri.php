@@ -174,6 +174,7 @@ class Uri{
 						}
 					}
 				}
+
 				if($index === 1){
 					$uri .= '?' . $part . '=' . $this->uri[$part];
 				}
