@@ -4,3 +4,4 @@ Gemfile
 *.lock
 Guardfile
 tests.txt
+.idea
