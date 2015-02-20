@@ -8,8 +8,12 @@
     }
   ],
   "minimum-stability": "dev",
+  "require": {
+    "guzzlehttp/guzzle": "~5.0@dev",
+    "nesbot/carbon": "dev-master",
+    "league/oauth2-client": "0.8.*@dev"
+  },
   "require-dev": {
-    "wubs/json-settings": "dev-master",
     "phpunit/phpunit": "4.4.*"
   },
   "autoload": {
