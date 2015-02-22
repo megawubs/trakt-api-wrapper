@@ -14,7 +14,18 @@ use League\OAuth2\Client\Token\AccessToken;
 
 class TraktProvider extends AbstractProvider
 {
-    private $base = "https://trakt.tv";
+    private $base = "https://api-v2launch.trakt.tv";
+
+    public function __construct()
+    {
+        parent::__construct(
+            [
+                'clientId' => getenv("CLIENT_ID"),
+                'clientSecret' => getenv("CLIENT_SECRET"),
+                "redirectUri" => getenv("TRAKT_REDIRECT_URI")
+            ]
+        );
+    }
 
     /**
      * Get the URL that this provider uses to begin authorization.
@@ -38,11 +49,9 @@ class TraktProvider extends AbstractProvider
 
     public function urlUserDetails(AccessToken $token)
     {
-        // TODO: Implement urlUserDetails() method.
     }
 
     public function userDetails($response, AccessToken $token)
     {
-        // TODO: Implement userDetails() method.
     }
 }
