@@ -1,9 +1,3 @@
-<phpunit bootstrap="vendor/autoload.php">
-	<testsuites>
-        <testsuite name="base">
-            <folder>tests/Wubs/Trakt/Base</folder>
-        </testsuite>
-        <testsuite name="types">
-        </testsuite>
-    </testsuites>
+<phpunit bootstrap="tests/bootstrap.php">
+
 </phpunit>
