@@ -14,7 +14,7 @@ use League\OAuth2\Client\Token\AccessToken;
 
 class TraktProvider extends AbstractProvider
 {
-    private $base = "https://api-v2launch.trakt.tv";
+    private $base = "https://trakt.tv";
 
     /**
      * Get the URL that this provider uses to begin authorization.
