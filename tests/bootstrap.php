@@ -6,7 +6,7 @@
  * Time: 16:41
  */
 
-use Wubs\Trakt\TraktToken;
+use Wubs\Trakt\Token\TraktToken;
 
 require __DIR__ . "/../vendor/autoload.php";
 

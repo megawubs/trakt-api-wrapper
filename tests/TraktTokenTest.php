@@ -1,5 +1,5 @@
 <?php
-use Wubs\Trakt\TraktToken;
+use Wubs\Trakt\Token\TraktToken;
 
 /**
  * Created by PhpStorm.

@@ -6,52 +6,53 @@ use Guzzle\Service\Client;
 use League\OAuth2\Client\Provider\ProviderInterface;
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Contracts\RequestInterface;
+use Wubs\Trakt\Provider\TraktProvider;
+use Wubs\Trakt\Request\AbstractRequest;
 
 class Trakt
 {
-    /**
-     * @var TraktToken
-     */
-    private $token;
-    /**
-     * @var RequestInterface
-     */
-    private $request;
+    private $clientId;
+    private $clientSecret;
+    private $redirectUrl;
 
     /**
-     * @param TraktToken $token
-     * @param RequestInterface $request
+     *
+     * @param $clientId
+     * @param $clientSecret
+     * @param $redirectUrl
      */
-    public function __construct(TraktToken $token, RequestInterface $request)
+    public function __construct($clientId, $clientSecret, $redirectUrl)
     {
-        $this->token = $token;
-        $this->request = $request;
+        $this->clientId = $clientId;
+        $this->clientSecret = $clientSecret;
+        $this->redirectUrl = $redirectUrl;
     }
 
-    public function get($path, $options = [])
+    public function authorize()
     {
-        return $this->makeRequest($path, $options, "GET");
+        return $this->provider()->authorize();
     }
 
-    public function post($path, $options = [])
+    public function getAccessToken($code)
     {
-        return $this->makeRequest($path, $options, "POST");
-    }
-
-    public function settings()
-    {
-        return $this->get("users/settings");
+        $params = ["code" => $code];
+        return $this->provider()->getAccessToken("authorization_code", $params);
     }
 
     /**
-     * @param $path
-     * @param array $options
-     * @param $method
-     * @return array
+     * @param AbstractRequest $request
      */
-    private function makeRequest($path, $options = [], $method)
+    public function call(AbstractRequest $request)
     {
-        $this->request->create($method, $path, $this->token, $options);
-        return $this->request->send();
+        $request->setClientId($this->clientId);
+        return $request->call();
+    }
+
+    /**
+     * @return TraktProvider
+     */
+    private function provider()
+    {
+        return new TraktProvider($this->clientId, $this->clientSecret, $this->redirectUrl);
     }
 }

@@ -6,7 +6,7 @@
  * Time: 14:49
  */
 
-namespace Wubs\Trakt;
+namespace Wubs\Trakt\Token;
 
 
 use League\OAuth2\Client\Token\AccessToken;

@@ -14,56 +14,17 @@ use Wubs\Trakt\TraktToken;
  */
 class TraktTest extends PHPUnit_Framework_TestCase
 {
-    private static $token;
-
-    public static function setUpBeforeClass()
-    {
-        static::$token = get_token();
-    }
-
     public function testCanInitiateTrakt()
     {
-        $mockRequest = new MockRequest();
-        $trakt = new Trakt(static::$token, $mockRequest);
+        $trakt = new Trakt(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
 
         $this->assertInstanceOf("Wubs\\Trakt\\Trakt", $trakt);
     }
 
-    public function testCanGetUserSettings()
-    {
-        $request = new \Wubs\Trakt\Request();
-        $trakt = new Trakt(static::$token, $request);
-
-        $response = $trakt->settings();
-
-        $this->assertInternalType("array", $response);
-    }
-
-    public function testCanPreformGetRequest()
-    {
-        $request = new \Wubs\Trakt\Request();
-        $trakt = new Trakt(static::$token, $request);
-
-        $result = $trakt->get("movies/popular");
-
-        $this->assertInternalType("array", $result);
-    }
-}
-
-class MockRequest implements RequestInterface
-{
-    public function create($method, $path, TraktToken $token, $options = [])
-    {
-
-    }
-
-    public function send()
-    {
-//        return [];
-    }
-
-    public function getRequest()
-    {
-
-    }
+//    public function testAuthorisation()
+//    {
+//        $trakt = new Trakt(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
+//
+//        $trakt->authorize();
+//    }
 }
