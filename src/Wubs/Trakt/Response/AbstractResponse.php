@@ -23,4 +23,11 @@ abstract class AbstractResponse
     {
         $this->response = $response;
     }
+
+    protected function getResponse()
+    {
+        return $this->response;
+    }
+
+    abstract public function handle();
 }

@@ -13,5 +13,10 @@ use Wubs\Trakt\Response\AbstractResponse;
 
 class Shows extends AbstractResponse
 {
+    public function handle()
+    {
+        return "Shows";
+    }
+
 
 }
