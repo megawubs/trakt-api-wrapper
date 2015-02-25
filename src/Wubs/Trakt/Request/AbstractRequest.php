@@ -13,6 +13,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Request\Exception\HttpCodeException\ExceptionStatusCodeFactory;
+use Wubs\Trakt\Response\DefaultResponseHandler;
 use Wubs\Trakt\Token\TraktAccessToken;
 
 abstract class  AbstractRequest
@@ -112,18 +113,17 @@ abstract class  AbstractRequest
 
     protected function handleResponse(ResponseInterface $response)
     {
-        $reflection = new \ReflectionClass($this);
-        $name = $reflection->getName();
-        $parts = explode("\\", $name);
+        $reflection = new \ReflectionClass($this->getResponseHandler());
 
-        $responseHanlder = "Wubs\\Trakt\\Response\\";
+        return $reflection->newInstanceArgs([$response])->handle();
+    }
 
-        return $name;
+    protected function getResponseHandler()
+    {
+        return DefaultResponseHandler::class;
     }
 
     abstract public function getMethod();
 
     abstract public function getUrl();
-   
-    abstract public function getResponseHandler();
 }

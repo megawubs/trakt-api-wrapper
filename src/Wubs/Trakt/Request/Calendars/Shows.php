@@ -1,9 +1,9 @@
 <?php namespace Wubs\Trakt\Request\Calendars;
 
 use Carbon\Carbon;
-use GuzzleHttp\Message\ResponseInterface;
 use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\RequestType;
+use Wubs\Trakt\Response\Calendars\Shows as ShowsResponse;
 
 /**
  * Created by PhpStorm.
@@ -37,10 +37,11 @@ class Shows extends AbstractRequest
         parent::__construct();
     }
 
-//    protected function handleResponse(ResponseInterface $response)
-//    {
-//        return new \Wubs\Trakt\Response\Calendars\Shows($response);
-//    }
+    protected function getResponseHandler()
+    {
+        return ShowsResponse::class;
+    }
+
 
     public function getMethod()
     {
