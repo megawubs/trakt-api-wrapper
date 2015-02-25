@@ -124,4 +124,6 @@ abstract class  AbstractRequest
     abstract public function getMethod();
 
     abstract public function getUrl();
+   
+    abstract public function getResponseHandler();
 }
