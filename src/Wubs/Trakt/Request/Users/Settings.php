@@ -16,7 +16,7 @@ class Settings extends AbstractRequest
 
     protected function handleResponse(ResponseInterface $response)
     {
-        var_dump($response->json());
+        return $response->json();
     }
 
     public function getMethod()

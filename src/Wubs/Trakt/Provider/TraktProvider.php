@@ -11,6 +11,7 @@ namespace Wubs\Trakt\Provider;
 
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessToken;
+use Wubs\Trakt\Token\TraktAccessToken;
 
 class TraktProvider extends AbstractProvider
 {

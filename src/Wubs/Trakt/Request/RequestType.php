@@ -9,5 +9,4 @@ class RequestType
     const PUT = "PUT";
     const DELETE = "DEL";
     const GET = "GET";
-
 }

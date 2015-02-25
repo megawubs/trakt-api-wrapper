@@ -11,8 +11,9 @@ namespace Wubs\Trakt\Request;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
+use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Request\Exception\HttpCodeException\ExceptionStatusCodeFactory;
-use Wubs\Trakt\Token\TraktToken;
+use Wubs\Trakt\Token\TraktAccessToken;
 
 abstract class  AbstractRequest
 {
@@ -28,14 +29,19 @@ abstract class  AbstractRequest
 
     private $apiVersion = 2;
 
+    private $extended;
+
     protected $queryParams = [];
+
+    protected $allowedExtended;
     /**
-     * @var TraktToken
+     * @var AccessToken
      */
     private $token;
 
     public function __construct($extended = 'min', $page = 1, $limit = 10, $apiVersion = 2, array $queryParams = [])
     {
+        $this->extended = $extended;
         $this->client = new Client(['base_url' => [$this->scheme . '://' . $this->host, ['version' => $apiVersion]]]);
         $this->apiVersion = $apiVersion;
         $this->page = $page;
@@ -48,15 +54,24 @@ abstract class  AbstractRequest
         $this->clientId = $clientId;
     }
 
-    public function setToken(TraktToken $token)
+    public function setToken(AccessToken $token)
     {
         $this->token = $token;
+    }
+
+    public function setExtended($level)
+    {
+        $this->extended = $level;
     }
 
 
     public function call()
     {
-        $request = $this->client->createRequest($this->getMethod(), $this->getUrl(), $this->getOptions());
+        $request = $this->client->createRequest(
+            $this->getMethod(),
+            $this->getUrl(),
+            $this->getOptions()
+        );
         $response = $this->client->send($request);
 
         if ($this->requestNotSuccessful($response)) {
@@ -95,7 +110,16 @@ abstract class  AbstractRequest
         return (!in_array($response->getStatusCode(), [200, 201, 204]));
     }
 
-    abstract protected function handleResponse(ResponseInterface $response);
+    protected function handleResponse(ResponseInterface $response)
+    {
+        $reflection = new \ReflectionClass($this);
+        $name = $reflection->getName();
+        $parts = explode("\\", $name);
+
+        $responseHanlder = "Wubs\\Trakt\\Response\\";
+
+        return $name;
+    }
 
     abstract public function getMethod();
 

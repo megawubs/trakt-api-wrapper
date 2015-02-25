@@ -6,7 +6,7 @@
  * Time: 16:41
  */
 
-use Wubs\Trakt\Token\TraktToken;
+use Wubs\Trakt\Token\TraktAccessToken;
 
 require __DIR__ . "/../vendor/autoload.php";
 
@@ -14,7 +14,7 @@ Dotenv::load(dirname(__DIR__));
 
 function get_token()
 {
-    return new TraktToken(
+    return TraktAccessToken::create(
         getenv("TRAKT_ACCESS_TOKEN"),
         getenv("TRAKT_TOKEN_TYPE"),
         getenv("TRAKT_EXPIRES_IN"),
