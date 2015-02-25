@@ -13,7 +13,7 @@ class TraktTokenTest extends PHPUnit_Framework_TestCase
 
     public function testTokenCanBeCreated()
     {
-        $token = new TraktAccessToken(
+        $token = TraktAccessToken::create(
             getenv("TRAKT_ACCESS_TOKEN"),
             getenv("TRAKT_TOKEN_TYPE"),
             getenv("TRAKT_EXPIRES_IN"),
