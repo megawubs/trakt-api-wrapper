@@ -11,6 +11,9 @@ namespace Wubs\Trakt\Response;
 
 class DefaultResponseHandler extends AbstractResponse
 {
+    /**
+     * @return mixed
+     */
     public function handle()
     {
         return $this->getResponse()->json();

@@ -9,6 +9,7 @@
 namespace Wubs\Trakt\Request;
 
 
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
 use League\OAuth2\Client\Token\AccessToken;
