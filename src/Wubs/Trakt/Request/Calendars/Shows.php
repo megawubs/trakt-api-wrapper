@@ -33,7 +33,6 @@ class Shows extends AbstractRequest
         return ShowsResponse::class;
     }
 
-
     public function getMethod()
     {
         return RequestType::GET;

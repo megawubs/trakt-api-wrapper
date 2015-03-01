@@ -53,7 +53,10 @@ abstract class  AbstractRequest
 
     public function setClientId($clientId)
     {
-        $this->clientId = $clientId;
+        if (!isNull($clientId)) {
+            $this->clientId = $clientId;
+        }
+
     }
 
     public function setToken(AccessToken $token)
@@ -67,8 +70,17 @@ abstract class  AbstractRequest
     }
 
 
-    public function call()
+
+    public static function request($clientId, AccessToken $token)
     {
+        $request = new static();
+        $request->setToken($token);
+        return $request->call($clientId);
+    }
+
+    public function call($clientId = null)
+    {
+        $this->setClientId($clientId);
         $request = $this->client->createRequest(
             $this->getMethod(),
             $this->getUrl(),

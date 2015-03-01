@@ -1,4 +1,5 @@
 <?php
+use Carbon\Carbon;
 use Wubs\Trakt\Request\Calendars\Shows;
 use Wubs\Trakt\Trakt;
 
@@ -15,8 +16,8 @@ class ShowsTest extends PHPUnit_Framework_TestCase
     {
         $request = new Shows();
         $request->setToken(get_token());
-
-        $this->assertContains("2015-02-25", $request->getUrl());
+        $today = Carbon::today()->format("Y-m-d");
+        $this->assertContains($today, $request->getUrl());
     }
 
     public function testCallShowsRequestWith14Days()
@@ -45,5 +46,12 @@ class ShowsTest extends PHPUnit_Framework_TestCase
         $response = $trakt->call($request);
 
         $this->assertEquals("Shows", $response);
+    }
+
+    public function testStaticRequest()
+    {
+        $response = Shows::request(getenv("CLIENT_ID"), get_token());
+
+        $this->assertInternalType("array", $response);
     }
 }
