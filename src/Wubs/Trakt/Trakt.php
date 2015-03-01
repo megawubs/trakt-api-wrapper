@@ -6,6 +6,7 @@ use Guzzle\Service\Client;
 use League\OAuth2\Client\Provider\ProviderInterface;
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Contracts\RequestInterface;
+use Wubs\Trakt\Exception\InvalidOauthRequestException;
 use Wubs\Trakt\Provider\TraktProvider;
 use Wubs\Trakt\Request\AbstractRequest;
 
@@ -30,6 +31,8 @@ class Trakt
 
     public function authorize()
     {
+        $provider = $this->provider();
+        $_SESSION['trakt_oauth_state'] = $provider->state;
         return $this->provider()->authorize();
     }
 
@@ -39,13 +42,18 @@ class Trakt
         return $this->provider()->getAccessToken("authorization_code", $params);
     }
 
+    public function invalid()
+    {
+        unset($_SESSION['trakt_oauth_state']);
+        throw new InvalidOauthRequestException;
+    }
+
     /**
      * @param AbstractRequest $request
      */
     public function call(AbstractRequest $request)
     {
-        $request->setClientId($this->clientId);
-        return $request->call();
+        return $request->call($this->clientId);
     }
 
     /**
