@@ -17,7 +17,7 @@ A basic example of how to obtain a token with this wrapper:
 
 ```PHP
 <?php
-$provider = new Trakt($clientId, $clientSecret, $redirectUrl);
+$trakt = new Trakt($clientId, $clientSecret, $redirectUrl);
 if (!isset($_GET['code'])) {
     $trakt->authorize();
 }
