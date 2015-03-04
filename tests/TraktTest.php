@@ -2,6 +2,7 @@
 use GuzzleHttp\Message\Request;
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Contracts\RequestInterface;
+use Wubs\Trakt\Exception\InvalidOauthRequestException;
 use Wubs\Trakt\Trakt;
 use Wubs\Trakt\TraktProvider;
 use Wubs\Trakt\TraktToken;
@@ -21,10 +22,15 @@ class TraktTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf("Wubs\\Trakt\\Trakt", $trakt);
     }
 
-//    public function testAuthorisation()
-//    {
-//        $trakt = new Trakt(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
-//
-//        $trakt->authorize();
-//    }
+    /**
+     * @expectedException InvalidOauthRequestException
+     */
+    public function testAuthorisation()
+    {
+        session_start();
+        $trakt = new Trakt(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
+        $_SESSION['trakt_oauth_state'] = "ADifferentState";
+        $_GET['state'] = 'NotTheStateItShouldBe';
+        $trakt->notInvalid();
+    }
 }

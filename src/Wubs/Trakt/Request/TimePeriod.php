@@ -10,8 +10,10 @@ namespace Wubs\Trakt\Request;
 
 
 use Carbon\Carbon;
+use Wubs\Trakt\Request\Parameters\NumDays;
+use Wubs\Trakt\Request\Parameters\StartDate;
 
-trait StartDate
+trait TimePeriod
 {
 
     private $startDate;
@@ -21,12 +23,22 @@ trait StartDate
     /**
      * @param $startDate
      */
-    protected function setStartDate($startDate)
+    protected function setStartDate(StartDate $startDate = null)
     {
-        if (!$startDate) {
-            $startDate = Carbon::today()->format("Y-m-d");
+        if (is_null($startDate)) {
+            $startDate = StartDate::today();
         }
+
         $this->startDate = $startDate;
+    }
+
+    public function setDays(NumDays $days)
+    {
+        if (is_null($days)) {
+            $days = NumDays::defaultDays();
+        }
+
+        $this->days = $days;
     }
 
     protected function getStartDate()
