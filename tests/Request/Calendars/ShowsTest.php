@@ -1,6 +1,8 @@
 <?php
 use Carbon\Carbon;
 use Wubs\Trakt\Request\Calendars\Shows;
+use Wubs\Trakt\Request\Parameters\Days;
+use Wubs\Trakt\Request\Parameters\StartDate;
 use Wubs\Trakt\Trakt;
 
 /**
@@ -16,13 +18,13 @@ class ShowsTest extends PHPUnit_Framework_TestCase
     {
         $request = new Shows();
         $request->setToken(get_token());
-        $today = Carbon::today()->format("Y-m-d");
+        $today = (string)StartDate::standard();
         $this->assertContains($today, $request->getUrl());
     }
 
     public function testCallShowsRequestWith14Days()
     {
-        $request = new Shows(14);
+        $request = new Shows(null, Days::num(14));
         $request->setToken(get_token());
 
         $this->assertContains("14", $request->getUrl());
@@ -30,7 +32,8 @@ class ShowsTest extends PHPUnit_Framework_TestCase
 
     public function testWithDaysAndStartDate()
     {
-        $request = new Shows(25, "2014-03-01");
+        $startDate = new StartDate(Carbon::createFromFormat("Y-m-d", "2014-03-01"));
+        $request = new Shows($startDate, Days::num(25));
         $request->setToken(get_token());
 
         $this->assertContains("25", $request->getUrl());
@@ -39,19 +42,23 @@ class ShowsTest extends PHPUnit_Framework_TestCase
 
     public function testCanCallRequest()
     {
-        $request = new Shows(25, "2014-03-01");
+        $startDate = new StartDate(Carbon::createFromFormat("Y-m-d", "2014-03-01"));
+        $request = new Shows($startDate, Days::num(25));
         $request->setToken(get_token());
 
         $trakt = new Trakt(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
         $response = $trakt->call($request);
 
-        $this->assertEquals("Shows", $response);
+        $this->assertInternalType("array", $response);
     }
 
     public function testStaticRequest()
     {
-        $response = Shows::request(getenv("CLIENT_ID"), get_token());
+        $id = getenv("CLIENT_ID");
+        $token = get_token();
 
-        $this->assertInternalType("array", $response);
+        $response = Shows::request($id, $token, StartDate::standard(), Days::num(1));
+        print_r($response);
+        $this->assertInstanceOf("Wubs\\Trakt\\Media\\Show", $response[0]);
     }
 }

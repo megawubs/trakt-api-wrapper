@@ -53,7 +53,7 @@ abstract class  AbstractRequest
 
     public function setClientId($clientId)
     {
-        if (!isNull($clientId)) {
+        if (!is_null($clientId)) {
             $this->clientId = $clientId;
         }
 
@@ -70,10 +70,21 @@ abstract class  AbstractRequest
     }
 
 
-
-    public static function request($clientId, AccessToken $token)
+    /**
+     * @param $clientId
+     * @param AccessToken $token
+     * @param array $parameters
+     * @return mixed
+     * @throws Exception\HttpCodeException\RateLimitExceededException
+     * @throws Exception\HttpCodeException\ServerErrorException
+     * @throws Exception\HttpCodeException\ServerUnavailableException
+     * @throws Exception\HttpCodeException\StatusCodeException
+     */
+    public static function request($clientId, AccessToken $token, ...$parameters)
     {
-        $request = new static();
+        $reflection = new \ReflectionClass(static ::class);
+        $request = $reflection->newInstanceArgs($parameters);
+
         $request->setToken($token);
         return $request->call($clientId);
     }

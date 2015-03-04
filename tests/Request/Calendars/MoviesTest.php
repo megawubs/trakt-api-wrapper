@@ -1,5 +1,8 @@
 <?php
+use Carbon\Carbon;
 use Wubs\Trakt\Request\Calendars\Movies;
+use Wubs\Trakt\Request\Parameters\Days;
+use Wubs\Trakt\Request\Parameters\StartDate;
 use Wubs\Trakt\Trakt;
 
 /**
@@ -13,7 +16,8 @@ class MoviesTest extends PHPUnit_Framework_TestCase
 
     public function testCanCallRequest()
     {
-        $request = new Movies(25, "2014-03-01");
+        $startDate = new StartDate(Carbon::createFromFormat("Y-m-d", "2014-03-01"));
+        $request = new Movies($startDate, Days::num(25));
         $request->setToken(get_token());
 
         $trakt = new Trakt(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));

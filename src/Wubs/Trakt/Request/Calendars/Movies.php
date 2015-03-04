@@ -10,17 +10,19 @@ namespace Wubs\Trakt\Request\Calendars;
 
 
 use Wubs\Trakt\Request\AbstractRequest;
+use Wubs\Trakt\Request\Parameters\Days;
+use Wubs\Trakt\Request\Parameters\StartDate;
 use Wubs\Trakt\Request\RequestType;
-use Wubs\Trakt\Request\StartDate;
+use Wubs\Trakt\Request\TimePeriod;
 
 class Movies extends AbstractRequest
 {
-    use StartDate;
+    use TimePeriod;
 
-    public function __construct($startDate = false, $days = 7)
+    public function __construct(StartDate $startDate = null, Days $days = null)
     {
         $this->setStartDate($startDate);
-        $this->days = $days;
+        $this->setDays($days);
 
         parent::__construct();
     }

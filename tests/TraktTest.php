@@ -23,14 +23,14 @@ class TraktTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidOauthRequestException
+     * @expectedException Wubs\Trakt\Exception\InvalidOauthRequestException
      */
     public function testAuthorisation()
     {
-        session_start();
         $trakt = new Trakt(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
         $_SESSION['trakt_oauth_state'] = "ADifferentState";
         $_GET['state'] = 'NotTheStateItShouldBe';
-        $trakt->notInvalid();
+        $code = "SomeRandomCode";
+        $trakt->getAccessToken($code);
     }
 }

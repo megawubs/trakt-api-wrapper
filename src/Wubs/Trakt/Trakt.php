@@ -38,14 +38,11 @@ class Trakt
 
     public function getAccessToken($code)
     {
+        if ($this->notInvalid()) {
+            $this->invalid();
+        }
         $params = ["code" => $code];
         return $this->provider()->getAccessToken("authorization_code", $params);
-    }
-
-    public function invalid()
-    {
-        unset($_SESSION['trakt_oauth_state']);
-        throw new InvalidOauthRequestException;
     }
 
     /**
@@ -62,5 +59,16 @@ class Trakt
     private function provider()
     {
         return new TraktProvider($this->clientId, $this->clientSecret, $this->redirectUrl);
+    }
+
+    private function notInvalid()
+    {
+        return (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['trakt_oauth_state']));
+    }
+
+    private function invalid()
+    {
+        unset($_SESSION['trakt_oauth_state']);
+        throw new InvalidOauthRequestException;
     }
 }

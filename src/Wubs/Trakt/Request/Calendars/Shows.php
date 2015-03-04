@@ -2,8 +2,10 @@
 
 use Carbon\Carbon;
 use Wubs\Trakt\Request\AbstractRequest;
+use Wubs\Trakt\Request\Parameters\Days;
+use Wubs\Trakt\Request\Parameters\StartDate;
 use Wubs\Trakt\Request\RequestType;
-use Wubs\Trakt\Request\StartDate;
+use Wubs\Trakt\Request\TimePeriod;
 use Wubs\Trakt\Response\Calendars\Shows as ShowsResponse;
 
 /**
@@ -14,31 +16,34 @@ use Wubs\Trakt\Response\Calendars\Shows as ShowsResponse;
  */
 class Shows extends AbstractRequest
 {
-    use StartDate;
+    use TimePeriod;
 
     /**
-     * @param bool $startDate
-     * @param int $days
+     * @param StartDate $startDate
+     * @param Days $days
      */
-    public function __construct($days = 7, $startDate = false)
+    public function __construct(StartDate $startDate = null, Days $days = null)
     {
-        $this->days = $days;
+        $this->setDays($days);
         $this->setStartDate($startDate);
 
         parent::__construct();
     }
 
-    protected function getResponseHandler()
+    protected
+    function getResponseHandler()
     {
         return ShowsResponse::class;
     }
 
-    public function getMethod()
+    public
+    function getMethod()
     {
         return RequestType::GET;
     }
 
-    public function getUrl()
+    public
+    function getUrl()
     {
         return "calendars/shows/" . $this->getStartDate() . "/" . $this->getDays();
     }
