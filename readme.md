@@ -21,12 +21,9 @@ $trakt = new Trakt($clientId, $clientSecret, $redirectUrl);
 if (!isset($_GET['code'])) {
     $trakt->authorize();
 }
-elseif(empty($_GET['state']) || ($_GET['state'] !== $_SESSION['oauth2state'])){
-    $trakt->invalid()
-}
 else{
     $code = $_GET('code');
-    $token = $trakt->getAccessToken($code)l
+    $token = $trakt->getAccessToken($code);
     //now store it somewhere safe.... yes, i said somewhere safe! 
 }
 ```
