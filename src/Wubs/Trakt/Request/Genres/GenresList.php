@@ -10,9 +10,11 @@ namespace Wubs\Trakt\Request\Genres;
 
 
 use Wubs\Trakt\Request\AbstractRequest;
+use Wubs\Trakt\Request\Parameters\Type;
 use Wubs\Trakt\Request\RequestType;
 
-class GenresList extends AbstractRequest {
+class GenresList extends AbstractRequest
+{
     /**
      * @var Type
      */
@@ -21,10 +23,11 @@ class GenresList extends AbstractRequest {
     /**
      * @param Type $type
      */
-    public function __construct(Type $type){
-
+    public function __construct(Type $type)
+    {
         $this->type = $type;
     }
+
     public function getRequestType()
     {
         return RequestType::GET;
@@ -32,6 +35,6 @@ class GenresList extends AbstractRequest {
 
     public function getUrl()
     {
-        return
+        return "genres/list/" . $this->type;
     }
 }

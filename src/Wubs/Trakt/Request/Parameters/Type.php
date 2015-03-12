@@ -9,12 +9,35 @@
 namespace Wubs\Trakt\Request\Parameters;
 
 
-class Type
+class Type implements Parameter
 {
+    private $type;
 
-    public static $MOVIES = "movies";
+    /**
+     * @param $type
+     */
+    protected function __construct($type)
+    {
+        $this->type = $type;
+    }
 
-    public static $SHOWS = "shows";
+    public static function movies()
+    {
+        return new static("movies");
+    }
 
+    public static function shows()
+    {
+        return new static("shows");
+    }
 
+    public function __toString()
+    {
+        return $this->type;
+    }
+
+    public static function standard()
+    {
+        return new static("shows");
+    }
 }
