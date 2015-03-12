@@ -149,7 +149,7 @@ own response handler by implementing the `Response` interface and write your man
 
 the `DefaultResponseHandler` looks like this:
 
-``php
+```php
 
 <?php
 
