@@ -58,7 +58,6 @@ class ShowsTest extends PHPUnit_Framework_TestCase
         $token = get_token();
 
         $response = Shows::request($id, $token, StartDate::standard(), Days::num(1));
-        print_r($response);
-        $this->assertInstanceOf("Wubs\\Trakt\\Media\\Show", $response[0]);
+        $this->assertInstanceOf("Wubs\\Trakt\\Media\\Episode", $response[0]);
     }
 }

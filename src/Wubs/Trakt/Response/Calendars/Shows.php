@@ -18,34 +18,42 @@ class Shows extends AbstractResponse
     {
         $dates = $this->getResponse()->json(['object' => true]);
 
-        return $this->makeEpisodes($dates);
+        return $this->handleDates($dates);
     }
 
     /**
      * @param $dates
      * @return array
      */
-    private function makeEpisodes($dates)
+    private function handleDates($dates)
     {
-        $episodeList = [];
+        $list = [];
         foreach ($dates as $episodes) {
-            $this->makeEpisode($episodes);
+            $list = array_merge($list, $this->handleEpisodes($episodes));
         }
 
-        return $episodeList;
+        return $list;
     }
 
     /**
      * @param array $episodes
-     * @param array $episodeList
+     * @return array
+     */
+    private function handleEpisodes(array $episodes = [])
+    {
+        $episodeList = [];
+        foreach ($episodes as $episode) {
+            $episodeList[] = $this->makeEpisode($episode);
+        }
+        return $episodeList;
+    }
+
+    /**
+     * @param $episode
      * @return Episode
      */
-    private function makeEpisode(array $episodes = [], array $episodeList)
+    private function makeEpisode($episode)
     {
-        foreach ($episodes as $episode) {
-            array_push($episodeList, new Episode($episode));
-        }
-
-        return $episodeList;
+        return new Episode($episode);
     }
 }
