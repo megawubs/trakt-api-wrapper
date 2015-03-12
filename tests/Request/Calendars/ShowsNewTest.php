@@ -1,6 +1,6 @@
 <?php
 use Carbon\Carbon;
-use Wubs\Trakt\Request\Calendars\ShowsNew;
+use Wubs\Trakt\Request\Calendars\Shows\ShowsNew;
 use Wubs\Trakt\Request\Parameters\Days;
 use Wubs\Trakt\Request\Parameters\StartDate;
 

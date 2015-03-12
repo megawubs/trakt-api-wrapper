@@ -6,7 +6,7 @@
  * Time: 12:14
  */
 
-namespace Wubs\Trakt\Request\Calendars;
+namespace Wubs\Trakt\Request\Calendars\Shows;
 
 
 use Wubs\Trakt\Request\AbstractRequest;
