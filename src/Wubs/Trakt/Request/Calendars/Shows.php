@@ -30,20 +30,17 @@ class Shows extends AbstractRequest
         parent::__construct();
     }
 
-    protected
-    function getResponseHandler()
+    protected function getResponseHandler()
     {
         return ShowsResponse::class;
     }
 
-    public
-    function getRequestType()
+    public function getRequestType()
     {
         return RequestType::GET;
     }
 
-    public
-    function getUrl()
+    public function getUrl()
     {
         return "calendars/shows/" . $this->getStartDate() . "/" . $this->getDays();
     }
