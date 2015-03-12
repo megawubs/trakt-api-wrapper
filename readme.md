@@ -31,13 +31,97 @@ else{
 ## The inner workings
 
 This updated wrapper is in many ways different from the previous version. Inspired by other contributors I decided to
- follow a more Object Oriented approach. Each request is a object on its own, and can have a response handler just 
- for that request. This is the basis.
+follow a more Object Oriented approach. Each request is a object on its own, and can have a response handler just 
+or that request. This is the basis.
+
+Currently I'm implementing all kinds of requests (only `GET` requests are supported for now). It's not hard to do 
+this yourself
+
+A request should extend the `AbstractRequest` class and implement the `AbstractRequest::getRequestType()` and 
+`AbstractRequest::getUrl()`. Optionally you can override the `AbstractRequest::getResponseHandler()` to return the 
+response handler. When you do not override the `AbstractRequest::getResponseHandler()` method, the 
+`DefaultResponseHandler` will be used. 
+
+The basics of a `Request` object will look like this.
+```php
+
+<?php
+
+namespace Wubs\Trakt\Request\Calendars;
+
+use Wubs\Trakt\Request\AbstractRequest;
+use Wubs\Trakt\Request\RequestType;
+
+class Movies extends AbstractRequest
+{
+    public function getRequestType()
+    {
+        return RequestType::GET;
+    }
+    public function getUrl()
+    {
+        return "calendars/movies/"
+    }
+}
+```
+
+Only, we don't have any way of passing the required parameters to the url. For the request class above this are a 
+start date the number of days. These parameters are also wrapped in their own classes.
+
+A parameter is just a representation of the value that is required. For example, the `StartDate` parameter ensures a 
+format of `Y-m-d` when it's converted to a string. Also, a parameter should implement the `Parameter`  
+implement the `Parameter` interface. 
+    
+For all requests that need a `StartDay` and a `Day` parameter, there is the `TimePeriod` trait that handles the 
+assigning. wWhen there are no parameters provided it sets the standard value, as provided by the `Parameter::standard
+()` method.
+
+Now, the above class can be updated to use the `Parameter` classes.
+
+```PHP
+
+<?php
+
+namespace Wubs\Trakt\Request\Calendars;
+
+use Wubs\Trakt\Request\AbstractRequest;
+use Wubs\Trakt\Request\Parameters\Days;
+use Wubs\Trakt\Request\Parameters\StartDate;
+use Wubs\Trakt\Request\RequestType;
+use Wubs\Trakt\Request\TimePeriod;
+
+class Movies extends AbstractRequest
+{
+    
+    use TimePeriod;
+
+    public function __construct(StartDate $startDate = null, Days $days = null)
+    {
+        $this->setStartDate($startDate);
+        $this->setDays($days);
+
+        parent::__construct();
+    }
+
+    public function getRequestType()
+    {
+        return RequestType::GET;
+    }
+
+    public function getUrl()
+    {
+        return "calendars/movies/" . $this->getStartDate() . "/" . $this->getDays();
+    }
+}
+```
  
-A simple `calendars/shows` request is prefomred like so:
+A simple `calendars/movies` request can now preformed like so:
 
 ```php
-use Wubs\Trakt\Request\Calendars\Shows;
+
+<?php
+
+use Wubs\Trakt\Request\Calendars\Movies;
 use Wubs\Trakt\Request\Parameters\Days;
 use Wubs\Trakt\Request\Parameters\StartDate;
 use Wubs\Trakt\Token\TraktAccessToken;
@@ -53,8 +137,41 @@ $token = TraktAccessToken::create(
                 getenv("TRAKT_SCOPE")
             );
 
-$response = Shows::request($id, $token, StartDate::standard(), Days::num(1));
+$response = Movies::request($id, $token, StartDate::standard(), Days::num(1));
 ```
+
+The `$response` variable will now contain the json response from the request.
+ 
+If you want to manipulate the response before returning it from the `Movies::request()` method, you can create your 
+own response handler by implementing the `Response` interface and write your manipulate code inside the 
+`Response::handle(ResponseInterface $response)` method, where `ResponseInterface` is 
+`GuzzleHttp\Message\ResponseInterface`
+
+the `DefaultResponseHandler` looks like this:
+
+``php
+
+<?php
+
+namespace Wubs\Trakt\Response;
+
+
+use GuzzleHttp\Message\ResponseInterface;
+
+class DefaultResponseHandler implements Response
+{
+    /**
+     * @param ResponseInterface $response
+     * @return mixed
+     */
+    public function handle(ResponseInterface $response)
+    {
+        return $response->json();
+    }
+}
+```
+
+
 Feel free to contact me or help development :)
 
 [oauth2-client]: https://github.com/thephpleague/oauth2-client
