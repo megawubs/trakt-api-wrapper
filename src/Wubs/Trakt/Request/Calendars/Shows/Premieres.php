@@ -2,11 +2,11 @@
 /**
  * Created by PhpStorm.
  * User: bwubs
- * Date: 26/02/15
- * Time: 00:48
+ * Date: 12/03/15
+ * Time: 12:31
  */
 
-namespace Wubs\Trakt\Request\Calendars;
+namespace Wubs\Trakt\Request\Calendars\Shows;
 
 
 use Wubs\Trakt\Request\AbstractRequest;
@@ -14,17 +14,18 @@ use Wubs\Trakt\Request\Parameters\Days;
 use Wubs\Trakt\Request\Parameters\StartDate;
 use Wubs\Trakt\Request\RequestType;
 use Wubs\Trakt\Request\TimePeriod;
+use Wubs\Trakt\Response\Calendars\Shows;
 
-class Movies extends AbstractRequest
+class Premieres extends AbstractRequest
 {
     use TimePeriod;
 
     public function __construct(StartDate $startDate = null, Days $days = null)
     {
+        parent::__construct();
+
         $this->setStartDate($startDate);
         $this->setDays($days);
-
-        parent::__construct();
     }
 
     public function getRequestType()
@@ -34,6 +35,14 @@ class Movies extends AbstractRequest
 
     public function getUrl()
     {
-        return "calendars/movies/" . $this->getStartDate() . "/" . $this->getDays();
+        return "calendars/shows/premieres/" . $this->getStartDate() . "/" . $this->getDays();
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function getResponseHandler()
+    {
+        return Shows::class;
     }
 }

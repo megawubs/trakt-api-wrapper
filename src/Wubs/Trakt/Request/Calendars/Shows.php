@@ -37,7 +37,7 @@ class Shows extends AbstractRequest
     }
 
     public
-    function getMethod()
+    function getRequestType()
     {
         return RequestType::GET;
     }

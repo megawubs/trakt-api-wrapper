@@ -19,7 +19,7 @@ class Settings extends AbstractRequest
         return $response->json();
     }
 
-    public function getMethod()
+    public function getRequestType()
     {
         return RequestType::GET;
     }

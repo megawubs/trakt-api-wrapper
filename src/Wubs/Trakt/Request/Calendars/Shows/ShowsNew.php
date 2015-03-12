@@ -28,7 +28,7 @@ class ShowsNew extends AbstractRequest
         $this->setDays($days);
     }
 
-    public function getMethod()
+    public function getRequestType()
     {
         return RequestType::GET;
     }
@@ -42,6 +42,4 @@ class ShowsNew extends AbstractRequest
     {
         return Shows::class;
     }
-
-
 }

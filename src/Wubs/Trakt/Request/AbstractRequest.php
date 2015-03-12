@@ -93,7 +93,7 @@ abstract class  AbstractRequest
     {
         $this->setClientId($clientId);
         $request = $this->client->createRequest(
-            $this->getMethod(),
+            $this->getRequestType(),
             $this->getUrl(),
             $this->getOptions()
         );
@@ -147,7 +147,7 @@ abstract class  AbstractRequest
         return DefaultResponseHandler::class;
     }
 
-    abstract public function getMethod();
+    abstract public function getRequestType();
 
     abstract public function getUrl();
 }
