@@ -11,23 +11,5 @@ use GuzzleHttp\Message\ResponseInterface;
  */
 abstract class AbstractResponse
 {
-    /**
-     * @var ResponseInterface
-     */
-    private $response;
-
-    /**
-     * @param ResponseInterface $response
-     */
-    public function __construct(ResponseInterface $response)
-    {
-        $this->response = $response;
-    }
-
-    protected function getResponse()
-    {
-        return $this->response;
-    }
-
-    abstract public function handle();
+    abstract public function handle(ResponseInterface $response);
 }

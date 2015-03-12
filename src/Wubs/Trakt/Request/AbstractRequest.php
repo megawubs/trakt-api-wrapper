@@ -139,7 +139,7 @@ abstract class  AbstractRequest
     {
         $reflection = new \ReflectionClass($this->getResponseHandler());
 
-        return $reflection->newInstanceArgs([$response])->handle();
+        return $reflection->newInstance()->handle($response);
     }
 
     protected function getResponseHandler()

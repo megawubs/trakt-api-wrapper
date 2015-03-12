@@ -9,14 +9,15 @@
 namespace Wubs\Trakt\Response\Calendars;
 
 
+use GuzzleHttp\Message\ResponseInterface;
 use Wubs\Trakt\Media\Episode;
 use Wubs\Trakt\Response\AbstractResponse;
 
 class Shows extends AbstractResponse
 {
-    public function handle()
+    public function handle(ResponseInterface $response)
     {
-        $dates = $this->getResponse()->json(['object' => true]);
+        $dates = $response->json(['object' => true]);
 
         return $this->handleDates($dates);
     }
