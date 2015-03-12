@@ -9,7 +9,7 @@ use GuzzleHttp\Message\ResponseInterface;
  * Date: 25/02/15
  * Time: 17:24
  */
-abstract class AbstractResponse
+interface Response
 {
-    abstract public function handle(ResponseInterface $response);
+    public function handle(ResponseInterface $response);
 }

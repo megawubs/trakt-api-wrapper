@@ -9,7 +9,7 @@
 namespace Wubs\Trakt\Media;
 
 
-use Wubs\Trakt\Response\AbstractResponse;
+use Wubs\Trakt\Response\Response;
 
 class Movie implements Media
 {

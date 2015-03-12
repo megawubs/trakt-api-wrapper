@@ -11,7 +11,7 @@ namespace Wubs\Trakt\Response;
 
 use GuzzleHttp\Message\ResponseInterface;
 
-class DefaultResponseHandler extends AbstractResponse
+class DefaultResponseHandler implements Response
 {
     /**
      * @param ResponseInterface $response
