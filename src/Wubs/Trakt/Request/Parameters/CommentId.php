@@ -9,7 +9,7 @@
 namespace Wubs\Trakt\Request\Parameters;
 
 
-class CommentId
+class CommentId implements Parameter
 {
     private $id;
 
@@ -31,5 +31,8 @@ class CommentId
         return (string)$this->id;
     }
 
-
+    public static function standard()
+    {
+        return new static(1);
+    }
 }
