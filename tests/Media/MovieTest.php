@@ -1,5 +1,6 @@
 <?php
 use Wubs\Trakt\Media\Movie;
+use Wubs\Trakt\Request\Parameters\Query;
 
 /**
  * Created by PhpStorm.
@@ -12,8 +13,8 @@ class MovieTest extends PHPUnit_Framework_TestCase
 
     public function testCanFindMovieOnSlug()
     {
-        $movie = Movie::search("guardians-of-the-galaxy-2014");
+        $movies = Movie::search(getenv("CLIENT_ID"), get_token(), Query::set("guardians of the galaxy"));
 
-        $this->assertInstanceOf("Wubs\\Trakt\\Media\\Movie", $movie);
+        $this->assertInstanceOf("Wubs\\Trakt\\Media\\Movie", $movies[0]);
     }
 }

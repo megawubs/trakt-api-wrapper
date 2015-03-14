@@ -12,7 +12,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Request\Exception\HttpCodeException\ExceptionStatusCodeFactory;
-use Wubs\Trakt\Response\DefaultResponseHandlerHandler;
+use Wubs\Trakt\Response\DefaultResponseHandler;
 
 abstract class  AbstractRequest
 {
@@ -132,7 +132,6 @@ abstract class  AbstractRequest
 //        var_dump($this->getRequestType());
         if ($this->getRequestType() === RequestType::POST) {
             $options['body'] = $this->postBody;
-            var_dump($options['body']);
         }
         return $options;
     }
@@ -164,7 +163,7 @@ abstract class  AbstractRequest
 
     protected function getResponseHandler()
     {
-        return DefaultResponseHandlerHandler::class;
+        return DefaultResponseHandler::class;
     }
 
     abstract public function getRequestType();
