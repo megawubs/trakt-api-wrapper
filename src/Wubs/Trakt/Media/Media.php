@@ -9,13 +9,16 @@
 namespace Wubs\Trakt\Media;
 
 
-interface Media
+abstract class Media
 {
-    public function __construct($json);
+    public abstract function __construct($json);
 
-    public function getTitle();
+    public abstract function getTitle();
 
-    public function getIds();
+    public abstract function getIds();
 
-    public static function find($searchParam);
+    public static function search($searchParam)
+    {
+        return new static("{}");
+    }
 }

@@ -9,7 +9,7 @@
 namespace Wubs\Trakt\Media;
 
 
-class Episode implements Media
+class Episode extends Media
 {
 
     protected $airsAt;
@@ -41,10 +41,5 @@ class Episode implements Media
     public function getIds()
     {
         // TODO: Implement getIds() method.
-    }
-
-    public static function find($searchParam)
-    {
-        // TODO: Implement find() method.
     }
 }

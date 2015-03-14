@@ -9,7 +9,7 @@
 namespace Wubs\Trakt\Media;
 
 
-class Show implements Media
+class Show extends Media
 {
 
     public function __construct($json)
@@ -25,10 +25,5 @@ class Show implements Media
     public function getIds()
     {
         // TODO: Implement getIds() method.
-    }
-
-    public static function find($searchParam)
-    {
-        // TODO: Implement find() method.
     }
 }

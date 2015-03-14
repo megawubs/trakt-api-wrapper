@@ -2,17 +2,18 @@
 /**
  * Created by PhpStorm.
  * User: bwubs
- * Date: 12/03/15
- * Time: 12:50
+ * Date: 14/03/15
+ * Time: 12:13
  */
 
 namespace Wubs\Trakt\Request\Parameters;
 
 
-class CommentId extends AbstractParameter implements Parameter
+class Query extends AbstractParameter implements Parameter
 {
+
     public static function standard()
     {
-        return new static(1);
+        return new static("foo");
     }
 }

@@ -14,5 +14,7 @@ interface Parameter
 
     public function __toString();
 
+    public static function set($value);
+
     public static function standard();
 }

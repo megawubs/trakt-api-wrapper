@@ -9,9 +9,7 @@
 namespace Wubs\Trakt\Media;
 
 
-use Wubs\Trakt\Response\Response;
-
-class Movie implements Media
+class Movie extends Media
 {
     public function __construct($json)
     {
@@ -25,10 +23,5 @@ class Movie implements Media
     public function getIds()
     {
         // TODO: Implement getIds() method.
-    }
-
-    public static function find($searchParam)
-    {
-        // TODO: Implement find() method.
     }
 }

@@ -24,7 +24,7 @@ class ShowsTest extends PHPUnit_Framework_TestCase
 
     public function testCallShowsRequestWith14Days()
     {
-        $request = new Shows(null, Days::num(14));
+        $request = new Shows(null, Days::set(14));
         $request->setToken(get_token());
 
         $this->assertContains("14", $request->getUrl());
@@ -33,7 +33,7 @@ class ShowsTest extends PHPUnit_Framework_TestCase
     public function testWithDaysAndStartDate()
     {
         $startDate = new StartDate(Carbon::createFromFormat("Y-m-d", "2014-03-01"));
-        $request = new Shows($startDate, Days::num(25));
+        $request = new Shows($startDate, Days::set(25));
         $request->setToken(get_token());
 
         $this->assertContains("25", $request->getUrl());
@@ -43,7 +43,7 @@ class ShowsTest extends PHPUnit_Framework_TestCase
     public function testCanCallRequest()
     {
         $startDate = new StartDate(Carbon::createFromFormat("Y-m-d", "2014-03-01"));
-        $request = new Shows($startDate, Days::num(25));
+        $request = new Shows($startDate, Days::set(25));
         $request->setToken(get_token());
 
         $trakt = new Trakt(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
@@ -57,7 +57,7 @@ class ShowsTest extends PHPUnit_Framework_TestCase
         $id = getenv("CLIENT_ID");
         $token = get_token();
 
-        $response = Shows::request($id, $token, StartDate::standard(), Days::num(1));
+        $response = Shows::request($id, $token, StartDate::standard(), Days::set(1));
         $this->assertInstanceOf("Wubs\\Trakt\\Media\\Episode", $response[0]);
     }
 }

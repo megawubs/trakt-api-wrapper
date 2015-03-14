@@ -2,19 +2,19 @@
 
 use Carbon\Carbon;
 
-class StartDate implements Parameter
+class StartDate extends AbstractParameter implements Parameter
 {
     /**
      * @var Carbon
      */
-    private $date;
+    protected $value;
 
     /**
      * @param Carbon $date
      */
     public function __construct(Carbon $date)
     {
-        $this->date = $date;
+        $this->value = $date;
     }
 
     public static function standard()
@@ -24,6 +24,6 @@ class StartDate implements Parameter
 
     public function __toString()
     {
-        return $this->date->format("Y-m-d");
+        return $this->value->format("Y-m-d");
     }
 }

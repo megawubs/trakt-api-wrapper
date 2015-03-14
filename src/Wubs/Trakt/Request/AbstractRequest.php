@@ -69,6 +69,11 @@ abstract class  AbstractRequest
         $this->extended = $level;
     }
 
+    public function setQueryParams(array $params)
+    {
+        $this->queryParams = $params;
+    }
+
 
     /**
      * @param $clientId
@@ -82,7 +87,7 @@ abstract class  AbstractRequest
      */
     public static function request($clientId, AccessToken $token, ...$parameters)
     {
-        $reflection = new \ReflectionClass(static ::class);
+        $reflection = new \ReflectionClass(static::class);
         $request = $reflection->newInstanceArgs($parameters);
 
         $request->setToken($token);
@@ -97,6 +102,7 @@ abstract class  AbstractRequest
             $this->getUrl(),
             $this->getOptions()
         );
+        
         $response = $this->client->send($request);
 
         if ($this->requestNotSuccessful($response)) {
@@ -111,10 +117,14 @@ abstract class  AbstractRequest
      */
     private function getOptions()
     {
-        return [
+        $options = [
             "headers" => $this->getHeaders(),
             "query" => $this->queryParams
         ];
+        if ($this->getRequestType() === RequestType::POST) {
+
+        }
+        return $options;
     }
 
     /**

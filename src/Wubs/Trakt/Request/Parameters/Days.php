@@ -9,16 +9,14 @@
 namespace Wubs\Trakt\Request\Parameters;
 
 
-class Days implements Parameter
+class Days extends AbstractParameter implements Parameter
 {
-    private $num;
-
     /**
-     * @param int $num
+     * @param int $value
      */
-    public function __construct($num = 7)
+    public function __construct($value = 7)
     {
-        $this->num = $num;
+        $this->value = (string)$value;
     }
 
     public static function standard()
@@ -26,13 +24,8 @@ class Days implements Parameter
         return new static();
     }
 
-    public static function num($num)
+    public static function set($num)
     {
         return new static($num);
-    }
-
-    public function __toString()
-    {
-        return (string)$this->num;
     }
 }

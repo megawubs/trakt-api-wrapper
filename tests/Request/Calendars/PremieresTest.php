@@ -18,7 +18,7 @@ class PremieresTest extends PHPUnit_Framework_TestCase
         $id = getenv("CLIENT_ID");
         $token = get_token();
 
-        $response = Premieres::request($id, $token, new StartDate(Carbon::now()->subYears(3)), Days::num(500));
+        $response = Premieres::request($id, $token, new StartDate(Carbon::now()->subYears(3)), Days::set(500));
         $this->assertInstanceOf("Wubs\\Trakt\\Media\\Episode", $response[0]);
     }
 }

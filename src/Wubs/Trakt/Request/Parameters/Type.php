@@ -9,21 +9,17 @@
 namespace Wubs\Trakt\Request\Parameters;
 
 
-class Type implements Parameter
+class Type extends AbstractParameter implements Parameter
 {
-    private $type;
-
-    /**
-     * @param $type
-     */
-    protected function __construct($type)
-    {
-        $this->type = $type;
-    }
 
     public static function movies()
     {
         return new static("movies");
+    }
+
+    public static function movie()
+    {
+        return new static("movie");
     }
 
     public static function shows()
@@ -31,13 +27,23 @@ class Type implements Parameter
         return new static("shows");
     }
 
-    public function __toString()
+    public static function show()
     {
-        return $this->type;
+        return new static("show");
+    }
+
+    public static function episode()
+    {
+        return new static("episode");
+    }
+
+    public static function _list()
+    {
+        return new static("list");
     }
 
     public static function standard()
     {
-        return new static("shows");
+        return static::shows();
     }
 }

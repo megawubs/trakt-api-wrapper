@@ -17,7 +17,7 @@ class MoviesTest extends PHPUnit_Framework_TestCase
     public function testCanCallRequest()
     {
         $startDate = new StartDate(Carbon::createFromFormat("Y-m-d", "2014-03-01"));
-        $request = new Movies($startDate, Days::num(25));
+        $request = new Movies($startDate, Days::set(25));
         $request->setToken(get_token());
 
         $trakt = new Trakt(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
