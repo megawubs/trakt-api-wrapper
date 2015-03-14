@@ -6,14 +6,15 @@
  * Time: 17:39
  */
 
-namespace Wubs\Trakt\Request\Movies;
+namespace Wubs\Trakt\Request\CheckIn;
 
 
 use Wubs\Trakt\Media\Movie;
 use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\RequestType;
+use Wubs\Trakt\Response\CheckIn\CheckInHandler;
 
-class CheckIn extends AbstractRequest
+class MovieCheckIn extends AbstractRequest
 {
     /**
      * @var Movie
@@ -23,9 +24,11 @@ class CheckIn extends AbstractRequest
     /**
      * @param Movie $movie
      */
-    public function __construct(Movie $movie){
-
-        $this->movie = $movie;
+    public function __construct(Movie $movie)
+    {
+        parent::__construct();
+        $postBody = ['movie' => $movie->getStandardFields()];
+        $this->setPostBody($postBody);
     }
 
     public function getRequestType()
@@ -37,4 +40,10 @@ class CheckIn extends AbstractRequest
     {
         return "checkin";
     }
+
+    protected function getResponseHandler()
+    {
+        return CheckinHandler::class;
+    }
+
 }

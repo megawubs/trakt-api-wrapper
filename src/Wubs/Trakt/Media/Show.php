@@ -12,11 +12,6 @@ namespace Wubs\Trakt\Media;
 class Show extends Media
 {
 
-    public function __construct($json)
-    {
-        // TODO: Implement __construct() method.
-    }
-
     public function getTitle()
     {
         // TODO: Implement getTitle() method.

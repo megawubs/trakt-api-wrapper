@@ -14,6 +14,7 @@ use Wubs\Trakt\Request\Parameters\Query;
 use Wubs\Trakt\Request\Parameters\Type;
 use Wubs\Trakt\Request\Parameters\Year;
 use Wubs\Trakt\Request\RequestType;
+use Wubs\Trakt\Response\Search\TextSearchHandler;
 
 class Text extends AbstractRequest
 {
@@ -72,6 +73,12 @@ class Text extends AbstractRequest
         }
 
         return $params;
-
     }
+
+    protected function getResponseHandler()
+    {
+        return TextSearchHandler::class;
+    }
+
+
 }

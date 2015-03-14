@@ -8,14 +8,11 @@
 
 namespace Wubs\Trakt\Request;
 
-
-use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Request\Exception\HttpCodeException\ExceptionStatusCodeFactory;
-use Wubs\Trakt\Response\DefaultResponseHandler;
-use Wubs\Trakt\Token\TraktAccessToken;
+use Wubs\Trakt\Response\DefaultResponseHandlerHandler;
 
 abstract class  AbstractRequest
 {
@@ -36,6 +33,8 @@ abstract class  AbstractRequest
     protected $queryParams = [];
 
     protected $allowedExtended;
+
+    private $postBody;
     /**
      * @var AccessToken
      */
@@ -74,6 +73,15 @@ abstract class  AbstractRequest
         $this->queryParams = $params;
     }
 
+    public function setPostBody($json)
+    {
+        if (is_array($json)) {
+            $json = json_encode($json);
+        }
+
+        $this->postBody = $json;
+    }
+
 
     /**
      * @param $clientId
@@ -102,7 +110,7 @@ abstract class  AbstractRequest
             $this->getUrl(),
             $this->getOptions()
         );
-        
+
         $response = $this->client->send($request);
 
         if ($this->requestNotSuccessful($response)) {
@@ -121,8 +129,10 @@ abstract class  AbstractRequest
             "headers" => $this->getHeaders(),
             "query" => $this->queryParams
         ];
+//        var_dump($this->getRequestType());
         if ($this->getRequestType() === RequestType::POST) {
-
+            $options['body'] = $this->postBody;
+            var_dump($options['body']);
         }
         return $options;
     }
@@ -154,7 +164,7 @@ abstract class  AbstractRequest
 
     protected function getResponseHandler()
     {
-        return DefaultResponseHandler::class;
+        return DefaultResponseHandlerHandler::class;
     }
 
     abstract public function getRequestType();

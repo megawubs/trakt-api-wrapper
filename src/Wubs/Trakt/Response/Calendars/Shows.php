@@ -11,9 +11,9 @@ namespace Wubs\Trakt\Response\Calendars;
 
 use GuzzleHttp\Message\ResponseInterface;
 use Wubs\Trakt\Media\Episode;
-use Wubs\Trakt\Response\Response;
+use Wubs\Trakt\Response\ResponseHandler;
 
-class Shows implements  Response
+class Shows implements  ResponseHandler
 {
     public function handle(ResponseInterface $response)
     {

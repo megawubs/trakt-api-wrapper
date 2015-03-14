@@ -11,17 +11,16 @@ namespace Wubs\Trakt\Media;
 
 class Movie extends Media
 {
-    public function __construct($json)
-    {
-    }
+
+    protected $standard = ["title", "year", "ids"];
 
     public function getTitle()
     {
-        // TODO: Implement getTitle() method.
+        return $this->json->movie->title;
     }
 
     public function getIds()
     {
-        // TODO: Implement getIds() method.
+        return $this->json->movie->ids;
     }
 }

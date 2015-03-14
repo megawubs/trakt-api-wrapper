@@ -24,8 +24,8 @@ class TextTest extends PHPUnit_Framework_TestCase
             Type::movie(),
             Year::set("2014")
         );
-//        print_r($response);
-        $this->assertEquals("2014", $response[0]['movie']['year']);
-//        $this->assertInstanceOf("Wubs\\Trakt\\Media\\Episode", $response[0]);
+
+        $this->assertInstanceOf("Wubs\\Trakt\\Media\\Movie", $response[0]);
+//        $this->assertEquals("2014", $response[0]['movie']['year']);
     }
 }

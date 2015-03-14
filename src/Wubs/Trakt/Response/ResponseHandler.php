@@ -9,7 +9,7 @@ use GuzzleHttp\Message\ResponseInterface;
  * Date: 25/02/15
  * Time: 17:24
  */
-interface Response
+interface ResponseHandler
 {
     public function handle(ResponseInterface $response);
 }
