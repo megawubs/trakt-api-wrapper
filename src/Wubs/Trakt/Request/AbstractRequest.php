@@ -26,6 +26,8 @@ abstract class  AbstractRequest
 
     private $host = 'api-v2launch.trakt.tv';
 
+    protected $staging = "https://api.staging.trakt.tv";
+
     private $apiVersion = 2;
 
     private $extended;
@@ -35,6 +37,14 @@ abstract class  AbstractRequest
     protected $allowedExtended;
 
     private $postBody;
+
+    private $environment = 'prod';
+
+    /**
+     * @var Client
+     */
+    private $client;
+
     /**
      * @var AccessToken
      */
@@ -43,7 +53,7 @@ abstract class  AbstractRequest
     public function __construct($extended = 'min', $page = 1, $limit = 10, $apiVersion = 2, array $queryParams = [])
     {
         $this->extended = $extended;
-        $this->client = new Client(['base_url' => [$this->scheme . '://' . $this->host, ['version' => $apiVersion]]]);
+        $this->client = $this->getClient($apiVersion);
         $this->apiVersion = $apiVersion;
         $this->page = $page;
         $this->limit = $limit;
@@ -82,6 +92,14 @@ abstract class  AbstractRequest
         $this->postBody = $json;
     }
 
+    public function setEnvironment($environment)
+    {
+        $allowed = ['prod', 'staging'];
+        if (in_array($environment, $allowed)) {
+            $this->environment = $environment;
+            $this->client = $this->getClient($this->apiVersion);
+        }
+    }
 
     /**
      * @param $clientId
@@ -169,4 +187,18 @@ abstract class  AbstractRequest
     abstract public function getRequestType();
 
     abstract public function getUrl();
+
+    /**
+     * @param $apiVersion
+     * @return Client
+     */
+    private function getClient($apiVersion)
+    {
+        $host = $this->host;
+
+        if ($this->environment === 'staging') {
+            $host = $this->staging;
+        }
+        return new Client(['base_url' => [$this->scheme . '://' . $host, ['version' => $apiVersion]]]);
+    }
 }
