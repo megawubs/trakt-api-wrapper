@@ -24,7 +24,7 @@ class Trakt
      */
     public function __construct($clientId, $clientSecret, $redirectUrl)
     {
-        $this->clientId = $clientId;
+        $this->clientId = ClientId::set($clientId);
         $this->clientSecret = $clientSecret;
         $this->redirectUrl = $redirectUrl;
     }
@@ -38,7 +38,7 @@ class Trakt
 
     public function getAccessToken($code)
     {
-        if ($this->notInvalid()) {
+        if ($this->isInvalid()) {
             $this->invalid();
         }
         $params = ["code" => $code];
@@ -61,7 +61,7 @@ class Trakt
         return new TraktProvider($this->clientId, $this->clientSecret, $this->redirectUrl);
     }
 
-    private function notInvalid()
+    private function isInvalid()
     {
         return (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['trakt_oauth_state']));
     }
