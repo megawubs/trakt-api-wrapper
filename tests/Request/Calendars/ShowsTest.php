@@ -54,7 +54,7 @@ class ShowsTest extends PHPUnit_Framework_TestCase
 
     public function testStaticRequest()
     {
-        $id = getenv("CLIENT_ID");
+        $id = get_client_id();
         $token = get_token();
 
         $response = Shows::request($id, $token, StartDate::standard(), Days::set(1));

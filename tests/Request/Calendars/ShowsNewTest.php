@@ -15,7 +15,7 @@ class ShowsNewTest extends PHPUnit_Framework_TestCase
 
     public function testStaticCall()
     {
-        $id = getenv("CLIENT_ID");
+        $id = get_client_id();
         $token = get_token();
 
         $response = ShowsNew::request($id, $token, new StartDate(Carbon::now()->subYears(3)), Days::set(500));

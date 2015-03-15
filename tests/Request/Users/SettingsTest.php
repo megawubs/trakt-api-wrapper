@@ -15,7 +15,7 @@ class SettingsTest extends PHPUnit_Framework_TestCase
     {
         $settingsRequest = new Settings();
 
-        $settingsRequest->setClientId(getenv("CLIENT_ID"));
+        $settingsRequest->setClientId(get_client_id());
 
         $settingsRequest->setToken(get_token());
 

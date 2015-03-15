@@ -13,7 +13,7 @@ class MovieTest extends PHPUnit_Framework_TestCase
 
     public function testCanFindMovieOnSlug()
     {
-        $movies = Movie::search(getenv("CLIENT_ID"), get_token(), Query::set("guardians of the galaxy"));
+        $movies = Movie::search(get_client_id(), get_token(), Query::set("guardians of the galaxy"));
 
         $this->assertInstanceOf("Wubs\\Trakt\\Media\\Movie", $movies[0]);
     }

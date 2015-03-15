@@ -13,14 +13,15 @@ class MovieCheckInTest extends PHPUnit_Framework_TestCase
 {
     public function testStaticCall()
     {
-        $id = getenv("CLIENT_ID");
+        $id = get_client_id();
         $token = get_token();
 
         $movie = Movie::search($id, $token, Query::set("guardians of the galaxy"));
 
         $response = MovieCheckIn::request($id, $token, $movie[1]);
 
-        $this->assertInstanceOf("Wubs\\Trakt\\Media\\CheckIn", $response);
+        $this->assertInstanceOf("Wubs\\Trakt\\Response\\CheckIn", $response);
 
+        $movie->checkOut();
     }
 }

@@ -13,7 +13,7 @@ class RepliesTest extends PHPUnit_Framework_TestCase
 
     public function testStaticCall()
     {
-        $id = getenv("CLIENT_ID");
+        $id = get_client_id();
         $token = get_token();
 
         $response = Replies::request($id, $token, CommentId::set(41));

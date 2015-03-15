@@ -12,7 +12,7 @@ class CheckOutTest extends PHPUnit_Framework_TestCase
 
     public function testStaticCall()
     {
-        $id = getenv("CLIENT_ID");
+        $id = get_client_id();
         $token = get_token();
 
         $response = CheckOut::request($id, $token);

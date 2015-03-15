@@ -1,5 +1,5 @@
 <?php
-use Wubs\Trakt\Request\Comments\Comment;
+use Wubs\Trakt\Request\Comments\GetComment;
 use Wubs\Trakt\Request\Parameters\CommentId;
 
 /**
@@ -8,14 +8,14 @@ use Wubs\Trakt\Request\Parameters\CommentId;
  * Date: 12/03/15
  * Time: 12:54
  */
-class CommentTest extends PHPUnit_Framework_TestCase
+class GetCommentTest extends PHPUnit_Framework_TestCase
 {
     public function testStaticCall()
     {
-        $id = getenv("CLIENT_ID");
+        $id = get_client_id();
         $token = get_token();
 
-        $response = Comment::request($id, $token, CommentId::set(41));
+        $response = GetComment::request($id, $token, CommentId::set(41));
         $this->assertInternalType("array", $response);
     }
 }
