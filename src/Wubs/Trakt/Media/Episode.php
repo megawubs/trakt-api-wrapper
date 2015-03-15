@@ -9,6 +9,9 @@
 namespace Wubs\Trakt\Media;
 
 
+use League\OAuth2\Client\Token\AccessToken;
+use Wubs\Trakt\ClientId;
+
 class Episode extends Media
 {
 
@@ -27,8 +30,10 @@ class Episode extends Media
      */
     protected $show;
 
-    public function __construct($json)
+    public function __construct($json, ClientId $clientId, AccessToken $token)
     {
+        parent::__construct($json, $clientId, $token);
+
         $this->airsAt = $json->airs_at;
         $this->season = $json->episode->season;
     }

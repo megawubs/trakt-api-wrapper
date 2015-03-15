@@ -10,6 +10,9 @@ namespace Wubs\Trakt\Media;
 
 
 use League\OAuth2\Client\Token\AccessToken;
+use Wubs\Trakt\ClientId;
+use Wubs\Trakt\Request\CheckIn\CheckIn;
+use Wubs\Trakt\Request\CheckIn\CheckOut;
 use Wubs\Trakt\Request\Parameters\Parameter;
 use Wubs\Trakt\Request\Parameters\Query;
 use Wubs\Trakt\Request\Parameters\Type;
@@ -21,13 +24,22 @@ abstract class Media
     protected $json;
 
     protected $standard = [];
+    private $id;
+    /**
+     * @var AccessToken
+     */
+    private $token;
 
     /**
      * @param $json
+     * @param $id
+     * @param AccessToken $token
      */
-    public function __construct($json)
+    public function __construct($json, ClientId $id, AccessToken $token)
     {
         $this->json = $json;
+        $this->id = $id;
+        $this->token = $token;
     }
 
     public function json()
@@ -54,6 +66,16 @@ abstract class Media
         if ($query instanceof Query) {
             return Text::request($id, $token, $query, Type::movie(), $year);
         }
+    }
+
+    public function checkIn()
+    {
+        return CheckIn::movie($this->id, $this->token, $this);
+    }
+
+    public function checkOut()
+    {
+        return CheckOut::request($this->id, $this->token);
     }
 
     public abstract function getTitle();

@@ -11,11 +11,15 @@ namespace Wubs\Trakt\Request;
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
 use League\OAuth2\Client\Token\AccessToken;
+use Wubs\Trakt\ClientId;
 use Wubs\Trakt\Request\Exception\HttpCodeException\ExceptionStatusCodeFactory;
-use Wubs\Trakt\Response\DefaultResponseHandler;
+use Wubs\Trakt\Response\Handlers\DefaultResponseHandler;
 
 abstract class  AbstractRequest
 {
+    /**
+     * @var ClientId
+     */
     private $clientId;
 
     private $page = 1;
@@ -36,8 +40,6 @@ abstract class  AbstractRequest
 
     protected $allowedExtended;
 
-    private $postBody;
-
     private $environment = 'prod';
 
     /**
@@ -50,6 +52,13 @@ abstract class  AbstractRequest
      */
     private $token;
 
+    /**
+     * @param string $extended
+     * @param int $page
+     * @param int $limit
+     * @param int $apiVersion
+     * @param array $queryParams
+     */
     public function __construct($extended = 'min', $page = 1, $limit = 10, $apiVersion = 2, array $queryParams = [])
     {
         $this->extended = $extended;
@@ -60,24 +69,35 @@ abstract class  AbstractRequest
         $this->queryParams = $queryParams;
     }
 
-    public function setClientId($clientId)
+    /**
+     * @param $clientId
+     */
+    public function setClientId(ClientId $clientId)
     {
         if (!is_null($clientId)) {
             $this->clientId = $clientId;
         }
-
     }
 
+    /**
+     * @param AccessToken $token
+     */
     public function setToken(AccessToken $token)
     {
         $this->token = $token;
     }
 
+    /**
+     * @param $level
+     */
     public function setExtended($level)
     {
         $this->extended = $level;
     }
 
+    /**
+     * @param array $params
+     */
     public function setQueryParams(array $params)
     {
         $this->queryParams = $params;
@@ -111,16 +131,17 @@ abstract class  AbstractRequest
      * @throws Exception\HttpCodeException\ServerUnavailableException
      * @throws Exception\HttpCodeException\StatusCodeException
      */
-    public static function request($clientId, AccessToken $token, ...$parameters)
+    public static function request(ClientId $clientId, AccessToken $token, ...$parameters)
     {
         $reflection = new \ReflectionClass(static::class);
         $request = $reflection->newInstanceArgs($parameters);
 
         $request->setToken($token);
+
         return $request->call($clientId);
     }
 
-    public function call($clientId = null)
+    public function call(ClientId $clientId = null)
     {
         $this->setClientId($clientId);
         $request = $this->client->createRequest(
@@ -138,6 +159,28 @@ abstract class  AbstractRequest
         return $this->handleResponse($response);
     }
 
+    protected function handleResponse(ResponseInterface $response)
+    {
+        $reflection = new \ReflectionClass($this->getResponseHandler());
+
+        $handler = $reflection->newInstance();
+
+        $handler->setId($this->clientId);
+        $handler->setToken($this->token);
+
+        return $handler->handle($response);
+    }
+
+    protected function getResponseHandler()
+    {
+        return DefaultResponseHandler::class;
+    }
+
+    protected function getPostBody()
+    {
+        return [];
+    }
+
     /**
      * @return array
      */
@@ -147,11 +190,8 @@ abstract class  AbstractRequest
             "headers" => $this->getHeaders(),
             "query" => $this->queryParams
         ];
-//        var_dump($this->getRequestType());
-        if ($this->getRequestType() === RequestType::POST) {
-            $options['body'] = $this->postBody;
-        }
-        return $options;
+
+        return $this->setBody($options);
     }
 
     /**
@@ -172,22 +212,6 @@ abstract class  AbstractRequest
         return (!in_array($response->getStatusCode(), [200, 201, 204]));
     }
 
-    protected function handleResponse(ResponseInterface $response)
-    {
-        $reflection = new \ReflectionClass($this->getResponseHandler());
-
-        return $reflection->newInstance()->handle($response);
-    }
-
-    protected function getResponseHandler()
-    {
-        return DefaultResponseHandler::class;
-    }
-
-    abstract public function getRequestType();
-
-    abstract public function getUrl();
-
     /**
      * @param $apiVersion
      * @return Client
@@ -201,4 +225,22 @@ abstract class  AbstractRequest
         }
         return new Client(['base_url' => [$this->scheme . '://' . $host, ['version' => $apiVersion]]]);
     }
+
+    /**
+     * @param $options
+     * @return mixed
+     */
+    private function setBody($options)
+    {
+        if ($this->getRequestType() === RequestType::POST) {
+            $options['body'] = json_encode($this->getPostBody());
+            return $options;
+        }
+
+        return $options;
+    }
+
+    abstract public function getRequestType();
+
+    abstract public function getUrl();
 }
