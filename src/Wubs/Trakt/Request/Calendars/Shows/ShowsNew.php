@@ -14,7 +14,7 @@ use Wubs\Trakt\Request\Parameters\Days;
 use Wubs\Trakt\Request\Parameters\StartDate;
 use Wubs\Trakt\Request\RequestType;
 use Wubs\Trakt\Request\TimePeriod;
-use Wubs\Trakt\Response\Calendars\Shows;
+use Wubs\Trakt\Response\Handlers\Calendars\Shows;
 
 class ShowsNew extends AbstractRequest
 {

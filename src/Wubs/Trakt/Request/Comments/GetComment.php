@@ -13,7 +13,7 @@ use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\Parameters\CommentId;
 use Wubs\Trakt\Request\RequestType;
 
-class Comment extends AbstractRequest
+class GetComment extends AbstractRequest
 {
     /**
      * @var CommentId

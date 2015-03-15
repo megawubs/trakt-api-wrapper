@@ -14,7 +14,7 @@ use Wubs\Trakt\Request\Parameters\Query;
 use Wubs\Trakt\Request\Parameters\Type;
 use Wubs\Trakt\Request\Parameters\Year;
 use Wubs\Trakt\Request\RequestType;
-use Wubs\Trakt\Response\Search\TextSearchHandler;
+use Wubs\Trakt\Response\Handlers\Search\TextSearchHandler;
 
 class Text extends AbstractRequest
 {

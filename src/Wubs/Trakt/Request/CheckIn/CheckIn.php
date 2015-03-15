@@ -2,23 +2,23 @@
 /**
  * Created by PhpStorm.
  * User: bwubs
- * Date: 14/03/15
- * Time: 15:41
+ * Date: 15/03/15
+ * Time: 17:33
  */
 
 namespace Wubs\Trakt\Request\CheckIn;
 
 
-use Wubs\Trakt\Media\Media;
+use League\OAuth2\Client\Token\AccessToken;
+use Wubs\Trakt\ClientId;
 use Wubs\Trakt\Media\Movie;
-use Wubs\Trakt\Request\AbstractRequest;
 
 class CheckIn
 {
 
-    public static function movie(Movie $movie)
+    public static function movie(ClientId $id, AccessToken $token, Movie $movie)
     {
-
+        return MovieCheckIn::request($id, $token, $movie);
     }
 
 }
