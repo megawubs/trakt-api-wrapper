@@ -18,6 +18,8 @@ class NewCommentHandler extends AbstractResponseHandler implements ResponseHandl
 
     public function handle(ResponseInterface $response)
     {
+        $response = $response->json(['object' => true]);
+
 
     }
 }
