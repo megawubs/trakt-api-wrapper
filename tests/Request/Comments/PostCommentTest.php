@@ -12,17 +12,17 @@ use Wubs\Trakt\Request\Parameters\Spoiler;
 class PostCommentTest extends PHPUnit_Framework_TestCase
 {
 
-//    public function testStaticCall()
-//    {
-//        $id = get_client_id();
-//        $token = get_token();
-//
-//        $movie = movie();
-//
-//        $result = PostComment::request($id, $token, $movie, Comment::set("It's a good movie, I really liked it!"));
-//
-//        $this->assertTrue($result);
-//    }
+    public function testStaticCall()
+    {
+        $id = get_client_id();
+        $token = get_token();
+
+        $movie = movie();
+
+        $result = PostComment::request($id, $token, $movie, Comment::set("It's a good movie, I really liked it!"));
+
+        $this->assertTrue($result);
+    }
 
     /**
      * @@expectedException Wubs\Trakt\Request\Exception\CommentTooShortException
