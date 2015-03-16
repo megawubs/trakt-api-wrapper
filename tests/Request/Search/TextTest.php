@@ -12,7 +12,7 @@ use Wubs\Trakt\Request\Search\Text;
  */
 class TextTest extends PHPUnit_Framework_TestCase
 {
-    public function testStaticCall()
+    public function testSearchMovie()
     {
         $id = get_client_id();
         $token = get_token();
@@ -26,6 +26,34 @@ class TextTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertInstanceOf("Wubs\\Trakt\\Media\\Movie", $response[0]);
-//        $this->assertEquals("2014", $response[0]['movie']['year']);
+    }
+
+    public function testSearchShow()
+    {
+        $id = get_client_id();
+        $token = get_token();
+
+        $response = Text::request(
+            $id,
+            $token,
+            Query::set("hannibal"),
+            Type::show()
+        );
+        $this->assertInstanceOf("Wubs\\Trakt\\Media\\Show", $response[0]);
+    }
+
+    public function testSearchEpisode()
+    {
+        $id = get_client_id();
+        $token = get_token();
+
+        $response = Text::request(
+            $id,
+            $token,
+            Query::set("hannibal"),
+            Type::episode()
+        );
+
+        $this->assertInstanceOf("Wubs\\Trakt\\Media\\Episode", $response[0]);
     }
 }
