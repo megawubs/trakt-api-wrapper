@@ -11,14 +11,17 @@ namespace Wubs\Trakt\Request\CheckIn;
 
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\ClientId;
+use Wubs\Trakt\Media\Media;
 use Wubs\Trakt\Media\Movie;
 
 class CheckIn
 {
 
-    public static function movie(ClientId $id, AccessToken $token, Movie $movie)
+    public static function media(ClientId $id, AccessToken $token, Media $media)
     {
-        return MovieCheckIn::request($id, $token, $movie);
+        if ($media instanceof Movie) {
+            return MovieCheckIn::request($id, $token, $media);
+        }
     }
 
 }
