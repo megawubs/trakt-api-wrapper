@@ -13,6 +13,8 @@ use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\ClientId;
 use Wubs\Trakt\Request\CheckIn\CheckIn;
 use Wubs\Trakt\Request\CheckIn\CheckOut;
+use Wubs\Trakt\Request\Comments\PostComment;
+use Wubs\Trakt\Request\Parameters\Comment;
 use Wubs\Trakt\Request\Parameters\Parameter;
 use Wubs\Trakt\Request\Parameters\Query;
 use Wubs\Trakt\Request\Parameters\Type;
@@ -24,11 +26,12 @@ abstract class Media
     protected $json;
 
     protected $standard = [];
-    private $id;
+
+    protected $id;
     /**
      * @var AccessToken
      */
-    private $token;
+    protected $token;
 
     /**
      * @param $json
@@ -70,12 +73,17 @@ abstract class Media
 
     public function checkIn()
     {
-        return CheckIn::movie($this->id, $this->token, $this);
+        return CheckIn::media($this->id, $this->token, $this);
     }
 
     public function checkOut()
     {
         return CheckOut::request($this->id, $this->token);
+    }
+
+    public function comment(Comment $comment)
+    {
+        return PostComment::request($this->id, $this->token, $this, $comment);
     }
 
     public abstract function getTitle();

@@ -9,16 +9,21 @@
 namespace Wubs\Trakt\Media;
 
 
+use League\OAuth2\Client\Token\AccessToken;
+use Wubs\Trakt\ClientId;
+
 class Show extends Media
 {
 
+    protected $standard = ["title", "year", "ids"];
+
     public function getTitle()
     {
-        // TODO: Implement getTitle() method.
+        return $this->json->show->title;
     }
 
     public function getIds()
     {
-        // TODO: Implement getIds() method.
+        return $this->json->show->ids;
     }
 }

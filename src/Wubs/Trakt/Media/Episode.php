@@ -15,15 +15,7 @@ use Wubs\Trakt\ClientId;
 class Episode extends Media
 {
 
-    protected $airsAt;
-
-    protected $season;
-
-    protected $number;
-
-    protected $title;
-
-    protected $ids = [];
+    protected $standard = ["season", "number", "title", "ids"];
 
     /**
      * @var Show
@@ -33,18 +25,31 @@ class Episode extends Media
     public function __construct($json, ClientId $clientId, AccessToken $token)
     {
         parent::__construct($json, $clientId, $token);
-
-        $this->airsAt = $json->airs_at;
-        $this->season = $json->episode->season;
+        $this->episode = $this->json->episode;
     }
 
     public function getTitle()
     {
-        // TODO: Implement getTitle() method.
+        return $this->episode->title;
     }
 
     public function getIds()
     {
-        // TODO: Implement getIds() method.
+        return $this->episode->ids;
+    }
+
+    public function getShow()
+    {
+        return new Show($this->json->show, $this->id, $this->token);
+    }
+
+    public function getSeasonNumber()
+    {
+        return $this->episode->season;
+    }
+
+    public function getEpisodeNumber()
+    {
+        return $this->episode->number;
     }
 }
