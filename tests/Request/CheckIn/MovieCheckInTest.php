@@ -16,12 +16,15 @@ class MovieCheckInTest extends PHPUnit_Framework_TestCase
         $id = get_client_id();
         $token = get_token();
 
-        $movie = Movie::search($id, $token, Query::set("guardians of the galaxy"));
+        /**
+         * @var Movie[]
+         */
+        $movies = Movie::search($id, $token, Query::set("guardians of the galaxy"));
 
-        $response = MovieCheckIn::request($id, $token, $movie[1]);
+        $response = MovieCheckIn::request($id, $token, $movies[1]);
 
         $this->assertInstanceOf("Wubs\\Trakt\\Response\\CheckIn", $response);
 
-        $movie->checkOut();
+        $movies[1]->checkOut();
     }
 }
