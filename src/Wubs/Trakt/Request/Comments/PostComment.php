@@ -79,6 +79,6 @@ class PostComment extends AbstractRequest
      */
     protected function isReview()
     {
-        return strlen($this->comment > 200);
+        return (strlen($this->comment) > 200);
     }
 }
