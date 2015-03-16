@@ -42,7 +42,7 @@ class Shows extends AbstractRequest
 
     public function getUrl()
     {
-        return "calendars/shows/" . $this->getStartDate() . "/" . $this->getDays();
+        return "calendars/shows/:start_date/:days";
     }
 
 

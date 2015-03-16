@@ -41,12 +41,12 @@ trait TimePeriod
         $this->days = $days;
     }
 
-    protected function getStartDate()
+    public function getStartDate()
     {
         return $this->startDate;
     }
 
-    protected function getDays()
+    public function getDays()
     {
         return $this->days;
     }
