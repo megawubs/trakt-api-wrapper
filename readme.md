@@ -31,6 +31,65 @@ else{
     //now store it somewhere safe.... yes, i said somewhere safe! 
 }
 ```
+## OAuth
+
+First, create a Trakt object with your client id, client secret and the redirect url:
+
+```PHP
+<?php
+$trakt = new Trakt($clientId, $clientSecret, $redirectUrl);
+```
+ 
+The redirect url is where you have to specify the url Trakt is going to send you the code to obtain an access code. 
+The  working of OAuth is that you request access form your app to Trakt with your id, secret and redirect url. This 
+way, Trakt knows on what URL it can send you the code to get the access code. With the code you get from Trakt, you 
+can request the accesscode by running `$trakt->getAccessCode($code);`
+but, when you don’t have a website running yet, you can’t specify a return url (because trakt can’t access your 
+local machine) to get the code displayed on the trakt site, you need to tell Trakt that you want to redirect to them
+self. You can do this by providing the following string as redirect url: `urn:ietf:wg:oauth:2.0:oob`
+
+So, lets say our client id is `12345678` and our client secret is `secret01` and we can't have a redirect url because
+ you are developing locally (Trakt can't access your local dev environment). Now, `urn:ietf:wg:oauth:2.0:oob` is 
+ going to be our redirect url. Creating the Trakt object an now be done like this:
+ 
+ ```PHP
+ <?php
+ $trakt = new Trakt("12345678", "secret01", "urn:ietf:wg:oauth:2.0:oob");
+ ```
+
+Now you can create a file called `trakt.php` in the root of your project and put the following in it:
+
+ ```PHP
+<?php
+require "vendor/autoload.php";
+
+$trakt = new Trakt("12345678", "secret01", "urn:ietf:wg:oauth:2.0:oob");
+$trakt->authorize();
+```
+
+now run from the same locataion: `php -S 127.0.0.1:8000` and point your browser to `127.0.0.1:8000` This will start 
+the authorization process and redirect you to the Trakt site let you log in and/or let you authorize the application.
+When done, it'll display a page with a code. Lets say the code is `AaassSSfeAAsDf323AsdF4^h` Copy the code and change
+the file `trakt.php` to this:
+ 
+ ```PHP
+<?php
+require "vendor/autoload.php";
+
+$trakt = new Trakt("12345678", "secret01", "urn:ietf:wg:oauth:2.0:oob");
+$token = $trakt->getAccessToken("AaassSSfeAAsDf323AsdF4^h");
+var_dump($code);
+```
+
+You can now run the file from the terminal and it'll display the contents of the `AccessToken` object.
+store the values from the code somewhere (I use the .env php package for development of this package)
+With the values you can re-create the `AccessToken` when you need it by using the `TraktAccessToken::ceate()` method 
+and pass the required parameters `$token`, `$type`, `$expires`, `$refresh` and `$scope`.
+
+Be aware that above approach is especially when you develop for your own. When your application needs user specific 
+information and get/post/update stuff based on a user the approach is different. In this case you should use a 
+redirect url to your application.and handle getting the access token from there.
+
 
 ## The inner workings
 
@@ -48,7 +107,6 @@ response handler. When you do not override the `AbstractRequest::getResponseHand
 
 The basics of a `Request` object will look like this.
 ```php
-
 <?php
 
 namespace Wubs\Trakt\Request\Calendars;
@@ -83,7 +141,6 @@ assigning. wWhen there are no parameters provided it sets the standard value, as
 Now, the above class can be updated to use the `Parameter` classes.
 
 ```PHP
-
 <?php
 
 namespace Wubs\Trakt\Request\Calendars;
@@ -122,7 +179,6 @@ class Movies extends AbstractRequest
 A simple `calendars/movies` request can now preformed like so:
 
 ```php
-
 <?php
 
 use Wubs\Trakt\Request\Calendars\Movies;
