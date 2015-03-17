@@ -50,7 +50,7 @@ self. You can do this by providing the following string as redirect url: `urn:ie
 
 So, lets say our client id is `12345678` and our client secret is `secret01` and we can't have a redirect url because
  you are developing locally (Trakt can't access your local dev environment). Now, `urn:ietf:wg:oauth:2.0:oob` is 
- going to be our redirect url. Creating the Trakt object an now be done like this:
+ going to be our redirect url. Creating the Trakt object can now be done like this:
  
  ```PHP
  <?php
@@ -61,6 +61,8 @@ Now you can create a file called `trakt.php` in the root of your project and put
 
  ```PHP
 <?php
+use Wubs\Trakt\Trakt;
+
 require "vendor/autoload.php";
 
 $trakt = new Trakt("12345678", "secret01", "urn:ietf:wg:oauth:2.0:oob");
@@ -88,7 +90,7 @@ and pass the required parameters `$token`, `$type`, `$expires`, `$refresh` and `
 
 Be aware that above approach is especially when you develop for your own. When your application needs user specific 
 information and get/post/update stuff based on a user the approach is different. In this case you should use a 
-redirect url to your application.and handle getting the access token from there.
+redirect url to your application and handle getting the access token from there.
 
 
 ## The inner workings
