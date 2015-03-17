@@ -11,26 +11,6 @@ In your composer.json file add:`"wubs/trakt": "dev-master"` and run `composer up
 
 The goal of this wrapper is to make communicating with the Trakt api easier. It aims to be easy, readable and usable in many cases. Designed as a composer package it can be easy installed inside a lager application.
 
-### Usage examples
-
-__setup__
-
-Before you can use the API Wrapper, you need to obtain a OAuth Access token. To be able to do this we internally use 
-[oauth2-client][oauth2-client].
-A basic example of how to obtain a token with this wrapper:
-
-```PHP
-<?php
-$trakt = new Trakt($clientId, $clientSecret, $redirectUrl);
-if (!isset($_GET['code'])) {
-    $trakt->authorize();
-}
-else{
-    $code = $_GET('code');
-    $token = $trakt->getAccessToken($code);
-    //now store it somewhere safe.... yes, i said somewhere safe! 
-}
-```
 ## OAuth
 
 First, create a Trakt object with your client id, client secret and the redirect url:
