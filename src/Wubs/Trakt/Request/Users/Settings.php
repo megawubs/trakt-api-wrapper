@@ -24,7 +24,7 @@ class Settings extends AbstractRequest
         return RequestType::GET;
     }
 
-    public function getUrl()
+    public function getUri()
     {
         return "users/settings";
     }

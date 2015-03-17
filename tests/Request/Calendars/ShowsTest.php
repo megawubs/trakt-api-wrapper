@@ -14,12 +14,12 @@ use Wubs\Trakt\Trakt;
 class ShowsTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testCanCallRequestWithNoParameters()
+    public function testCanBuildRequestWithNoParameters()
     {
         $request = new Shows();
         $request->setToken(get_token());
         $today = (string)StartDate::standard();
-        $this->assertContains($today, $request->getUrl());
+        $this->assertContains($today, (string)$request->getStartDate());
     }
 
     public function testCallShowsRequestWith14Days()
@@ -27,7 +27,7 @@ class ShowsTest extends PHPUnit_Framework_TestCase
         $request = new Shows(null, Days::set(14));
         $request->setToken(get_token());
 
-        $this->assertContains("14", $request->getUrl());
+        $this->assertContains("14", (string)$request->getDays());
     }
 
     public function testWithDaysAndStartDate()
@@ -36,8 +36,8 @@ class ShowsTest extends PHPUnit_Framework_TestCase
         $request = new Shows($startDate, Days::set(25));
         $request->setToken(get_token());
 
-        $this->assertContains("25", $request->getUrl());
-        $this->assertContains("2014-03-01", $request->getUrl());
+        $this->assertContains("25", (string)$request->getDays());
+        $this->assertContains("2014-03-01", (string)$request->getStartDate());
     }
 
     public function testCanCallRequest()
@@ -57,7 +57,7 @@ class ShowsTest extends PHPUnit_Framework_TestCase
         $id = get_client_id();
         $token = get_token();
 
-        $response = Shows::request($id, $token, StartDate::standard(), Days::set(1));
+        $response = Shows::request($id, $token, StartDate::standard(), Days::set(7));
         $this->assertInstanceOf("Wubs\\Trakt\\Media\\Episode", $response[0]);
     }
 }

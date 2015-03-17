@@ -33,7 +33,7 @@ class DeleteComment extends AbstractRequest
         return RequestType::DELETE;
     }
 
-    public function getUrl()
+    public function getUri()
     {
         return 'comments/' . $this->id;
     }

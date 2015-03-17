@@ -34,7 +34,7 @@ class GetComment extends AbstractRequest
         return RequestType::GET;
     }
 
-    public function getUrl()
+    public function getUri()
     {
         return "comments/" . $this->id;
     }

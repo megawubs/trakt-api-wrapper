@@ -32,7 +32,7 @@ class Movies extends AbstractRequest
         return RequestType::GET;
     }
 
-    public function getUrl()
+    public function getUri()
     {
         return "calendars/movies/" . $this->getStartDate() . "/" . $this->getDays();
     }

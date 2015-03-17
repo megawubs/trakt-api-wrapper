@@ -49,7 +49,7 @@ class PostComment extends AbstractRequest
         return RequestType::POST;
     }
 
-    public function getUrl()
+    public function getUri()
     {
         return "comments";
     }

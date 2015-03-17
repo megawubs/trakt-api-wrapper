@@ -39,7 +39,7 @@ class UriBuilder
 
     private function getParametersInUri()
     {
-        $url = $this->request->getUrl();
+        $url = $this->request->getUri();
 
         $parts = explode("/:", $url);
 
@@ -92,7 +92,7 @@ class UriBuilder
 
     private function formatUri($values)
     {
-        $uri = $this->request->getUrl();
+        $uri = $this->request->getUri();
         foreach ($values as $parameter => $value) {
             $uri = str_replace(":" . $parameter, $value, $uri);
         }

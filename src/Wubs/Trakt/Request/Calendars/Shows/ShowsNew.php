@@ -33,7 +33,7 @@ class ShowsNew extends AbstractRequest
         return RequestType::GET;
     }
 
-    public function getUrl()
+    public function getUri()
     {
         return "calendars/shows/new/" . $this->getStartDate() . "/" . $this->getDays();
     }

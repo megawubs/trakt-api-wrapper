@@ -53,7 +53,7 @@ class Text extends AbstractRequest
         return RequestType::GET;
     }
 
-    public function getUrl()
+    public function getUri()
     {
         return "search";
     }

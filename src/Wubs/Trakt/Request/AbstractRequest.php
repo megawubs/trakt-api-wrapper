@@ -240,7 +240,12 @@ abstract class  AbstractRequest
         return $options;
     }
 
+    private function getUrl()
+    {
+        return UriBuilder::format($this);
+    }
+
     abstract public function getRequestType();
 
-    abstract public function getUrl();
+    abstract public function getUri();
 }

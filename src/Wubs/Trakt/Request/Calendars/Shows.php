@@ -40,7 +40,7 @@ class Shows extends AbstractRequest
         return RequestType::GET;
     }
 
-    public function getUrl()
+    public function getUri()
     {
         return "calendars/shows/:start_date/:days";
     }

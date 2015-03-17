@@ -36,7 +36,7 @@ class MovieCheckIn extends AbstractRequest
         return RequestType::POST;
     }
 
-    public function getUrl()
+    public function getUri()
     {
         return "checkin";
     }
