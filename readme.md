@@ -3,6 +3,10 @@ Trakt-api-wrapper version 2
 
 This is the Trakt API wrapper for their new API (version 2). It's in active development
 
+## Installation
+
+In your composer.json file add:`"wubs/trakt": "dev-master"` and run `composer update`
+
 ## The goal
 
 The goal of this wrapper is to make communicating with the Trakt api easier. It aims to be easy, readable and usable in many cases. Designed as a composer package it can be easy installed inside a lager application.
