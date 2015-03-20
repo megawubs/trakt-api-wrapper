@@ -11,6 +11,7 @@ namespace Wubs\Trakt\Provider;
 
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessToken;
+use Wubs\Trakt\ClientId;
 use Wubs\Trakt\Token\TraktAccessToken;
 
 class TraktProvider extends AbstractProvider
@@ -22,17 +23,17 @@ class TraktProvider extends AbstractProvider
      */
 
     /**
-     * @param array $clientId
+     * @param ClientId $clientId
      * @param $clientSecret
      * @param $redirectUrl
      * @param string $state
      * @param string $type
      */
-    public function __construct($clientId, $clientSecret, $redirectUrl, $state = 'state', $type = 'code')
+    public function __construct(ClientId $clientId, $clientSecret, $redirectUrl, $state = 'state', $type = 'code')
     {
         parent::__construct(
             [
-                "clientId" => $clientId,
+                "clientId" => (string)$clientId,
                 "clientSecret" => $clientSecret,
                 "redirectUri" => $redirectUrl,
                 "state" => $state,

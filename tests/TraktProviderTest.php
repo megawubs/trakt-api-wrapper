@@ -1,4 +1,5 @@
 <?php
+use Wubs\Trakt\ClientId;
 use Wubs\Trakt\Provider\TraktProvider;
 
 /**
@@ -11,14 +12,27 @@ class TraktProviderTest extends PHPUnit_Framework_TestCase
 {
     public function testProviderCanBeInitiated()
     {
-        $provider = new TraktProvider(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
+        $clientId = ClientId::set(getenv("CLIENT_ID"));
+        $provider = new TraktProvider($clientId, getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
 
         $this->assertInstanceOf('Wubs\\Trakt\\Provider\\TraktProvider', $provider);
     }
 
+    public function testAuthUrlHasClientId()
+    {
+        $clientId = ClientId::set(getenv("CLIENT_ID"));
+        $provider = new TraktProvider($clientId, getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
+
+        $authUrl = $provider->getAuthorizationUrl();
+
+        $this->assertContains(getenv("CLIENT_ID"), $authUrl);
+
+    }
+
     public function testGetTraktAuthorizationUrl()
     {
-        $provider = new TraktProvider(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
+        $clientId = ClientId::set(getenv("CLIENT_ID"));
+        $provider = new TraktProvider($clientId, getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
         $authUrl = $provider->getAuthorizationUrl();
 
         $this->assertContains("https://trakt.tv/oauth/authorize", $authUrl);
