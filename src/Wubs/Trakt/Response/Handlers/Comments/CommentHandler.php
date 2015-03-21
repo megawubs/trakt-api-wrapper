@@ -17,9 +17,14 @@ use Wubs\Trakt\Response\Handlers\AbstractResponseHandler;
 class CommentHandler extends AbstractResponseHandler implements ResponseHandler
 {
 
+
+    /**
+     * @param ResponseInterface $response
+     * @return Comment
+     */
     public function handle(ResponseInterface $response)
     {
-        $response = $response->json(['object' => true]);
+        $response = $this->getJson($response);
 
         return new Comment($response, $this->getId(), $this->getToken());
     }

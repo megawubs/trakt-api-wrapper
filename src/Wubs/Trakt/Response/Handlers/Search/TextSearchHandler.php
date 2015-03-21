@@ -23,7 +23,7 @@ class TextSearchHandler extends AbstractResponseHandler implements ResponseHandl
 
     public function handle(ResponseInterface $response)
     {
-        $items = $response->json(["object" => true]);
+        $items = $this->getJson($response);
 
         $result = [];
 

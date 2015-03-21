@@ -17,9 +17,13 @@ use Wubs\Trakt\Response\Handlers\AbstractResponseHandler;
 class CheckInHandler extends AbstractResponseHandler implements ResponseHandler
 {
 
+    /**
+     * @param ResponseInterface $response
+     * @return CheckIn
+     */
     public function handle(ResponseInterface $response)
     {
-        $object = $response->json(['object' => true]);
+        $object = $this->getJson($response);
 
         return new CheckIn($object, $this->getId(), $this->getToken());
     }
