@@ -11,7 +11,7 @@ namespace Wubs\Trakt\Request\Movies;
 
 use Wubs\Trakt\Request\Parameters\MediaId;
 
-trait MovieId
+trait MediaIdTrait
 {
     /**
      * @var MediaId
