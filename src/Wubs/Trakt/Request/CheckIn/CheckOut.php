@@ -12,7 +12,7 @@ namespace Wubs\Trakt\Request\CheckIn;
 use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\RequestType;
 use Wubs\Trakt\Response\Handlers\CheckIn\CheckOutHandler;
-use Wubs\Trakt\Response\Handlers\DeleteHandler;
+use Wubs\Trakt\Response\Handlers\DefaultDeleteHandler;
 
 class CheckOut extends AbstractRequest
 {
@@ -29,6 +29,6 @@ class CheckOut extends AbstractRequest
 
     protected function getResponseHandler()
     {
-        return DeleteHandler::class;
+        return DefaultDeleteHandler::class;
     }
 }
