@@ -11,6 +11,7 @@ namespace Wubs\Trakt\Response;
 
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\ClientId;
+use Wubs\Trakt\Request\Comments\DeleteComment;
 use Wubs\Trakt\Request\Parameters\CommentId;
 
 class Comment
@@ -138,6 +139,23 @@ class Comment
     public function setUser($user)
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return CommentId
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+
+    /**
+     * @return boolean
+     */
+    public function delete()
+    {
+        return DeleteComment::request($this->clientId, $this->token, $this->getId());
     }
 
 
