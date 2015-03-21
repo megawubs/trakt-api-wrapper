@@ -4,7 +4,7 @@ namespace Wubs\Trakt\Request\Comments;
 use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\Parameters\CommentId;
 use Wubs\Trakt\Request\RequestType;
-use Wubs\Trakt\Response\Handlers\DeleteHandler;
+use Wubs\Trakt\Response\Handlers\DefaultDeleteHandler;
 
 /**
  * Created by PhpStorm.
@@ -33,14 +33,22 @@ class DeleteComment extends AbstractRequest
         return RequestType::DELETE;
     }
 
+    /**
+     * @return CommentId
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function getUri()
     {
-        return 'comments/' . $this->id;
+        return 'comments/:id';
     }
 
     protected function getResponseHandler()
     {
-        return DeleteHandler::class;
+        return DefaultDeleteHandler::class;
     }
 
 
