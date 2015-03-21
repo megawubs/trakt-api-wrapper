@@ -6,10 +6,8 @@
  * Time: 09:41
  */
 
-namespace Wubs\Trakt\Request\Movies;
+namespace Wubs\Trakt\Request\Parameters;
 
-
-use Wubs\Trakt\Request\Parameters\MediaId;
 
 trait MediaIdTrait
 {

@@ -11,11 +11,12 @@ namespace Wubs\Trakt\Request\Movies;
 
 use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\Parameters\MediaId;
+use Wubs\Trakt\Request\Parameters\MediaIdTrait;
 use Wubs\Trakt\Request\RequestType;
 
 class Ratings extends AbstractRequest
 {
-    use MovieId;
+    use MediaIdTrait;
 
     /**
      * @param MediaId $id

@@ -11,14 +11,12 @@ namespace Wubs\Trakt\Request\Movies;
 
 use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\Parameters\MediaId;
+use Wubs\Trakt\Request\Parameters\MediaIdTrait;
 use Wubs\Trakt\Request\RequestType;
 
 class People extends AbstractRequest
 {
-    /**
-     * @var MediaId
-     */
-    private $id;
+    use MediaIdTrait;
 
     /**
      * @param MediaId $id
@@ -32,14 +30,6 @@ class People extends AbstractRequest
     public function getRequestType()
     {
         return RequestType::GET;
-    }
-
-    /**
-     * @return MediaId
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getUri()

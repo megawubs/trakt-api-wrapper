@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: bwubs
- * Date: 18/03/15
- * Time: 11:31
+ * Date: 21/03/15
+ * Time: 09:48
  */
 
 namespace Wubs\Trakt\Request\Movies;
@@ -13,10 +13,10 @@ use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\Parameters\MediaId;
 use Wubs\Trakt\Request\Parameters\MediaIdTrait;
 use Wubs\Trakt\Request\RequestType;
-use Wubs\Trakt\Response\Handlers\Movies\CommentsHandler;
 
-class Comments extends AbstractRequest
+class Watching extends AbstractRequest
 {
+
     use MediaIdTrait;
 
     /**
@@ -28,6 +28,7 @@ class Comments extends AbstractRequest
         $this->id = $id;
     }
 
+
     public function getRequestType()
     {
         return RequestType::GET;
@@ -35,16 +36,6 @@ class Comments extends AbstractRequest
 
     public function getUri()
     {
-        return "movies/:id/comments";
+        return "movies/:id/watching";
     }
-
-    /**
-     * @return mixed
-     */
-    protected function getResponseHandler()
-    {
-        return CommentsHandler::class;
-    }
-
-
 }

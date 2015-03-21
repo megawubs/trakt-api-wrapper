@@ -12,18 +12,17 @@ namespace Wubs\Trakt\Request\Movies;
 use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\Parameters\Country;
 use Wubs\Trakt\Request\Parameters\MediaId;
+use Wubs\Trakt\Request\Parameters\MediaIdTrait;
 use Wubs\Trakt\Request\RequestType;
 
 class Releases extends AbstractRequest
 {
+    use MediaIdTrait;
     /**
      * @var Country
      */
     private $country;
-    /**
-     * @var MediaId
-     */
-    private $id;
+
 
     /**
      * @param MediaId $id
@@ -48,15 +47,6 @@ class Releases extends AbstractRequest
     {
         return $this->country;
     }
-
-    /**
-     * @return MediaId
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
 
     public function getUri()
     {

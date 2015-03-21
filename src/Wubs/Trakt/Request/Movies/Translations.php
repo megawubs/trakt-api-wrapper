@@ -8,17 +8,15 @@
 
 namespace Wubs\Trakt\Response\Handlers\Movies;
 
-
-use Wubs\Trakt\Media\Movie;
 use Wubs\Trakt\Request\AbstractRequest;
-use Wubs\Trakt\Request\Movies\MovieId;
+use Wubs\Trakt\Request\Parameters\MediaIdTrait;
 use Wubs\Trakt\Request\Parameters\Language;
 use Wubs\Trakt\Request\Parameters\MediaId;
 use Wubs\Trakt\Request\RequestType;
 
 class Translations extends AbstractRequest
 {
-    use MovieId;
+    use MediaIdTrait;
     /**
      * @var Language
      */
