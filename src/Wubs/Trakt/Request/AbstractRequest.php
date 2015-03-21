@@ -14,6 +14,8 @@ use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\ClientId;
 use Wubs\Trakt\Request\Exception\HttpCodeException\ExceptionStatusCodeFactory;
 use Wubs\Trakt\Response\Handlers\DefaultResponseHandler;
+use Wubs\Trakt\Response\Handlers\DefaultUpdateHandler;
+use Wubs\Trakt\Response\Handlers\DefaultDeleteHandler;
 
 abstract class  AbstractRequest
 {
@@ -159,6 +161,11 @@ abstract class  AbstractRequest
         return $this->handleResponse($response);
     }
 
+    public function getUrl()
+    {
+        return UriBuilder::format($this);
+    }
+
     protected function handleResponse(ResponseInterface $response)
     {
         $reflection = new \ReflectionClass($this->getResponseHandler());
@@ -173,6 +180,12 @@ abstract class  AbstractRequest
 
     protected function getResponseHandler()
     {
+        $type = $this->getRequestType();
+
+        if ($type === RequestType::DELETE) {
+            return DefaultDeleteHandler::class;
+        }
+
         return DefaultResponseHandler::class;
     }
 
@@ -232,7 +245,7 @@ abstract class  AbstractRequest
      */
     private function setBody($options)
     {
-        if ($this->getRequestType() === RequestType::POST) {
+        if ($this->needsPostBody()) {
             $options['body'] = json_encode($this->getPostBody());
             return $options;
         }
@@ -240,9 +253,9 @@ abstract class  AbstractRequest
         return $options;
     }
 
-    private function getUrl()
+    private function needsPostBody()
     {
-        return UriBuilder::format($this);
+        return in_array($this->getRequestType(), [RequestType::PUT, RequestType::POST]);
     }
 
     abstract public function getRequestType();
