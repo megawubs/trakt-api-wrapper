@@ -9,6 +9,7 @@
 namespace Wubs\Trakt\Response\Handlers;
 
 
+use GuzzleHttp\Message\ResponseInterface;
 use League\OAuth2\Client\Token\AccessToken;
 
 class AbstractResponseHandler
@@ -51,6 +52,26 @@ class AbstractResponseHandler
     public function setToken(AccessToken $token)
     {
         $this->token = $token;
+    }
+
+    protected function getJson(ResponseInterface $response)
+    {
+        return $response->json(["object" => true]);
+    }
+
+    protected function transformToObjects(ResponseInterface $response, $objectName)
+    {
+        $objects = [];
+        foreach ($this->getJson($response) as $item) {
+            $objects[] = $this->transformToObject($item, $objectName);
+        }
+
+        return $objects;
+    }
+
+    protected function transformToObject($item, $objectName)
+    {
+        return new $objectName($item, $this->getId(), $this->getToken());
     }
 
 
