@@ -11,10 +11,13 @@ namespace Wubs\Trakt\Media;
 
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\ClientId;
+use Wubs\Trakt\Request\Calendars\Shows;
 use Wubs\Trakt\Request\CheckIn\CheckIn;
 use Wubs\Trakt\Request\CheckIn\CheckOut;
 use Wubs\Trakt\Request\Comments\PostComment;
+use Wubs\Trakt\Request\Movies\Comments;
 use Wubs\Trakt\Request\Parameters\Comment;
+use Wubs\Trakt\Request\Parameters\MediaId;
 use Wubs\Trakt\Request\Parameters\Parameter;
 use Wubs\Trakt\Request\Parameters\Query;
 use Wubs\Trakt\Request\Parameters\Type;
@@ -43,6 +46,17 @@ abstract class Media
         $this->json = $json;
         $this->id = $id;
         $this->token = $token;
+
+        if ($this instanceof Movie) {
+            $this->media = $json->movie;
+        }
+        if ($this instanceof Show) {
+            $this->media = $json->show;
+        }
+
+        if ($this instanceof Person) {
+            $this->media = $json->person;
+        }
     }
 
     public function json()
@@ -59,7 +73,7 @@ abstract class Media
     {
         $fields = [];
         foreach ($this->standard as $item) {
-            $fields[$item] = $this->json->{$item};
+            $fields[$item] = $this->media->{$item};
         }
         return $fields;
     }
@@ -86,7 +100,28 @@ abstract class Media
         return PostComment::request($this->id, $this->token, $this, $comment);
     }
 
-    public abstract function getTitle();
+    /**
+     * @return \Wubs\Trakt\Response\Comment[]
+     */
+    public function comments()
+    {
+        $slug = $this->getSlug();
+        return Comments::request($this->id, $this->token, MediaId::set($slug));
+    }
 
-    public abstract function getIds();
+    public function getTitle()
+    {
+        return $this->media->title;
+    }
+
+    public function getIds()
+    {
+        return $this->media->ids;
+    }
+
+    public function getSlug()
+    {
+        $ids = $this->getIds();
+        return $ids->slug;
+    }
 }
