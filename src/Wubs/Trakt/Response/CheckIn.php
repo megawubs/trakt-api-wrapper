@@ -34,7 +34,7 @@ class CheckIn
      */
     public function __construct($json, $id, AccessToken $token)
     {
-        $this->movie = new Movie($json->movie, $id, $token);
+        $this->movie = new Movie($json, $id, $token);
         $this->sharing = $json->sharing;
 
         $this->id = $id;
