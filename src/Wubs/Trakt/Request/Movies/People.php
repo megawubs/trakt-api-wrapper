@@ -25,7 +25,7 @@ class People extends AbstractRequest
      */
     public function __construct(MediaId $id)
     {
-
+        parent::__construct();
         $this->id = $id;
     }
 

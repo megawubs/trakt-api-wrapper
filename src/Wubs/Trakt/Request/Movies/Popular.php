@@ -18,6 +18,7 @@ class Popular extends AbstractRequest
 
     public function getRequestType()
     {
+        parent::__construct();
         return RequestType::GET;
     }
 

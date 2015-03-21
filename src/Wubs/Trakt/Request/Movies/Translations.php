@@ -9,17 +9,16 @@
 namespace Wubs\Trakt\Response\Handlers\Movies;
 
 
+use Wubs\Trakt\Media\Movie;
 use Wubs\Trakt\Request\AbstractRequest;
+use Wubs\Trakt\Request\Movies\MovieId;
 use Wubs\Trakt\Request\Parameters\Language;
 use Wubs\Trakt\Request\Parameters\MediaId;
 use Wubs\Trakt\Request\RequestType;
 
 class Translations extends AbstractRequest
 {
-    /**
-     * @var MediaId
-     */
-    private $id;
+    use MovieId;
     /**
      * @var Language
      */
@@ -31,7 +30,7 @@ class Translations extends AbstractRequest
      */
     public function __construct(MediaId $id, Language $language)
     {
-
+        parent::__construct();
         $this->id = $id;
         $this->language = $language;
     }
@@ -39,14 +38,6 @@ class Translations extends AbstractRequest
     public function getRequestType()
     {
         return RequestType::GET;
-    }
-
-    /**
-     * @return MediaId
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**

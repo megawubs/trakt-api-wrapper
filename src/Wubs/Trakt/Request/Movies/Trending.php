@@ -30,6 +30,4 @@ class Trending extends AbstractRequest
     {
         return TrendingHandler::class;
     }
-
-
 }

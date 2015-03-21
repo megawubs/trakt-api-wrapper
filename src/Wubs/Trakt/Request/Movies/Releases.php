@@ -31,7 +31,7 @@ class Releases extends AbstractRequest
      */
     public function __construct(MediaId $id, Country $country)
     {
-
+        parent::__construct();
         $this->country = $country;
         $this->id = $id;
     }

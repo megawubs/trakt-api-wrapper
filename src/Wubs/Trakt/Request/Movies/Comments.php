@@ -16,10 +16,7 @@ use Wubs\Trakt\Response\Handlers\Movies\CommentsHandler;
 
 class Comments extends AbstractRequest
 {
-    /**
-     * @var MediaId
-     */
-    private $id;
+    use MovieId;
 
     /**
      * @param MediaId $id
@@ -33,14 +30,6 @@ class Comments extends AbstractRequest
     public function getRequestType()
     {
         return RequestType::GET;
-    }
-
-    /**
-     * @return MediaId
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getUri()
