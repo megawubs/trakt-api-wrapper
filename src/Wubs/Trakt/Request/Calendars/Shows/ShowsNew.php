@@ -35,7 +35,7 @@ class ShowsNew extends AbstractRequest
 
     public function getUri()
     {
-        return "calendars/shows/new/" . $this->getStartDate() . "/" . $this->getDays();
+        return "calendars/shows/new/:start_date/:days";
     }
 
     protected function getResponseHandler()

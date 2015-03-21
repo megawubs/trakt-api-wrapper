@@ -35,7 +35,7 @@ class Premieres extends AbstractRequest
 
     public function getUri()
     {
-        return "calendars/shows/premieres/" . $this->getStartDate() . "/" . $this->getDays();
+        return "calendars/shows/premieres/:start_date/:days";
     }
 
     /**
