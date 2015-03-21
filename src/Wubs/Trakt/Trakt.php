@@ -27,22 +27,20 @@ class Trakt
         $this->clientId = ClientId::set($clientId);
         $this->clientSecret = $clientSecret;
         $this->redirectUrl = $redirectUrl;
+
+        $this->provider = $this->getProvider();
     }
 
     public function authorize()
     {
-        $provider = $this->provider();
-        $_SESSION['trakt_oauth_state'] = $provider->state;
-        return $this->provider()->authorize();
+        $_SESSION['trakt_oauth_state'] = $this->provider->state;
+        return $this->provider->authorize();
     }
 
     public function getAccessToken($code)
     {
-        if ($this->isInvalid()) {
-            $this->invalid();
-        }
         $params = ["code" => $code];
-        return $this->provider()->getAccessToken("authorization_code", $params);
+        return $this->provider->getAccessToken("authorization_code", $params);
     }
 
     /**
@@ -56,19 +54,18 @@ class Trakt
     /**
      * @return TraktProvider
      */
-    private function provider()
+    private function getProvider()
     {
         return new TraktProvider($this->clientId, $this->clientSecret, $this->redirectUrl);
     }
 
-    private function isInvalid()
+    public function isValid()
     {
-        return (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['trakt_oauth_state']));
+        return (empty($_GET['state']) || ($_GET['state'] === $_SESSION['trakt_oauth_state']));
     }
 
-    private function invalid()
+    public function invalid()
     {
         unset($_SESSION['trakt_oauth_state']);
-        throw new InvalidOauthRequestException;
     }
 }
