@@ -12,9 +12,13 @@ use GuzzleHttp\Message\ResponseInterface;
 use Wubs\Trakt\Contracts\ResponseHandler;
 use Wubs\Trakt\Request\Parameters\AbstractParameter;
 
-class DeleteHandler extends AbstractResponseHandler implements ResponseHandler
+class DefaultDeleteHandler extends AbstractResponseHandler implements ResponseHandler
 {
 
+    /**
+     * @param ResponseInterface $response
+     * @return bool
+     */
     public function handle(ResponseInterface $response)
     {
         return ($response->getStatusCode() === 204);
