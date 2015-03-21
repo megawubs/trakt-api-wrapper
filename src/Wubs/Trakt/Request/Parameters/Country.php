@@ -2,13 +2,14 @@
 /**
  * Created by PhpStorm.
  * User: bwubs
- * Date: 15/03/15
- * Time: 16:15
+ * Date: 18/03/15
+ * Time: 15:06
  */
 
 namespace Wubs\Trakt\Request\Parameters;
 
 
-class Comment extends AbstractParameter
+class Country extends AbstractParameter
 {
+
 }
