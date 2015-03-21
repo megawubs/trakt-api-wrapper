@@ -12,12 +12,17 @@ namespace Wubs\Trakt\Response\Handlers\Calendars;
 use GuzzleHttp\Message\ResponseInterface;
 use Wubs\Trakt\Contracts\ResponseHandler;
 use Wubs\Trakt\Response\Handlers\AbstractResponseHandler;
+use Wubs\Trakt\Response\Handlers\DefaultResponseHandler;
 
 class Movies extends AbstractResponseHandler implements ResponseHandler
 {
 
+    /**
+     * @param ResponseInterface $response
+     * @return mixed
+     */
     public function handle(ResponseInterface $response)
     {
-
+        return $this->getJson($response);
     }
 }

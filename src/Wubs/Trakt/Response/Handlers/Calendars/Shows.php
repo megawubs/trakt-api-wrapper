@@ -18,7 +18,7 @@ class Shows extends AbstractResponseHandler implements ResponseHandler
 {
     public function handle(ResponseInterface $response)
     {
-        $dates = $response->json(['object' => true]);
+        $dates = $this->getJson($response);
 
         return $this->handleDates($dates);
     }
