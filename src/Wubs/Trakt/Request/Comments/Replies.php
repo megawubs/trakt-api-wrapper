@@ -12,6 +12,7 @@ namespace Wubs\Trakt\Request\Comments;
 use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\Parameters\CommentId;
 use Wubs\Trakt\Request\RequestType;
+use Wubs\Trakt\Response\Handlers\Comments\CommentHandler;
 
 class Replies extends AbstractRequest
 {
@@ -34,8 +35,20 @@ class Replies extends AbstractRequest
         return RequestType::GET;
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function getUri()
     {
-        return "comments/" . $this->id . "/replies";
+        return "comments/:id/replies";
     }
+
+    protected function getResponseHandler()
+    {
+        return CommentHandler::class;
+    }
+
+
 }

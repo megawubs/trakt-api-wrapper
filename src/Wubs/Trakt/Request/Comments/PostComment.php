@@ -13,10 +13,13 @@ use Wubs\Trakt\Media\Media;
 use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\Exception\CommentTooShortException;
 use Wubs\Trakt\Request\Parameters\Comment;
+use Wubs\Trakt\Request\Parameters\Spoiler;
 use Wubs\Trakt\Request\RequestType;
 
 class PostComment extends AbstractRequest
 {
+
+    use CommentSize;
     /**
      * @var Comment
      */
@@ -25,23 +28,29 @@ class PostComment extends AbstractRequest
      * @var Media
      */
     private $media;
+    /**
+     * @var Spoiler
+     */
+    private $spoiler;
 
     /**
      * @param Media $media
      * @param Comment $comment
+     * @param Spoiler $spoiler
      * @throws CommentTooShortException
      */
-    public function __construct(Media $media, Comment $comment)
+    public function __construct(Media $media, Comment $comment, Spoiler $spoiler)
     {
         parent::__construct();
 
-
         $this->comment = $comment;
         $this->media = $media;
+        $this->spoiler = $spoiler;
 
         if ($this->commentIsNotAllowedSize()) {
             throw new CommentTooShortException;
         }
+
     }
 
     public function getRequestType()
@@ -64,14 +73,6 @@ class PostComment extends AbstractRequest
         ];
 
         return $postBody;
-    }
-
-    /**
-     * @return bool
-     */
-    private function commentIsNotAllowedSize()
-    {
-        return (str_word_count($this->comment) < 5);
     }
 
     /**
