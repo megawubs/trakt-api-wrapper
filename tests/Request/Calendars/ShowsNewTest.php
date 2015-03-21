@@ -15,10 +15,12 @@ class ShowsNewTest extends PHPUnit_Framework_TestCase
 
     public function testStaticCall()
     {
-        $id = get_client_id();
-        $token = get_token();
+        $startDate = Carbon::now()->subYears(3);
+        $request = new ShowsNew(new StartDate($startDate), Days::set(500));
 
-        $response = ShowsNew::request($id, $token, new StartDate(Carbon::now()->subYears(3)), Days::set(500));
-        $this->assertInstanceOf("Wubs\\Trakt\\Media\\Episode", $response[0]);
+        $url = $request->getUrl();
+
+        $this->assertEquals("calendars/shows/new/" . $startDate->format("Y-m-d") . "/500", $url);
+
     }
 }

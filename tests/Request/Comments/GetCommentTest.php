@@ -1,6 +1,7 @@
 <?php
 use Wubs\Trakt\Request\Comments\GetComment;
 use Wubs\Trakt\Request\Parameters\CommentId;
+use Wubs\Trakt\Request\RequestType;
 
 /**
  * Created by PhpStorm.
@@ -12,10 +13,13 @@ class GetCommentTest extends PHPUnit_Framework_TestCase
 {
     public function testStaticCall()
     {
-        $id = get_client_id();
-        $token = get_token();
 
-        $response = GetComment::request($id, $token, CommentId::set(41));
-        $this->assertInternalType("array", $response);
+        $request = new GetComment(CommentId::set(41));
+
+        $url = $request->getUrl();
+
+        $this->assertEquals("comments/41", $url);
+
+        $this->assertEquals(RequestType::GET, $request->getRequestType());
     }
 }

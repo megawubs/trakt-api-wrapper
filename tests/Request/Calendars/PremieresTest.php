@@ -12,13 +12,14 @@ use Wubs\Trakt\Request\Parameters\StartDate;
  */
 class PremieresTest extends PHPUnit_Framework_TestCase
 {
-
-    public function testStaticCall()
+    public function testUriContainsParameters()
     {
-        $id = get_client_id();
-        $token = get_token();
+        $date = Carbon::now()->subYears(3);
+        $request = new Premieres(new StartDate($date), Days::set(500));
 
-        $response = Premieres::request($id, $token, new StartDate(Carbon::now()->subYears(3)), Days::set(500));
-        $this->assertInstanceOf("Wubs\\Trakt\\Media\\Episode", $response[0]);
+        $uri = $request->getUrl();
+
+        $this->assertContains($date->format("Y-m-d"), $uri);
+        $this->assertContains("500", $uri);
     }
 }

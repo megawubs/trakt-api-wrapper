@@ -22,15 +22,26 @@ class TraktTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf("Wubs\\Trakt\\Trakt", $trakt);
     }
 
-    /**
-     * @expectedException Wubs\Trakt\Exception\InvalidOauthRequestException
-     */
-    public function testAuthorisation()
+    public function testInvalidAuthorization()
     {
         $trakt = new Trakt(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
         $_SESSION['trakt_oauth_state'] = "ADifferentState";
         $_GET['state'] = 'NotTheStateItShouldBe';
-        $code = "SomeRandomCode";
-        $trakt->getAccessToken($code);
+
+        $test = $trakt->isValid();
+
+        $this->assertFalse($test);
+    }
+
+    public function testValidAuthorization()
+    {
+        $trakt = new Trakt(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
+        $_SESSION['trakt_oauth_state'] = "AState";
+        $_GET['state'] = 'AState';
+
+        $test = $trakt->isValid();
+
+        $this->assertTrue($test);
+
     }
 }

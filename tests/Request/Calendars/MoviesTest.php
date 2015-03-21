@@ -22,9 +22,8 @@ class MoviesTest extends PHPUnit_Framework_TestCase
 
         $request->setToken(get_token());
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
-        $response = $trakt->call($request);
+        $formatted = $request->getUrl();
 
-        $this->assertInternalType("array", $response);
+        $this->assertEquals("calendars/movies/2014-03-01/25", $formatted);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 use Wubs\Trakt\Request\Comments\Replies;
 use Wubs\Trakt\Request\Parameters\CommentId;
+use Wubs\Trakt\Request\RequestType;
 
 /**
  * Created by PhpStorm.
@@ -13,10 +14,11 @@ class RepliesTest extends PHPUnit_Framework_TestCase
 
     public function testStaticCall()
     {
-        $id = get_client_id();
-        $token = get_token();
 
-        $response = Replies::request($id, $token, CommentId::set(41));
-        $this->assertInternalType("array", $response);
+        $request = new Replies(CommentId::set(41));
+
+        $this->assertEquals("comments/41/replies", $request->getUrl());
+
+        $this->assertEquals(RequestType::GET, $request->getRequestType());
     }
 }

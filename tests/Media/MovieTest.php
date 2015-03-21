@@ -17,4 +17,15 @@ class MovieTest extends PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf("Wubs\\Trakt\\Media\\Movie", $movies[0]);
     }
+
+    public function testReadCommentsFromMovie()
+    {
+        $movie = movie();
+
+        $comments = $movie->comments();
+
+        foreach ($comments as $comment) {
+            $this->assertInstanceOf("Wubs\\Trakt\\Response\\Comment", $comment);
+        }
+    }
 }

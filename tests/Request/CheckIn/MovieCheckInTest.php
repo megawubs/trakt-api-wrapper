@@ -2,6 +2,7 @@
 use Wubs\Trakt\Media\Movie;
 use Wubs\Trakt\Request\CheckIn\MovieCheckIn;
 use Wubs\Trakt\Request\Parameters\Query;
+use Wubs\Trakt\Request\RequestType;
 
 /**
  * Created by PhpStorm.
@@ -13,18 +14,13 @@ class MovieCheckInTest extends PHPUnit_Framework_TestCase
 {
     public function testStaticCall()
     {
-        $id = get_client_id();
-        $token = get_token();
+        $request = new MovieCheckIn(movie());
 
-        /**
-         * @var Movie[]
-         */
-        $movies = Movie::search($id, $token, Query::set("guardians of the galaxy"));
+        $url = $request->getUrl();
 
-        $response = MovieCheckIn::request($id, $token, $movies[1]);
+        $type = $request->getRequestType();
 
-        $this->assertInstanceOf("Wubs\\Trakt\\Response\\CheckIn", $response);
-
-        $movies[1]->checkOut();
+        $this->assertEquals(RequestType::POST, $type);
+        $this->assertEquals("checkin", $url);
     }
 }

@@ -39,25 +39,4 @@ class ShowsTest extends PHPUnit_Framework_TestCase
         $this->assertContains("25", (string)$request->getDays());
         $this->assertContains("2014-03-01", (string)$request->getStartDate());
     }
-
-    public function testCanCallRequest()
-    {
-        $startDate = new StartDate(Carbon::createFromFormat("Y-m-d", "2014-03-01"));
-        $request = new Shows($startDate, Days::set(25));
-        $request->setToken(get_token());
-
-        $trakt = new Trakt(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
-        $response = $trakt->call($request);
-
-        $this->assertInternalType("array", $response);
-    }
-
-    public function testStaticRequest()
-    {
-        $id = get_client_id();
-        $token = get_token();
-
-        $response = Shows::request($id, $token, StartDate::standard(), Days::set(7));
-        $this->assertInstanceOf("Wubs\\Trakt\\Media\\Episode", $response[0]);
-    }
 }

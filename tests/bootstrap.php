@@ -34,16 +34,44 @@ function get_client_id()
 }
 
 /**
- * @param null $string
- * @return mixed
+ * A helper function to get a movie object
+ *
+ * @return Movie
  */
-function movie($string = null)
+function movie()
 {
-    $string = (is_null($string)) ? "guardians of the galaxy" : $string;
+    $clientId = get_client_id();
+    $token = get_token();
+    $mockResponse = new MockResponse();
 
-    $clientId = ClientId::set(getenv("CLIENT_ID"));
+    $json = '{
+    "type": "movie",
+    "score": 26.019499,
+    "movie": {
+      "title": "Batman Begins",
+      "overview": "Driven by tragedy, billionaire Bruce Wayne dedicates his life to uncovering and defeating the corruption that plagues his home, Gotham City.  Unable to work within the system, he instead creates a new identity, a symbol of fear for the criminal underworld - The Batman.",
+      "year": 2005,
+      "images": {
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/000/001/posters/original/9634ffd477.jpg?1406080393",
+          "medium": "https://walter.trakt.us/images/movies/000/000/001/posters/medium/9634ffd477.jpg?1406080393",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/001/posters/thumb/9634ffd477.jpg?1406080393"
+        },
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/000/001/fanarts/original/7da8cfbe9e.jpg?1406080393",
+          "medium": "https://walter.trakt.us/images/movies/000/000/001/fanarts/medium/7da8cfbe9e.jpg?1406080393",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/001/fanarts/thumb/7da8cfbe9e.jpg?1406080393"
+        }
+      },
+      "ids": {
+        "trakt": 1,
+        "slug": "batman-begins-2005",
+        "imdb": "tt0372784",
+        "tmdb": 272
+      }
+    }
+  }';
+    $mockResponse->setJson($json);
 
-    $result = Movie::search($clientId, get_token(), Query::set($string), Year::set("2014"));
-
-    return $result[0];
+    return new Movie($mockResponse->json(['object' => true]), $clientId, $token);
 }
