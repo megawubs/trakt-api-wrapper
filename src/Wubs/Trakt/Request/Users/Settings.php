@@ -14,11 +14,6 @@ use Wubs\Trakt\Request\RequestType;
 class Settings extends AbstractRequest
 {
 
-    protected function handleResponse(ResponseInterface $response)
-    {
-        return $response->json();
-    }
-
     public function getRequestType()
     {
         return RequestType::GET;
