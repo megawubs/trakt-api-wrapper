@@ -13,13 +13,4 @@ class Person extends Media
 {
     protected $standard = ["name", "ids"];
 
-    public function getTitle()
-    {
-        return $this->json->name;
-    }
-
-    public function getIds()
-    {
-        return $this->json->ids;
-    }
 }

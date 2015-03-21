@@ -13,14 +13,4 @@ class Movie extends Media
 {
 
     protected $standard = ["title", "year", "ids"];
-
-    public function getTitle()
-    {
-        return $this->json->movie->title;
-    }
-
-    public function getIds()
-    {
-        return $this->json->movie->ids;
-    }
 }
