@@ -33,8 +33,13 @@ class GenresList extends AbstractRequest
         return RequestType::GET;
     }
 
+    public function getType()
+    {
+        return $this->type;
+    }
+
     public function getUri()
     {
-        return "genres/list/" . $this->type;
+        return "genres/list/:type";
     }
 }
