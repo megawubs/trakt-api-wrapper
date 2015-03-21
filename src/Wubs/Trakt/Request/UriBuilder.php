@@ -52,6 +52,7 @@ class UriBuilder
     {
         $values = [];
         foreach ($parameters as $parameter) {
+            $parameter = $this->stripTrailingPart($parameter);
             $values[$parameter] = $this->getValueFromParameter($parameter);
         }
 
@@ -69,6 +70,7 @@ class UriBuilder
         if (method_exists($this->request, $getter)) {
             return $this->request->{$getter}();
         }
+
         throw new MalformedParameterException;
     }
 
@@ -98,6 +100,20 @@ class UriBuilder
         }
 
         return $uri;
+    }
+
+    /**
+     * @param $parameter
+     * @return string
+     */
+    private function stripTrailingPart($parameter)
+    {
+        if (strstr($parameter, "/")) {
+            $pos = strpos($parameter, "/");
+            $parameter = substr($parameter, 0, $pos);
+        }
+
+        return $parameter;
     }
 
 
