@@ -29,6 +29,7 @@ class MovieCheckIn extends AbstractRequest
     {
         parent::__construct();
         $this->movie = $movie;
+        $this->setResponseHandler(new CheckinHandler());
     }
 
     public function getRequestType()
@@ -39,11 +40,6 @@ class MovieCheckIn extends AbstractRequest
     public function getUri()
     {
         return "checkin";
-    }
-
-    protected function getResponseHandler()
-    {
-        return CheckinHandler::class;
     }
 
     protected function getPostBody()

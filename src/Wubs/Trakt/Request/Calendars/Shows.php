@@ -24,15 +24,11 @@ class Shows extends AbstractRequest
      */
     public function __construct(StartDate $startDate = null, Days $days = null)
     {
+        parent::__construct();
         $this->setDays($days);
         $this->setStartDate($startDate);
 
-        parent::__construct();
-    }
-
-    protected function getResponseHandler()
-    {
-        return ShowsResponse::class;
+        $this->setResponseHandler(new ShowsResponse());
     }
 
     public function getRequestType()

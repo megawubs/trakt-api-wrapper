@@ -26,8 +26,9 @@ class Like extends AbstractRequest
      */
     public function __construct(CommentId $id)
     {
-
+        parent::__construct();
         $this->id = $id;
+        $this->setResponseHandler(new DefaultDeleteHandler());
     }
 
     public function getRequestType()
@@ -47,11 +48,4 @@ class Like extends AbstractRequest
     {
         return "comments/:id/like";
     }
-
-    protected function getResponseHandler()
-    {
-        return DefaultDeleteHandler::class;
-    }
-
-
 }

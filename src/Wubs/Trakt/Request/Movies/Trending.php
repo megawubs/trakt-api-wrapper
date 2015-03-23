@@ -16,6 +16,13 @@ use Wubs\Trakt\Response\Handlers\Movies\TrendingHandler;
 class Trending extends AbstractRequest
 {
 
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->setResponseHandler(new TrendingHandler());
+    }
+
     public function getRequestType()
     {
         return RequestType::GET;
@@ -24,10 +31,5 @@ class Trending extends AbstractRequest
     public function getUri()
     {
         return "movies/trending";
-    }
-
-    protected function getResponseHandler()
-    {
-        return TrendingHandler::class;
     }
 }

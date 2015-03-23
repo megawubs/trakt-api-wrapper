@@ -16,9 +16,14 @@ use Wubs\Trakt\Response\Handlers\Movies\PopularHandler;
 class Popular extends AbstractRequest
 {
 
-    public function getRequestType()
+    public function __construct()
     {
         parent::__construct();
+        $this->setResponseHandler(new PopularHandler());
+    }
+
+    public function getRequestType()
+    {
         return RequestType::GET;
     }
 
@@ -26,11 +31,4 @@ class Popular extends AbstractRequest
     {
         return "movies/popular";
     }
-
-    protected function getResponseHandler()
-    {
-        return PopularHandler::class;
-    }
-
-
 }

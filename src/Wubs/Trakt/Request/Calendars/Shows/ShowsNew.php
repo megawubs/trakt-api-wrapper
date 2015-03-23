@@ -26,6 +26,7 @@ class ShowsNew extends AbstractRequest
         parent::__construct();
         $this->setStartDate($startDate);
         $this->setDays($days);
+        $this->setResponseHandler(new Shows());
     }
 
     public function getRequestType()
@@ -36,10 +37,5 @@ class ShowsNew extends AbstractRequest
     public function getUri()
     {
         return "calendars/shows/new/:start_date/:days";
-    }
-
-    protected function getResponseHandler()
-    {
-        return Shows::class;
     }
 }

@@ -26,6 +26,8 @@ class Premieres extends AbstractRequest
 
         $this->setStartDate($startDate);
         $this->setDays($days);
+
+        $this->setResponseHandler(new Shows());
     }
 
     public function getRequestType()
@@ -36,13 +38,5 @@ class Premieres extends AbstractRequest
     public function getUri()
     {
         return "calendars/shows/premieres/:start_date/:days";
-    }
-
-    /**
-     * @return mixed
-     */
-    protected function getResponseHandler()
-    {
-        return Shows::class;
     }
 }

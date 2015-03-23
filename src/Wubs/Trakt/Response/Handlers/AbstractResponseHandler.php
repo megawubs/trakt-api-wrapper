@@ -11,10 +11,14 @@ namespace Wubs\Trakt\Response\Handlers;
 
 use GuzzleHttp\Message\ResponseInterface;
 use League\OAuth2\Client\Token\AccessToken;
+use Wubs\Trakt\ClientId;
 
 class AbstractResponseHandler
 {
 
+    /**
+     * @var ClientId
+     */
     private $id;
 
     /**
@@ -33,7 +37,7 @@ class AbstractResponseHandler
     /**
      * @param mixed $id
      */
-    public function setId($id)
+    public function setId(ClientId $id)
     {
         $this->id = $id;
     }

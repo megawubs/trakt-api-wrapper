@@ -16,6 +16,11 @@ use Wubs\Trakt\Response\Handlers\DefaultDeleteHandler;
 
 class CheckOut extends AbstractRequest
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setResponseHandler(new DefaultDeleteHandler());
+    }
 
     public function getRequestType()
     {
@@ -25,10 +30,5 @@ class CheckOut extends AbstractRequest
     public function getUri()
     {
         return "checkin";
-    }
-
-    protected function getResponseHandler()
-    {
-        return DefaultDeleteHandler::class;
     }
 }

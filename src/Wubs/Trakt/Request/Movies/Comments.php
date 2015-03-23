@@ -26,6 +26,7 @@ class Comments extends AbstractRequest
     {
         parent::__construct();
         $this->id = $id;
+        $this->setResponseHandler(new CommentsHandler());
     }
 
     public function getRequestType()
@@ -37,14 +38,4 @@ class Comments extends AbstractRequest
     {
         return "movies/:id/comments";
     }
-
-    /**
-     * @return mixed
-     */
-    protected function getResponseHandler()
-    {
-        return CommentsHandler::class;
-    }
-
-
 }

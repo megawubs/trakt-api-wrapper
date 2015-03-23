@@ -45,6 +45,7 @@ class UpdateComment extends AbstractRequest
         $this->id = $id;
         $this->comment = $comment;
         $this->spoiler = $spoiler;
+        $this->setResponseHandler(new CommentHandler());
 
         if ($this->commentIsNotAllowedSize()) {
             throw new CommentTooShortException;
@@ -68,12 +69,6 @@ class UpdateComment extends AbstractRequest
     {
         return "comments/:id";
     }
-
-    protected function getResponseHandler()
-    {
-        return CommentHandler::class;
-    }
-
 
     protected function getPostBody()
     {

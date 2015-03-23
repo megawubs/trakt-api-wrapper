@@ -15,6 +15,7 @@ use Wubs\Trakt\Request\Parameters\StartDate;
 use Wubs\Trakt\Request\RequestType;
 use Wubs\Trakt\Request\TimePeriod;
 use Wubs\Trakt\Response\Handlers\Calendars\MoviesHandler;
+use Wubs\Trakt\Response\Handlers\DefaultResponseHandler;
 
 class Movies extends AbstractRequest
 {
@@ -22,22 +23,17 @@ class Movies extends AbstractRequest
 
     public function __construct(StartDate $startDate = null, Days $days = null)
     {
+        parent::__construct();
         $this->setStartDate($startDate);
         $this->setDays($days);
 
-        parent::__construct();
+        $this->setResponseHandler(new MoviesHandler());
     }
 
     public function getRequestType()
     {
         return RequestType::GET;
     }
-
-    protected function getResponseHandler()
-    {
-        return MoviesHandler::class;
-    }
-
 
     public function getUri()
     {

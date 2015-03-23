@@ -26,6 +26,7 @@ class DeleteComment extends AbstractRequest
     {
         parent::__construct();
         $this->id = $id;
+        $this->setResponseHandler(new DefaultDeleteHandler());
     }
 
     public function getRequestType()
@@ -44,11 +45,6 @@ class DeleteComment extends AbstractRequest
     public function getUri()
     {
         return 'comments/:id';
-    }
-
-    protected function getResponseHandler()
-    {
-        return DefaultDeleteHandler::class;
     }
 
 

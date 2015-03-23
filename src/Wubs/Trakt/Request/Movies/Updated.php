@@ -15,6 +15,11 @@ use Wubs\Trakt\Response\Handlers\Movies\UpdatedHandler;
 
 class Updated extends AbstractRequest
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setResponseHandler(new UpdatedHandler());
+    }
 
     public function getRequestType()
     {
@@ -25,11 +30,4 @@ class Updated extends AbstractRequest
     {
         return "movies/updated";
     }
-
-    protected function getResponseHandler()
-    {
-        return UpdatedHandler::class;
-    }
-
-
 }

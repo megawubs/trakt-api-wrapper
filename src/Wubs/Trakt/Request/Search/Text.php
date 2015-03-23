@@ -46,6 +46,7 @@ class Text extends AbstractRequest
 
         $queryParams = $this->makeQueryParams();
         $this->setQueryParams($queryParams);
+        $this->setResponseHandler(new TextSearchHandler());
     }
 
     public function getRequestType()
@@ -74,11 +75,4 @@ class Text extends AbstractRequest
 
         return $params;
     }
-
-    protected function getResponseHandler()
-    {
-        return TextSearchHandler::class;
-    }
-
-
 }

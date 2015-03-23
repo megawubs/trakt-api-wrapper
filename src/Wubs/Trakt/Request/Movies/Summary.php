@@ -26,6 +26,7 @@ class Summary extends AbstractRequest
     {
         parent::__construct();
         $this->id = $id;
+        $this->setResponseHandler(new SummaryHandler());
     }
 
     public function getRequestType()
@@ -37,11 +38,4 @@ class Summary extends AbstractRequest
     {
         return "movies/summary/:id";
     }
-
-    protected function getResponseHandler()
-    {
-        return SummaryHandler::class;
-    }
-
-
 }

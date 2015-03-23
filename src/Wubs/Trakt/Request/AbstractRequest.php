@@ -12,9 +12,10 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\ClientId;
+use Wubs\Trakt\Contracts\ResponseHandler;
 use Wubs\Trakt\Request\Exception\HttpCodeException\ExceptionStatusCodeFactory;
+use Wubs\Trakt\Response\Handlers\AbstractResponseHandler;
 use Wubs\Trakt\Response\Handlers\DefaultResponseHandler;
-use Wubs\Trakt\Response\Handlers\DefaultUpdateHandler;
 use Wubs\Trakt\Response\Handlers\DefaultDeleteHandler;
 
 abstract class  AbstractRequest
@@ -34,13 +35,18 @@ abstract class  AbstractRequest
 
     protected $staging = "https://api.staging.trakt.tv";
 
-    private $apiVersion = 2;
-
-    private $extended;
-
     protected $queryParams = [];
 
     protected $allowedExtended;
+
+    /**
+     * @var ResponseHandler
+     */
+    private $responseHandler;
+
+    private $apiVersion = 2;
+
+    private $extended;
 
     private $environment = 'prod';
 
@@ -69,6 +75,7 @@ abstract class  AbstractRequest
         $this->page = $page;
         $this->limit = $limit;
         $this->queryParams = $queryParams;
+        $this->responseHandler = DefaultResponseHandler::class;
     }
 
     /**
@@ -124,21 +131,26 @@ abstract class  AbstractRequest
     }
 
     /**
-     * @param $clientId
+     * @param ClientId $clientId
      * @param AccessToken $token
      * @param array $parameters
+     * @param AbstractResponseHandler $responseHandler
      * @return mixed
-     * @throws Exception\HttpCodeException\RateLimitExceededException
-     * @throws Exception\HttpCodeException\ServerErrorException
-     * @throws Exception\HttpCodeException\ServerUnavailableException
-     * @throws Exception\HttpCodeException\StatusCodeException
      */
-    public static function request(ClientId $clientId, AccessToken $token, array $parameters = [])
-    {
+    public static function request(
+        ClientId $clientId,
+        AccessToken $token,
+        array $parameters = [],
+        AbstractResponseHandler $responseHandler = null
+    ) {
         $reflection = new \ReflectionClass(static::class);
         $request = $reflection->newInstanceArgs($parameters);
 
         $request->setToken($token);
+
+        if ($responseHandler) {
+            $request->setResponseHandler($responseHandler);
+        }
 
         return $request->call($clientId);
     }
@@ -166,11 +178,18 @@ abstract class  AbstractRequest
         return UriBuilder::format($this);
     }
 
+    /**
+     * @param ResponseHandler $responseHandler
+     */
+    public function setResponseHandler(ResponseHandler $responseHandler)
+    {
+        $this->responseHandler = $responseHandler;
+    }
+
+
     protected function handleResponse(ResponseInterface $response)
     {
-        $reflection = new \ReflectionClass($this->getResponseHandler());
-
-        $handler = $reflection->newInstance();
+        $handler = $this->getResponseHandler();
 
         $handler->setId($this->clientId);
         $handler->setToken($this->token);
@@ -178,15 +197,12 @@ abstract class  AbstractRequest
         return $handler->handle($response);
     }
 
-    protected function getResponseHandler()
+    /**
+     * @return ResponseHandler
+     */
+    public function getResponseHandler()
     {
-        $type = $this->getRequestType();
-
-        if ($type === RequestType::DELETE) {
-            return DefaultDeleteHandler::class;
-        }
-
-        return DefaultResponseHandler::class;
+        return $this->responseHandler;
     }
 
     protected function getPostBody()

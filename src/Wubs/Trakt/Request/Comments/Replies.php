@@ -28,6 +28,7 @@ class Replies extends AbstractRequest
     {
         parent::__construct();
         $this->id = $id;
+        $this->setResponseHandler(new CommentHandler());
     }
 
     public function getRequestType()
@@ -44,11 +45,4 @@ class Replies extends AbstractRequest
     {
         return "comments/:id/replies";
     }
-
-    protected function getResponseHandler()
-    {
-        return CommentHandler::class;
-    }
-
-
 }
