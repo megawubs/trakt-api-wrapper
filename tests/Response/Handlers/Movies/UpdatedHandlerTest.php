@@ -15,10 +15,7 @@ class UpdatedHandlerTest extends PHPUnit_Framework_TestCase
 
     public function testResponseHandlerConvertsResponseToUpdatedObjects()
     {
-        $response = new MockResponse();
-
-        $response->setJson(
-            '[
+        $json = '[
               {
                   "updated_at": "2014-09-22T21:56:03.000Z",
                 "movie": {
@@ -45,8 +42,8 @@ class UpdatedHandlerTest extends PHPUnit_Framework_TestCase
                   }
                 }
               }
-            ]'
-        );
+            ]';
+        $response = new MockResponse($json);
 
         $handler = new UpdatedHandler();
 

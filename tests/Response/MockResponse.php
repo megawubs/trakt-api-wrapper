@@ -7,10 +7,15 @@ use GuzzleHttp\Utils;
 
 class MockResponse implements ResponseInterface
 {
+
     private $json;
 
-    public function setJson($json)
+    /**
+     * @param $json
+     */
+    public function __construct($json)
     {
+
         $this->json = $json;
     }
 
