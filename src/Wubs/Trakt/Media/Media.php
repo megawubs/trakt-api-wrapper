@@ -36,6 +36,8 @@ abstract class Media
      */
     protected $token;
 
+    protected $type;
+
     /**
      * @param $json
      * @param $id
@@ -47,16 +49,9 @@ abstract class Media
         $this->id = $id;
         $this->token = $token;
 
-        if ($this instanceof Movie) {
-            $this->media = $json->movie;
-        }
-        if ($this instanceof Show) {
-            $this->media = $json->show;
-        }
+        $this->media = $this->getMedia($json);
 
-        if ($this instanceof Person) {
-            $this->media = $json->person;
-        }
+        $this->setMediaFields();
     }
 
     public function json()
@@ -123,5 +118,42 @@ abstract class Media
     {
         $ids = $this->getIds();
         return $ids->slug;
+    }
+
+    protected function setMediaFields()
+    {
+        foreach ($this->media as $key => $value) {
+            $this->{$key} = $value;
+        }
+        foreach ($this->json as $key => $value) {
+            if ($key != $this->type) {
+                $this->{$key} = $value;
+            }
+        }
+
+    }
+
+    /**
+     * @param $json
+     */
+    private function getMedia($json)
+    {
+        if (property_exists($json, "type")) {
+            if ($this instanceof Movie) {
+                $this->type = Type::movie();
+                return $json->movie;
+            }
+            if ($this instanceof Show) {
+                $this->type = Type::show();
+                return $json->show;
+            }
+
+            if ($this instanceof Person) {
+                $this->type = Type::person();
+                return $json->person;
+            }
+        }
+
+        return $this->json;
     }
 }

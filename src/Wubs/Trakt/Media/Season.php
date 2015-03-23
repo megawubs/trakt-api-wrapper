@@ -16,11 +16,11 @@ class Season extends Media
 
     public function getTitle()
     {
-        return $this->json->number;
+        return $this->media->number;
     }
 
     public function getIds()
     {
-        return $this->json->ids;
+        return $this->media->ids;
     }
 }

@@ -11,6 +11,18 @@ namespace Wubs\Trakt\Media;
 
 class Movie extends Media
 {
+    public $score;
+
+    public $title;
+
+    public $overview;
+
+    public $year;
+
+    public $images;
+
+    public $fanart;
 
     protected $standard = ["title", "year", "ids"];
+
 }

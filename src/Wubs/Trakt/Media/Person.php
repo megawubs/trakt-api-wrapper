@@ -12,5 +12,4 @@ namespace Wubs\Trakt\Media;
 class Person extends Media
 {
     protected $standard = ["name", "ids"];
-
 }

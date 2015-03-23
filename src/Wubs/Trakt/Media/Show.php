@@ -16,14 +16,4 @@ class Show extends Media
 {
 
     protected $standard = ["title", "year", "ids"];
-
-    public function getTitle()
-    {
-        return $this->json->show->title;
-    }
-
-    public function getIds()
-    {
-        return $this->json->show->ids;
-    }
 }
