@@ -79,8 +79,7 @@ This updated wrapper is in many ways different from the previous version. Inspir
 follow a more Object Oriented approach. Each request is a object on its own, and can have a response handler just 
 or that request. This is the basis.
 
-Currently I'm implementing all kinds of requests (only `GET` requests are supported for now). It's not hard to do 
-this yourself
+Currently I'm implementing all kinds of requests. It's not hard to do this yourself.
 
 A request should extend the `AbstractRequest` class and implement the `AbstractRequest::getRequestType()` and 
 `AbstractRequest::getUrl()`. To set the response handler use `AbstractRequest::setResponseHandler(new MyHandler())`  
