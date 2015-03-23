@@ -83,9 +83,8 @@ Currently I'm implementing all kinds of requests (only `GET` requests are suppor
 this yourself
 
 A request should extend the `AbstractRequest` class and implement the `AbstractRequest::getRequestType()` and 
-`AbstractRequest::getUrl()`. Optionally you can override the `AbstractRequest::getResponseHandler()` to return the 
-response handler. When you do not override the `AbstractRequest::getResponseHandler()` method, the 
-`DefaultResponseHandler` will be used. 
+`AbstractRequest::getUrl()`. To set the response handler use `AbstractRequest::setResponseHandler(new MyHandler())`  
+inside the constructor. When you do not set the an handler the `DefaultResponseHandler` will be used. 
 
 The basics of a `Request` object will look like this.
 ```php
