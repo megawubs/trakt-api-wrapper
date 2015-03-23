@@ -40,10 +40,6 @@ function get_client_id()
  */
 function movie()
 {
-    $clientId = get_client_id();
-    $token = get_token();
-    $mockResponse = new MockResponse();
-
     $json = '{
     "type": "movie",
     "score": 26.019499,
@@ -71,7 +67,9 @@ function movie()
       }
     }
   }';
-    $mockResponse->setJson($json);
+    $clientId = get_client_id();
+    $token = get_token();
+    $mockResponse = new MockResponse($json);
 
     return new Movie($mockResponse->json(['object' => true]), $clientId, $token);
 }
