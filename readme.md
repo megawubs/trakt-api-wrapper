@@ -140,10 +140,10 @@ class Movies extends AbstractRequest
 
     public function __construct(StartDate $startDate = null, Days $days = null)
     {
+        parent::__construct();
+        
         $this->setStartDate($startDate);
         $this->setDays($days);
-
-        parent::__construct();
     }
 
     public function getRequestType()
@@ -214,6 +214,31 @@ class DefaultResponseHandler implements Response
 }
 ```
 
+You can create your own response handler, just extend `AbstractResponseHandler` and implement the `ResponseHandler` 
+interface.
+
+When calling a request statically the response handler can be passed after the request parameters like so:
+ 
+ ```PHP
+ <?php
+ use Wubs\Trakt\Request\Calendars\Movies;
+ 
+ class MyResponseHandler extends AbstractResponseHandler implements ResponseHandler
+ {
+ 
+     public function handle(ResponseInterface $response)
+     {
+         return true;
+     }
+ }
+ 
+ $parameters = [StartDate::standard(), Days::num(1)];
+ $response = Movies::Movies::request(get_client_id(), get_token(), $parameters, new MyResponseHandler());
+ 
+ print_r($response); //true
+ ```
+ 
+When you build the request yourself, it can be set through `$request->setResponseHandler(new MyResponseHandler())`
 
 Feel free to contact me or help development :)
 
