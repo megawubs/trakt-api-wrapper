@@ -1,6 +1,7 @@
 <?php namespace Wubs\Trakt;
 
 
+use Guzzle\Http\Exception\ClientErrorResponseException;
 use Guzzle\Http\Url;
 use Guzzle\Service\Client;
 use League\OAuth2\Client\Provider\ProviderInterface;
@@ -39,8 +40,12 @@ class Trakt
 
     public function getAccessToken($code)
     {
-        $params = ["code" => $code];
-        return $this->provider->getAccessToken("authorization_code", $params);
+        try {
+            $params = ["code" => $code];
+            return $this->provider->getAccessToken("authorization_code", $params);
+        } catch (\Exception $exception) {
+            throw new InvalidOauthRequestException;
+        }
     }
 
     /**
@@ -67,5 +72,11 @@ class Trakt
     public function invalid()
     {
         unset($_SESSION['trakt_oauth_state']);
+    }
+
+    public function refreshAccessToken($refreshToken)
+    {
+        $params = ['refresh_token' => $refreshToken, 'code' => $refreshToken];
+        return $this->provider->getAccessToken("refresh_token", $params);
     }
 }
