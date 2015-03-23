@@ -9,18 +9,14 @@
 namespace Wubs\Trakt\Provider;
 
 
+use Guzzle\Service\Client as GuzzleClient;
+use GuzzleHttp\Client;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\ClientId;
-use Wubs\Trakt\Token\TraktAccessToken;
 
 class TraktProvider extends AbstractProvider
 {
-    public $responseType;
-    private $username;
-    /**
-     * @var string
-     */
 
     /**
      * @param ClientId $clientId
@@ -40,7 +36,9 @@ class TraktProvider extends AbstractProvider
                 "response_type" => $type
             ]
         );
+
     }
+
 
     /**
      * Get the URL that this provider uses to begin authorization.
@@ -52,6 +50,20 @@ class TraktProvider extends AbstractProvider
         return 'https://trakt.tv/oauth/authorize';
     }
 
+    public function getAuthorizationUrl($options = [])
+    {
+        $this->state = isset($options['state']) ? $options['state'] : md5(uniqid(rand(), true));
+        $params = [
+            'response_type' => isset($options['response_type']) ? $options['response_type'] : 'code',
+            'client_id' => $this->clientId,
+            'redirect_uri' => $this->redirectUri,
+            'state' => $this->state
+        ];
+
+        return $this->urlAuthorize() . '?' . $this->httpBuildQuery($params, '', '&');
+    }
+
+
     /**
      * Get the URL that this provider users to request an access token.
      *
@@ -59,7 +71,7 @@ class TraktProvider extends AbstractProvider
      */
     public function urlAccessToken()
     {
-        return 'https://api-v2launch.trakt.tv/oauth/token';
+        return 'https://trakt.tv/oauth/token';
     }
 
     public function urlUserDetails(AccessToken $token)
@@ -68,10 +80,5 @@ class TraktProvider extends AbstractProvider
 
     public function userDetails($response, AccessToken $token)
     {
-    }
-
-    public function setUsername($username)
-    {
-        $this->username = $username;
     }
 }
