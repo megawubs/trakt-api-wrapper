@@ -133,7 +133,7 @@ abstract class  AbstractRequest
      * @throws Exception\HttpCodeException\ServerUnavailableException
      * @throws Exception\HttpCodeException\StatusCodeException
      */
-    public static function request(ClientId $clientId, AccessToken $token, ...$parameters)
+    public static function request(ClientId $clientId, AccessToken $token, array $parameters = [])
     {
         $reflection = new \ReflectionClass(static::class);
         $request = $reflection->newInstanceArgs($parameters);

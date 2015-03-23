@@ -76,7 +76,7 @@ abstract class Media
     public static function search($id, AccessToken $token, Parameter $query, Year $year = null)
     {
         if ($query instanceof Query) {
-            return Text::request($id, $token, $query, Type::movie(), $year);
+            return Text::request($id, $token, [$query, Type::movie(), $year]);
         }
     }
 
@@ -92,7 +92,7 @@ abstract class Media
 
     public function comment(Comment $comment)
     {
-        return PostComment::request($this->id, $this->token, $this, $comment);
+        return PostComment::request($this->id, $this->token, [$this, $comment]);
     }
 
     /**
@@ -101,7 +101,7 @@ abstract class Media
     public function comments()
     {
         $slug = $this->getSlug();
-        return Comments::request($this->id, $this->token, MediaId::set($slug));
+        return Comments::request($this->id, $this->token, [MediaId::set($slug)]);
     }
 
     public function getTitle()

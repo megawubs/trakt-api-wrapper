@@ -153,7 +153,7 @@ class Movies extends AbstractRequest
 
     public function getUrl()
     {
-        return "calendars/movies/" . $this->getStartDate() . "/" . $this->getDays();
+        return "calendars/movies/:start_date/:days";
     }
 }
 ```
@@ -178,8 +178,9 @@ $token = TraktAccessToken::create(
                 getenv("TRAKT_REFRESH_TOKEN"),
                 getenv("TRAKT_SCOPE")
             );
+$parameters = [StartDate::standard(), Days::num(1)];
 
-$response = Movies::request($id, $token, StartDate::standard(), Days::num(1));
+$response = Movies::request($id, $token, $parameters); //the parameters will be passed through to the request object
 ```
 
 The `$response` variable will now contain the json response from the request.
