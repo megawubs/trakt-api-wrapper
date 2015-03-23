@@ -46,4 +46,9 @@ class Type extends AbstractParameter implements Parameter
     {
         return static::shows();
     }
+
+    public static function person()
+    {
+        return new static("person");
+    }
 }
