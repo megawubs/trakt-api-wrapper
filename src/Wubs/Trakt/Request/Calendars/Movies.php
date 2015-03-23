@@ -14,6 +14,7 @@ use Wubs\Trakt\Request\Parameters\Days;
 use Wubs\Trakt\Request\Parameters\StartDate;
 use Wubs\Trakt\Request\RequestType;
 use Wubs\Trakt\Request\TimePeriod;
+use Wubs\Trakt\Response\Handlers\Calendars\MoviesHandler;
 
 class Movies extends AbstractRequest
 {
@@ -31,6 +32,12 @@ class Movies extends AbstractRequest
     {
         return RequestType::GET;
     }
+
+    protected function getResponseHandler()
+    {
+        return MoviesHandler::class;
+    }
+
 
     public function getUri()
     {
