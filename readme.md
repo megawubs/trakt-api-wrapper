@@ -5,7 +5,7 @@ This is the Trakt API wrapper for their new API (version 2). It's in active deve
 
 ## Installation
 
-In your composer.json file add:`"wubs/trakt": "dev-master"` and run `composer update`
+In your composer.json file add:`"wubs/trakt": "dev-master"` and run `composer install`
 
 ## The goal
 
@@ -82,8 +82,9 @@ or that request. This is the basis.
 Currently I'm implementing all kinds of requests. It's not hard to do this yourself.
 
 A request should extend the `AbstractRequest` class and implement the `AbstractRequest::getRequestType()` and 
-`AbstractRequest::getUrl()`. To set the response handler use `AbstractRequest::setResponseHandler(new MyHandler())`  
-inside the constructor. When you do not set the an handler the `DefaultResponseHandler` will be used. 
+`AbstractRequest::getUrl()`. methods To set the response handler use `AbstractRequest::setResponseHandler(new 
+MyHandler())` inside the constructor of the request object. When you do not set the a handler the
+`DefaultResponseHandler` will be used. 
 
 The basics of a `Request` object will look like this.
 ```php
