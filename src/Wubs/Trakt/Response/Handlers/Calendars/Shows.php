@@ -12,50 +12,34 @@ namespace Wubs\Trakt\Response\Handlers\Calendars;
 use GuzzleHttp\Message\ResponseInterface;
 use Wubs\Trakt\Media\Episode;
 use Wubs\Trakt\Contracts\ResponseHandler;
+use Wubs\Trakt\Response\Calendar\Day;
 use Wubs\Trakt\Response\Handlers\AbstractResponseHandler;
 
 class Shows extends AbstractResponseHandler implements ResponseHandler
 {
+    /**
+     * @param ResponseInterface $response
+     * @return Day[]
+     */
     public function handle(ResponseInterface $response)
     {
-        $dates = $this->getJson($response);
+        $json = $this->getJson($response);
 
-        return $this->handleDates($dates);
+        return $this->toDays($json);
     }
 
     /**
-     * @param $dates
-     * @return array
+     * @param $json
+     * @return Day[]
      */
-    private function handleDates($dates)
+    private function toDays($json)
     {
-        $list = [];
-        foreach ($dates as $episodes) {
-            $list = array_merge($list, $this->handleEpisodes($episodes));
+        $days = [];
+
+        foreach ($json as $date => $movies) {
+            $days[] = new Day($date, $movies, $this->getId(), $this->getToken());
         }
 
-        return $list;
-    }
-
-    /**
-     * @param array $episodes
-     * @return array
-     */
-    private function handleEpisodes(array $episodes = [])
-    {
-        $episodeList = [];
-        foreach ($episodes as $episode) {
-            $episodeList[] = $this->makeEpisode($episode);
-        }
-        return $episodeList;
-    }
-
-    /**
-     * @param $episode
-     * @return Episode
-     */
-    private function makeEpisode($episode)
-    {
-        return new Episode($episode, $this->getId(), $this->getToken());
+        return $days;
     }
 }
