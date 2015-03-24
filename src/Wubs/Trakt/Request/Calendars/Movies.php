@@ -15,7 +15,6 @@ use Wubs\Trakt\Request\Parameters\StartDate;
 use Wubs\Trakt\Request\RequestType;
 use Wubs\Trakt\Request\TimePeriod;
 use Wubs\Trakt\Response\Handlers\Calendars\MoviesHandler;
-use Wubs\Trakt\Response\Handlers\DefaultResponseHandler;
 
 class Movies extends AbstractRequest
 {
