@@ -75,6 +75,7 @@ abstract class AbstractRequest
         $this->page = $page;
         $this->limit = $limit;
         $this->queryParams = $queryParams;
+
         $this->setResponseHandler(new DefaultResponseHandler());
     }
 
@@ -112,21 +113,12 @@ abstract class AbstractRequest
         $this->queryParams = $params;
     }
 
-    public function setPostBody($json)
-    {
-        if (is_array($json)) {
-            $json = json_encode($json);
-        }
-
-        $this->postBody = $json;
-    }
-
     public function setEnvironment($environment)
     {
         $allowed = ['prod', 'staging'];
         if (in_array($environment, $allowed)) {
             $this->environment = $environment;
-            $this->client = $this->getClient($this->apiVersion);
+            $this->client = $this->getClient();
         }
     }
 
@@ -242,17 +234,17 @@ abstract class AbstractRequest
     }
 
     /**
-     * @param $apiVersion
+     *
      * @return Client
      */
-    private function getClient($apiVersion)
+    private function getClient()
     {
         $host = $this->host;
 
         if ($this->environment === 'staging') {
             $host = $this->staging;
         }
-        return new Client(['base_url' => [$this->scheme . '://' . $host, ['version' => $apiVersion]]]);
+        return new Client(['base_url' => [$this->scheme . '://' . $host, ['version' => $this->apiVersion]]]);
     }
 
     /**
