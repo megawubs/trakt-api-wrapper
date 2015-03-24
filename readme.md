@@ -237,7 +237,7 @@ When calling a request statically the response handler can be passed after the r
  print_r($response); //true
  ```
  
-When you build the request yourself, it can be set through `$request->setResponseHandler(new MyResponseHandler())`
+When you build the request yourself, it can be set with `$request->setResponseHandler(new MyResponseHandler())`
 
 Feel free to contact me or help development :)
 
