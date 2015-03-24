@@ -2,6 +2,9 @@
 use Wubs\Trakt\Request\Calendars\Movies;
 use Wubs\Trakt\Request\Parameters\Days;
 use Wubs\Trakt\Request\Parameters\StartDate;
+use Wubs\Trakt\Request\Parameters\Type;
+use Wubs\Trakt\Request\Parameters\Username;
+use Wubs\Trakt\Request\Users\History;
 
 /**
  * Created by PhpStorm.
@@ -20,6 +23,14 @@ class RequestTest extends PHPUnit_Framework_TestCase
         $result = Movies::request(get_client_id(), get_token(), $parameters);
 
         $this->assertInstanceOf(Wubs\Trakt\Response\Calendar\Calendar::class, $result);
+    }
+
+    public function testRequest()
+    {
+        $parameters = [Username::set('MegaWubs'), Type::movies()];
+        $response = History::request(get_client_id(), get_token(), $parameters);
+
+        var_dump($response);
     }
 
 

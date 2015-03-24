@@ -19,29 +19,29 @@ class History extends AbstractRequest
     /**
      * @var UserName
      */
-    private $name;
+    private $username;
     /**
      * @var Type
      */
     private $type;
 
     /**
-     * @param UserName $name
+     * @param Username $username
      * @param Type $type
      */
-    public function __construct(Username $name, Type $type)
+    public function __construct(Username $username, Type $type)
     {
         parent::__construct();
-        $this->name = $name;
+        $this->username = $username;
         $this->type = $type;
     }
 
     /**
      * @return Username
      */
-    public function getName()
+    public function getUsername()
     {
-        return $this->name;
+        return $this->username;
     }
 
     /**

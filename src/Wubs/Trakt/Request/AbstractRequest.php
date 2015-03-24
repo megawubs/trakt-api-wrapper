@@ -18,7 +18,7 @@ use Wubs\Trakt\Response\Handlers\AbstractResponseHandler;
 use Wubs\Trakt\Response\Handlers\DefaultResponseHandler;
 use Wubs\Trakt\Response\Handlers\DefaultDeleteHandler;
 
-abstract class  AbstractRequest
+abstract class AbstractRequest
 {
     /**
      * @var ClientId
@@ -75,7 +75,7 @@ abstract class  AbstractRequest
         $this->page = $page;
         $this->limit = $limit;
         $this->queryParams = $queryParams;
-        $this->responseHandler = DefaultResponseHandler::class;
+        $this->setResponseHandler(new DefaultResponseHandler());
     }
 
     /**
