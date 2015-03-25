@@ -25,12 +25,13 @@ class RequestTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Wubs\Trakt\Response\Calendar\Calendar::class, $result);
     }
 
-    public function testRequest()
+    public function testRequestWithoutToken()
     {
         $parameters = [Username::set('MegaWubs'), Type::movies()];
-        $response = History::request(get_client_id(), get_token(), $parameters);
 
-        var_dump($response);
+        $response = History::request(get_client_id(), $parameters);
+
+
     }
 
 

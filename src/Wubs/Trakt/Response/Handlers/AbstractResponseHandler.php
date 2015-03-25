@@ -53,9 +53,11 @@ class AbstractResponseHandler
     /**
      * @param AccessToken $token
      */
-    public function setToken(AccessToken $token)
+    public function setToken($token)
     {
-        $this->token = $token;
+        if ($token instanceof AccessToken || $token === null) {
+            $this->token = $token;
+        }
     }
 
     protected function getJson(ResponseInterface $response)

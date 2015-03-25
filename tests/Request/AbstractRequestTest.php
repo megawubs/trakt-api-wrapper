@@ -30,6 +30,20 @@ class AbstractRequestTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($response);
     }
 
+    public function testCanOmitTokenAsParameter()
+    {
+        $response = Movies::request(get_client_id(), [], new MyResponseHandler());
+
+        $this->assertTrue($response);
+    }
+
+    public function testCanOmitRequestParametersAsParameter()
+    {
+        $response = Movies::request(get_client_id(), new MyResponseHandler());
+
+        $this->assertTrue($response);
+    }
+
 }
 
 

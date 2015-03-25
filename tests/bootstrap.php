@@ -17,6 +17,9 @@ require __DIR__ . "/../vendor/autoload.php";
 
 Dotenv::load(dirname(__DIR__));
 
+/**
+ * @return \League\OAuth2\Client\Token\AccessToken
+ */
 function get_token()
 {
     return TraktAccessToken::create(
@@ -28,6 +31,9 @@ function get_token()
     );
 }
 
+/**
+ * @return ClientId
+ */
 function get_client_id()
 {
     return ClientId::set(getenv("CLIENT_ID"));

@@ -39,7 +39,7 @@ class Calendar
      * @param ClientId $id
      * @param AccessToken $token
      */
-    public function __construct($json, Type $type, ClientId $id, AccessToken $token)
+    public function __construct($json, Type $type, ClientId $id, $token)
     {
         $this->id = $id;
         $this->token = $token;

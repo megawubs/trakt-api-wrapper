@@ -16,7 +16,6 @@ use Wubs\Trakt\Contracts\ResponseHandler;
 use Wubs\Trakt\Request\Exception\HttpCodeException\ExceptionStatusCodeFactory;
 use Wubs\Trakt\Response\Handlers\AbstractResponseHandler;
 use Wubs\Trakt\Response\Handlers\DefaultResponseHandler;
-use Wubs\Trakt\Response\Handlers\DefaultDeleteHandler;
 
 abstract class AbstractRequest
 {
@@ -56,9 +55,9 @@ abstract class AbstractRequest
     private $client;
 
     /**
-     * @var AccessToken
+     * @var AccessToken|null
      */
-    private $token;
+    private $token = null;
 
     /**
      * @param string $extended
@@ -92,9 +91,12 @@ abstract class AbstractRequest
     /**
      * @param AccessToken $token
      */
-    public function setToken(AccessToken $token)
+    public function setToken($token)
     {
-        $this->token = $token;
+        if ($token instanceof AccessToken || $token === null) {
+            $this->token = $token;
+        }
+
     }
 
     /**
@@ -126,16 +128,33 @@ abstract class AbstractRequest
      * @param ClientId $clientId
      * @param AccessToken $token
      * @param array $parameters
-     * @param AbstractResponseHandler $responseHandler
+     * @param ResponseHandler|AbstractResponseHandler $responseHandler
      * @return mixed
+     * @throws Exception\HttpCodeException\RateLimitExceededException
+     * @throws Exception\HttpCodeException\ServerErrorException
+     * @throws Exception\HttpCodeException\ServerUnavailableException
+     * @throws Exception\HttpCodeException\StatusCodeException
      */
     public static function request(
         ClientId $clientId,
-        AccessToken $token,
-        array $parameters = [],
-        AbstractResponseHandler $responseHandler = null
+        $token = null,
+        $parameters = [],
+        ResponseHandler $responseHandler = null
     ) {
+        /*
+         * Check if the user passed the token as second parameter, if not
+         * and it is an array reassign the variables.
+         */
+        if (is_array($token)) {
+            list($parameters, $token, $responseHandler) = [$token, null, $parameters];
+        }
+
+        if ($token instanceof ResponseHandler) {
+            list($parameters, $token, $responseHandler) = [[], null, $token];
+        }
+
         $reflection = new \ReflectionClass(static::class);
+        /** @var AbstractRequest $request */
         $request = $reflection->newInstanceArgs($parameters);
 
         $request->setToken($token);
@@ -220,9 +239,10 @@ abstract class AbstractRequest
      */
     private function getHeaders()
     {
+        $token = (is_null($this->token)) ? "" : "Bearer " . $this->token;
         return [
             "content-type" => "application/json",
-            'Authorization' => "Bearer " . $this->token->accessToken,
+            'Authorization' => $token,
             "trakt-api-version" => 2,
             "trakt-api-key" => $this->clientId
         ];

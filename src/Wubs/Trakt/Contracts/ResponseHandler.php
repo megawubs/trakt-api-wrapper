@@ -17,5 +17,5 @@ interface ResponseHandler
 
     public function setId(ClientId $id);
 
-    public function setToken(AccessToken $token);
+    public function setToken($token);
 }
