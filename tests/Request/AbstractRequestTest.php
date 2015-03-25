@@ -2,6 +2,8 @@
 use GuzzleHttp\Message\ResponseInterface;
 use Wubs\Trakt\Contracts\ResponseHandler;
 use Wubs\Trakt\Request\Calendars\Movies;
+use Wubs\Trakt\Request\Parameters\Days;
+use Wubs\Trakt\Request\Parameters\StartDate;
 use Wubs\Trakt\Response\Handlers\AbstractResponseHandler;
 
 /**
@@ -32,7 +34,7 @@ class AbstractRequestTest extends PHPUnit_Framework_TestCase
 
     public function testCanOmitTokenAsParameter()
     {
-        $response = Movies::request(get_client_id(), [], new MyResponseHandler());
+        $response = Movies::request(get_client_id(), [StartDate::standard(), Days::set(20)], new MyResponseHandler());
 
         $this->assertTrue($response);
     }
@@ -42,6 +44,13 @@ class AbstractRequestTest extends PHPUnit_Framework_TestCase
         $response = Movies::request(get_client_id(), new MyResponseHandler());
 
         $this->assertTrue($response);
+    }
+
+    public function testOnlyPassRequestParameters()
+    {
+        $response = Movies::request(get_client_id(), [StartDate::standard(), Days::set(20)]);
+
+        $this->assertInstanceOf(Wubs\Trakt\Response\Calendar\Calendar::class, $response);
     }
 
 }
