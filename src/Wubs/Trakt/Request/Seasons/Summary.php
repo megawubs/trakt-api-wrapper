@@ -2,19 +2,19 @@
 /**
  * Created by PhpStorm.
  * User: bwubs
- * Date: 18/03/15
- * Time: 15:02
+ * Date: 27/03/15
+ * Time: 12:00
  */
 
-namespace Wubs\Trakt\Request\Movies;
+namespace Wubs\Trakt\Request\Seasons;
 
 
 use Wubs\Trakt\Request\AbstractRequest;
-use Wubs\Trakt\Request\Parameters\MediaIdTrait;
 use Wubs\Trakt\Request\Parameters\MediaId;
+use Wubs\Trakt\Request\Parameters\MediaIdTrait;
 use Wubs\Trakt\Request\RequestType;
 
-class Aliases extends AbstractRequest
+class Summary extends AbstractRequest
 {
     use MediaIdTrait;
 
@@ -34,6 +34,6 @@ class Aliases extends AbstractRequest
 
     public function getUri()
     {
-        return "movies/:id/aliases";
+        return "shows/:id/seasons";
     }
 }

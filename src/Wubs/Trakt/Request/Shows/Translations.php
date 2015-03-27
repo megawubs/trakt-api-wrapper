@@ -6,7 +6,7 @@
  * Time: 15:02
  */
 
-namespace Wubs\Trakt\Request\Movies;
+namespace Wubs\Trakt\Request\Shows;
 
 use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\Parameters\MediaIdTrait;
@@ -49,6 +49,6 @@ class Translations extends AbstractRequest
 
     public function getUri()
     {
-        return "movies/:id/translations/:language";
+        return "shows/:id/translations/:language";
     }
 }

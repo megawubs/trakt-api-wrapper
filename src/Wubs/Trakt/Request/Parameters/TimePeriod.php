@@ -6,12 +6,7 @@
  * Time: 00:52
  */
 
-namespace Wubs\Trakt\Request;
-
-
-use Carbon\Carbon;
-use Wubs\Trakt\Request\Parameters\Days;
-use Wubs\Trakt\Request\Parameters\StartDate;
+namespace Wubs\Trakt\Request\Parameters;
 
 trait TimePeriod
 {

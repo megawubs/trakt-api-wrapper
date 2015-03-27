@@ -14,7 +14,7 @@ use Wubs\Trakt\Trakt;
 class MoviesTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testCanCallRequest()
+    public function testFormatsRequestUrl()
     {
         $startDate = new StartDate(Carbon::createFromFormat("Y-m-d", "2014-03-01"));
 

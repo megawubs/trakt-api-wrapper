@@ -21,18 +21,10 @@ class CheckInTest extends PHPUnit_Framework_TestCase
     public function testCheckIn()
     {
 
-        /** @var Movie[] $movie */
-        $movie = Text::request(
-            get_client_id(),
-            get_token(),
-            [
-                Query::set("guardians of the galaxy"),
-                Type::movie(),
-                Year::set("2014")
-            ]
-        );
+        /** @var Movie $movie */
+        $movie = movie();
 
-        $response = $movie[0]->checkIn();
+        $response = $movie->checkIn();
 
         $this->assertInstanceOf(CheckIn::class, $response);
     }

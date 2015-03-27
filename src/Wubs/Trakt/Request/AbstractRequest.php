@@ -9,6 +9,7 @@
 namespace Wubs\Trakt\Request;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Message\ResponseInterface;
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\ClientId;
@@ -174,8 +175,12 @@ abstract class AbstractRequest
             $this->getUrl(),
             $this->getOptions()
         );
+        try {
+            $response = $this->client->send($request);
+        } catch (ServerException $exception) {
+            $response = $exception->getResponse();
+        }
 
-        $response = $this->client->send($request);
 
         if ($this->requestNotSuccessful($response)) {
             throw ExceptionStatusCodeFactory::create($response->getStatusCode());
@@ -250,7 +255,7 @@ abstract class AbstractRequest
 
     private function requestNotSuccessful(ResponseInterface $response)
     {
-        return (!in_array($response->getStatusCode(), [200, 201, 204]));
+        return (!in_array($response->getStatusCode(), [200, 201, 204, 504]));
     }
 
     /**

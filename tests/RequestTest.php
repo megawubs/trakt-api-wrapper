@@ -27,7 +27,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
 
     public function testRequestWithoutToken()
     {
-        $parameters = [Username::set('MegaWubs'), Type::movies()];
+        $parameters = [Username::set('megawubs'), Type::movies()];
 
         $response = History::request(get_client_id(), $parameters);
 
