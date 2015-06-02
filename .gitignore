@@ -1,7 +1,3 @@
-vendor/*
-*.json
-Gemfile
-Guardfile
-tests.txt
+_site
+.sass-cache
 .idea
-.env
