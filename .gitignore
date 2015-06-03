@@ -5,3 +5,4 @@ Guardfile
 tests.txt
 .idea
 .env
+_site
