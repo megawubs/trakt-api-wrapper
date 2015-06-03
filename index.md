@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "Jekyll Docs Template"
+title: "PHP Trakt API Wrapper"
 ---
 
 ### Get Started
