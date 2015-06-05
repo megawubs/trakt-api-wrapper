@@ -92,12 +92,9 @@ abstract class AbstractRequest
     /**
      * @param AccessToken $token
      */
-    public function setToken($token)
+    public function setToken(AccessToken $token = null)
     {
-        if ($token instanceof AccessToken || $token === null) {
-            $this->token = $token;
-        }
-
+        $this->token = $token;
     }
 
     /**
@@ -144,7 +141,7 @@ abstract class AbstractRequest
     ) {
         /*
          * Check if the user passed the token as second parameter, if not
-         * and it is an array reassign the variables.
+         * and it is an array (meaning it are the parameters) reassign the variables.
          */
         if (is_array($token)) {
             list($parameters, $token, $responseHandler) = [$token, null, $parameters];

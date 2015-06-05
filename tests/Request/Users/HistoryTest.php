@@ -13,9 +13,9 @@ class HistoryTest extends PHPUnit_Framework_TestCase
     {
         $clientId = ClientId::set(getenv("CLIENT_ID"));
 
-        $parameters = [Username::set('megawubs'), Type::movies()];
+        $parameters = [Username::set('rolle'), Type::movies()];
         $response = History::request($clientId, $parameters);
 
-        var_dump($response);
+        print_r($response);
     }
 }
