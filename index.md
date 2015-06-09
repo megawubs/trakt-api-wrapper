@@ -3,16 +3,30 @@ layout: default
 title: "PHP Trakt API Wrapper"
 ---
 
-### Get Started
+### The Project
 
-Start by [creating a new post](http://jekyllrb.com/docs/posts/) one of the categories listed in `_config.yml`. It will appear in the navigation on the left once recompiled. Or use the supplied script to make creating pages easier:
+This Trakt PHP API library aims to make working with the Trakt API easy, expandable and robust. Each request is it's 
+own class and each request can be handled by an given response handler.
 
-```bash
-ruby bin/jekyll-page "Some Page Title" ref
+### Code Examples
+
+When set up, this wrapper lets you execute requests to the Trakt API with ease. See the examples below to get the 
+general idea.
+
+```PHP
+<?php
+use Wubs\Trakt\Request\Parameters\Query;
+use Wubs\Trakt\Request\Parameters\Type;
+use Wubs\Trakt\Request\Parameters\Year;
+use Wubs\Trakt\Request\RequestType;
+use Wubs\Trakt\Request\Search\Text;
+
+
 ```
+$parameters = [Query::set("guardians of the galaxy"), Type::movie(), Year::set("2014")];
 
-#### Don't Forget
+$response = new Text::request($clientId, $token, $parameters); 
 
-- Add your own content to this page (i.e. `index.md`) and change the `title`
-- Change `title` and `subtitle` defined in `config.yml` for your site
-- Set the `baseurl` in `_config.yml` for your repo if deploying to GitHub pages
+print_r($response) //the search results
+        
+```
