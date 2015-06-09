@@ -13,70 +13,14 @@ use Wubs\Trakt\Request\AbstractRequest;
 
 class Trakt
 {
-    private $clientId;
-    private $clientSecret;
-    private $redirectUrl;
 
-    /**
-     *
-     * @param $clientId
-     * @param $clientSecret
-     * @param $redirectUrl
-     */
-    public function __construct($clientId, $clientSecret, $redirectUrl)
+    public static function api($clientId)
     {
-        $this->clientId = ClientId::set($clientId);
-        $this->clientSecret = $clientSecret;
-        $this->redirectUrl = $redirectUrl;
-
-        $this->provider = $this->getProvider();
+        return new Api(ClientId::set($clientId));
     }
 
-    public function authorize()
+    public static function auth($clientId, $clientSecret, $redirectUrl)
     {
-        $_SESSION['trakt_oauth_state'] = $this->provider->state;
-        return $this->provider->authorize();
-    }
-
-    public function getAccessToken($code)
-    {
-        try {
-            $params = ["code" => $code];
-            return $this->provider->getAccessToken("authorization_code", $params);
-        } catch (\Exception $exception) {
-            throw new InvalidOauthRequestException;
-        }
-    }
-
-    /**
-     * @param AbstractRequest $request
-     */
-    public function call(AbstractRequest $request)
-    {
-        return $request->call($this->clientId);
-    }
-
-    /**
-     * @return TraktProvider
-     */
-    private function getProvider()
-    {
-        return new TraktProvider($this->clientId, $this->clientSecret, $this->redirectUrl);
-    }
-
-    public function isValid()
-    {
-        return (empty($_GET['state']) || ($_GET['state'] === $_SESSION['trakt_oauth_state']));
-    }
-
-    public function invalid()
-    {
-        unset($_SESSION['trakt_oauth_state']);
-    }
-
-    public function refreshAccessToken($refreshToken)
-    {
-        $params = ['refresh_token' => $refreshToken, 'code' => $refreshToken];
-        return $this->provider->getAccessToken("refresh_token", $params);
+        return new Auth(ClientId::set($clientId), $clientSecret, $redirectUrl);
     }
 }

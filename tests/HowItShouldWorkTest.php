@@ -1,6 +1,7 @@
 <?php
 use Wubs\Trakt\Contracts\ExecutesRequest;
 use Wubs\Trakt\Request\DescribesRequest;
+use Wubs\Trakt\Trakt;
 
 /**
  * Created by PhpStorm.
@@ -14,14 +15,28 @@ class HowItShouldWorkTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException Wubs\Trakt\Request\Exception\HttpCodeException\MethodNotFoundException;
      */
-    public function testHowItShouldWork()
+    public function testPublicAPIMovies()
     {
-        $request = new DescribesRequest();
+        $trakt = Trakt::api(getenv("CLIENT_ID"));
 
-        $executed = new ExecutesRequest($request, new MyResponseHandler());
+        $response = $trakt->movies->popular();
 
-        $response = $executed->getResponse();
+        $this->assertInternalType("array", $response);
+    }
 
-        $this->assertEquals("200", $response);
+    public function testOAuthFlowAuthorization()
+    {
+        $auth = Trakt::auth(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), "uri");
+
+        $auth->authorize();
+    }
+
+    public function testOAuthFlowAccessToken()
+    {
+        $code = "blaat";
+
+        $auth = Trakt::auth(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), "uri");
+
+        $auth->getToken(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), $code);
     }
 }

@@ -25,7 +25,7 @@ class UriBuilderTest extends PHPUnit_Framework_TestCase
 
     }
 
-    public function testReturnsFormatedUriFromRequestObjectWithParameterNotAsLastParameter()
+    public function testReturnsFormattedUriFromRequestObjectWithParameterNotAsLastParameter()
     {
         $request = new Comments(MediaId::set("guardians-of-the-galaxy-2014"));
 
