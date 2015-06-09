@@ -3,3 +3,4 @@ _site
 .idea
 vendor
 .env
+composer.phar
