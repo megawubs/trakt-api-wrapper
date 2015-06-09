@@ -29,9 +29,9 @@ print_r($response) //the search results
         
 ```
 
-For now, the wrapper is still undergoing high development. I'm still searching for the "right" way to create this 
+For now, the wrapper is still under development. I'm still searching for the "right" way to create this 
 wrapper. The current setup is rooted in the idea that every request is it's own object. This results in really 
-declarative code, but in practice it's highly unusable and hard to master. This is why I'm currently thinking about 
+declarative code, but in practice it's highly unusable and hard to understand. This is why I'm currently thinking about 
 merging this idea with another idea demonstrated below:
  
 ### Future idea:
@@ -55,4 +55,5 @@ $trendingShows = $trakt->shows->get($traktIdOrTraktSlugOrImdbID);
 
 ```
 
-So, in the future all the request objects will be used by an easy to use interface, directly from the wrapper.
+So, in the future all the request objects will be used internally. And the user of the wrapper will have an easy to use 
+interface.
