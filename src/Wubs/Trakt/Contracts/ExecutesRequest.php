@@ -9,7 +9,10 @@
 namespace Wubs\Trakt\Contracts;
 
 
-class ExecutesRequest implements Executable {
+use Wubs\Trakt\ClientId;
+
+class ExecutesRequest implements Executable
+{
     /**
      * @var Request
      */
@@ -18,7 +21,8 @@ class ExecutesRequest implements Executable {
     /**
      * @param Request $request
      */
-    public function __construct(Request $request){
+    public function __construct(Request $request)
+    {
 
         $this->request = $request;
 
@@ -33,4 +37,15 @@ class ExecutesRequest implements Executable {
     {
         // TODO: Implement handleResponse() method.
     }
+
+    public function setClientId(ClientId $clientId)
+    {
+        // TODO: Implement setClientId() method.
+    }
+
+    public function setToken($token)
+    {
+        // TODO: Implement setToken() method.
+    }
+    
 }
