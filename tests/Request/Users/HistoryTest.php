@@ -16,6 +16,6 @@ class HistoryTest extends PHPUnit_Framework_TestCase
         $parameters = [Username::set('rolle'), Type::movies()];
         $response = History::request($clientId, $parameters);
 
-        print_r($response);
+        $this->assertInternalType("array", $response);
     }
 }

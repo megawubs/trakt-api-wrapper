@@ -10,10 +10,10 @@
   "minimum-stability": "dev",
   "require": {
     "php": ">=5.4.7",
-    "guzzlehttp/guzzle": "~5.0@dev",
-    "league/oauth2-client": "0.8.*@dev",
-    "league/url": "~4.0@dev",
-    "nesbot/carbon": "1.19.0"
+    "nesbot/carbon": "1.19.0",
+    "guzzlehttp/guzzle": "5.3.0",
+    "league/oauth2-client": "0.8.1",
+    "league/url": "3.3.2"
   },
   "require-dev": {
     "vlucas/phpdotenv": "~1.1@dev",
