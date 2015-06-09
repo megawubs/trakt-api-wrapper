@@ -24,7 +24,7 @@ class TraktTest extends PHPUnit_Framework_TestCase
 
     public function testInvalidAuthorization()
     {
-        $trakt = new Trakt(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
+        $trakt = Trakt::auth(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
         $_SESSION['trakt_oauth_state'] = "ADifferentState";
         $_GET['state'] = 'NotTheStateItShouldBe';
 
@@ -35,7 +35,7 @@ class TraktTest extends PHPUnit_Framework_TestCase
 
     public function testValidAuthorization()
     {
-        $trakt = new Trakt(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
+        $trakt = Trakt::auth(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
         $_SESSION['trakt_oauth_state'] = "AState";
         $_GET['state'] = 'AState';
 

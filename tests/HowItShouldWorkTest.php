@@ -28,15 +28,6 @@ class HowItShouldWorkTest extends PHPUnit_Framework_TestCase
     {
         $auth = Trakt::auth(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), "uri");
 
-        $auth->authorize();
-    }
-
-    public function testOAuthFlowAccessToken()
-    {
-        $code = "blaat";
-
-        $auth = Trakt::auth(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), "uri");
-
-        $auth->getToken(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), $code);
+        $this->assertInstanceOf("Wubs\\Trakt\\Auth", $auth);
     }
 }

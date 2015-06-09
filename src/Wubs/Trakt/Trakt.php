@@ -14,11 +14,21 @@ use Wubs\Trakt\Request\AbstractRequest;
 class Trakt
 {
 
+    /**
+     * @param $clientId
+     * @return Api
+     */
     public static function api($clientId)
     {
         return new Api(ClientId::set($clientId));
     }
 
+    /**
+     * @param $clientId
+     * @param $clientSecret
+     * @param $redirectUrl
+     * @return Auth
+     */
     public static function auth($clientId, $clientSecret, $redirectUrl)
     {
         return new Auth(ClientId::set($clientId), $clientSecret, $redirectUrl);
