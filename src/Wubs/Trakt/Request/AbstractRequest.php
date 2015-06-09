@@ -124,8 +124,7 @@ abstract class AbstractRequest
 
     /**
      * @param ClientId $clientId
-     * @param AccessToken $token
-     * @param array $parameters
+     * @param  $token
      * @param ResponseHandler|AbstractResponseHandler $responseHandler
      * @return mixed
      * @throws Exception\HttpCodeException\RateLimitExceededException
@@ -133,35 +132,25 @@ abstract class AbstractRequest
      * @throws Exception\HttpCodeException\ServerUnavailableException
      * @throws Exception\HttpCodeException\StatusCodeException
      */
-    public static function request(
+    public function make(
         ClientId $clientId,
         $token = null,
-        $parameters = [],
         ResponseHandler $responseHandler = null
     ) {
         /*
-         * Check if the user passed the token as second parameter, if not
-         * and it is an array (meaning it are the parameters) reassign the variables.
+         * Check if the user passed the ResponseHandler as second parameter, if so reassign the variables.
          */
-        if (is_array($token)) {
-            list($parameters, $responseHandler, $token,) = [$token, $parameters, null];
-        }
-
         if ($token instanceof ResponseHandler) {
-            list($parameters, $token, $responseHandler) = [[], null, $token];
+            list($token, $responseHandler) = [null, $token];
         }
 
-        $reflection = new \ReflectionClass(static::class);
-        /** @var AbstractRequest $request */
-        $request = $reflection->newInstanceArgs($parameters);
-
-        $request->setToken($token);
+        $this->setToken($token);
 
         if ($responseHandler) {
-            $request->setResponseHandler($responseHandler);
+            $this->setResponseHandler($responseHandler);
         }
 
-        return $request->call($clientId);
+        return $this->call($clientId);
     }
 
     public function call(ClientId $clientId = null)

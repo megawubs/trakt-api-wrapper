@@ -20,7 +20,7 @@ class CheckIn
     public static function media(ClientId $id, AccessToken $token, Media $media)
     {
         if ($media instanceof Movie) {
-            return MovieCheckIn::request($id, $token, [$media]);
+            return (new MovieCheckIn($media))->make($id, $token);
         }
     }
 

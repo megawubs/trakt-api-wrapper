@@ -155,7 +155,7 @@ class Comment
      */
     public function delete()
     {
-        return DeleteComment::request($this->clientId, $this->token, $this->getId());
+        return DeleteComment::make($this->clientId, $this->token, $this->getId());
     }
 
 

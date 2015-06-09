@@ -16,21 +16,19 @@ class RequestTest extends PHPUnit_Framework_TestCase
 {
     public function testCanMakeRequest()
     {
-        $parameters = [
-            StartDate::standard(),
-            Days::standard()
-        ];
-        $result = Movies::request(get_client_id(), get_token(), $parameters);
+        $result = (new Movies(StartDate::standard(), Days::standard()))->make(
+            get_client_id(),
+            get_token()
+        );
 
         $this->assertInstanceOf(Wubs\Trakt\Response\Calendar\Calendar::class, $result);
     }
 
     public function testRequestWithoutToken()
     {
-        $parameters = [Username::set('megawubs'), Type::movies()];
+        $response = (new History(Username::set('megawubs'), Type::movies()))->make(get_client_id());
 
-        $response = History::request(get_client_id(), $parameters);
-
+        $this->assertInternalType("array", $response);
 
     }
 

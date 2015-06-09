@@ -27,28 +27,32 @@ class AbstractRequestTest extends PHPUnit_Framework_TestCase
 
     public function testCanSetResponseHandlerOnStaticRequest()
     {
-        $response = Movies::request(get_client_id(), get_token(), [], new MyResponseHandler());
+        $response = (new Movies())->make(get_client_id(), get_token(), new MyResponseHandler());
 
         $this->assertTrue($response);
     }
 
     public function testCanOmitTokenAsParameter()
     {
-        $response = Movies::request(get_client_id(), [StartDate::standard(), Days::set(20)], new MyResponseHandler());
+        $response = (new Movies(StartDate::standard(), Days::set(20)))->make(
+            get_client_id(),
+            new MyResponseHandler
+            ()
+        );
 
         $this->assertTrue($response);
     }
 
     public function testCanOmitRequestParametersAsParameter()
     {
-        $response = Movies::request(get_client_id(), new MyResponseHandler());
+        $response = (new Movies())->make(get_client_id(), new MyResponseHandler());
 
         $this->assertTrue($response);
     }
 
     public function testOnlyPassRequestParameters()
     {
-        $response = Movies::request(get_client_id(), [StartDate::standard(), Days::set(20)]);
+        $response = (new Movies(StartDate::standard(), Days::set(20)))->make(get_client_id());
 
         $this->assertInstanceOf(Wubs\Trakt\Response\Calendar\Calendar::class, $response);
     }

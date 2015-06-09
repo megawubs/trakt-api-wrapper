@@ -13,8 +13,7 @@ class HistoryTest extends PHPUnit_Framework_TestCase
     {
         $clientId = ClientId::set(getenv("CLIENT_ID"));
 
-        $parameters = [Username::set('rolle'), Type::movies()];
-        $response = History::request($clientId, $parameters);
+        $response = (new History(Username::set('rolle'), Type::movies()))->make($clientId);
 
         $this->assertInternalType("array", $response);
     }

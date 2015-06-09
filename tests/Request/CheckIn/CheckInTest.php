@@ -34,7 +34,7 @@ class CheckInTest extends PHPUnit_Framework_TestCase
         $id = get_client_id();
         $token = get_token();
 
-        $response = CheckOut::request($id, $token);
+        $response = (new CheckOut())->make($id, $token);
 
         $this->assertTrue($response);
     }
