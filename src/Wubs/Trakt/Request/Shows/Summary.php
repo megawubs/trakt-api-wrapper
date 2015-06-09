@@ -36,6 +36,6 @@ class Summary extends AbstractRequest
 
     public function getUri()
     {
-        return "shows/summary/:id";
+        return "shows/:id";
     }
 }

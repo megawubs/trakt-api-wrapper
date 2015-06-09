@@ -7,25 +7,23 @@ namespace Wubs\Trakt\Api;
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\ClientId;
 use Wubs\Trakt\Request\AbstractRequest;
-use Wubs\Trakt\Request\Movies\Ratings;
-use Wubs\Trakt\Request\Movies\Aliases;
-use Wubs\Trakt\Request\Movies\Comments;
-use Wubs\Trakt\Request\Movies\People;
-use Wubs\Trakt\Request\Movies\Popular;
-use Wubs\Trakt\Request\Movies\Related;
-use Wubs\Trakt\Request\Movies\Releases;
-use Wubs\Trakt\Request\Movies\Stats;
-use Wubs\Trakt\Request\Movies\Summary;
-use Wubs\Trakt\Request\Movies\Translations;
-use Wubs\Trakt\Request\Movies\Trending;
-use Wubs\Trakt\Request\Movies\Updated;
-use Wubs\Trakt\Request\Movies\Watching;
-use Wubs\Trakt\Request\Parameters\Country;
 use Wubs\Trakt\Request\Parameters\Language;
 use Wubs\Trakt\Request\Parameters\MediaId;
-use Wubs\Trakt\Token\TraktAccessToken;
+use Wubs\Trakt\Request\Parameters\StartDate;
+use Wubs\Trakt\Request\Shows\Aliases;
+use Wubs\Trakt\Request\Shows\Comments;
+use Wubs\Trakt\Request\Shows\People;
+use Wubs\Trakt\Request\Shows\Popular;
+use Wubs\Trakt\Request\Shows\Ratings;
+use Wubs\Trakt\Request\Shows\Related;
+use Wubs\Trakt\Request\Shows\Stats;
+use Wubs\Trakt\Request\Shows\Summary;
+use Wubs\Trakt\Request\Shows\Translations;
+use Wubs\Trakt\Request\Shows\Trending;
+use Wubs\Trakt\Request\Shows\Updates;
+use Wubs\Trakt\Request\Shows\Watching;
 
-class Movies
+class Shows
 {
     use RequestMaker;
 
@@ -66,17 +64,10 @@ class Movies
         return $this->request(new Ratings($id));
     }
 
-    public function related($id)
+    public function Related($id)
     {
         $id = MediaId::set($id);
         return $this->request(new Related($id));
-    }
-
-    public function releases($id, $country)
-    {
-        $id = MediaId::set($id);
-        $country = Country::set($country);
-        return $this->request(new Releases($id, $country));
     }
 
     public function stats($id)
@@ -106,6 +97,12 @@ class Movies
     public function trending(AccessToken $token)
     {
         return $this->request(new Trending(), $token);
+    }
+
+    public function updates($startDate = null)
+    {
+        $startDate = ($startDate === null) ? StartDate::standard() : StartDate::set($startDate);
+        return $this->request(new Updates($startDate));
     }
 
     public function watching($id)

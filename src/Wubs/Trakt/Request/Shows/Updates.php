@@ -20,6 +20,7 @@ class Updates extends AbstractRequest
 
     public function __construct(StartDate $date = null)
     {
+        parent::__construct();
         $this->setStartDate($date);
     }
 

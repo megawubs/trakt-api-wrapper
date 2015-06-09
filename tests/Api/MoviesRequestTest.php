@@ -61,6 +61,13 @@ class MoviesRequestTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType("array", $ratings);
     }
 
+    public function testRelated()
+    {
+        $res = $this->trakt->movies->related($this->id);
+
+        $this->assertInternalType("array", $res);
+    }
+
     public function testStats()
     {
         $stats = $this->trakt->movies->stats($this->id);

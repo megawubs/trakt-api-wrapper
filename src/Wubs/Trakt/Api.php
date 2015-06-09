@@ -4,6 +4,7 @@
 namespace Wubs\Trakt;
 
 use Wubs\Trakt\Api\Movies;
+use Wubs\Trakt\Api\Shows;
 
 /**
  * Class Api
@@ -17,13 +18,6 @@ class Api
     private $id;
 
     /**
-     * @var string
-     *
-     * The first part of the uri
-     */
-    private $collection;
-
-    /**
      * @var Movies
      */
     public $movies;
@@ -35,5 +29,6 @@ class Api
     {
         $this->id = $id;
         $this->movies = new Movies($id);
+        $this->shows = new Shows($id);
     }
 }
