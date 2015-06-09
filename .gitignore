@@ -6,3 +6,4 @@ tests.txt
 .idea
 .env
 _site
+composer.phar

@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7de00d1686927f05c311afcb5063e3ed",
+    "hash": "9220f751693b3cc28689490c7ee8fa9c",
     "packages": [
         {
             "name": "guzzle/guzzle",
@@ -323,7 +323,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/url/zipball/cc335b856b1c008d2a41714f33b34fd57e38ceda",
+                "url": "https://api.github.com/repos/thephpleague/url/zipball/b8fc883a2561c6ab7ffa37c53c2207ccf2b9f880",
                 "reference": "cc335b856b1c008d2a41714f33b34fd57e38ceda",
                 "shasum": ""
             },
@@ -371,7 +371,7 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "dev-master",
+            "version": "1.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
@@ -577,7 +577,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Translation/zipball/ae980a18f73b88b3394510e07ed0f343f252ca4f",
+                "url": "https://api.github.com/repos/symfony/Translation/zipball/fa1c9e185b7addf06571be1ffcbaa27afea7fe9a",
                 "reference": "ae980a18f73b88b3394510e07ed0f343f252ca4f",
                 "shasum": ""
             },
@@ -694,7 +694,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/28a6b34e91d789b2608072ab3c82eaae7cdb973c",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/3703c4bb67c8700957dd41c843254658539d091d",
                 "reference": "28a6b34e91d789b2608072ab3c82eaae7cdb973c",
                 "shasum": ""
             },
@@ -1526,7 +1526,6 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "guzzlehttp/guzzle": 20,
-        "nesbot/carbon": 20,
         "league/oauth2-client": 20,
         "league/url": 20,
         "vlucas/phpdotenv": 20
