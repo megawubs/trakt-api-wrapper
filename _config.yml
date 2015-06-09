@@ -19,7 +19,8 @@ codeurl: 'https://github.com/megawubs/trakt-api-wrapper'
 
 # Default categories (in order) to appear in the navigation
 sections: [
-    ['doc', 'Documentation'],
+    ['setup', 'Getting Started'],
+    ['documentation', 'Documentation'],
     ['tut', 'Tutorial'],
     ['ref', 'Reference'],
     ['dev', 'Developers'],
@@ -28,7 +29,7 @@ sections: [
 
 # Keep as an empty string if served up at the root. If served up at a specific
 # path (e.g. on GitHub pages) leave off the trailing slash, e.g. /my-project
-baseurl: 'http://blog.wubsinfo.nl/trakt-api-wrapper/'
+baseurl: 'http://blog.wubsinfo.nl/trakt-api-wrapper'
 
 # Dates are not included in permalinks
 permalink: none
