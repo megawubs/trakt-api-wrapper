@@ -36,7 +36,6 @@ class TraktProvider extends AbstractProvider
                 "response_type" => $type
             ]
         );
-
     }
 
 

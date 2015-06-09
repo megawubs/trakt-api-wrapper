@@ -10,7 +10,6 @@ use Wubs\Trakt\Request\RequestType;
 class Requests extends AbstractRequest
 {
 
-
     public function getRequestType()
     {
         return RequestType::GET;

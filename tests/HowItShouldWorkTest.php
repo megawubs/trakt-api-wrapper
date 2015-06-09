@@ -14,12 +14,14 @@ class HowItShouldWorkTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException Wubs\Trakt\Request\Exception\HttpCodeException\MethodNotFoundException;
      */
-//    public function testRequestShouldNotBeAbleToCallItself()
-//    {
-//        $request = new DescribesRequest();
-//
-//        $maker = new ExecutesRequest($request);
-//
-//        $response = $maker->handleResponse(new MyResponseHandler());
-//    }
+    public function testHowItShouldWork()
+    {
+        $request = new DescribesRequest();
+
+        $executed = new ExecutesRequest($request, new MyResponseHandler());
+
+        $response = $executed->getResponse();
+
+        $this->assertEquals("200", $response);
+    }
 }

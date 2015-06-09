@@ -144,7 +144,7 @@ abstract class AbstractRequest
          * and it is an array (meaning it are the parameters) reassign the variables.
          */
         if (is_array($token)) {
-            list($parameters, $token, $responseHandler) = [$token, null, $parameters];
+            list($parameters, $responseHandler, $token,) = [$token, $parameters, null];
         }
 
         if ($token instanceof ResponseHandler) {

@@ -18,7 +18,4 @@ interface Executable
     public function setToken($token);
 
     public function getResponse();
-
-    public function handleResponse(ResponseHandler $handler = null);
-
 }

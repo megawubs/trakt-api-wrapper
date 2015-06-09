@@ -17,25 +17,31 @@ class ExecutesRequest implements Executable
      * @var Request
      */
     private $request;
+    /**
+     * @var ResponseHandler
+     */
+    private $handler;
 
     /**
      * @param Request $request
+     * @param ResponseHandler $handler
      */
-    public function __construct(Request $request)
+    public function __construct(Request $request, ResponseHandler $handler)
     {
 
         $this->request = $request;
 
+        $this->handler = $handler;
     }
 
     public function getResponse()
     {
-        // TODO: Implement getResponse() method.
+        return $this->handleResponse($this->handler);
     }
 
-    public function handleResponse(ResponseHandler $handler = null)
+    private function handleResponse(ResponseHandler $handler = null)
     {
-        // TODO: Implement handleResponse() method.
+        return "200";
     }
 
     public function setClientId(ClientId $clientId)
@@ -47,5 +53,5 @@ class ExecutesRequest implements Executable
     {
         // TODO: Implement setToken() method.
     }
-    
+
 }
