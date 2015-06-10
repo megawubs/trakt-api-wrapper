@@ -30,6 +30,10 @@ class AbstractParameter
         return (string)$this->value;
     }
 
+    /**
+     * @param $value
+     * @return static
+     */
     public static function set($value)
     {
         return new static($value);

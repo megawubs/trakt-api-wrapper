@@ -12,6 +12,7 @@ namespace Wubs\Trakt\Response\Handlers\Calendars;
 use GuzzleHttp\Message\ResponseInterface;
 use Wubs\Trakt\Media\Episode;
 use Wubs\Trakt\Contracts\ResponseHandler;
+use Wubs\Trakt\Request\Parameters\Type;
 use Wubs\Trakt\Response\Calendar\Day;
 use Wubs\Trakt\Response\Handlers\AbstractResponseHandler;
 
@@ -37,7 +38,7 @@ class Shows extends AbstractResponseHandler implements ResponseHandler
         $days = [];
 
         foreach ($json as $date => $movies) {
-            $days[] = new Day($date, $movies, $this->getId(), $this->getToken());
+            $days[] = new Day($date, $movies, Type::show(), $this->getId(), $this->getToken());
         }
 
         return $days;

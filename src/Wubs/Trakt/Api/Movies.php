@@ -25,17 +25,8 @@ use Wubs\Trakt\Request\Parameters\Language;
 use Wubs\Trakt\Request\Parameters\MediaId;
 use Wubs\Trakt\Token\TraktAccessToken;
 
-class Movies
+class Movies extends Endpoint
 {
-    use RequestMaker;
-
-    /**
-     * @param ClientId $clientId
-     */
-    public function __construct(ClientId $clientId)
-    {
-        $this->clientId = $clientId;
-    }
 
     public function aliases($id)
     {

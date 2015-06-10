@@ -5,8 +5,6 @@ namespace Wubs\Trakt\Api;
 
 
 use League\OAuth2\Client\Token\AccessToken;
-use Wubs\Trakt\ClientId;
-use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\Parameters\Language;
 use Wubs\Trakt\Request\Parameters\MediaId;
 use Wubs\Trakt\Request\Parameters\StartDate;
@@ -23,18 +21,8 @@ use Wubs\Trakt\Request\Shows\Trending;
 use Wubs\Trakt\Request\Shows\Updates;
 use Wubs\Trakt\Request\Shows\Watching;
 
-class Shows
+class Shows extends Endpoint
 {
-    use RequestMaker;
-
-    /**
-     * @param ClientId $clientId
-     */
-    public function __construct(ClientId $clientId)
-    {
-        $this->clientId = $clientId;
-    }
-
     public function aliases($id)
     {
         $mediaId = MediaId::set($id);
