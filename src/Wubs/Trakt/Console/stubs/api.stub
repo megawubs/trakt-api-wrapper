@@ -1,0 +1,19 @@
+<?php
+/*
+|--------------------------------------------------------------------------
+| Generated code
+|--------------------------------------------------------------------------
+| This class is auto generated. Please do not edit
+|
+|
+*/
+namespace Wubs\Trakt\Api;
+
+{{use_statements}}
+
+class {{class_name}} extends Endpoint {
+
+    {{methods}}
+
+}
+
