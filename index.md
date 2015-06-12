@@ -41,7 +41,7 @@ merging this idea with another idea demonstrated below:
 
 use Wubs\Trakt\Trakt;
 
-$trakt = Trakt::api($key, $secret);
+$trakt = Trakt::api($key);
 
 $popularMovies = $trakt->movies->popular();
 $trendingMovies = $trakt->movies->trending();
@@ -49,7 +49,7 @@ $trendingMovies = $trakt->movies->updates($date);
 $trendingMovies = $trakt->movies->get($traktIdOrTraktSlugOrImdbID);
 
 $popularShows = $trakt->shows->popular();
-$trendingShows ç= $trakt->shows->trending();
+$trendingShows = $trakt->shows->trending();
 $trendingShows = $trakt->shows->updates($date);
 $trendingShows = $trakt->shows->get($traktIdOrTraktSlugOrImdbID);
 

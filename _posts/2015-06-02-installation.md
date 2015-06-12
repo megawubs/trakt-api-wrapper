@@ -23,7 +23,8 @@ Composer is installed!
 
 ### Existing Project
 
-When you already have an existing composer project, just type `composer require wubs/trakt` and let it install.
+When you already have an existing composer project, just type `composer require wubs/trakt dev-master` and let it 
+install.
 
 ### Creating a new project
 
