@@ -18,14 +18,7 @@ use Wubs\Trakt\Request\RequestType;
 class Comments extends AbstractRequest
 {
     use MediaIdTrait, EpisodeTrait;
-    /**
-     * @var Season
-     */
-    private $season;
-    /**
-     * @var int
-     */
-    private $episode;
+
 
     /**
      * @param MediaId $id

@@ -14,7 +14,8 @@
     "guzzlehttp/guzzle": "5.3.0",
     "league/oauth2-client": "0.8.1",
     "league/url": "3.3.2",
-    "league/flysystem": "1.0.4"
+    "league/flysystem": "1.0.4",
+    "illuminate/support": "v5.1.1"
   },
   "require-dev": {
     "vlucas/phpdotenv": "~1.1@dev",

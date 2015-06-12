@@ -18,10 +18,6 @@ use Wubs\Trakt\Request\RequestType;
 class Watching extends AbstractRequest
 {
     use MediaIdTrait, EpisodeTrait;
-    /**
-     * @var Season
-     */
-    private $season;
 
     /**
      * @param MediaId $id
