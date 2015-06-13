@@ -113,22 +113,6 @@ class ApiGeneratorTest extends PHPUnit_Framework_TestCase
         $this->filesystem->delete("Episodes.php");
     }
 
-    public function testClassesInGivenNameSpaceRootAreAddedAsMethods()
-    {
-        $this->generator->generate("Episodes");
-        $content = $this->filesystem->read("Episodes.php");
-//        $this->assertContains('public function comments', $content);
-//        $this->assertContains('public function ratings', $content);
-//        $this->assertContains('public function stats', $content);
-//        $this->assertContains('public function summary', $content);
-//        $this->assertContains('public function get', $content);
-//        $this->assertContains('public function watching', $content);
-//        $class = new Wubs\Trakt\Api\Episodes(get_client_id());
-//        $this->assertInstanceOf("Wubs\\Trakt\\Api\\Episodes", $class);
-        $this->filesystem->delete("Episodes.php");
-
-    }
-
     /**
      * @depends testGeneratesClassFile
      */

@@ -15,15 +15,20 @@ trait TemplateWriter
     /**
      * @param $key
      * @param $value
-     * @return mixed
+     * @return $this
      */
     protected function writeInTemplate($key, $value)
     {
         $this->template = str_replace("{{" . $key . "}}", $value, $this->template);
+        return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function deleteUnusedPlaceholders()
     {
         $this->template = preg_replace("/{.*}/", "", $this->template);
+        return $this;
     }
 }

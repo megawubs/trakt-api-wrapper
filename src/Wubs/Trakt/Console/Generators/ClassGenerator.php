@@ -59,7 +59,6 @@ class ClassGenerator
     {
         $this->writeInTemplate("class_name", $className);
         $this->generateMethods($className);
-        var_dump($this->template);
         $this->deleteUnusedPlaceholders();
     }
 
@@ -72,24 +71,12 @@ class ClassGenerator
                 $method = new Method($reflection, $this->filesystem);
 
                 $methods->push($method->generate());
+                if($method->getName() === "summary"){
+
+                }
             }
         };
-//        $methods = [];
-//        $method = $this->writeInTemplate($this->methodTemplate, "method_name", "delete");
-//        $parameters = '$id';
-//        if ($className === "Comments") {
-//            $parameters = '$id, $token';
-//            $method = $this->writeInTemplate($method, "auth_token", ', $token');
-//        }
 //
-//        $method = $this->writeInTemplate($method, "method_parameters", $parameters);
-//
-//
-//        $method = $this->writeInTemplate($method, "request_class", "DeleteComment");
-//
-//        $method = $this->writeInTemplate($method, "extra_fields", '$id = ClientId::set($id);');
-//
-//        $method = $this->writeInTemplate($method, "request_parameters", '$id');
         $this->writeInTemplate("methods", $methods->implode("\n\n\t"));
 
     }
