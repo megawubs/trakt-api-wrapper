@@ -1,7 +1,7 @@
 <?php
 use GuzzleHttp\Message\ResponseInterface;
 use Wubs\Trakt\Contracts\ResponseHandler;
-use Wubs\Trakt\Request\Calendars\Movies;
+use Wubs\Trakt\Request\Calendars\MyMovies;
 use Wubs\Trakt\Request\Parameters\Days;
 use Wubs\Trakt\Request\Parameters\StartDate;
 use Wubs\Trakt\Response\Handlers\AbstractResponseHandler;
@@ -17,7 +17,7 @@ class AbstractRequestTest extends PHPUnit_Framework_TestCase
 
     public function testCanRegisterResponseHandler()
     {
-        $request = new Movies();
+        $request = new MyMovies();
         $request->setResponseHandler(new MyResponseHandler());
 
         $handler = $request->getResponseHandler();
@@ -27,14 +27,14 @@ class AbstractRequestTest extends PHPUnit_Framework_TestCase
 
     public function testCanSetResponseHandlerOnStaticRequest()
     {
-        $response = (new Movies())->make(get_client_id(), get_token(), new MyResponseHandler());
+        $response = (new MyMovies())->make(get_client_id(), get_token(), new MyResponseHandler());
 
         $this->assertTrue($response);
     }
 
     public function testCanOmitTokenAsParameter()
     {
-        $response = (new Movies(StartDate::standard(), Days::set(20)))->make(
+        $response = (new MyMovies(StartDate::standard(), Days::set(20)))->make(
             get_client_id(),
             new MyResponseHandler
             ()
@@ -45,14 +45,14 @@ class AbstractRequestTest extends PHPUnit_Framework_TestCase
 
     public function testCanOmitRequestParametersAsParameter()
     {
-        $response = (new Movies())->make(get_client_id(), new MyResponseHandler());
+        $response = (new MyMovies())->make(get_client_id(), new MyResponseHandler());
 
         $this->assertTrue($response);
     }
 
     public function testOnlyPassRequestParameters()
     {
-        $response = (new Movies(StartDate::standard(), Days::set(20)))->make(get_client_id());
+        $response = (new MyMovies(StartDate::standard(), Days::set(20)))->make(get_client_id());
 
         $this->assertInstanceOf(Wubs\Trakt\Response\Calendar\Calendar::class, $response);
     }

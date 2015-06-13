@@ -1,6 +1,6 @@
 <?php
 use Carbon\Carbon;
-use Wubs\Trakt\Request\Calendars\Shows;
+use Wubs\Trakt\Request\Calendars\MyShows;
 use Wubs\Trakt\Request\Parameters\Days;
 use Wubs\Trakt\Request\Parameters\StartDate;
 use Wubs\Trakt\Trakt;
@@ -16,7 +16,7 @@ class ShowsTest extends PHPUnit_Framework_TestCase
 
     public function testCanBuildRequestWithNoParameters()
     {
-        $request = new Shows();
+        $request = new MyShows();
         $request->setToken(get_token());
         $today = (string)StartDate::standard();
         $this->assertContains($today, (string)$request->getStartDate());
@@ -24,7 +24,7 @@ class ShowsTest extends PHPUnit_Framework_TestCase
 
     public function testCallShowsRequestWith14Days()
     {
-        $request = new Shows(null, Days::set(14));
+        $request = new MyShows(null, Days::set(14));
         $request->setToken(get_token());
 
         $this->assertContains("14", (string)$request->getDays());
@@ -33,7 +33,7 @@ class ShowsTest extends PHPUnit_Framework_TestCase
     public function testWithDaysAndStartDate()
     {
         $startDate = new StartDate(Carbon::createFromFormat("Y-m-d", "2014-03-01"));
-        $request = new Shows($startDate, Days::set(25));
+        $request = new MyShows($startDate, Days::set(25));
         $request->setToken(get_token());
 
         $this->assertContains("25", (string)$request->getDays());

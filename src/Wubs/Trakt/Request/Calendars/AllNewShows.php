@@ -1,12 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: bwubs
- * Date: 12/03/15
- * Time: 12:14
- */
 
-namespace Wubs\Trakt\Request\Calendars\Shows;
+
+namespace Wubs\Trakt\Request\Calendars;
 
 
 use Wubs\Trakt\Request\AbstractRequest;
@@ -14,11 +9,10 @@ use Wubs\Trakt\Request\Parameters\Days;
 use Wubs\Trakt\Request\Parameters\StartDate;
 use Wubs\Trakt\Request\Parameters\TimePeriod;
 use Wubs\Trakt\Request\RequestType;
-use Wubs\Trakt\Response\Handlers\Calendars\Shows;
+use Wubs\Trakt\Response\Handlers\DefaultResponseHandler;
 
-class ShowsNew extends AbstractRequest
+class AllShows extends AbstractRequest
 {
-
     use TimePeriod;
 
     public function __construct(StartDate $startDate = null, Days $days = null)
@@ -26,7 +20,6 @@ class ShowsNew extends AbstractRequest
         parent::__construct();
         $this->setStartDate($startDate);
         $this->setDays($days);
-        $this->setResponseHandler(new Shows());
     }
 
     public function getRequestType()
@@ -36,6 +29,6 @@ class ShowsNew extends AbstractRequest
 
     public function getUri()
     {
-        return "calendars/shows/new/:start_date/:days";
+        return "calendars/all/shows/new/:start_date/:days";
     }
 }

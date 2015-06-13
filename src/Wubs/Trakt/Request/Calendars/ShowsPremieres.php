@@ -6,7 +6,7 @@
  * Time: 12:31
  */
 
-namespace Wubs\Trakt\Request\Calendars\Shows;
+namespace Wubs\Trakt\Request\Calendars;
 
 
 use Wubs\Trakt\Request\AbstractRequest;
@@ -14,9 +14,9 @@ use Wubs\Trakt\Request\Parameters\Days;
 use Wubs\Trakt\Request\Parameters\StartDate;
 use Wubs\Trakt\Request\Parameters\TimePeriod;
 use Wubs\Trakt\Request\RequestType;
-use Wubs\Trakt\Response\Handlers\Calendars\Shows;
+use Wubs\Trakt\Response\Handlers\Calendars\Shows as ShowsResponseHandler;
 
-class Premieres extends AbstractRequest
+class ShowsPremieres extends AbstractRequest
 {
     use TimePeriod;
 
@@ -27,7 +27,7 @@ class Premieres extends AbstractRequest
         $this->setStartDate($startDate);
         $this->setDays($days);
 
-        $this->setResponseHandler(new Shows());
+        $this->setResponseHandler(new ShowsResponseHandler());
     }
 
     public function getRequestType()

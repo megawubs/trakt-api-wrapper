@@ -6,7 +6,7 @@
  * Time: 11:57
  */
 
-namespace Wubs\Trakt\Request\Shows\Progress;
+namespace Wubs\Trakt\Request\Shows;
 
 
 use Wubs\Trakt\Request\AbstractRequest;
@@ -14,7 +14,7 @@ use Wubs\Trakt\Request\Parameters\MediaId;
 use Wubs\Trakt\Request\Parameters\MediaIdTrait;
 use Wubs\Trakt\Request\RequestType;
 
-class Watched extends AbstractRequest
+class WatchedProgress extends AbstractRequest
 {
 
     use MediaIdTrait;

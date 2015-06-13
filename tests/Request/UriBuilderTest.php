@@ -1,5 +1,5 @@
 <?php
-use Wubs\Trakt\Request\Calendars\Shows;
+use Wubs\Trakt\Request\Calendars\MyShows;
 use Wubs\Trakt\Request\Movies\Comments;
 use Wubs\Trakt\Request\Parameters\Days;
 use Wubs\Trakt\Request\Parameters\MediaId;
@@ -16,7 +16,7 @@ class UriBuilderTest extends PHPUnit_Framework_TestCase
 {
     public function testReturnsFormattedUriFromRequestObject()
     {
-        $request = new Shows(StartDate::standard(), Days::standard());
+        $request = new MyShows(StartDate::standard(), Days::standard());
 
         $formattedUri = UriBuilder::format($request);
 

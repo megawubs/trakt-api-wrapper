@@ -1,5 +1,5 @@
 <?php
-use Wubs\Trakt\Request\Calendars\Movies;
+use Wubs\Trakt\Request\Calendars\MyMovies;
 use Wubs\Trakt\Request\Parameters\Days;
 use Wubs\Trakt\Request\Parameters\StartDate;
 use Wubs\Trakt\Request\Parameters\Type;
@@ -16,7 +16,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
 {
     public function testCanMakeRequest()
     {
-        $result = (new Movies(StartDate::standard(), Days::standard()))->make(
+        $result = (new MyMovies(StartDate::standard(), Days::standard()))->make(
             get_client_id(),
             get_token()
         );

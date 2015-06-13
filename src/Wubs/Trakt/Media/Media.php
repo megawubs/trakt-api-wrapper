@@ -11,7 +11,7 @@ namespace Wubs\Trakt\Media;
 
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\ClientId;
-use Wubs\Trakt\Request\Calendars\Shows;
+use Wubs\Trakt\Request\Calendars\MyShows;
 use Wubs\Trakt\Request\CheckIn\Create;
 use Wubs\Trakt\Request\CheckIn\Delete;
 use Wubs\Trakt\Request\Comments\PostComment;

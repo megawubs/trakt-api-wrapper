@@ -1,6 +1,6 @@
 <?php
 use Carbon\Carbon;
-use Wubs\Trakt\Request\Calendars\Shows\Premieres;
+use Wubs\Trakt\Request\Calendars\Shows\ShowsPremieres;
 use Wubs\Trakt\Request\Parameters\Days;
 use Wubs\Trakt\Request\Parameters\StartDate;
 
@@ -15,7 +15,7 @@ class PremieresTest extends PHPUnit_Framework_TestCase
     public function testUriContainsParameters()
     {
         $date = Carbon::now()->subYears(3);
-        $request = new Premieres(new StartDate($date), Days::set(500));
+        $request = new ShowsPremieres(new StartDate($date), Days::set(500));
 
         $uri = $request->getUrl();
 
