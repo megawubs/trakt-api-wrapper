@@ -7,16 +7,16 @@
       "email": "bwubs@me.com"
     }
   ],
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "require": {
     "php": ">=5.4.7",
     "nesbot/carbon": "~1",
-    "guzzlehttp/guzzle": "5.3.0",
-    "league/oauth2-client": "0.8.1",
-    "league/url": "3.3.2"
+    "guzzlehttp/guzzle": "~5",
+    "league/oauth2-client": "~0.8",
+    "league/url": "^3.3"
   },
   "require-dev": {
-    "vlucas/phpdotenv": "~1.1",
+    "vlucas/phpdotenv": "^2.0",
     "phpunit/phpunit": "4.4.*"
   },
   "autoload": {
