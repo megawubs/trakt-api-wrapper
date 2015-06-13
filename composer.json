@@ -10,7 +10,7 @@
   "minimum-stability": "dev",
   "require": {
     "php": ">=5.4.7",
-    "nesbot/carbon": "~1.17",
+    "nesbot/carbon": "~1",
     "guzzlehttp/guzzle": "5.3.0",
     "league/oauth2-client": "0.8.1",
     "league/url": "3.3.2"
