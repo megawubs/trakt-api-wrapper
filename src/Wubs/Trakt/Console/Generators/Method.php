@@ -5,6 +5,7 @@ namespace Wubs\Trakt\Console\Generators;
 
 use Illuminate\Support\Collection;
 use League\Flysystem\Filesystem;
+use ReflectionClass;
 
 class Method
 {
@@ -15,7 +16,7 @@ class Method
     private $uses = [];
 
     /**
-     * @var \ReflectionClass
+     * @var ReflectionClass
      */
     private $reflection;
 
@@ -30,11 +31,11 @@ class Method
 
 
     /**
-     * @param \ReflectionClass $reflection
+     * @param ReflectionClass $reflection
      * @param Filesystem $filesystem
      * @param null $name
      */
-    public function __construct(\ReflectionClass $reflection, Filesystem $filesystem, $name = null)
+    public function __construct(ReflectionClass $reflection, Filesystem $filesystem, $name = null)
     {
 
         $this->reflection = $reflection;
@@ -59,7 +60,7 @@ class Method
 
 
     /**
-     * @return Collection|\ReflectionClass[]
+     * @return Collection|ReflectionClass[]
      */
     private function getUsages()
     {
@@ -144,17 +145,17 @@ class Method
         $parameterObjects = new Collection();
 
         for ($i = 0; $i < $this->uses->count(); $i++) {
-            /** @var \ReflectionClass $usage */
+            /** @var ReflectionClass $usage */
             $className = $this->uses->get($i)->getShortName();
             $parameterName = $this->parameterNames->get($i);
             $parameterObjects->push($className . '::set(' . $parameterName . ');');
         }
-        $parameters = $parameterObjects->implode("\n\t");
+        $parameters = $parameterObjects->implode("\n\t\t");
         return $this->writeInTemplate("extra_fields", $parameters);
     }
 
     /**
-     * @return Collection|\ReflectionClass[]
+     * @return Collection|ReflectionClass[]
      */
     public function getUses()
     {
@@ -167,5 +168,10 @@ class Method
     public function getName()
     {
         return ($this->name === null) ? lcfirst($this->reflection->getShortName()) : $this->name;
+    }
+
+    public function getRequestClass()
+    {
+        return $this->reflection;
     }
 }

@@ -14,7 +14,7 @@ use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\RequestType;
 use Wubs\Trakt\Response\Handlers\CheckIn\CheckInHandler;
 
-class MovieCheckIn extends AbstractRequest
+class Create extends AbstractRequest
 {
     /**
      * @var Movie

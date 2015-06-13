@@ -12,8 +12,8 @@ namespace Wubs\Trakt\Media;
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\ClientId;
 use Wubs\Trakt\Request\Calendars\Shows;
-use Wubs\Trakt\Request\CheckIn\CheckIn;
-use Wubs\Trakt\Request\CheckIn\CheckOut;
+use Wubs\Trakt\Request\CheckIn\Create;
+use Wubs\Trakt\Request\CheckIn\Delete;
 use Wubs\Trakt\Request\Comments\PostComment;
 use Wubs\Trakt\Request\Movies\Comments;
 use Wubs\Trakt\Request\Parameters\Comment;
@@ -82,12 +82,12 @@ abstract class Media
 
     public function checkIn()
     {
-        return CheckIn::media($this->id, $this->token, $this);
+        return Create::media($this->id, $this->token, $this);
     }
 
     public function checkOut()
     {
-        return CheckOut::make($this->id, $this->token);
+        return Delete::make($this->id, $this->token);
     }
 
     public function comment(Comment $comment)

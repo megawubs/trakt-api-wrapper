@@ -1,8 +1,8 @@
 <?php
 
 use Wubs\Trakt\Media\Movie;
-use Wubs\Trakt\Request\CheckIn\CheckOut;
-use Wubs\Trakt\Request\CheckIn\MovieCheckIn;
+use Wubs\Trakt\Request\CheckIn\Delete;
+use Wubs\Trakt\Request\CheckIn\Create;
 use Wubs\Trakt\Request\Parameters\Query;
 use Wubs\Trakt\Request\Parameters\Type;
 use Wubs\Trakt\Request\Parameters\Year;
@@ -34,7 +34,7 @@ class CheckInTest extends PHPUnit_Framework_TestCase
         $id = get_client_id();
         $token = get_token();
 
-        $response = (new CheckOut())->make($id, $token);
+        $response = (new Delete())->make($id, $token);
 
         $this->assertTrue($response);
     }

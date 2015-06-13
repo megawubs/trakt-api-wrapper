@@ -14,7 +14,7 @@ use Wubs\Trakt\Request\Parameters\MediaId;
 use Wubs\Trakt\Request\Parameters\MediaIdTrait;
 use Wubs\Trakt\Request\RequestType;
 
-class Comments extends AbstractRequest
+class Ratings extends AbstractRequest
 {
     use MediaIdTrait;
     /**

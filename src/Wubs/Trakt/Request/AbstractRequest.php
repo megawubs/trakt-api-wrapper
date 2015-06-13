@@ -67,13 +67,13 @@ abstract class AbstractRequest
      * @param int $apiVersion
      * @param array $queryParams
      */
-    public function __construct($extended = 'min', $page = 1, $limit = 10, $apiVersion = 2, array $queryParams = [])
+    public function __construct(array $queryParams = [])
     {
         $this->extended = $extended;
-        $this->client = $this->getClient($apiVersion);
-        $this->apiVersion = $apiVersion;
-        $this->page = $page;
-        $this->limit = $limit;
+        $this->client = $this->getClient($this->apiVersion);
+//        $this->apiVersion = $apiVersion;
+//        $this->page = $page;
+//        $this->limit = $limit;
         $this->queryParams = $queryParams;
 
         $this->setResponseHandler(new DefaultResponseHandler());

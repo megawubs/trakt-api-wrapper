@@ -1,6 +1,6 @@
 <?php
 use Wubs\Trakt\Media\Movie;
-use Wubs\Trakt\Request\CheckIn\MovieCheckIn;
+use Wubs\Trakt\Request\CheckIn\Create;
 use Wubs\Trakt\Request\Parameters\Query;
 use Wubs\Trakt\Request\RequestType;
 
@@ -14,7 +14,7 @@ class MovieCheckInTest extends PHPUnit_Framework_TestCase
 {
     public function testStaticCall()
     {
-        $request = new MovieCheckIn(movie());
+        $request = new Create(movie());
 
         $url = $request->getUrl();
 

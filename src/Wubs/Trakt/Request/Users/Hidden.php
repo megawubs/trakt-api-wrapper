@@ -5,6 +5,7 @@ namespace Wubs\Trakt\Request\Users;
 
 
 use Wubs\Trakt\Request\AbstractRequest;
+use Wubs\Trakt\Request\Parameters\Section;
 use Wubs\Trakt\Request\Parameters\Type;
 use Wubs\Trakt\Request\RequestType;
 

@@ -3,14 +3,14 @@
 
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
-use Wubs\Trakt\Console\Generators\ClassGenerator;
+use Wubs\Trakt\Console\Generators\EndpointGenerator;
 
 class ApiGeneratorTest extends PHPUnit_Framework_TestCase
 {
     protected $file;
 
     /**
-     * @var ClassGenerator
+     * @var EndpointGenerator
      */
     protected $generator;
 
@@ -27,7 +27,7 @@ class ApiGeneratorTest extends PHPUnit_Framework_TestCase
     {
         parent::__construct();
         $this->file = __DIR__ . "/../../../src/Wubs/Trakt/Api/Comments.php";
-        $this->generator = new ClassGenerator();
+        $this->generator = new EndpointGenerator();
 
         $this->filesystem = new Filesystem(
             new Local(
@@ -46,7 +46,7 @@ class ApiGeneratorTest extends PHPUnit_Framework_TestCase
 
     public function testGeneratesClassFile()
     {
-        $this->generator->generate("Comments");
+        $this->generator->generateForEndpoint("Comments");
 
         $this->assertTrue($this->filesystem->has("Comments.php"));
 
@@ -105,7 +105,7 @@ class ApiGeneratorTest extends PHPUnit_Framework_TestCase
 
     public function testClassIsFormattedWithoutToken()
     {
-        $this->generator->generate("Episodes");
+        $this->generator->generateForEndpoint("Episodes");
         $content = $this->filesystem->read("Episodes.php");
         $this->assertNotContains('$token', $content);
         $class = new Wubs\Trakt\Api\Episodes(get_client_id());

@@ -14,7 +14,7 @@ use Wubs\Trakt\Request\RequestType;
 use Wubs\Trakt\Response\Handlers\CheckIn\CheckOutHandler;
 use Wubs\Trakt\Response\Handlers\DefaultDeleteHandler;
 
-class CheckOut extends AbstractRequest
+class Delete extends AbstractRequest
 {
     public function __construct()
     {

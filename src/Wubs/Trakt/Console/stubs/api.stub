@@ -13,6 +13,8 @@ namespace Wubs\Trakt\Api;
 
 class {{class_name}} extends Endpoint {
 
+    {{public_properties}}
+    {{constructor}}
     {{methods}}
 
 }
