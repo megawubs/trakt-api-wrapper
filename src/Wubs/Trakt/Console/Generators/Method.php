@@ -144,7 +144,6 @@ class Method
         $parameterObjects = new Collection();
 
         for ($i = 0; $i < $this->uses->count(); $i++) {
-            echo "hello?\n";
             /** @var \ReflectionClass $usage */
             $className = $this->uses->get($i)->getShortName();
             $parameterName = $this->parameterNames->get($i);
