@@ -6,16 +6,14 @@
  * Time: 16:41
  */
 
-use Guzzle\Http\Client;
+use Dotenv\Dotenv;
 use Wubs\Trakt\ClientId;
 use Wubs\Trakt\Media\Movie;
-use Wubs\Trakt\Request\Parameters\Query;
-use Wubs\Trakt\Request\Parameters\Year;
 use Wubs\Trakt\Token\TraktAccessToken;
 
 require __DIR__ . "/../vendor/autoload.php";
 
-Dotenv::load(dirname(__DIR__));
+(new Dotenv(dirname(__DIR__)))->load();
 
 /**
  * @return \League\OAuth2\Client\Token\AccessToken
