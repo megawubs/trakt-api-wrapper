@@ -10,7 +10,7 @@
   "minimum-stability": "stable",
   "require": {
     "php": ">=5.4.7",
-    "illuminate/support": "v5.1.1"
+    "illuminate/support": "v5.1.1",
     "nesbot/carbon": "~1",
     "guzzlehttp/guzzle": "~5",
     "league/oauth2-client": "~0.8",
@@ -18,7 +18,9 @@
   },
   "require-dev": {
     "vlucas/phpdotenv": "^2.0",
-    "phpunit/phpunit": "4.4.*"
+    "phpunit/phpunit": "4.4.*",
+    "symfony/console": "^2.7",
+    "league/flysystem": "^1.0"
   },
   "autoload": {
     "psr-0": {"Wubs": "src/"},
