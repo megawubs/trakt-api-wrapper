@@ -10,25 +10,24 @@ namespace Wubs\Trakt\Request\Comments;
 
 
 use Wubs\Trakt\Request\AbstractRequest;
-use Wubs\Trakt\Request\Parameters\CommentId;
 use Wubs\Trakt\Request\RequestType;
 use Wubs\Trakt\Response\Handlers\Comments\CommentHandler;
 
 class Replies extends AbstractRequest
 {
     /**
-     * @var CommentId
+     * @var
      */
     private $id;
 
     /**
-     * @param CommentId $id
+     * @param $commentId
      */
-    public function __construct(CommentId $id)
+    public function __construct($commentId)
     {
         parent::__construct();
-        $this->id = $id;
-        $this->setResponseHandler(new CommentHandler());
+        $this->id = $commentId;
+//        $this->setResponseHandler(new CommentHandler());
     }
 
     public function getRequestType()

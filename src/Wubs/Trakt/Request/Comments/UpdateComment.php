@@ -11,9 +11,6 @@ namespace Wubs\Trakt\Request\Comments;
 
 use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\Exception\CommentTooShortException;
-use Wubs\Trakt\Request\Parameters\Comment;
-use Wubs\Trakt\Request\Parameters\CommentId;
-use Wubs\Trakt\Request\Parameters\Spoiler;
 use Wubs\Trakt\Request\RequestType;
 use Wubs\Trakt\Response\Handlers\Comments\CommentHandler;
 
@@ -21,28 +18,28 @@ class UpdateComment extends AbstractRequest
 {
     use CommentSize;
     /**
-     * @var CommentId
+     * @var int
      */
     private $id;
     /**
-     * @var Comment
+     * @var string
      */
     private $comment;
     /**
-     * @var Spoiler
+     * @var bool
      */
     private $spoiler;
 
     /**
-     * @param CommentId $id
-     * @param Comment $comment
-     * @param Spoiler $spoiler
+     * @param int $commentId
+     * @param string $comment
+     * @param bool $spoiler
      * @throws CommentTooShortException
      */
-    public function __construct(CommentId $id, Comment $comment, Spoiler $spoiler)
+    public function __construct($commentId, $comment, $spoiler)
     {
 
-        $this->id = $id;
+        $this->id = $commentId;
         $this->comment = $comment;
         $this->spoiler = $spoiler;
         $this->setResponseHandler(new CommentHandler());
@@ -58,7 +55,7 @@ class UpdateComment extends AbstractRequest
     }
 
     /**
-     * @return CommentId
+     * @return int
      */
     public function getId()
     {

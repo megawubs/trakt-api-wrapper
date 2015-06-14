@@ -8,9 +8,14 @@
 
 namespace Wubs\Trakt\Request\Parameters;
 
+use Carbon\Carbon;
+
 trait TimePeriod
 {
 
+    /**
+     * @var Carbon
+     */
     private $startDate;
 
     private $days;
@@ -18,19 +23,19 @@ trait TimePeriod
     /**
      * @param $startDate
      */
-    protected function setStartDate(StartDate $startDate = null)
+    protected function setStartDate(Carbon $startDate = null)
     {
         if (is_null($startDate)) {
-            $startDate = StartDate::standard();
+            $startDate = Carbon::today();
         }
 
         $this->startDate = $startDate;
     }
 
-    public function setDays(Days $days = null)
+    public function setDays($days = null)
     {
         if (is_null($days)) {
-            $days = Days::standard();
+            $days = 7;
         }
 
         $this->days = $days;
@@ -38,7 +43,7 @@ trait TimePeriod
 
     public function getStartDate()
     {
-        return $this->startDate;
+        return $this->startDate->format("Y-m-d");
     }
 
     public function getDays()

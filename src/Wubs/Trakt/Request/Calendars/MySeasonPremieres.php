@@ -21,16 +21,16 @@ class MySeasonPremieres extends AbstractRequest
 
     /**
      * @param AccessToken $accessToken
-     * @param StartDate $startDate
-     * @param Days $days
+     * @param Carbon $startDate
+     * @param $days
      */
-    public function __construct(AccessToken $accessToken, StartDate $startDate = null, Days $days = null)
+    public function __construct(AccessToken $accessToken, Carbon $startDate = null, $days = null)
     {
         parent::__construct();
         $this->setDays($days);
         $this->setStartDate($startDate);
 
-        $this->setResponseHandler(new ShowsResponse());
+//        $this->setResponseHandler(new ShowsResponse());
         $this->setToken($accessToken);
     }
 

@@ -10,23 +10,17 @@ namespace Wubs\Trakt\Request\Comments;
 
 
 use Wubs\Trakt\Request\AbstractRequest;
-use Wubs\Trakt\Request\Parameters\CommentId;
 use Wubs\Trakt\Request\RequestType;
 
 class GetComment extends AbstractRequest
 {
-    /**
-     * @var CommentId
-     */
+
     private $id;
 
-    /**
-     * @param CommentId $id
-     */
-    public function __construct(CommentId $id)
+    public function __construct($commentId)
     {
         parent::__construct();
-        $this->id = $id;
+        $this->id = $commentId;
     }
 
     public function getRequestType()

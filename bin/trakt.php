@@ -3,7 +3,7 @@
 use Symfony\Component\Console\Application;
 use Wubs\Trakt\Console\TraktGenerateCommand;
 
-require '../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 $console = new Application("Trakt");
 

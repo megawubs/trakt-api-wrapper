@@ -10,7 +10,6 @@ namespace Wubs\Trakt\Request\Seasons;
 
 
 use Wubs\Trakt\Request\AbstractRequest;
-use Wubs\Trakt\Request\Parameters\MediaId;
 use Wubs\Trakt\Request\Parameters\MediaIdTrait;
 use Wubs\Trakt\Request\RequestType;
 
@@ -23,13 +22,13 @@ class Ratings extends AbstractRequest
     private $season;
 
     /**
-     * @param MediaId $id
+     * @param int $mediaId
      * @param int $season
      */
-    public function __construct(MediaId $id, $season)
+    public function __construct($mediaId, $season)
     {
         parent::__construct();
-        $this->id = $id;
+        $this->id = $mediaId;
         $this->season = $season;
     }
 

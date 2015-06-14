@@ -2,7 +2,6 @@
 
 use GuzzleHttp\Message\ResponseInterface;
 use League\OAuth2\Client\Token\AccessToken;
-use Wubs\Trakt\ClientId;
 
 
 /**
@@ -15,7 +14,7 @@ interface ResponseHandler
 {
     public function handle(ResponseInterface $response);
 
-    public function setId(ClientId $id);
+    public function setId($id);
 
-    public function setToken($token);
+    public function setToken(AccessToken $token);
 }

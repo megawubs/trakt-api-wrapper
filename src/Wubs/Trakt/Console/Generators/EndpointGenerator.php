@@ -13,6 +13,7 @@ use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use Wubs\Trakt\Exception\ClassCanNotBeImplementedAsEndpointException;
 use Wubs\Trakt\Exception\RequestMalformedException;
+use Wubs\Trakt\Request\AbstractRequest;
 
 /**
  * Class ClassGenerator
@@ -178,9 +179,21 @@ class EndpointGenerator
     private function addUseStatements()
     {
         $unique = $this->uses->unique();
-        $uses = $unique->implode("name", ";\nuse ");
+        $aliases = new Collection();
+        $unique->each(
+            function ($use) use ($aliases) {
+                /** @var ReflectionClass $use */
+                $parent = $use->getParentClass();
+                if ($parent !== false && $parent->getName() === AbstractRequest::class) {
+                    $aliases->push($use->getName() . " as " . $use->getShortName() . "Request");
+                } else {
+                    $aliases->push($use->getName());
+                }
+            }
+        );
+        $uses = $aliases->implode(";\nuse ");
         $this->out->writeln(
-            "Added use statements to template"
+            "Adding use statements to template"
         );
         return $this->writeInTemplate("use_statements", "use " . $uses . ";");
     }

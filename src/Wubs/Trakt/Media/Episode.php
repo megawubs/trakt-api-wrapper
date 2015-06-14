@@ -22,9 +22,9 @@ class Episode extends Media
      */
     protected $show;
 
-    public function __construct($json, ClientId $clientId, AccessToken $token)
+    public function __construct($json, ClientId $clientClientId, AccessToken $token)
     {
-        parent::__construct($json, $clientId, $token);
+        parent::__construct($json, $clientClientId, $token);
         $this->episode = $this->json->episode;
     }
 

@@ -37,7 +37,7 @@ class AbstractResponseHandler
     /**
      * @param mixed $id
      */
-    public function setId(ClientId $id)
+    public function setId($id)
     {
         $this->id = $id;
     }
@@ -53,7 +53,7 @@ class AbstractResponseHandler
     /**
      * @param AccessToken $token
      */
-    public function setToken($token)
+    public function setToken(AccessToken $token = null)
     {
         if ($token instanceof AccessToken || $token === null) {
             $this->token = $token;

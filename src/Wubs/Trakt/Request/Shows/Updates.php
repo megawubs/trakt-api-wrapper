@@ -9,8 +9,8 @@
 namespace Wubs\Trakt\Request\Shows;
 
 
+use Carbon\Carbon;
 use Wubs\Trakt\Request\AbstractRequest;
-use Wubs\Trakt\Request\Parameters\StartDate;
 use Wubs\Trakt\Request\Parameters\TimePeriod;
 use Wubs\Trakt\Request\RequestType;
 
@@ -18,7 +18,7 @@ class Updates extends AbstractRequest
 {
     use TimePeriod;
 
-    public function __construct(StartDate $date = null)
+    public function __construct(Carbon $date = null)
     {
         parent::__construct();
         $this->setStartDate($date);

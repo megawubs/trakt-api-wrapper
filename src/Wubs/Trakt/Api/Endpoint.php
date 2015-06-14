@@ -4,8 +4,6 @@
 namespace Wubs\Trakt\Api;
 
 
-use League\OAuth2\Client\Token\AccessToken;
-use Wubs\Trakt\ClientId;
 use Wubs\Trakt\Request\AbstractRequest;
 
 abstract class Endpoint
@@ -14,15 +12,15 @@ abstract class Endpoint
     private $clientId;
 
     /**
-     * @param ClientId $clientId
+     * @param string $clientId
      */
-    public function __construct(ClientId $clientId)
+    public function __construct($clientId)
     {
         $this->clientId = $clientId;
     }
 
-    protected function request(AbstractRequest $request, AccessToken $token = null)
+    protected function request(AbstractRequest $request)
     {
-        return $request->make($this->clientId, $token);
+        return $request->make($this->clientId);
     }
 }

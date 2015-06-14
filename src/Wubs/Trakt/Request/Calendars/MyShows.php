@@ -3,11 +3,8 @@
 use Carbon\Carbon;
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Request\AbstractRequest;
-use Wubs\Trakt\Request\Parameters\Days;
-use Wubs\Trakt\Request\Parameters\StartDate;
 use Wubs\Trakt\Request\Parameters\TimePeriod;
 use Wubs\Trakt\Request\RequestType;
-use Wubs\Trakt\Response\Handlers\Calendars\Shows as ShowsResponse;
 
 /**
  * Created by PhpStorm.
@@ -21,16 +18,16 @@ class MyShows extends AbstractRequest
 
     /**
      * @param AccessToken $accessToken
-     * @param StartDate $startDate
-     * @param Days $days
+     * @param Carbon $startDate
+     * @param $days
      */
-    public function __construct(AccessToken $accessToken, StartDate $startDate = null, Days $days = null)
+    public function __construct(AccessToken $accessToken, Carbon $startDate = null, $days = null)
     {
         parent::__construct();
         $this->setDays($days);
         $this->setStartDate($startDate);
 
-        $this->setResponseHandler(new ShowsResponse());
+//        $this->setResponseHandler(new ShowsResponse());
         $this->setToken($accessToken);
     }
 

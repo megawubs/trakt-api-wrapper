@@ -4,8 +4,18 @@
 namespace Wubs\Trakt;
 
 use Wubs\Trakt\Api\Calendars;
+use Wubs\Trakt\Api\CheckIn;
+use Wubs\Trakt\Api\Comments;
+use Wubs\Trakt\Api\Episodes;
+use Wubs\Trakt\Api\Genres;
 use Wubs\Trakt\Api\Movies;
+use Wubs\Trakt\Api\People;
+use Wubs\Trakt\Api\Recommendations;
+use Wubs\Trakt\Api\Scrobble;
+use Wubs\Trakt\Api\Search;
+use Wubs\Trakt\Api\Seasons;
 use Wubs\Trakt\Api\Shows;
+use Wubs\Trakt\Api\Users;
 
 /**
  * Class Api
@@ -14,14 +24,9 @@ use Wubs\Trakt\Api\Shows;
 class Api
 {
     /**
-     * @var ClientId
+     * @var
      */
     private $id;
-
-    /**
-     * @var Movies
-     */
-    public $movies;
 
     /**
      * @var Calendars
@@ -29,17 +34,70 @@ class Api
     public $calendars;
 
     /**
+     * @var CheckIn
+     */
+    public $checkIn;
+
+    /**
+     * @var Comments
+     */
+    public $comments;
+
+    /**
+     * @var Episodes
+     */
+    public $episodes;
+
+    /**
+     * @var Genres
+     */
+    public $genres;
+    /**
+     * @var Movies
+     */
+    public $movies;
+
+    /**
+     * @var People
+     */
+    public $people;
+
+    /**
+     * @var Recommendations
+     */
+    public $recommendations;
+
+    /**
+     * @var Scrobble
+     */
+    public $scrobble;
+
+    /**
+     * @var Search
+     */
+    public $search;
+
+    /**
+     * @var Seasons
+     */
+    public $seasons;
+    /**
      * @var Shows
      */
     public $shows;
 
     /**
-     * @param ClientId $id
+     * @var Users
      */
-    public function __construct(ClientId $id)
+    public $users;
+
+    /**
+     * @param int $clientId
+     */
+    public function __construct($clientId)
     {
-        $this->id = $id;
-        $this->createWrappers($id);
+        $this->id = $clientId;
+        $this->createWrappers($clientId);
     }
 
     /**

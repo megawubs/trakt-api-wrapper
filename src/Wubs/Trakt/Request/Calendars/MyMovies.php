@@ -9,25 +9,23 @@
 namespace Wubs\Trakt\Request\Calendars;
 
 
+use Carbon\Carbon;
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Request\AbstractRequest;
-use Wubs\Trakt\Request\Parameters\Days;
-use Wubs\Trakt\Request\Parameters\StartDate;
 use Wubs\Trakt\Request\Parameters\TimePeriod;
 use Wubs\Trakt\Request\RequestType;
-use Wubs\Trakt\Response\Handlers\Calendars\MoviesHandler;
 
 class MyMovies extends AbstractRequest
 {
     use TimePeriod;
 
-    public function __construct(AccessToken $accessToken, StartDate $startDate = null, Days $days = null)
+    public function __construct(AccessToken $accessToken, Carbon $startDate = null, $days = null)
     {
         parent::__construct();
         $this->setStartDate($startDate);
         $this->setDays($days);
 
-        $this->setResponseHandler(new MoviesHandler());
+//        $this->setResponseHandler(new MoviesHandler());
         $this->setToken($accessToken);
     }
 

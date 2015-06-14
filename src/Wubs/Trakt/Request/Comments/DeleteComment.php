@@ -2,7 +2,6 @@
 namespace Wubs\Trakt\Request\Comments;
 
 use Wubs\Trakt\Request\AbstractRequest;
-use Wubs\Trakt\Request\Parameters\CommentId;
 use Wubs\Trakt\Request\RequestType;
 use Wubs\Trakt\Response\Handlers\DefaultDeleteHandler;
 
@@ -15,17 +14,17 @@ use Wubs\Trakt\Response\Handlers\DefaultDeleteHandler;
 class DeleteComment extends AbstractRequest
 {
     /**
-     * @var CommentId
+     * @var
      */
-    private $id;
+    private $commentId;
 
     /**
-     * @param CommentId $id
+     * @param $commentId
      */
-    public function __construct(CommentId $id)
+    public function __construct($commentId)
     {
         parent::__construct();
-        $this->id = $id;
+        $this->commentId = $commentId;
         $this->setResponseHandler(new DefaultDeleteHandler());
     }
 
@@ -35,11 +34,11 @@ class DeleteComment extends AbstractRequest
     }
 
     /**
-     * @return CommentId
+     * @return int
      */
     public function getId()
     {
-        return $this->id;
+        return $this->commentId;
     }
 
     public function getUri()

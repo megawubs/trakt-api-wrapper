@@ -11,18 +11,18 @@ use Wubs\Trakt\Request\RequestType;
 class DenyFollowRequest extends AbstractRequest
 {
     /**
-     * @var FollowerRequestId
+     * @var
      */
     private $id;
 
     /**
-     * @param FollowerRequestId $id
+     * @param int $followerRequestId
      */
-    public function __construct(FollowerRequestId $id)
+    public function __construct($followerRequestId)
     {
         parent::__construct();
 
-        $this->id = $id;
+        $this->id = $followerRequestId;
     }
 
     /**

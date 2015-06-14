@@ -10,23 +10,21 @@ namespace Wubs\Trakt\Request\Search;
 
 
 use Wubs\Trakt\Request\AbstractRequest;
-use Wubs\Trakt\Request\Parameters\IdType;
-use Wubs\Trakt\Request\Parameters\MediaId;
 use Wubs\Trakt\Request\RequestType;
 
 class ID extends AbstractRequest
 {
 
     /**
-     * @param IdType $idType
-     * @param MediaId $id
+     * @param string $idType
+     * @param $mediaId
      */
-    public function __construct(IdType $idType, MediaId $id)
+    public function __construct($idType, $mediaId)
     {
         $this->setQueryParams(
             [
                 "id_type" => $idType,
-                "id" => $id
+                "id" => $mediaId
             ]
         );
     }

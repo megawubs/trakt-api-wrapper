@@ -20,7 +20,7 @@ class Trending extends AbstractRequest
     {
         parent::__construct();
 
-        $this->setResponseHandler(new TrendingHandler());
+//        $this->setResponseHandler(new TrendingHandler());
     }
 
     public function getRequestType()

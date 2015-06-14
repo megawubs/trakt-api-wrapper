@@ -19,7 +19,7 @@ class Popular extends AbstractRequest
     public function __construct()
     {
         parent::__construct();
-        $this->setResponseHandler(new PopularHandler());
+//        $this->setResponseHandler(new PopularHandler());
     }
 
     public function getRequestType()

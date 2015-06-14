@@ -11,7 +11,6 @@ namespace Wubs\Trakt\Request\Scrobble;
 
 use Wubs\Trakt\Media\Media;
 use Wubs\Trakt\Request\AbstractRequest;
-use Wubs\Trakt\Request\RequestType;
 
 class Stop extends AbstractRequest
 {

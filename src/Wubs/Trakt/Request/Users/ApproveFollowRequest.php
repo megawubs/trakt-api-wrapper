@@ -5,28 +5,27 @@ namespace Wubs\Trakt\Request\Users;
 
 
 use Wubs\Trakt\Request\AbstractRequest;
-use Wubs\Trakt\Request\Parameters\FollowerRequestId;
 use Wubs\Trakt\Request\RequestType;
 
 class ApproveFollowRequest extends AbstractRequest
 {
     /**
-     * @var FollowerRequestId
+     * @var
      */
     private $id;
 
     /**
-     * @param FollowerRequestId $id
+     * @param int $followerRequestId
      */
-    public function __construct(FollowerRequestId $id)
+    public function __construct($followerRequestId)
     {
         parent::__construct();
 
-        $this->id = $id;
+        $this->id = $followerRequestId;
     }
 
     /**
-     * @return FollowerRequestId
+     * @return int
      */
     public function getId()
     {

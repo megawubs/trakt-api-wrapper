@@ -9,7 +9,6 @@
 namespace Wubs\Trakt\Request\Movies;
 
 use Wubs\Trakt\Request\AbstractRequest;
-use Wubs\Trakt\Request\Parameters\MediaId;
 use Wubs\Trakt\Request\Parameters\MediaIdTrait;
 use Wubs\Trakt\Request\RequestType;
 use Wubs\Trakt\Response\Handlers\Movies\SummaryHandler;
@@ -20,12 +19,12 @@ class Summary extends AbstractRequest
 
 
     /**
-     * @param MediaId $id
+     * @param $mediaId
      */
-    public function __construct(MediaId $id)
+    public function __construct($mediaId)
     {
         parent::__construct();
-        $this->id = $id;
+        $this->id = $mediaId;
         $this->setResponseHandler(new SummaryHandler());
     }
 

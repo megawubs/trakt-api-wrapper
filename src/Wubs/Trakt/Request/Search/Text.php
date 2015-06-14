@@ -10,33 +10,30 @@ namespace Wubs\Trakt\Request\Search;
 
 
 use Wubs\Trakt\Request\AbstractRequest;
-use Wubs\Trakt\Request\Parameters\Query;
-use Wubs\Trakt\Request\Parameters\Type;
-use Wubs\Trakt\Request\Parameters\Year;
 use Wubs\Trakt\Request\RequestType;
 use Wubs\Trakt\Response\Handlers\Search\TextSearchHandler;
 
 class Text extends AbstractRequest
 {
     /**
-     * @var Query
+     * @var
      */
     private $query;
     /**
-     * @var Type
+     * @var
      */
     private $type;
     /**
-     * @var Year
+     * @var
      */
     private $year;
 
     /**
-     * @param Query $query
-     * @param Type $type
-     * @param Year $year
+     * @param string $query
+     * @param string $type
+     * @param int $year
      */
-    public function __construct(Query $query, Type $type = null, Year $year = null)
+    public function __construct($query, $type = null, $year = null)
     {
         parent::__construct();
 

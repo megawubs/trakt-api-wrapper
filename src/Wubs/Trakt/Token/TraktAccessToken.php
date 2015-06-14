@@ -10,6 +10,7 @@ namespace Wubs\Trakt\Token;
 
 
 use League\OAuth2\Client\Token\AccessToken;
+use Wubs\Trakt\Request\Parameters\AccessToken as TokenParameter;
 
 class TraktAccessToken
 {
@@ -25,6 +26,7 @@ class TraktAccessToken
                 "scope" => $scope
             ]
         );
+
     }
 
 }

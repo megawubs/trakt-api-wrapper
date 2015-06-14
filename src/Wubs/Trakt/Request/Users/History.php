@@ -10,26 +10,24 @@ namespace Wubs\Trakt\Request\Users;
 
 
 use Wubs\Trakt\Request\AbstractRequest;
-use Wubs\Trakt\Request\Parameters\Type;
-use Wubs\Trakt\Request\Parameters\Username;
 use Wubs\Trakt\Request\RequestType;
 
 class History extends AbstractRequest
 {
     /**
-     * @var UserName
+     * @var string
      */
     private $username;
     /**
-     * @var Type
+     * @var string
      */
     private $type;
 
     /**
-     * @param Username $username
-     * @param Type $type
+     * @param string $username
+     * @param string $type
      */
-    public function __construct(Username $username, Type $type)
+    public function __construct($username, $type)
     {
         parent::__construct();
         $this->username = $username;
@@ -37,7 +35,7 @@ class History extends AbstractRequest
     }
 
     /**
-     * @return Username
+     * @return string
      */
     public function getUsername()
     {
@@ -45,7 +43,7 @@ class History extends AbstractRequest
     }
 
     /**
-     * @return Type
+     * @return string
      */
     public function getType()
     {

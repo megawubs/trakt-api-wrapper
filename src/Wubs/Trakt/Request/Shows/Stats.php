@@ -19,12 +19,12 @@ class Stats extends AbstractRequest
     use MediaIdTrait;
 
     /**
-     * @param MediaId $id
+     * @param int $mediaId
      */
-    public function __construct(MediaId $id)
+    public function __construct($mediaId)
     {
         parent::__construct();
-        $this->id = $id;
+        $this->id = $mediaId;
     }
 
     public function getRequestType()

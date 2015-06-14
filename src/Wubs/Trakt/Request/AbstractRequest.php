@@ -12,7 +12,6 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Message\ResponseInterface;
 use League\OAuth2\Client\Token\AccessToken;
-use Wubs\Trakt\ClientId;
 use Wubs\Trakt\Contracts\ResponseHandler;
 use Wubs\Trakt\Request\Exception\HttpCodeException\ExceptionStatusCodeFactory;
 use Wubs\Trakt\Response\Handlers\AbstractResponseHandler;
@@ -21,7 +20,7 @@ use Wubs\Trakt\Response\Handlers\DefaultResponseHandler;
 abstract class AbstractRequest
 {
     /**
-     * @var ClientId
+     * @var string
      */
     private $clientId;
 
@@ -31,8 +30,8 @@ abstract class AbstractRequest
 
     private $scheme = 'https';
 
-    private $host = 'api-v2launch.trakt.tv';
-
+//    private $host = 'api-v2launch.trakt.tv';
+    private $host = 'private-anon-e0814e741-trakt.apiary-mock.com';
     protected $staging = "https://api.staging.trakt.tv";
 
     protected $queryParams = [];
@@ -61,15 +60,11 @@ abstract class AbstractRequest
     private $token = null;
 
     /**
-     * @param string $extended
-     * @param int $page
-     * @param int $limit
-     * @param int $apiVersion
      * @param array $queryParams
      */
     public function __construct(array $queryParams = [])
     {
-        $this->extended = $extended;
+//        $this->extended = $extended;
         $this->client = $this->getClient($this->apiVersion);
 //        $this->apiVersion = $apiVersion;
 //        $this->page = $page;
@@ -82,7 +77,7 @@ abstract class AbstractRequest
     /**
      * @param $clientId
      */
-    public function setClientId(ClientId $clientId)
+    public function setClientId($clientId)
     {
         if (!is_null($clientId)) {
             $this->clientId = $clientId;
@@ -123,8 +118,7 @@ abstract class AbstractRequest
     }
 
     /**
-     * @param ClientId $clientId
-     * @param  $token
+     * @param $clientId
      * @param ResponseHandler|AbstractResponseHandler $responseHandler
      * @return mixed
      * @throws Exception\HttpCodeException\RateLimitExceededException
@@ -132,20 +126,8 @@ abstract class AbstractRequest
      * @throws Exception\HttpCodeException\ServerUnavailableException
      * @throws Exception\HttpCodeException\StatusCodeException
      */
-    public function make(
-        ClientId $clientId,
-        $token = null,
-        ResponseHandler $responseHandler = null
-    ) {
-        /*
-         * Check if the user passed the ResponseHandler as second parameter, if so reassign the variables.
-         */
-        if ($token instanceof ResponseHandler) {
-            list($token, $responseHandler) = [null, $token];
-        }
-
-        $this->setToken($token);
-
+    public function make($clientId, ResponseHandler $responseHandler = null)
+    {
         if ($responseHandler) {
             $this->setResponseHandler($responseHandler);
         }
@@ -153,7 +135,7 @@ abstract class AbstractRequest
         return $this->call($clientId);
     }
 
-    public function call(ClientId $clientId = null)
+    public function call($clientId = null)
     {
         $this->setClientId($clientId);
         $request = $this->client->createRequest(

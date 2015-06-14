@@ -10,9 +10,7 @@ namespace Wubs\Trakt\Request\Episodes;
 
 
 use Wubs\Trakt\Request\AbstractRequest;
-use Wubs\Trakt\Request\Parameters\MediaId;
 use Wubs\Trakt\Request\Parameters\MediaIdTrait;
-use Wubs\Trakt\Request\Parameters\Season;
 use Wubs\Trakt\Request\RequestType;
 
 class Comments extends AbstractRequest
@@ -21,14 +19,14 @@ class Comments extends AbstractRequest
 
 
     /**
-     * @param MediaId $id
+     * @param int $commentId
      * @param int $season
      * @param int $episode
      */
-    public function __construct(MediaId $id, $season, $episode)
+    public function __construct($commentId, $season, $episode)
     {
         parent::__construct();
-        $this->id = $id;
+        $this->id = $commentId;
         $this->season = $season;
         $this->episode = $episode;
     }

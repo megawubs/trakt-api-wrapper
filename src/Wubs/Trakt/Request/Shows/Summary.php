@@ -20,13 +20,13 @@ class Summary extends AbstractRequest
 
 
     /**
-     * @param MediaId $id
+     * @param int $mediaId
      */
-    public function __construct(MediaId $id)
+    public function __construct($mediaId)
     {
         parent::__construct();
-        $this->id = $id;
-        $this->setResponseHandler(new SummaryHandler());
+        $this->id = $mediaId;
+//        $this->setResponseHandler(new SummaryHandler());
     }
 
     public function getRequestType()

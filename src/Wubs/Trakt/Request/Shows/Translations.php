@@ -18,18 +18,18 @@ class Translations extends AbstractRequest
 {
     use MediaIdTrait;
     /**
-     * @var Language
+     * @var
      */
     private $language;
 
     /**
-     * @param MediaId $id
-     * @param Language $language
+     * @param int $mediaId
+     * @param string $language
      */
-    public function __construct(MediaId $id, Language $language)
+    public function __construct($mediaId, $language)
     {
         parent::__construct();
-        $this->id = $id;
+        $this->id = $mediaId;
         $this->language = $language;
     }
 
@@ -39,7 +39,7 @@ class Translations extends AbstractRequest
     }
 
     /**
-     * @return Language
+     * @return string
      */
     public function getLanguage()
     {

@@ -40,13 +40,13 @@ abstract class Media
 
     /**
      * @param $json
-     * @param $id
+     * @param $ClientId
      * @param AccessToken $token
      */
-    public function __construct($json, ClientId $id, $token)
+    public function __construct($json, $ClientId, AccessToken $token)
     {
         $this->json = $json;
-        $this->id = $id;
+        $this->id = $ClientId;
         $this->token = $token;
 
         $this->media = $this->getMedia($json);

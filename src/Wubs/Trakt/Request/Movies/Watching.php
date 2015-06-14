@@ -10,7 +10,6 @@ namespace Wubs\Trakt\Request\Movies;
 
 
 use Wubs\Trakt\Request\AbstractRequest;
-use Wubs\Trakt\Request\Parameters\MediaId;
 use Wubs\Trakt\Request\Parameters\MediaIdTrait;
 use Wubs\Trakt\Request\RequestType;
 
@@ -20,9 +19,9 @@ class Watching extends AbstractRequest
     use MediaIdTrait;
 
     /**
-     * @param MediaId $id
+     * @param $id
      */
-    public function __construct(MediaId $id)
+    public function __construct($id)
     {
         parent::__construct();
         $this->id = $id;

@@ -16,14 +16,14 @@ use Wubs\Trakt\Request\RequestType;
 class GenresList extends AbstractRequest
 {
     /**
-     * @var Type
+     * @var string
      */
     private $type;
 
     /**
-     * @param Type $type
+     * @param string $type
      */
-    public function __construct(Type $type)
+    public function __construct($type)
     {
         $this->type = $type;
     }

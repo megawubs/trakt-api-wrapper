@@ -4,18 +4,17 @@
 namespace Wubs\Trakt\Request\Calendars;
 
 
+use Carbon\Carbon;
 use Wubs\Trakt\Request\AbstractRequest;
-use Wubs\Trakt\Request\Parameters\Days;
-use Wubs\Trakt\Request\Parameters\StartDate;
 use Wubs\Trakt\Request\Parameters\TimePeriod;
 use Wubs\Trakt\Request\RequestType;
 use Wubs\Trakt\Response\Handlers\DefaultResponseHandler;
 
-class AllShows extends AbstractRequest
+class AllNewShows extends AbstractRequest
 {
     use TimePeriod;
 
-    public function __construct(StartDate $startDate = null, Days $days = null)
+    public function __construct(Carbon $startDate = null, $days = null)
     {
         parent::__construct();
         $this->setStartDate($startDate);

@@ -34,7 +34,7 @@ function get_token()
  */
 function get_client_id()
 {
-    return ClientId::set(getenv("CLIENT_ID"));
+    return getenv("CLIENT_ID");
 }
 
 /**

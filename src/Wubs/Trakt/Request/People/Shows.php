@@ -10,7 +10,8 @@ namespace Wubs\Trakt\Request\People;
 
 
 use Wubs\Trakt\Request\AbstractRequest;
-use Wubs\Trakt\Request\Parameters\MediaId;
+
+;
 use Wubs\Trakt\Request\Parameters\MediaIdTrait;
 use Wubs\Trakt\Request\RequestType;
 
@@ -20,12 +21,12 @@ class Shows extends AbstractRequest
     use MediaIdTrait;
 
     /**
-     * @param MediaId $id
+     * @param int $mediaId
      */
-    public function __construct(MediaId $id)
+    public function __construct($mediaId)
     {
         parent::__construct();
-        $this->id = $id;
+        $this->id = $mediaId;
     }
 
     public function getRequestType()

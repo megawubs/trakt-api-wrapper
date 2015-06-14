@@ -44,7 +44,8 @@ class Method
 
         $this->classParameters = $this->getClassParameters();
         $this->uses = $this->getUsages();
-        $this->parameterNames = $this->getParameters();
+        $this->methodParameterNames = $this->getMethodParameters();
+        $this->requestParameters = $this->getRequestParameters();
     }
 
     public function generate()
@@ -52,8 +53,8 @@ class Method
         $this->writeMethodName()
             ->writeMethodParameters()
             ->writeRequestClass()
-            ->writeRequestParameters()
-            ->writeRequestParameterObjects();
+            ->writeRequestParameters();
+//            ->writeRequestParameterObjects();
 
         return $this->template;
     }
@@ -76,14 +77,30 @@ class Method
     /**
      * @return Collection|string[]
      */
-    public function getParameters()
+    public function getMethodParameters()
     {
-        $parameterNames = new Collection();
+        $methodParameters = new Collection();
         foreach ($this->classParameters as $parameter) {
-            $parameterNames->push("$" . $parameter->getName());
+            $className = null;
+            if ($parameterClass = $parameter->getClass()) {
+                $className = $parameterClass->getShortName();
+            }
+            $parameterString = ($className !== null) ? $className . " $" . $parameter->getName() : " $"
+                . $parameter->getName();
+            $methodParameters->push($parameterString);
         }
 
-        return $parameterNames;
+        return $methodParameters;
+    }
+
+    private function getRequestParameters()
+    {
+        $requestClassParameters = new Collection();
+        foreach ($this->classParameters as $parameter) {
+            $requestClassParameters->push("$" . $parameter->getName());
+        }
+
+        return $requestClassParameters;
     }
 
 
@@ -108,7 +125,7 @@ class Method
      */
     private function writeMethodParameters()
     {
-        $parameters = $this->parameterNames->implode(", ");
+        $parameters = $this->methodParameterNames->implode(", ");
         return $this->writeInTemplate("method_parameters", $parameters);
     }
 
@@ -125,7 +142,7 @@ class Method
      */
     private function writeRequestClass()
     {
-        return $this->writeInTemplate("request_class", $this->reflection->getShortName());
+        return $this->writeInTemplate("request_class", $this->reflection->getShortName() . "Request");
     }
 
     /**
@@ -133,25 +150,8 @@ class Method
      */
     private function writeRequestParameters()
     {
-        $parameters = $this->parameterNames->implode(", ");
+        $parameters = $this->requestParameters->implode(", ");
         return $this->writeInTemplate("request_parameters", $parameters);
-    }
-
-    /**
-     * @internal $usage \ReflectionClass
-     */
-    private function writeRequestParameterObjects()
-    {
-        $parameterObjects = new Collection();
-
-        for ($i = 0; $i < $this->uses->count(); $i++) {
-            /** @var ReflectionClass $usage */
-            $className = $this->uses->get($i)->getShortName();
-            $parameterName = $this->parameterNames->get($i);
-            $parameterObjects->push($className . '::set(' . $parameterName . ');');
-        }
-        $parameters = $parameterObjects->implode("\n\t\t");
-        return $this->writeInTemplate("extra_fields", $parameters);
     }
 
     /**

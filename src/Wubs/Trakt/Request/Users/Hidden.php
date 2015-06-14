@@ -5,34 +5,31 @@ namespace Wubs\Trakt\Request\Users;
 
 
 use Wubs\Trakt\Request\AbstractRequest;
-use Wubs\Trakt\Request\Parameters\Section;
-use Wubs\Trakt\Request\Parameters\Type;
 use Wubs\Trakt\Request\RequestType;
 
 class Hidden extends AbstractRequest
 {
     /**
-     * @var Section
+     * @var
      */
     private $section;
     /**
-     * @var Type
+     * @var
      */
     private $type;
 
     /**
-     * @param Section $section
-     * @param Type $type
+     * @param $section
+     * @param $type
      */
-    public function __construct(Section $section, Type $type)
+    public function __construct($section, $type)
     {
-
         $this->section = $section;
         $this->type = $type;
     }
 
     /**
-     * @return Section
+     * @return string
      */
     public function getSection()
     {
@@ -40,7 +37,7 @@ class Hidden extends AbstractRequest
     }
 
     /**
-     * @return Type
+     * @return string
      */
     public function getType()
     {

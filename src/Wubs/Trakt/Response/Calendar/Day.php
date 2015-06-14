@@ -66,7 +66,7 @@ class Day
      */
     private function setDate($date)
     {
-        $this->date = Carbon::createFromFormat("Y-m-d", $date);
+        $this->date = Carbon::createFromFormat("Y-m-d\\TH:i:s.uO", $date, new \DateTimeZone("GMT"));
     }
 
     /**

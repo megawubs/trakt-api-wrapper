@@ -10,8 +10,6 @@ namespace Wubs\Trakt\Request\Movies;
 
 
 use Wubs\Trakt\Request\AbstractRequest;
-use Wubs\Trakt\Request\Parameters\Country;
-use Wubs\Trakt\Request\Parameters\MediaId;
 use Wubs\Trakt\Request\Parameters\MediaIdTrait;
 use Wubs\Trakt\Request\RequestType;
 
@@ -19,20 +17,20 @@ class Releases extends AbstractRequest
 {
     use MediaIdTrait;
     /**
-     * @var Country
+     * @var string
      */
     private $country;
 
 
     /**
-     * @param MediaId $id
-     * @param Country $country
+     * @param int $mediaId
+     * @param string $country
      */
-    public function __construct(MediaId $id, Country $country)
+    public function __construct($mediaId, $country)
     {
         parent::__construct();
         $this->country = $country;
-        $this->id = $id;
+        $this->id = $mediaId;
     }
 
     public function getRequestType()
