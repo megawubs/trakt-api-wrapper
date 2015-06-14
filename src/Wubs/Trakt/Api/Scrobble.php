@@ -10,25 +10,25 @@
 namespace Wubs\Trakt\Api;
 
 use Wubs\Trakt\Media\Media;
-use Wubs\Trakt\Request\Scrobble\Pause as RequestPause;
-use Wubs\Trakt\Request\Scrobble\Start as RequestStart;
-use Wubs\Trakt\Request\Scrobble\Stop as RequestStop;
+use Wubs\Trakt\Request\Scrobble\Pause as PauseRequest;
+use Wubs\Trakt\Request\Scrobble\Start as StartRequest;
+use Wubs\Trakt\Request\Scrobble\Stop as StopRequest;
 
 class Scrobble extends Endpoint {
 
     public function pause(Media $media)
     {
-        return $this->request(new RequestPause($media));
+        return $this->request(new PauseRequest($media));
     }
 
 	public function start(Media $media)
     {
-        return $this->request(new RequestStart($media));
+        return $this->request(new StartRequest($media));
     }
 
 	public function stop(Media $media)
     {
-        return $this->request(new RequestStop($media));
+        return $this->request(new StopRequest($media));
     }
 
 }

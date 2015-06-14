@@ -16,9 +16,9 @@ use Wubs\Trakt\Request\CheckIn\Delete as DeleteRequest;
 
 class CheckIn extends Endpoint {
 
-    public function create(AccessToken $token, Movie $movie,  $sharing)
+    public function create(AccessToken $token, Movie $movie, array $sharing = [], $message, $venueId, $venueName, $appVersion, $appDate)
     {
-        return $this->request(new CreateRequest($token, $movie, $sharing));
+        return $this->request(new CreateRequest($token, $movie, $sharing, $message, $venueId, $venueName, $appVersion, $appDate));
     }
 
 	public function delete(AccessToken $token)

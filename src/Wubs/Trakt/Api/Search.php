@@ -9,19 +9,19 @@
 */
 namespace Wubs\Trakt\Api;
 
-use Wubs\Trakt\Request\Search\ID as RequestID;
-use Wubs\Trakt\Request\Search\Text as RequestText;
+use Wubs\Trakt\Request\Search\ID as IDRequest;
+use Wubs\Trakt\Request\Search\Text as TextRequest;
 
 class Search extends Endpoint {
 
-    public function iD( $idType,  $mediaId)
+    public function iD($idType, $mediaId)
     {
-        return $this->request(new RequestID($idType, $mediaId));
+        return $this->request(new IDRequest($idType, $mediaId));
     }
 
-	public function text( $query,  $type,  $year)
+	public function text($query, $type, $year)
     {
-        return $this->request(new RequestText($query, $type, $year));
+        return $this->request(new TextRequest($query, $type, $year));
     }
 
 }

@@ -9,13 +9,13 @@
 */
 namespace Wubs\Trakt\Api;
 
-use Wubs\Trakt\Request\Genres\GenresList as RequestGenresList;
+use Wubs\Trakt\Request\Genres\GenresList as GenresListRequest;
 
 class Genres extends Endpoint {
 
-    public function genresList( $type)
+    public function genresList($type)
     {
-        return $this->request(new RequestGenresList($type));
+        return $this->request(new GenresListRequest($type));
     }
 
 }

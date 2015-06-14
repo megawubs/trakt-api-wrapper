@@ -13,16 +13,22 @@ class ApiTest extends PHPUnit_Framework_TestCase
      */
     protected $trakt;
 
+    /**
+     * @var Carbon
+     */
+    protected $today;
+
     protected function setUp()
     {
         $this->trakt = Trakt::api(get_client_id());
+        $this->today = Carbon::today(new DateTimeZone("Europe/Amsterdam"));
     }
 
 
     public function testCalendars()
     {
         $calendars = $this->trakt->calendars;
-        $today = Carbon::today(new DateTimeZone("Europe/Amsterdam"));
+        $today = $this->today;
         $this->assertInstanceOf("Wubs\\Trakt\\Api\\Calendars", $calendars);
 
         $movies = $calendars->allMovies($today, 7);
@@ -55,11 +61,23 @@ class ApiTest extends PHPUnit_Framework_TestCase
         $checkIn = $this->trakt->checkIn;
         $this->assertInstanceOf("Wubs\\Trakt\\Api\\CheckIn", $checkIn);
 
-        $response = $checkIn->create(get_token(), movie());
+        $response = $checkIn->create(
+            get_token(),
+            movie(),
+            [
+                'facebook' => false,
+                'twitter' => false,
+                'tumblr' => false
+            ],
+            "nooo way!",
+            "1200",
+            "blablabla",
+            "1.1",
+            $this->today->format("Y-m-d")
+        );
         $this->assertInstanceOf("Wubs\\Trakt\\Response\\CheckIn", $response);
 
         $this->assertTrue($checkIn->delete(get_token()));
-
     }
 
     public function testComments()

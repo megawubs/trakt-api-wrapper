@@ -9,84 +9,84 @@
 */
 namespace Wubs\Trakt\Api;
 
-use Wubs\Trakt\Request\Movies\Aliases as RequestAliases;
-use Wubs\Trakt\Request\Movies\Comments as RequestComments;
-use Wubs\Trakt\Request\Movies\People as RequestPeople;
-use Wubs\Trakt\Request\Movies\Popular as RequestPopular;
-use Wubs\Trakt\Request\Movies\Ratings as RequestRatings;
-use Wubs\Trakt\Request\Movies\Related as RequestRelated;
-use Wubs\Trakt\Request\Movies\Releases as RequestReleases;
-use Wubs\Trakt\Request\Movies\Stats as RequestStats;
-use Wubs\Trakt\Request\Movies\Summary as RequestSummary;
-use Wubs\Trakt\Request\Movies\Translations as RequestTranslations;
-use Wubs\Trakt\Request\Movies\Trending as RequestTrending;
-use Wubs\Trakt\Request\Movies\Watching as RequestWatching;
+use Wubs\Trakt\Request\Movies\Aliases as AliasesRequest;
+use Wubs\Trakt\Request\Movies\Comments as CommentsRequest;
+use Wubs\Trakt\Request\Movies\People as PeopleRequest;
+use Wubs\Trakt\Request\Movies\Popular as PopularRequest;
+use Wubs\Trakt\Request\Movies\Ratings as RatingsRequest;
+use Wubs\Trakt\Request\Movies\Related as RelatedRequest;
+use Wubs\Trakt\Request\Movies\Releases as ReleasesRequest;
+use Wubs\Trakt\Request\Movies\Stats as StatsRequest;
+use Wubs\Trakt\Request\Movies\Summary as SummaryRequest;
+use Wubs\Trakt\Request\Movies\Translations as TranslationsRequest;
+use Wubs\Trakt\Request\Movies\Trending as TrendingRequest;
+use Wubs\Trakt\Request\Movies\Watching as WatchingRequest;
 
 class Movies extends Endpoint {
 
-    public function aliases( $mediaId)
+    public function aliases($mediaId)
     {
-        return $this->request(new RequestAliases($mediaId));
+        return $this->request(new AliasesRequest($mediaId));
     }
 
-	public function comments( $mediaId)
+	public function comments($mediaId)
     {
-        return $this->request(new RequestComments($mediaId));
+        return $this->request(new CommentsRequest($mediaId));
     }
 
-	public function people( $mediaId)
+	public function people($mediaId)
     {
-        return $this->request(new RequestPeople($mediaId));
+        return $this->request(new PeopleRequest($mediaId));
     }
 
 	public function popular()
     {
-        return $this->request(new RequestPopular());
+        return $this->request(new PopularRequest());
     }
 
-	public function ratings( $mediaId)
+	public function ratings($mediaId)
     {
-        return $this->request(new RequestRatings($mediaId));
+        return $this->request(new RatingsRequest($mediaId));
     }
 
-	public function related( $mediaId)
+	public function related($mediaId)
     {
-        return $this->request(new RequestRelated($mediaId));
+        return $this->request(new RelatedRequest($mediaId));
     }
 
-	public function releases( $mediaId,  $country)
+	public function releases($mediaId, $country)
     {
-        return $this->request(new RequestReleases($mediaId, $country));
+        return $this->request(new ReleasesRequest($mediaId, $country));
     }
 
-	public function stats( $mediaId)
+	public function stats($mediaId)
     {
-        return $this->request(new RequestStats($mediaId));
+        return $this->request(new StatsRequest($mediaId));
     }
 
-	public function summary( $mediaId)
+	public function summary($mediaId)
     {
-        return $this->request(new RequestSummary($mediaId));
+        return $this->request(new SummaryRequest($mediaId));
     }
 
-	public function get( $mediaId)
+	public function get($mediaId)
     {
-        return $this->request(new RequestSummary($mediaId));
+        return $this->request(new SummaryRequest($mediaId));
     }
 
-	public function translations( $mediaId,  $language)
+	public function translations($mediaId, $language)
     {
-        return $this->request(new RequestTranslations($mediaId, $language));
+        return $this->request(new TranslationsRequest($mediaId, $language));
     }
 
 	public function trending()
     {
-        return $this->request(new RequestTrending());
+        return $this->request(new TrendingRequest());
     }
 
-	public function watching( $id)
+	public function watching($id)
     {
-        return $this->request(new RequestWatching($id));
+        return $this->request(new WatchingRequest($id));
     }
 
 }

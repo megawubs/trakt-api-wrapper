@@ -20,7 +20,6 @@ class DefaultResponseHandler extends AbstractResponseHandler implements Response
      */
     public function handle(ResponseInterface $response)
     {
-        var_dump($response->getStatusCode());
         return $this->getJson($response);
     }
 }

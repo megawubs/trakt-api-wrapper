@@ -6,6 +6,7 @@ namespace Wubs\Trakt\Console\Generators;
 use Illuminate\Support\Collection;
 use League\Flysystem\Filesystem;
 use ReflectionClass;
+use ReflectionException;
 
 class Method
 {
@@ -87,7 +88,19 @@ class Method
             }
             $parameterString = ($className !== null) ? $className . " $" . $parameter->getName() : " $"
                 . $parameter->getName();
-            $methodParameters->push($parameterString);
+            try {
+                if ($parameter->isArray()) {
+                    $parameterString = "array" . $parameterString;
+                    if ($parameter->getDefaultValue() === []) {
+                        $parameterString .= " = []";
+                    }
+                }
+            } catch (ReflectionException $exception) {
+                $methodParameters->push(trim($parameterString));
+                continue;
+            }
+
+            $methodParameters->push(trim($parameterString));
         }
 
         return $methodParameters;

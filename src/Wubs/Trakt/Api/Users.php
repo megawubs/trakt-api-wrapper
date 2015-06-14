@@ -9,43 +9,43 @@
 */
 namespace Wubs\Trakt\Api;
 
-use Wubs\Trakt\Request\Users\ApproveFollowRequest as RequestApproveFollowRequest;
-use Wubs\Trakt\Request\Users\DenyFollowRequest as RequestDenyFollowRequest;
-use Wubs\Trakt\Request\Users\Hidden as RequestHidden;
-use Wubs\Trakt\Request\Users\History as RequestHistory;
-use Wubs\Trakt\Request\Users\Requests as RequestRequests;
-use Wubs\Trakt\Request\Users\Settings as RequestSettings;
+use Wubs\Trakt\Request\Users\ApproveFollowRequest as ApproveFollowRequestRequest;
+use Wubs\Trakt\Request\Users\DenyFollowRequest as DenyFollowRequestRequest;
+use Wubs\Trakt\Request\Users\Hidden as HiddenRequest;
+use Wubs\Trakt\Request\Users\History as HistoryRequest;
+use Wubs\Trakt\Request\Users\Requests as RequestsRequest;
+use Wubs\Trakt\Request\Users\Settings as SettingsRequest;
 
 class Users extends Endpoint {
 
-    public function approveFollowRequest( $followerRequestId)
+    public function approveFollowRequest($followerRequestId)
     {
-        return $this->request(new RequestApproveFollowRequest($followerRequestId));
+        return $this->request(new ApproveFollowRequestRequest($followerRequestId));
     }
 
-	public function denyFollowRequest( $followerRequestId)
+	public function denyFollowRequest($followerRequestId)
     {
-        return $this->request(new RequestDenyFollowRequest($followerRequestId));
+        return $this->request(new DenyFollowRequestRequest($followerRequestId));
     }
 
-	public function hidden( $section,  $type)
+	public function hidden($section, $type)
     {
-        return $this->request(new RequestHidden($section, $type));
+        return $this->request(new HiddenRequest($section, $type));
     }
 
-	public function history( $username,  $type)
+	public function history($username, $type)
     {
-        return $this->request(new RequestHistory($username, $type));
+        return $this->request(new HistoryRequest($username, $type));
     }
 
-	public function requests( $queryParams)
+	public function requests(array $queryParams = [])
     {
-        return $this->request(new RequestRequests($queryParams));
+        return $this->request(new RequestsRequest($queryParams));
     }
 
-	public function settings( $queryParams)
+	public function settings(array $queryParams = [])
     {
-        return $this->request(new RequestSettings($queryParams));
+        return $this->request(new SettingsRequest($queryParams));
     }
 
 }

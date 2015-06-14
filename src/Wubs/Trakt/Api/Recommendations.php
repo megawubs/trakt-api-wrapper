@@ -9,31 +9,31 @@
 */
 namespace Wubs\Trakt\Api;
 
-use Wubs\Trakt\Request\Recommendations\DismissMovie as RequestDismissMovie;
-use Wubs\Trakt\Request\Recommendations\DismissShow as RequestDismissShow;
-use Wubs\Trakt\Request\Recommendations\Movies as RequestMovies;
-use Wubs\Trakt\Request\Recommendations\Shows as RequestShows;
+use Wubs\Trakt\Request\Recommendations\DismissMovie as DismissMovieRequest;
+use Wubs\Trakt\Request\Recommendations\DismissShow as DismissShowRequest;
+use Wubs\Trakt\Request\Recommendations\Movies as MoviesRequest;
+use Wubs\Trakt\Request\Recommendations\Shows as ShowsRequest;
 
 class Recommendations extends Endpoint {
 
-    public function dismissMovie( $mediaId)
+    public function dismissMovie($mediaId)
     {
-        return $this->request(new RequestDismissMovie($mediaId));
+        return $this->request(new DismissMovieRequest($mediaId));
     }
 
-	public function dismissShow( $mediaId)
+	public function dismissShow($mediaId)
     {
-        return $this->request(new RequestDismissShow($mediaId));
+        return $this->request(new DismissShowRequest($mediaId));
     }
 
-	public function movies( $queryParams)
+	public function movies(array $queryParams = [])
     {
-        return $this->request(new RequestMovies($queryParams));
+        return $this->request(new MoviesRequest($queryParams));
     }
 
-	public function shows( $queryParams)
+	public function shows(array $queryParams = [])
     {
-        return $this->request(new RequestShows($queryParams));
+        return $this->request(new ShowsRequest($queryParams));
     }
 
 }

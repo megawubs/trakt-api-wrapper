@@ -14,7 +14,7 @@ class TraktGenerateCommand extends Command
 {
     public function configure()
     {
-        $this->setName("trakt:generate")
+        $this->setName("endpoint:generate")
             ->setDescription("Generates the wrapper classes from source")
             ->addArgument(
                 'endpoint',

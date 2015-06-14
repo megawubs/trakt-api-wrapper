@@ -30,8 +30,8 @@ abstract class AbstractRequest
 
     private $scheme = 'https';
 
-//    private $host = 'api-v2launch.trakt.tv';
-    private $host = 'private-anon-e0814e741-trakt.apiary-mock.com';
+    private $host = 'api-v2launch.trakt.tv';
+//    private $host = 'private-anon-e0814e741-trakt.apiary-mock.com';
     protected $staging = "https://api.staging.trakt.tv";
 
     protected $queryParams = [];

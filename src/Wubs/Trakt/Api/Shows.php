@@ -9,97 +9,97 @@
 */
 namespace Wubs\Trakt\Api;
 
-use Wubs\Trakt\Request\Shows\Aliases as RequestAliases;
-use Wubs\Trakt\Request\Shows\CollectionProgress as RequestCollectionProgress;
-use Wubs\Trakt\Request\Shows\Comments as RequestComments;
-use Wubs\Trakt\Request\Shows\People as RequestPeople;
-use Wubs\Trakt\Request\Shows\Popular as RequestPopular;
-use Wubs\Trakt\Request\Shows\Ratings as RequestRatings;
-use Wubs\Trakt\Request\Shows\Related as RequestRelated;
-use Wubs\Trakt\Request\Shows\Stats as RequestStats;
-use Wubs\Trakt\Request\Shows\Summary as RequestSummary;
-use Wubs\Trakt\Request\Shows\Translations as RequestTranslations;
-use Wubs\Trakt\Request\Shows\Trending as RequestTrending;
+use Wubs\Trakt\Request\Shows\Aliases as AliasesRequest;
+use Wubs\Trakt\Request\Shows\CollectionProgress as CollectionProgressRequest;
+use Wubs\Trakt\Request\Shows\Comments as CommentsRequest;
+use Wubs\Trakt\Request\Shows\People as PeopleRequest;
+use Wubs\Trakt\Request\Shows\Popular as PopularRequest;
+use Wubs\Trakt\Request\Shows\Ratings as RatingsRequest;
+use Wubs\Trakt\Request\Shows\Related as RelatedRequest;
+use Wubs\Trakt\Request\Shows\Stats as StatsRequest;
+use Wubs\Trakt\Request\Shows\Summary as SummaryRequest;
+use Wubs\Trakt\Request\Shows\Translations as TranslationsRequest;
+use Wubs\Trakt\Request\Shows\Trending as TrendingRequest;
 use Carbon\Carbon;
-use Wubs\Trakt\Request\Shows\Updates as RequestUpdates;
-use Wubs\Trakt\Request\Shows\WatchedProgress as RequestWatchedProgress;
-use Wubs\Trakt\Request\Shows\Watching as RequestWatching;
+use Wubs\Trakt\Request\Shows\Updates as UpdatesRequest;
+use Wubs\Trakt\Request\Shows\WatchedProgress as WatchedProgressRequest;
+use Wubs\Trakt\Request\Shows\Watching as WatchingRequest;
 
 class Shows extends Endpoint {
 
-    public function aliases( $mediaId)
+    public function aliases($mediaId)
     {
-        return $this->request(new RequestAliases($mediaId));
+        return $this->request(new AliasesRequest($mediaId));
     }
 
-	public function collectionProgress( $mediaId)
+	public function collectionProgress($mediaId)
     {
-        return $this->request(new RequestCollectionProgress($mediaId));
+        return $this->request(new CollectionProgressRequest($mediaId));
     }
 
-	public function comments( $mediaId)
+	public function comments($mediaId)
     {
-        return $this->request(new RequestComments($mediaId));
+        return $this->request(new CommentsRequest($mediaId));
     }
 
-	public function people( $mediaId)
+	public function people($mediaId)
     {
-        return $this->request(new RequestPeople($mediaId));
+        return $this->request(new PeopleRequest($mediaId));
     }
 
-	public function popular( $queryParams)
+	public function popular(array $queryParams = [])
     {
-        return $this->request(new RequestPopular($queryParams));
+        return $this->request(new PopularRequest($queryParams));
     }
 
-	public function ratings( $mediaId)
+	public function ratings($mediaId)
     {
-        return $this->request(new RequestRatings($mediaId));
+        return $this->request(new RatingsRequest($mediaId));
     }
 
-	public function related( $mediaId)
+	public function related($mediaId)
     {
-        return $this->request(new RequestRelated($mediaId));
+        return $this->request(new RelatedRequest($mediaId));
     }
 
-	public function stats( $mediaId)
+	public function stats($mediaId)
     {
-        return $this->request(new RequestStats($mediaId));
+        return $this->request(new StatsRequest($mediaId));
     }
 
-	public function summary( $mediaId)
+	public function summary($mediaId)
     {
-        return $this->request(new RequestSummary($mediaId));
+        return $this->request(new SummaryRequest($mediaId));
     }
 
-	public function get( $mediaId)
+	public function get($mediaId)
     {
-        return $this->request(new RequestSummary($mediaId));
+        return $this->request(new SummaryRequest($mediaId));
     }
 
-	public function translations( $mediaId,  $language)
+	public function translations($mediaId, $language)
     {
-        return $this->request(new RequestTranslations($mediaId, $language));
+        return $this->request(new TranslationsRequest($mediaId, $language));
     }
 
-	public function trending( $queryParams)
+	public function trending(array $queryParams = [])
     {
-        return $this->request(new RequestTrending($queryParams));
+        return $this->request(new TrendingRequest($queryParams));
     }
 
 	public function updates(Carbon $date)
     {
-        return $this->request(new RequestUpdates($date));
+        return $this->request(new UpdatesRequest($date));
     }
 
-	public function watchedProgress( $mediaId)
+	public function watchedProgress($mediaId)
     {
-        return $this->request(new RequestWatchedProgress($mediaId));
+        return $this->request(new WatchedProgressRequest($mediaId));
     }
 
-	public function watching( $mediaId)
+	public function watching($mediaId)
     {
-        return $this->request(new RequestWatching($mediaId));
+        return $this->request(new WatchingRequest($mediaId));
     }
 
 }

@@ -9,42 +9,42 @@
 */
 namespace Wubs\Trakt\Api;
 
-use Wubs\Trakt\Request\Episodes\Comments as RequestComments;
-use Wubs\Trakt\Request\Episodes\Ratings as RequestRatings;
-use Wubs\Trakt\Request\Episodes\Stats as RequestStats;
-use Wubs\Trakt\Request\Episodes\Summary as RequestSummary;
-use Wubs\Trakt\Request\Episodes\Watching as RequestWatching;
+use Wubs\Trakt\Request\Episodes\Comments as CommentsRequest;
+use Wubs\Trakt\Request\Episodes\Ratings as RatingsRequest;
+use Wubs\Trakt\Request\Episodes\Stats as StatsRequest;
+use Wubs\Trakt\Request\Episodes\Summary as SummaryRequest;
+use Wubs\Trakt\Request\Episodes\Watching as WatchingRequest;
 
 class Episodes extends Endpoint {
 
-    public function comments( $commentId,  $season,  $episode)
+    public function comments($commentId, $season, $episode)
     {
-        return $this->request(new RequestComments($commentId, $season, $episode));
+        return $this->request(new CommentsRequest($commentId, $season, $episode));
     }
 
-	public function ratings( $mediaId,  $season,  $episode)
+	public function ratings($mediaId, $season, $episode)
     {
-        return $this->request(new RequestRatings($mediaId, $season, $episode));
+        return $this->request(new RatingsRequest($mediaId, $season, $episode));
     }
 
-	public function stats( $mediaId,  $season,  $episode)
+	public function stats($mediaId, $season, $episode)
     {
-        return $this->request(new RequestStats($mediaId, $season, $episode));
+        return $this->request(new StatsRequest($mediaId, $season, $episode));
     }
 
-	public function summary( $mediaId,  $season,  $episode)
+	public function summary($mediaId, $season, $episode)
     {
-        return $this->request(new RequestSummary($mediaId, $season, $episode));
+        return $this->request(new SummaryRequest($mediaId, $season, $episode));
     }
 
-	public function get( $mediaId,  $season,  $episode)
+	public function get($mediaId, $season, $episode)
     {
-        return $this->request(new RequestSummary($mediaId, $season, $episode));
+        return $this->request(new SummaryRequest($mediaId, $season, $episode));
     }
 
-	public function watching( $mediaId,  $season,  $episode)
+	public function watching($mediaId, $season, $episode)
     {
-        return $this->request(new RequestWatching($mediaId, $season, $episode));
+        return $this->request(new WatchingRequest($mediaId, $season, $episode));
     }
 
 }
