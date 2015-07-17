@@ -3,6 +3,7 @@
 
 namespace Wubs\Trakt;
 
+use GuzzleHttp\ClientInterface;
 use Wubs\Trakt\Api\Calendars;
 use Wubs\Trakt\Api\CheckIn;
 use Wubs\Trakt\Api\Comments;
@@ -90,14 +91,21 @@ class Api
      * @var Users
      */
     public $users;
+    /**
+     * @var ClientInterface
+     */
+    private $client;
 
     /**
-     * @param int $clientId
+     * @param int|ClientId $clientId
+     * @param ClientInterface $client
      */
-    public function __construct($clientId)
+    public function __construct($clientId, ClientInterface $client)
     {
         $this->id = $clientId;
-        $this->createWrappers($clientId);
+        $this->client = $client;
+
+        $this->createWrappers();
     }
 
     /**
@@ -124,7 +132,7 @@ class Api
             $name = $property->getName();
             $className = "\\" . $nameSpaceRoot . "\\" . ucfirst($name);
             $reflection = new \ReflectionClass($className);
-            $this->{$name} = $reflection->newInstance($this->id);
+            $this->{$name} = $reflection->newInstance($this->id, $this->client);
         }
     }
 }

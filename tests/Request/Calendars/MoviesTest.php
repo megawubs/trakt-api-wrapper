@@ -16,14 +16,14 @@ class MoviesTest extends PHPUnit_Framework_TestCase
 
     public function testFormatsRequestUrl()
     {
-        $startDate = new StartDate(Carbon::createFromFormat("Y-m-d", "2014-03-01"));
+        $startDate = Carbon::createFromFormat("Y-m-d", "2014-03-01");
 
-        $request = new MyMovies($startDate, Days::set(25));
+        $request = new MyMovies(get_token(), $startDate, 25);
 
         $request->setToken(get_token());
 
         $formatted = $request->getUrl();
 
-        $this->assertEquals("calendars/movies/2014-03-01/25", $formatted);
+        $this->assertEquals("calendars/my/movies/2014-03-01/25", $formatted);
     }
 }

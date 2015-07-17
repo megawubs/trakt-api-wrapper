@@ -1,4 +1,4 @@
- {
+{
   "name": "wubs/trakt",
   "description": "Trakt api wrapper for php",
   "authors": [
@@ -14,7 +14,8 @@
     "nesbot/carbon": "~1",
     "guzzlehttp/guzzle": "~5",
     "league/oauth2-client": "~0.8",
-    "league/url": "^3.3"
+    "league/url": "^3.3",
+    "mockery/mockery": "^0.9.4"
   },
   "require-dev": {
     "vlucas/phpdotenv": "^2.0",

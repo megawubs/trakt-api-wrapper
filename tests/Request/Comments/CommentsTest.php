@@ -24,8 +24,8 @@ class CommentsTest extends PHPUnit_Framework_TestCase
     {
         $request = new PostComment(
             movie(),
-            Comment::set("This was an awesome movie! I really liked it"),
-            Spoiler::false()
+            "This was an awesome movie! I really liked it",
+            false
         );
 
         $type = $request->getRequestType();
@@ -39,7 +39,7 @@ class CommentsTest extends PHPUnit_Framework_TestCase
 
     public function testCanDeleteCommentById()
     {
-        $request = new DeleteComment(CommentId::set(1223));
+        $request = new DeleteComment(1223);
 
         $type = $request->getRequestType();
 
@@ -57,6 +57,6 @@ class CommentsTest extends PHPUnit_Framework_TestCase
     {
         $movie = movie();
 
-        new PostComment($movie, Comment::set("too short"), Spoiler::false());
+        new PostComment($movie, "too short", false);
     }
 }

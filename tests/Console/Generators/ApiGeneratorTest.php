@@ -3,6 +3,7 @@
 
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
+use Symfony\Component\Console\Output\OutputInterface;
 use Wubs\Trakt\Console\Generators\EndpointGenerator;
 
 class ApiGeneratorTest extends PHPUnit_Framework_TestCase
@@ -27,7 +28,8 @@ class ApiGeneratorTest extends PHPUnit_Framework_TestCase
     {
         parent::__construct();
         $this->file = __DIR__ . "/../../../src/Wubs/Trakt/Api/Comments.php";
-        $this->generator = new EndpointGenerator();
+        $mock = $this->getMock(OutputInterface::class);
+        $this->generator = new EndpointGenerator($mock);
 
         $this->filesystem = new Filesystem(
             new Local(

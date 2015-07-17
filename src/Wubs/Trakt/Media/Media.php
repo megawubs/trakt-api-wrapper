@@ -80,9 +80,25 @@ abstract class Media
         }
     }
 
-    public function checkIn()
-    {
-        return Create::media($this->id, $this->token, $this);
+    public function checkIn(
+        array $sharing = [],
+        $message,
+        $venueId,
+        $venueName,
+        $appVersion,
+        $appDate
+    ) {
+        return new Create(
+            $this->token,
+            $this->id,
+            $this,
+            $sharing,
+            $message,
+            $venueId,
+            $venueName,
+            $appVersion,
+            $appDate
+        );
     }
 
     public function checkOut()

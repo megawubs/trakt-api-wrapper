@@ -14,7 +14,7 @@ class GetCommentTest extends PHPUnit_Framework_TestCase
     public function testStaticCall()
     {
 
-        $request = new GetComment(CommentId::set(41));
+        $request = new GetComment(41);
 
         $url = $request->getUrl();
 

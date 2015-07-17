@@ -1,4 +1,6 @@
 <?php
+use Carbon\Carbon;
+use Guzzle\Http\ClientInterface;
 use GuzzleHttp\Message\ResponseInterface;
 use Wubs\Trakt\Contracts\ResponseHandler;
 use Wubs\Trakt\Request\Calendars\MyMovies;
@@ -17,7 +19,7 @@ class AbstractRequestTest extends PHPUnit_Framework_TestCase
 
     public function testCanRegisterResponseHandler()
     {
-        $request = new MyMovies();
+        $request = new MyMovies(get_token());
         $request->setResponseHandler(new MyResponseHandler());
 
         $handler = $request->getResponseHandler();
@@ -27,17 +29,25 @@ class AbstractRequestTest extends PHPUnit_Framework_TestCase
 
     public function testCanSetResponseHandlerOnStaticRequest()
     {
-        $response = (new MyMovies())->make(get_client_id(), get_token(), new MyResponseHandler());
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+//        $request = Mockery::mock(stdClass::class . ", " . RequestInterface::class);
+//        $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
+//
+//        $client->shouldReceive("createRequest")->once()->andReturn($request);
+//        $response->shouldReceive("json")->once()->andReturn([]);
+//        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+        $response = (new MyMovies(get_token()))->make(get_client_id(), $client, new MyResponseHandler());
 
         $this->assertTrue($response);
     }
 
     public function testCanOmitTokenAsParameter()
     {
-        $response = (new MyMovies(StartDate::standard(), Days::set(20)))->make(
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $response = (new MyMovies(get_token(), Carbon::today(), 20))->make(
             get_client_id(),
-            new MyResponseHandler
-            ()
+            $client,
+            new MyResponseHandler()
         );
 
         $this->assertTrue($response);
@@ -45,14 +55,16 @@ class AbstractRequestTest extends PHPUnit_Framework_TestCase
 
     public function testCanOmitRequestParametersAsParameter()
     {
-        $response = (new MyMovies())->make(get_client_id(), new MyResponseHandler());
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $response = (new MyMovies(get_token()))->make(get_client_id(), $client, new MyResponseHandler());
 
         $this->assertTrue($response);
     }
 
     public function testOnlyPassRequestParameters()
     {
-        $response = (new MyMovies(StartDate::standard(), Days::set(20)))->make(get_client_id());
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $response = (new MyMovies(get_token(), Carbon::now(), 20))->make(get_client_id(), $client);
 
         $this->assertInstanceOf(Wubs\Trakt\Response\Calendar\Calendar::class, $response);
     }

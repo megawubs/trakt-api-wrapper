@@ -13,92 +13,187 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
 
     protected $id = "orphan-black";
 
-    protected function setUp()
+    public function tearDown()
     {
-        parent::setUp();
-        $this->trakt = Trakt::api(getenv("CLIENT_ID"));
+        Mockery::close();
     }
 
     public function testAliases()
     {
-        $aliases = $this->trakt->shows->aliases($this->id);
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $request = Mockery::mock(stdClass::class . ", " . RequestInterface::class);
+        $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
+
+        $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("json")->once()->andReturn([]);
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+
+        $aliases = $trakt->shows->aliases($this->id);
 
         $this->assertInternalType("array", $aliases);
     }
 
     public function testComments()
     {
-        $comments = $this->trakt->shows->comments($this->id, get_token());
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $request = Mockery::mock(stdClass::class . ", " . RequestInterface::class);
+        $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
+
+        $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("json")->once()->andReturn([]);
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+
+        $comments = $trakt->shows->comments($this->id, get_token());
 
         $this->assertInternalType("array", $comments);
     }
 
     public function testPeople()
     {
-        $people = $this->trakt->shows->people($this->id);
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $request = Mockery::mock(stdClass::class . ", " . RequestInterface::class);
+        $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
+
+        $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("json")->once()->andReturn([]);
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+
+        $people = $trakt->shows->people($this->id);
 
         $this->assertInternalType("object", $people);
     }
 
     public function testPopular()
     {
-        $popular = $this->trakt->shows->popular();
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $request = Mockery::mock(stdClass::class . ", " . RequestInterface::class);
+        $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
+
+        $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("json")->once()->andReturn([]);
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+
+        $popular = $trakt->shows->popular();
 
         $this->assertInternalType("array", $popular);
     }
 
     public function testRatings()
     {
-        $ratings = $this->trakt->shows->ratings($this->id);
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $request = Mockery::mock(stdClass::class . ", " . RequestInterface::class);
+        $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
+
+        $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("json")->once()->andReturn([]);
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+
+        $ratings = $trakt->shows->ratings($this->id);
 
         $this->assertInternalType("object", $ratings);
     }
 
     public function testRelated()
     {
-        $res = $this->trakt->shows->related($this->id);
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $request = Mockery::mock(stdClass::class . ", " . RequestInterface::class);
+        $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
+
+        $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("json")->once()->andReturn([]);
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+
+        $res = $trakt->shows->related($this->id);
 
         $this->assertInternalType("array", $res);
     }
 
     public function testStats()
     {
-        $stats = $this->trakt->shows->stats($this->id);
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $request = Mockery::mock(stdClass::class . ", " . RequestInterface::class);
+        $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
+
+        $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("json")->once()->andReturn([]);
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+
+        $stats = $trakt->shows->stats($this->id);
 
         $this->assertInternalType("object", $stats);
     }
 
     public function testSummary()
     {
-        $res = $this->trakt->shows->summary($this->id);
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $request = Mockery::mock(stdClass::class . ", " . RequestInterface::class);
+        $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
+
+        $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("json")->once()->andReturn([]);
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+
+        $res = $trakt->shows->summary($this->id);
 
         $this->assertInternalType("object", $res);
     }
 
     public function testTranslations()
     {
-        $res = $this->trakt->shows->translations($this->id, "NL");
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $request = Mockery::mock(stdClass::class . ", " . RequestInterface::class);
+        $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
+
+        $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("json")->once()->andReturn([]);
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+
+        $res = $trakt->shows->translations($this->id, "NL");
 
         $this->assertInternalType("array", $res);
     }
 
     public function testTrending()
     {
-        $res = $this->trakt->shows->trending(get_token());
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $request = Mockery::mock(stdClass::class . ", " . RequestInterface::class);
+        $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
+
+        $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("json")->once()->andReturn([]);
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+
+        $res = $trakt->shows->trending(get_token());
 
         $this->assertInternalType("array", $res);
     }
 
     public function testUpdates()
     {
-        $res = $this->trakt->shows->updates();
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $request = Mockery::mock(stdClass::class . ", " . RequestInterface::class);
+        $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
+
+        $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("json")->once()->andReturn([]);
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+
+        $res = $trakt->shows->updates();
 
         $this->assertInternalType("array", $res);
     }
 
     public function testWatching()
     {
-        $res = $this->trakt->shows->watching($this->id);
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $request = Mockery::mock(stdClass::class . ", " . RequestInterface::class);
+        $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
+
+        $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("json")->once()->andReturn([]);
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+
+        $res = $trakt->shows->watching($this->id);
 
         $this->assertInternalType("array", $res);
     }

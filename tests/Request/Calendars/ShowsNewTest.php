@@ -1,6 +1,6 @@
 <?php
 use Carbon\Carbon;
-use Wubs\Trakt\Request\Calendars\Shows\ShowsNew;
+use Wubs\Trakt\Request\Calendars\MyNewShows;
 use Wubs\Trakt\Request\Parameters\Days;
 use Wubs\Trakt\Request\Parameters\StartDate;
 
@@ -16,11 +16,11 @@ class ShowsNewTest extends PHPUnit_Framework_TestCase
     public function testStaticCall()
     {
         $startDate = Carbon::now()->subYears(3);
-        $request = new ShowsNew(new StartDate($startDate), Days::set(500));
+        $request = new MyNewShows(get_token(), $startDate, 500);
 
         $url = $request->getUrl();
 
-        $this->assertEquals("calendars/shows/new/" . $startDate->format("Y-m-d") . "/500", $url);
+        $this->assertEquals("calendars/my/shows/new/" . $startDate->format("Y-m-d") . "/500", $url);
 
     }
 }

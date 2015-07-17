@@ -15,7 +15,7 @@ class RepliesTest extends PHPUnit_Framework_TestCase
     public function testStaticCall()
     {
 
-        $request = new Replies(CommentId::set(41));
+        $request = new Replies(41);
 
         $this->assertEquals("comments/41/replies", $request->getUrl());
 

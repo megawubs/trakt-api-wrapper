@@ -9,6 +9,7 @@
 namespace Wubs\Trakt\Request;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Message\ResponseInterface;
 use League\OAuth2\Client\Token\AccessToken;
@@ -31,7 +32,7 @@ abstract class AbstractRequest
     private $scheme = 'https';
 
     private $host = 'api-v2launch.trakt.tv';
-//    private $host = 'private-anon-e0814e741-trakt.apiary-mock.com';
+
     protected $staging = "https://api.staging.trakt.tv";
 
     protected $queryParams = [];
@@ -65,7 +66,7 @@ abstract class AbstractRequest
     public function __construct(array $queryParams = [])
     {
 //        $this->extended = $extended;
-        $this->client = $this->getClient($this->apiVersion);
+//        $this->client = $this->getClient($this->apiVersion);
 //        $this->apiVersion = $apiVersion;
 //        $this->page = $page;
 //        $this->limit = $limit;
@@ -119,6 +120,7 @@ abstract class AbstractRequest
 
     /**
      * @param $clientId
+     * @param ClientInterface $client
      * @param ResponseHandler|AbstractResponseHandler $responseHandler
      * @return mixed
      * @throws Exception\HttpCodeException\RateLimitExceededException
@@ -126,25 +128,25 @@ abstract class AbstractRequest
      * @throws Exception\HttpCodeException\ServerUnavailableException
      * @throws Exception\HttpCodeException\StatusCodeException
      */
-    public function make($clientId, ResponseHandler $responseHandler = null)
+    public function make($clientId, ClientInterface $client, ResponseHandler $responseHandler = null)
     {
         if ($responseHandler) {
             $this->setResponseHandler($responseHandler);
         }
 
-        return $this->call($clientId);
+        return $this->call($clientId, $client);
     }
 
-    public function call($clientId = null)
+    public function call($clientId = null, ClientInterface $client)
     {
         $this->setClientId($clientId);
-        $request = $this->client->createRequest(
+        $request = $client->createRequest(
             $this->getRequestType(),
             $this->getUrl(),
             $this->getOptions()
         );
         try {
-            $response = $this->client->send($request);
+            $response = $client->send($request);
         } catch (ServerException $exception) {
             $response = $exception->getResponse();
         }

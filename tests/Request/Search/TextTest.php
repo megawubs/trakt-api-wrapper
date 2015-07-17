@@ -16,9 +16,9 @@ class TextTest extends PHPUnit_Framework_TestCase
     public function testSearchMovie()
     {
         $request = new Text(
-            Query::set("guardians of the galaxy"),
+            "guardians of the galaxy",
             Type::movie(),
-            Year::set("2014")
+            "2014"
         );
 
         $this->assertEquals(RequestType::GET, $request->getRequestType());
