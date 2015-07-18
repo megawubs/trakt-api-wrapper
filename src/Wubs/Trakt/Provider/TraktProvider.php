@@ -8,24 +8,20 @@
 
 namespace Wubs\Trakt\Provider;
 
-
-use Guzzle\Service\Client as GuzzleClient;
-use GuzzleHttp\Client;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessToken;
-use Wubs\Trakt\ClientId;
 
 class TraktProvider extends AbstractProvider
 {
 
     /**
-     * @param ClientId $clientId
+     * @param integer $clientId
      * @param $clientSecret
      * @param $redirectUrl
      * @param string $state
      * @param string $type
      */
-    public function __construct(ClientId $clientId, $clientSecret, $redirectUrl, $state = 'state', $type = 'code')
+    public function __construct($clientId, $clientSecret, $redirectUrl, $state = 'state', $type = 'code')
     {
         parent::__construct(
             [

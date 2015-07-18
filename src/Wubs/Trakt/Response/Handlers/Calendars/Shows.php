@@ -39,7 +39,7 @@ class Shows extends AbstractResponseHandler implements ResponseHandler
         $days = [];
 
         foreach ($json as $date => $movies) {
-            $days[] = new Day($date, $movies, Type::show(), $this->getId(), $this->getToken());
+            $days[] = new Day($date, $movies, Type::show(), $this->getClientId(), $this->getToken());
         }
 
         return $days;

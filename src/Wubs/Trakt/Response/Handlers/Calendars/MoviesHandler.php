@@ -30,6 +30,6 @@ class MoviesHandler extends AbstractResponseHandler implements ResponseHandler
     {
         $json = $this->getJson($response);
 
-        return new Calendar($json, Type::movie(), $this->getId(), $this->getToken(), $client);
+        return new Calendar($json, Type::movie(), $this->getClientId(), $this->getToken(), $client);
     }
 }

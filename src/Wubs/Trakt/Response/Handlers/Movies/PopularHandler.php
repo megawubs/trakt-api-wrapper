@@ -38,7 +38,7 @@ class PopularHandler extends AbstractResponseHandler implements ResponseHandler
         $movies = [];
 
         foreach ($json as $item) {
-            $movies[] = new Movie($item, $this->getId(), $this->getToken());
+            $movies[] = new Movie($item, $this->getClientId(), $this->getToken());
         }
 
         return $movies;

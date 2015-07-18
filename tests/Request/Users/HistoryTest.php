@@ -4,9 +4,7 @@
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Message\RequestInterface;
 use GuzzleHttp\Message\ResponseInterface;
-use Wubs\Trakt\ClientId;
 use Wubs\Trakt\Request\Parameters\Type;
-use Wubs\Trakt\Request\Parameters\Username;
 use Wubs\Trakt\Request\Users\History;
 
 class HistoryTest extends PHPUnit_Framework_TestCase
@@ -28,7 +26,7 @@ class HistoryTest extends PHPUnit_Framework_TestCase
         $response->shouldReceive("json")->once()->andReturn([]);
         $client->shouldReceive("send")->andReturn($response);
 
-        $clientId = ClientId::set(getenv("CLIENT_ID"));
+        $clientId = getenv("CLIENT_ID");
 
         $response = (new History(get_token(), 'rolle', Type::movies()))->make($clientId, $client);
 

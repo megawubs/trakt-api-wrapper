@@ -37,7 +37,7 @@ class TrendingHandler extends AbstractResponseHandler implements ResponseHandler
     {
         $trending = [];
         foreach ($json as $trendingItem) {
-            $trending[] = new Trending($trendingItem, $this->getId(), $this->getToken());
+            $trending[] = new Trending($trendingItem, $this->getClientId(), $this->getToken());
         }
         return $trending;
     }

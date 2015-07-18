@@ -21,6 +21,6 @@ class SummaryHandler extends AbstractResponseHandler implements ResponseHandler
     {
         $json = $this->getJson($response);
 
-        return new Movie($json, $this->getId(), $this->getToken(), $client);
+        return new Movie($json, $this->getClientId(), $this->getToken(), $client);
     }
 }

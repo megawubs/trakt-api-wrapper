@@ -10,7 +10,6 @@ namespace Wubs\Trakt\Response;
 
 
 use League\OAuth2\Client\Token\AccessToken;
-use Wubs\Trakt\ClientId;
 
 class People
 {
@@ -20,10 +19,10 @@ class People
 
     /**
      * @param $json
-     * @param ClientId $id
+     * @param $id
      * @param AccessToken $token
      */
-    public function __construct($json, ClientId $id, AccessToken $token)
+    public function __construct($json, $id, AccessToken $token)
     {
         $this->cast = $json->cast;
 

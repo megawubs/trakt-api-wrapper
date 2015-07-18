@@ -8,7 +8,6 @@
 
 use Dotenv\Dotenv;
 use GuzzleHttp\ClientInterface;
-use Wubs\Trakt\ClientId;
 use Wubs\Trakt\Media\Movie;
 use Wubs\Trakt\Token\TraktAccessToken;
 
@@ -30,9 +29,6 @@ function get_token()
     );
 }
 
-/**
- * @return ClientId
- */
 function get_client_id()
 {
     return getenv("CLIENT_ID");

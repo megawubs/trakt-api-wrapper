@@ -12,15 +12,11 @@ namespace Wubs\Trakt\Response\Handlers;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Message\ResponseInterface;
 use League\OAuth2\Client\Token\AccessToken;
-use Wubs\Trakt\ClientId;
 
 class AbstractResponseHandler
 {
 
-    /**
-     * @var ClientId
-     */
-    private $id;
+    private $clientId;
 
     /**
      * @var AccessToken
@@ -30,17 +26,17 @@ class AbstractResponseHandler
     /**
      * @return mixed
      */
-    public function getId()
+    public function getClientId()
     {
-        return $this->id;
+        return $this->clientId;
     }
 
     /**
-     * @param mixed $id
+     * @param mixed $clientId
      */
-    public function setId($id)
+    public function setClientId($clientId)
     {
-        $this->id = $id;
+        $this->clientId = $clientId;
     }
 
     /**
@@ -78,7 +74,7 @@ class AbstractResponseHandler
 
     protected function transformToObject($item, $objectName, ClientInterface $client)
     {
-        return new $objectName($item, $this->getId(), $this->getToken(), $client);
+        return new $objectName($item, $this->getClientId(), $this->getToken(), $client);
     }
 
 

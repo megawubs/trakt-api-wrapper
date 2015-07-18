@@ -9,8 +9,8 @@
 namespace Wubs\Trakt\Response;
 
 
+use GuzzleHttp\ClientInterface;
 use League\OAuth2\Client\Token\AccessToken;
-use Wubs\Trakt\ClientId;
 use Wubs\Trakt\Media\Movie;
 
 class Trending
@@ -24,12 +24,13 @@ class Trending
 
     /**
      * @param $json
-     * @param ClientId $id
+     * @param $id
      * @param AccessToken $token
+     * @param ClientInterface $client
      */
-    public function __construct($json, ClientId $id, AccessToken $token)
+    public function __construct($json, $id, AccessToken $token, ClientInterface $client)
     {
         $this->watchers = $json->watchers;
-        $this->movie = new Movie($json->movie, $id, $token);
+        $this->movie = new Movie($json->movie, $id, $token, $client);
     }
 }

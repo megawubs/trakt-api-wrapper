@@ -10,15 +10,10 @@ namespace Wubs\Trakt\Response;
 
 
 use League\OAuth2\Client\Token\AccessToken;
-use Wubs\Trakt\ClientId;
 use Wubs\Trakt\Request\Comments\DeleteComment;
-use Wubs\Trakt\Request\Parameters\CommentId;
 
 class Comment
 {
-    /**
-     * @var ClientId
-     */
     private $clientId;
     private $json;
     /**
@@ -49,10 +44,10 @@ class Comment
 
     /**
      * @param $json
-     * @param ClientId $clientId
+     * @param $clientId
      * @param AccessToken $token
      */
-    public function __construct($json, ClientId $clientId, AccessToken $token)
+    public function __construct($json, $clientId, AccessToken $token)
     {
         $this->clientId = $clientId;
         $this->json = $json;

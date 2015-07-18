@@ -10,24 +10,11 @@ use Wubs\Trakt\Provider\TraktProvider;
 class Auth
 {
     /**
-     * @var ClientId
+     * @param TraktProvider $provider
      */
-    private $clientId;
-    private $clientSecret;
-    private $redirectUrl;
-
-    /**
-     * @param ClientId $clientId
-     * @param $clientSecret
-     * @param $redirectUrl
-     */
-    public function __construct(ClientId $clientId, $clientSecret, $redirectUrl)
+    public function __construct(TraktProvider $provider)
     {
-        $this->clientId = $clientId;
-        $this->clientSecret = $clientSecret;
-        $this->redirectUrl = $redirectUrl;
-
-        $this->provider = $this->getProvider();
+        $this->provider = $provider;
     }
 
     public function authorize()
@@ -36,7 +23,7 @@ class Auth
         return $this->provider->authorize();
     }
 
-    public function getToken($code)
+    public function token($code)
     {
         try {
             $params = ["code" => $code];
@@ -44,14 +31,6 @@ class Auth
         } catch (\Exception $exception) {
             throw new InvalidOauthRequestException;
         }
-    }
-
-    /**
-     * @return TraktProvider
-     */
-    private function getProvider()
-    {
-        return new TraktProvider($this->clientId, $this->clientSecret, $this->redirectUrl);
     }
 
     public function isValid()
@@ -64,7 +43,7 @@ class Auth
         unset($_SESSION['trakt_oauth_state']);
     }
 
-    public function refreshAccessToken($refreshToken)
+    public function refresh($refreshToken)
     {
         $params = ['refresh_token' => $refreshToken, 'code' => $refreshToken];
         return $this->provider->getAccessToken("refresh_token", $params);

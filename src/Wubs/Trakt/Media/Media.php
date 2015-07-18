@@ -10,9 +10,7 @@ namespace Wubs\Trakt\Media;
 
 
 use GuzzleHttp\ClientInterface;
-use League\OAuth2\Client\Token\AccessToken;
-use Wubs\Trakt\ClientId;
-use Wubs\Trakt\Request\Calendars\MyShows;
+use League\OAuth2\Client\Token\AccessToken;;
 use Wubs\Trakt\Request\CheckIn\Create;
 use Wubs\Trakt\Request\CheckIn\Delete;
 use Wubs\Trakt\Request\Comments\PostComment;
@@ -45,14 +43,14 @@ abstract class Media
 
     /**
      * @param $json
-     * @param $ClientId
+     * @param $Id
      * @param AccessToken $token
      * @param ClientInterface $client
      */
-    public function __construct($json, $ClientId, AccessToken $token, ClientInterface $client)
+    public function __construct($json, $Id, AccessToken $token, ClientInterface $client)
     {
         $this->json = $json;
-        $this->id = $ClientId;
+        $this->id = $Id;
         $this->token = $token;
         $this->client = $client;
 

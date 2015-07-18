@@ -96,35 +96,27 @@ class Trakt
 
 
     private $clientId;
+    /**
+     * @var TraktProvider
+     */
+    public $auth;
 
     /**
      * @param $clientId
      * @param ClientInterface $client
+     * @param Auth $auth
      */
-    public function __construct($clientId, ClientInterface $client)
+    public function __construct($clientId, ClientInterface $client, Auth $auth)
     {
         $this->client = $client;
         $this->clientId = $clientId;
+        $this->auth = $auth;
         $this->createWrappers();
     }
 
 
     /**
-     * @param $clientId
-     * @param $clientSecret
-     * @param $redirectUrl
-     * @return Auth
-     */
-    public static function auth($clientId, $clientSecret, $redirectUrl)
-    {
-        return new Auth(ClientId::set($clientId), $clientSecret, $redirectUrl);
-    }
-
-
-    /**
      * Creates the wrappers for all public properties and sets them.
-     * When a public property is added, there should be a class representing
-     * the property inside Wubs\Trakt\Api, otherwise it throws an ReflectionException
      */
     private function createWrappers()
     {

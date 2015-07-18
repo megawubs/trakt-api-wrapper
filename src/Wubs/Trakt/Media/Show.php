@@ -10,7 +10,6 @@ namespace Wubs\Trakt\Media;
 
 
 use League\OAuth2\Client\Token\AccessToken;
-use Wubs\Trakt\ClientId;
 
 class Show extends Media
 {

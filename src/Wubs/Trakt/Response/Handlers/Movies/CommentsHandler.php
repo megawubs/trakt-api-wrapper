@@ -39,7 +39,7 @@ class CommentsHandler extends AbstractResponseHandler implements ResponseHandler
         $comments = [];
 
         foreach ($json as $item) {
-            $comments[] = new Comment($item, $this->getId(), $this->getToken());
+            $comments[] = new Comment($item, $this->getClientId(), $this->getToken());
         }
         return $comments;
     }

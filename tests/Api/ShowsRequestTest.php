@@ -3,6 +3,7 @@
 
 use Carbon\Carbon;
 use Wubs\Trakt\Api;
+use Wubs\Trakt\Auth;
 use Wubs\Trakt\Trakt;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Message\RequestInterface;
@@ -33,7 +34,9 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
         $response->shouldReceive("json")->once()->andReturn([]);
         $client->shouldReceive("send")->andReturn($response);
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+        $auth = Mockery::mock(Auth::class);
+
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
 
         $aliases = $trakt->shows->aliases($this->id);
 
@@ -51,7 +54,9 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
         $response->shouldReceive("json")->once()->andReturn([]);
         $client->shouldReceive("send")->andReturn($response);
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+        $auth = Mockery::mock(Auth::class);
+
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
 
         $comments = $trakt->shows->comments($this->id, get_token());
 
@@ -69,7 +74,9 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
         $response->shouldReceive("json")->once()->andReturn([]);
         $client->shouldReceive("send")->andReturn($response);
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+        $auth = Mockery::mock(Auth::class);
+
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
 
         $people = $trakt->shows->people($this->id);
 
@@ -87,7 +94,9 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
         $response->shouldReceive("json")->once()->andReturn([]);
         $client->shouldReceive("send")->andReturn($response);
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+        $auth = Mockery::mock(Auth::class);
+
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
 
         $popular = $trakt->shows->popular();
 
@@ -105,7 +114,9 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
         $response->shouldReceive("json")->once()->andReturn([]);
         $client->shouldReceive("send")->andReturn($response);
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+        $auth = Mockery::mock(Auth::class);
+
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
 
         $ratings = $trakt->shows->ratings($this->id);
 
@@ -123,7 +134,9 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
         $response->shouldReceive("json")->once()->andReturn([]);
         $client->shouldReceive("send")->andReturn($response);
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+        $auth = Mockery::mock(Auth::class);
+
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
 
         $res = $trakt->shows->related($this->id);
 
@@ -141,7 +154,9 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
         $response->shouldReceive("json")->once()->andReturn([]);
         $client->shouldReceive("send")->andReturn($response);
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+        $auth = Mockery::mock(Auth::class);
+
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
 
         $stats = $trakt->shows->stats($this->id);
 
@@ -159,7 +174,9 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
         $response->shouldReceive("json")->once()->andReturn([]);
         $client->shouldReceive("send")->andReturn($response);
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+        $auth = Mockery::mock(Auth::class);
+
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
 
         $res = $trakt->shows->summary($this->id);
 
@@ -177,7 +194,9 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
         $response->shouldReceive("json")->once()->andReturn([]);
         $client->shouldReceive("send")->andReturn($response);
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+        $auth = Mockery::mock(Auth::class);
+
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
 
         $res = $trakt->shows->translations($this->id, "NL");
 
@@ -195,7 +214,9 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
         $response->shouldReceive("json")->once()->andReturn([]);
         $client->shouldReceive("send")->andReturn($response);
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+        $auth = Mockery::mock(Auth::class);
+
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
 
         $res = $trakt->shows->trending();
 
@@ -213,7 +234,9 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
         $response->shouldReceive("json")->once()->andReturn([]);
         $client->shouldReceive("send")->andReturn($response);
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+        $auth = Mockery::mock(Auth::class);
+
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
 
         $res = $trakt->shows->updates(Carbon::now());
 
@@ -231,7 +254,9 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
         $response->shouldReceive("json")->once()->andReturn([]);
         $client->shouldReceive("send")->andReturn($response);
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+        $auth = Mockery::mock(Auth::class);
+
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
 
         $res = $trakt->shows->watching($this->id);
 

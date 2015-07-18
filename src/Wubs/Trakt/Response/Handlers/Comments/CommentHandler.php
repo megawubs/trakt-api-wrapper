@@ -27,6 +27,6 @@ class CommentHandler extends AbstractResponseHandler implements ResponseHandler
     {
         $response = $this->getJson($response);
 
-        return new Comment($response, $this->getId(), $this->getToken());
+        return new Comment($response, $this->getClientId(), $this->getToken());
     }
 }

@@ -41,7 +41,7 @@ class TextSearchHandler extends AbstractResponseHandler implements ResponseHandl
      */
     protected function toMedia($item)
     {
-        $id = $this->getId();
+        $id = $this->getClientId();
         $token = $this->getToken();
 
         if ($this->isMovie($item)) {

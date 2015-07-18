@@ -7,14 +7,14 @@ use GuzzleHttp\Message\RequestInterface;
 use GuzzleHttp\Message\ResponseInterface;
 use Mockery\Mock;
 use Wubs\Trakt\Api;
+use Wubs\Trakt\Auth;
 use Wubs\Trakt\Response\CheckIn;
 use Wubs\Trakt\Trakt;
 
 class ApiTest extends PHPUnit_Framework_TestCase
 {
-
     /**
-     * @var Api
+     * @var Trakt
      */
     protected $trakt;
 
@@ -32,7 +32,9 @@ class ApiTest extends PHPUnit_Framework_TestCase
     {
         $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
 
-        $this->trakt = new Trakt(get_client_id(), $client);
+        $auth = Mockery::mock(Auth::class);
+
+        $this->trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
 
         $this->today = Carbon::today(new DateTimeZone("Europe/Amsterdam"));
     }
@@ -49,7 +51,9 @@ class ApiTest extends PHPUnit_Framework_TestCase
         $client->shouldReceive("createRequest")->once()->andReturn($request);
         $client->shouldReceive("send")->once()->andReturn($response);
 
-        $trakt = new Trakt(get_client_id(), $client);
+        $auth = Mockery::mock(Auth::class);
+
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
 
         $calendars = $trakt->calendars;
 
@@ -89,7 +93,9 @@ class ApiTest extends PHPUnit_Framework_TestCase
 
         $client->shouldReceive("send")->once()->andReturn($response);
 
-        $trakt = new Trakt(get_client_id(), $client);
+        $auth = Mockery::mock(Auth::class);
+
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
 
         $checkIn = $trakt->checkIn;
         $this->assertInstanceOf("Wubs\\Trakt\\Api\\CheckIn", $checkIn);
@@ -130,44 +136,37 @@ class ApiTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf("Wubs\\Trakt\\Api\\Movies", $this->trakt->movies);
     }
 
-    public
-    function testPeople()
+    public function testPeople()
     {
         $this->assertInstanceOf("Wubs\\Trakt\\Api\\People", $this->trakt->people);
     }
 
-    public
-    function testRecommendations()
+    public function testRecommendations()
     {
         $this->assertInstanceOf("Wubs\\Trakt\\Api\\Recommendations", $this->trakt->recommendations);
     }
 
-    public
-    function testScrobble()
+    public function testScrobble()
     {
         $this->assertInstanceOf("Wubs\\Trakt\\Api\\Scrobble", $this->trakt->scrobble);
     }
 
-    public
-    function testSearch()
+    public function testSearch()
     {
         $this->assertInstanceOf("Wubs\\Trakt\\Api\\Search", $this->trakt->search);
     }
 
-    public
-    function testSeasons()
+    public function testSeasons()
     {
         $this->assertInstanceOf("Wubs\\Trakt\\Api\\Seasons", $this->trakt->seasons);
     }
 
-    public
-    function testShows()
+    public function testShows()
     {
         $this->assertInstanceOf("Wubs\\Trakt\\Api\\Shows", $this->trakt->shows);
     }
 
-    public
-    function testUsers()
+    public function testUsers()
     {
         $this->assertInstanceOf("Wubs\\Trakt\\Api\\Users", $this->trakt->users);
     }

@@ -11,7 +11,6 @@ namespace Wubs\Trakt\Response\Calendar;
 
 use GuzzleHttp\ClientInterface;
 use League\OAuth2\Client\Token\AccessToken;
-use Wubs\Trakt\ClientId;
 use Wubs\Trakt\Request\Parameters\Type;
 
 class Calendar

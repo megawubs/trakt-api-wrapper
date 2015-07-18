@@ -1,6 +1,6 @@
 {
   "name": "wubs/trakt",
-  "description": "Trakt api wrapper for php",
+  "description": "Trakt API wrapper",
   "authors": [
     {
       "name": "megawubs",
@@ -14,19 +14,23 @@
     "nesbot/carbon": "~1",
     "guzzlehttp/guzzle": "~5",
     "league/oauth2-client": "~0.8",
-    "league/url": "^3.3",
-    "mockery/mockery": "^0.9.4"
+    "league/url": "^3.3"
   },
   "require-dev": {
     "vlucas/phpdotenv": "^2.0",
     "phpunit/phpunit": "4.4.*",
+    "mockery/mockery": "^0.9.4",
     "symfony/console": "^2.7",
     "league/flysystem": "^1.0",
     "psr/log": "^1.0"
   },
   "autoload": {
-    "psr-0": {"Wubs": "src/"},
-    "classmap": ["tests"]
+    "psr-0": {
+      "Wubs": "src/"
+    },
+    "classmap": [
+      "tests"
+    ]
   },
   "bin": [
     "bin/trakt"

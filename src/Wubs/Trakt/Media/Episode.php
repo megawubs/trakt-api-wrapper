@@ -9,8 +9,8 @@
 namespace Wubs\Trakt\Media;
 
 
+use GuzzleHttp\ClientInterface;
 use League\OAuth2\Client\Token\AccessToken;
-use Wubs\Trakt\ClientId;
 
 class Episode extends Media
 {
@@ -22,9 +22,9 @@ class Episode extends Media
      */
     protected $show;
 
-    public function __construct($json, ClientId $clientClientId, AccessToken $token)
+    public function __construct($json, $clientId, AccessToken $token, ClientInterface $client)
     {
-        parent::__construct($json, $clientClientId, $token);
+        parent::__construct($json, $clientId, $token, $client);
         $this->episode = $this->json->episode;
     }
 

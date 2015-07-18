@@ -17,7 +17,7 @@ To get your OAuth token, do the following
 
 ```PHP
 <?php
-$auth = Trakt::auth($clientId, $clientSecret, $redirectUrl);
+$auth = $trakt->authorize($clientId, $clientSecret, $redirectUrl);
 ```
  
 The redirect url is where you have to specify the url Trakt is going to send you the code to obtain an access code. 

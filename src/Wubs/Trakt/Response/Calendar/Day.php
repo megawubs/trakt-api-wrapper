@@ -12,7 +12,6 @@ namespace Wubs\Trakt\Response\Calendar;
 use Carbon\Carbon;
 use GuzzleHttp\ClientInterface;
 use League\OAuth2\Client\Token\AccessToken;
-use Wubs\Trakt\ClientId;
 use Wubs\Trakt\Media\Media;
 use Wubs\Trakt\Media\Movie;
 use Wubs\Trakt\Media\Show;
@@ -30,9 +29,7 @@ class Day
      * @var Media[]
      */
     public $releases = [];
-    /**
-     * @var ClientId
-     */
+
     private $id;
     /**
      * @var AccessToken

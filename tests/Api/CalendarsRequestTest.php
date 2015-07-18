@@ -6,6 +6,7 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Message\RequestInterface;
 use GuzzleHttp\Message\ResponseInterface;
 use Wubs\Trakt\Api;
+use Wubs\Trakt\Auth;
 use Wubs\Trakt\Trakt;
 
 class CalendarsRequestTest extends PHPUnit_Framework_TestCase
@@ -38,7 +39,9 @@ class CalendarsRequestTest extends PHPUnit_Framework_TestCase
         $response->shouldReceive("json")->once()->andReturn([]);
         $client->shouldReceive("send")->andReturn($response);
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+        $auth = Mockery::mock(Auth::class);
+
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
 
         $res = $trakt->calendars->myShows(get_token(), $this->today, 7);
 
@@ -56,7 +59,9 @@ class CalendarsRequestTest extends PHPUnit_Framework_TestCase
         $response->shouldReceive("json")->once()->andReturn([]);
         $client->shouldReceive("send")->andReturn($response);
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+        $auth = Mockery::mock(Auth::class);
+
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
 
         $res = $trakt->calendars->myNewShows(get_token(), $this->today, 7);
 
@@ -74,7 +79,9 @@ class CalendarsRequestTest extends PHPUnit_Framework_TestCase
         $response->shouldReceive("json")->once()->andReturn([]);
         $client->shouldReceive("send")->andReturn($response);
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+        $auth = Mockery::mock(Auth::class);
+
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
 
         $res = $trakt->calendars->mySeasonPremieres(get_token(), $this->today, 7);
 
@@ -92,7 +99,9 @@ class CalendarsRequestTest extends PHPUnit_Framework_TestCase
         $response->shouldReceive("json")->once()->andReturn([]);
         $client->shouldReceive("send")->andReturn($response);
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+        $auth = Mockery::mock(Auth::class);
+
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
 
         $res = $trakt->calendars->myMovies(get_token(), $this->today, 7);
 
@@ -110,7 +119,9 @@ class CalendarsRequestTest extends PHPUnit_Framework_TestCase
         $response->shouldReceive("json")->once()->andReturn([]);
         $client->shouldReceive("send")->andReturn($response);
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client);
+        $auth = Mockery::mock(Auth::class);
+
+        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
 
         $res = $trakt->calendars->allShows(get_token(), $this->today, 7);
 

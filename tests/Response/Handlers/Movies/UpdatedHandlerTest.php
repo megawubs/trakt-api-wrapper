@@ -3,7 +3,6 @@
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Message\RequestInterface;
 use GuzzleHttp\Message\ResponseInterface;
-use Wubs\Trakt\ClientId;
 use Wubs\Trakt\Response\Handlers\Movies\UpdatedHandler;
 use Wubs\Trakt\Response\Updated;
 
@@ -63,7 +62,7 @@ class UpdatedHandlerTest extends PHPUnit_Framework_TestCase
 
         $handler = new UpdatedHandler();
 
-        $handler->setId(ClientId::set(getenv("CLIENT_ID")));
+        $handler->setClientId(getenv("CLIENT_ID"));
         $handler->setToken(get_token());
 
         $updates = $handler->handle($response, $client);

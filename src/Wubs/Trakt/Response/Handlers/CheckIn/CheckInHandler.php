@@ -28,6 +28,6 @@ class CheckInHandler extends AbstractResponseHandler implements ResponseHandler
     {
         $object = $this->getJson($response);
 
-        return new CheckIn($object, $this->getId(), $this->getToken(), $client);
+        return new CheckIn($object, $this->getClientId(), $this->getToken(), $client);
     }
 }

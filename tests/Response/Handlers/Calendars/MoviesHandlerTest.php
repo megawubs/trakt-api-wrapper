@@ -74,7 +74,7 @@ class MoviesHandlerTest extends PHPUnit_Framework_TestCase
         $client->shouldReceive("send")->andReturn($response);
         $moviesHandler = new MoviesHandler();
 
-        $moviesHandler->setId(get_client_id());
+        $moviesHandler->setClientId(get_client_id());
         $moviesHandler->setToken(get_token());
 
         $handled = $moviesHandler->handle($response, $client);
