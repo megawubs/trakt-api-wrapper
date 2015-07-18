@@ -20,9 +20,10 @@ class CommentHandler extends AbstractResponseHandler implements ResponseHandler
 
     /**
      * @param ResponseInterface $response
+     * @param \GuzzleHttp\ClientInterface|GuzzleHttp\ClientInterface $client
      * @return Comment
      */
-    public function handle(ResponseInterface $response)
+    public function handle(ResponseInterface $response, \GuzzleHttp\ClientInterface $client)
     {
         $response = $this->getJson($response);
 

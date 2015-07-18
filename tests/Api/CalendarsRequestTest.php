@@ -2,6 +2,9 @@
 
 
 use Carbon\Carbon;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Message\RequestInterface;
+use GuzzleHttp\Message\ResponseInterface;
 use Wubs\Trakt\Api;
 use Wubs\Trakt\Trakt;
 
@@ -31,7 +34,10 @@ class CalendarsRequestTest extends PHPUnit_Framework_TestCase
         $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
 
         $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
         $response->shouldReceive("json")->once()->andReturn([]);
+        $client->shouldReceive("send")->andReturn($response);
+
         $trakt = new Trakt(getenv("CLIENT_ID"), $client);
 
         $res = $trakt->calendars->myShows(get_token(), $this->today, 7);
@@ -46,7 +52,10 @@ class CalendarsRequestTest extends PHPUnit_Framework_TestCase
         $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
 
         $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
         $response->shouldReceive("json")->once()->andReturn([]);
+        $client->shouldReceive("send")->andReturn($response);
+
         $trakt = new Trakt(getenv("CLIENT_ID"), $client);
 
         $res = $trakt->calendars->myNewShows(get_token(), $this->today, 7);
@@ -61,7 +70,10 @@ class CalendarsRequestTest extends PHPUnit_Framework_TestCase
         $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
 
         $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
         $response->shouldReceive("json")->once()->andReturn([]);
+        $client->shouldReceive("send")->andReturn($response);
+
         $trakt = new Trakt(getenv("CLIENT_ID"), $client);
 
         $res = $trakt->calendars->mySeasonPremieres(get_token(), $this->today, 7);
@@ -76,7 +88,10 @@ class CalendarsRequestTest extends PHPUnit_Framework_TestCase
         $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
 
         $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
         $response->shouldReceive("json")->once()->andReturn([]);
+        $client->shouldReceive("send")->andReturn($response);
+
         $trakt = new Trakt(getenv("CLIENT_ID"), $client);
 
         $res = $trakt->calendars->myMovies(get_token(), $this->today, 7);
@@ -91,10 +106,13 @@ class CalendarsRequestTest extends PHPUnit_Framework_TestCase
         $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
 
         $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
         $response->shouldReceive("json")->once()->andReturn([]);
+        $client->shouldReceive("send")->andReturn($response);
+
         $trakt = new Trakt(getenv("CLIENT_ID"), $client);
 
-        $res = $trakt->calendars->allShows($this->today, 7);
+        $res = $trakt->calendars->allShows(get_token(), $this->today, 7);
 
         $this->assertInternalType("array", $res);
     }

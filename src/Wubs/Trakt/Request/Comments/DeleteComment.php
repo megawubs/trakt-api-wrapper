@@ -1,6 +1,7 @@
 <?php
 namespace Wubs\Trakt\Request\Comments;
 
+use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\RequestType;
 use Wubs\Trakt\Response\Handlers\DefaultDeleteHandler;
@@ -19,12 +20,14 @@ class DeleteComment extends AbstractRequest
     private $commentId;
 
     /**
+     * @param AccessToken $token
      * @param $commentId
      */
-    public function __construct($commentId)
+    public function __construct(AccessToken $token, $commentId)
     {
         parent::__construct();
         $this->commentId = $commentId;
+        $this->setToken($token);
         $this->setResponseHandler(new DefaultDeleteHandler());
     }
 

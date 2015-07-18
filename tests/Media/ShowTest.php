@@ -1,4 +1,5 @@
 <?php
+use GuzzleHttp\ClientInterface;
 use Wubs\Trakt\Media\Show;
 
 /**
@@ -9,6 +10,10 @@ use Wubs\Trakt\Media\Show;
  */
 class ShowTest extends PHPUnit_Framework_TestCase
 {
+    protected function tearDown()
+    {
+        Mockery::close();
+    }
 
     public function testCanProcessSearchResult()
     {
@@ -41,10 +46,10 @@ class ShowTest extends PHPUnit_Framework_TestCase
     }
   }
 }';
-        $mockResponse = new MockResponse($json);
+        $mockResponse = new TestResponse($json);
         $json = $mockResponse->json(['object' => true]);
-
-        $show = new Show($json, get_client_id(), get_token());
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $show = new Show($json, get_client_id(), get_token(), $client);
 
         $this->assertEquals("Breaking Bad", $show->title);
 

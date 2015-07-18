@@ -61,16 +61,7 @@ class ApiTest extends PHPUnit_Framework_TestCase
 
     public function testCheckIn()
     {
-        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
-        $request = Mockery::mock(stdClass::class . ", " . RequestInterface::class);
-        $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
-
-        $client->shouldReceive("createRequest")->once()->andReturn($request);
-        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
-        $response->shouldReceive("json")->once()->andReturn(
-            new CheckIn(
-                json_decode(
-                    '{
+        $json = '{
   "watched_at": "2014-08-06T01:11:37.953Z",
   "sharing": {
     "facebook": true,
@@ -87,10 +78,14 @@ class ApiTest extends PHPUnit_Framework_TestCase
       "tmdb": 118340
     }
   }
-}'
-                ), get_client_id(), get_token()
-            )
-        );
+}';
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $request = Mockery::mock(stdClass::class . ", " . RequestInterface::class);
+        $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
+
+        $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
+        $response->shouldReceive("json")->once()->andReturn(json_decode($json));
 
         $client->shouldReceive("send")->once()->andReturn($response);
 
@@ -98,10 +93,9 @@ class ApiTest extends PHPUnit_Framework_TestCase
 
         $checkIn = $trakt->checkIn;
         $this->assertInstanceOf("Wubs\\Trakt\\Api\\CheckIn", $checkIn);
-//
         $response = $checkIn->create(
             get_token(),
-            movie(),
+            movie($client),
             [
                 'facebook' => false,
                 'twitter' => false,

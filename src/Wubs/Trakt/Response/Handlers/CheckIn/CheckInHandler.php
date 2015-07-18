@@ -9,6 +9,7 @@
 namespace Wubs\Trakt\Response\Handlers\CheckIn;
 
 
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Message\ResponseInterface;
 use Wubs\Trakt\Contracts\ResponseHandler;
 use Wubs\Trakt\Response\CheckIn;
@@ -19,12 +20,14 @@ class CheckInHandler extends AbstractResponseHandler implements ResponseHandler
 
     /**
      * @param ResponseInterface $response
+     * @param ClientInterface|GuzzleHttp\ClientInterface $client
      * @return CheckIn
+     * @internal param ClientInterface $client
      */
-    public function handle(ResponseInterface $response)
+    public function handle(ResponseInterface $response, \GuzzleHttp\ClientInterface $client)
     {
         $object = $this->getJson($response);
 
-        return new CheckIn($object, $this->getId(), $this->getToken());
+        return new CheckIn($object, $this->getId(), $this->getToken(), $client);
     }
 }

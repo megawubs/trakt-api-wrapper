@@ -17,8 +17,8 @@ use Wubs\Trakt\Response\Updated;
 class UpdatedHandler extends AbstractResponseHandler implements ResponseHandler
 {
 
-    public function handle(ResponseInterface $response)
+    public function handle(ResponseInterface $response, \GuzzleHttp\ClientInterface $client)
     {
-        return $this->transformToObjects($response, Updated::class);
+        return $this->transformToObjects($response, Updated::class, $client);
     }
 }

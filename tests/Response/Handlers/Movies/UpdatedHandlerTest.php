@@ -1,5 +1,8 @@
 <?php
 
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Message\RequestInterface;
+use GuzzleHttp\Message\ResponseInterface;
 use Wubs\Trakt\ClientId;
 use Wubs\Trakt\Response\Handlers\Movies\UpdatedHandler;
 use Wubs\Trakt\Response\Updated;
@@ -12,6 +15,11 @@ use Wubs\Trakt\Response\Updated;
  */
 class UpdatedHandlerTest extends PHPUnit_Framework_TestCase
 {
+    protected function tearDown()
+    {
+        Mockery::close();
+    }
+
 
     public function testResponseHandlerConvertsResponseToUpdatedObjects()
     {
@@ -43,14 +51,22 @@ class UpdatedHandlerTest extends PHPUnit_Framework_TestCase
                 }
               }
             ]';
-        $response = new MockResponse($json);
+
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $request = Mockery::mock(stdClass::class . ", " . RequestInterface::class);
+        $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
+
+//        $client->shouldReceive("createRequest")->once()->andReturn($request);
+//        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
+        $response->shouldReceive("json")->once()->andReturn(json_decode($json));
+        $client->shouldReceive("send")->andReturn($response);
 
         $handler = new UpdatedHandler();
 
         $handler->setId(ClientId::set(getenv("CLIENT_ID")));
         $handler->setToken(get_token());
 
-        $updates = $handler->handle($response);
+        $updates = $handler->handle($response, $client);
 
         $this->assertInstanceOf(Updated::class, $updates[0]);
     }

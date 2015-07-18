@@ -9,6 +9,7 @@
 */
 namespace Wubs\Trakt\Api;
 
+use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Request\Comments\DeleteComment as DeleteCommentRequest;
 use Wubs\Trakt\Request\Comments\GetComment as GetCommentRequest;
 use Wubs\Trakt\Request\Comments\Like as LikeRequest;
@@ -19,9 +20,9 @@ use Wubs\Trakt\Request\Comments\UpdateComment as UpdateCommentRequest;
 
 class Comments extends Endpoint {
 
-    public function deleteComment($commentId)
+    public function deleteComment(AccessToken $token, $commentId)
     {
-        return $this->request(new DeleteCommentRequest($commentId));
+        return $this->request(new DeleteCommentRequest($token, $commentId));
     }
 
 	public function getComment($commentId)

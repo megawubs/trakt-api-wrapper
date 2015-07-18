@@ -1,4 +1,7 @@
 <?php
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Message\RequestInterface;
+use GuzzleHttp\Message\ResponseInterface;
 use Wubs\Trakt\Media\Movie;
 use Wubs\Trakt\Request\CheckIn\Create;
 use Wubs\Trakt\Request\Parameters\Query;
@@ -12,9 +15,16 @@ use Wubs\Trakt\Request\RequestType;
  */
 class MovieCheckInTest extends PHPUnit_Framework_TestCase
 {
+    protected function tearDown()
+    {
+        Mockery::close();
+    }
+
     public function testStaticCall()
     {
-        $request = new Create(movie());
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+
+        $request = new Create(get_token(), movie($client), [], "Awesome Movie!", null, null, null, null);
 
         $url = $request->getUrl();
 

@@ -1,4 +1,5 @@
 <?php
+use GuzzleHttp\ClientInterface;
 use Wubs\Trakt\Media\Media;
 use Wubs\Trakt\Media\Show;
 use Wubs\Trakt\Request\Parameters\Type;
@@ -12,6 +13,11 @@ use Wubs\Trakt\Response\Calendar\Day;
  */
 class DayTest extends PHPUnit_Framework_TestCase
 {
+    protected function tearDown()
+    {
+        Mockery::close();
+    }
+
 
     public function testHasReleasesOfTheDayAsMediaObject()
     {
@@ -42,11 +48,10 @@ class DayTest extends PHPUnit_Framework_TestCase
               }
             }
         ]}';
-        $response = new MockResponse($json);
-        $json = $response->json(["object" => true]);
-
+        $json = json_decode($json);
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
         foreach ($json as $date => $movies) {
-            $day = new Day($date, $movies, Type::movie(), get_client_id(), get_token());
+            $day = new Day($date, $movies, Type::movie(), get_client_id(), get_token(), $client);
         }
 
         $this->assertInstanceOf(Media::class, $day->releases[0]);
@@ -98,13 +103,13 @@ class DayTest extends PHPUnit_Framework_TestCase
               ]
             }';
 
-        $response = new MockResponse($json);
+        $response = new TestResponse($json);
         $json = $response->json(["object" => true]);
 
         $days = [];
-
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
         foreach ($json as $date => $movies) {
-            $days[] = new Day($date, $movies, Type::movie(), get_client_id(), get_token());
+            $days[] = new Day($date, $movies, Type::movie(), get_client_id(), get_token(), $client);
         }
 
         $this->assertInstanceOf(Day::class, $days[0]);
@@ -228,13 +233,14 @@ class DayTest extends PHPUnit_Framework_TestCase
     }
   ]
 }';
-        $mockResponse = new MockResponse($json);
+        $mockResponse = new TestResponse($json);
 
         $json = $mockResponse->json(['object' => true]);
 
         $days = [];
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
         foreach ($json as $date => $shows) {
-            $days[] = new Day($date, $shows, Type::show(), get_client_id(), get_token());
+            $days[] = new Day($date, $shows, Type::show(), get_client_id(), get_token(), $client);
         }
 
         $this->assertInstanceOf(Show::class, $days[0]->releases[0]);

@@ -1,4 +1,7 @@
 <?php
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Message\RequestInterface;
+use GuzzleHttp\Message\ResponseInterface;
 use Wubs\Trakt\Response\Calendar\Calendar;
 use Wubs\Trakt\Response\Calendar\Day;
 use Wubs\Trakt\Response\Handlers\Calendars\MoviesHandler;
@@ -11,6 +14,11 @@ use Wubs\Trakt\Response\Handlers\Calendars\MoviesHandler;
  */
 class MoviesHandlerTest extends PHPUnit_Framework_TestCase
 {
+
+    protected function tearDown()
+    {
+        Mockery::close();
+    }
 
     public function testParsesResponseToListOfMovies()
     {
@@ -57,13 +65,19 @@ class MoviesHandlerTest extends PHPUnit_Framework_TestCase
           ]
         }';
 
-        $mockResponse = new MockResponse($json);
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+
+        $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
+
+//        $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("json")->once()->andReturn(json_decode($json));
+        $client->shouldReceive("send")->andReturn($response);
         $moviesHandler = new MoviesHandler();
 
         $moviesHandler->setId(get_client_id());
         $moviesHandler->setToken(get_token());
 
-        $handled = $moviesHandler->handle($mockResponse);
+        $handled = $moviesHandler->handle($response, $client);
 
         $this->assertInstanceOf(Calendar::class, $handled);
         $this->assertInstanceOf(Day::class, $handled->days[0]);

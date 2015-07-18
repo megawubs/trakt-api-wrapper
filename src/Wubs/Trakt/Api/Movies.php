@@ -17,6 +17,7 @@ use Wubs\Trakt\Request\Movies\Ratings as RatingsRequest;
 use Wubs\Trakt\Request\Movies\Related as RelatedRequest;
 use Wubs\Trakt\Request\Movies\Releases as ReleasesRequest;
 use Wubs\Trakt\Request\Movies\Stats as StatsRequest;
+use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Request\Movies\Summary as SummaryRequest;
 use Wubs\Trakt\Request\Movies\Translations as TranslationsRequest;
 use Wubs\Trakt\Request\Movies\Trending as TrendingRequest;
@@ -64,14 +65,14 @@ class Movies extends Endpoint {
         return $this->request(new StatsRequest($mediaId));
     }
 
-	public function summary($mediaId)
+	public function summary(AccessToken $token, $mediaId)
     {
-        return $this->request(new SummaryRequest($mediaId));
+        return $this->request(new SummaryRequest($token, $mediaId));
     }
 
-	public function get($mediaId)
+	public function get(AccessToken $token, $mediaId)
     {
-        return $this->request(new SummaryRequest($mediaId));
+        return $this->request(new SummaryRequest($token, $mediaId));
     }
 
 	public function translations($mediaId, $language)

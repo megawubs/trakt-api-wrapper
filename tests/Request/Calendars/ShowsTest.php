@@ -18,14 +18,14 @@ class ShowsTest extends PHPUnit_Framework_TestCase
     public function testCanBuildRequestWithNoParameters()
     {
         $request = new MyNewShows(get_token());
-        $request->setToken(get_token());
+
         $today = Carbon::today();
-        $this->assertContains($today, (string)$request->getStartDate());
+        $this->assertContains($today->format("Y-m-d"), (string)$request->getStartDate());
     }
 
     public function testCallShowsRequestWith14Days()
     {
-        $request = new MyNewShows(get_token(), 14);
+        $request = new MyNewShows(get_token(), Carbon::today(), 14);
 
         $this->assertContains("14", (string)$request->getDays());
     }

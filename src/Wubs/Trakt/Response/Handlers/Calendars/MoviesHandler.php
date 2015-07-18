@@ -23,12 +23,13 @@ class MoviesHandler extends AbstractResponseHandler implements ResponseHandler
 
     /**
      * @param ResponseInterface $response
+     * @param \GuzzleHttp\ClientInterface|GuzzleHttp\ClientInterface $client
      * @return Calendar
      */
-    public function handle(ResponseInterface $response)
+    public function handle(ResponseInterface $response, \GuzzleHttp\ClientInterface $client)
     {
         $json = $this->getJson($response);
 
-        return new Calendar($json, Type::movie(), $this->getId(), $this->getToken());
+        return new Calendar($json, Type::movie(), $this->getId(), $this->getToken(), $client);
     }
 }

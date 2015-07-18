@@ -24,8 +24,6 @@ class MyMovies extends AbstractRequest
         parent::__construct();
         $this->setStartDate($startDate);
         $this->setDays($days);
-
-//        $this->setResponseHandler(new MoviesHandler());
         $this->setToken($accessToken);
     }
 

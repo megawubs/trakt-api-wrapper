@@ -1,7 +1,9 @@
 <?php
+use GuzzleHttp\Client;
 use Wubs\Trakt\Contracts\ExecutesRequest;
 use Wubs\Trakt\Request\DescribesRequest;
 use Wubs\Trakt\Trakt;
+use Wubs\Trakt\TraktHttpClient;
 
 /**
  * Created by PhpStorm.
@@ -17,7 +19,7 @@ class HowItShouldWorkTest extends PHPUnit_Framework_TestCase
      */
     public function testPublicAPIMovies()
     {
-        $trakt = Trakt::api(getenv("CLIENT_ID"));
+        $trakt = new Trakt(getenv("CLIENT_ID"), TraktHttpClient::make());
 
         $response = $trakt->movies->popular();
 

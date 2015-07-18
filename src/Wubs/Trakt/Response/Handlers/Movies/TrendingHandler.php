@@ -19,9 +19,10 @@ class TrendingHandler extends AbstractResponseHandler implements ResponseHandler
 
     /**
      * @param ResponseInterface $response
+     * @param \GuzzleHttp\ClientInterface|GuzzleHttp\ClientInterface $client
      * @return array
      */
-    public function handle(ResponseInterface $response)
+    public function handle(ResponseInterface $response, \GuzzleHttp\ClientInterface $client)
     {
         $json = $this->getJson($response);
 

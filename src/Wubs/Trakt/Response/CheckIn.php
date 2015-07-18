@@ -9,6 +9,7 @@
 namespace Wubs\Trakt\Response;
 
 
+use GuzzleHttp\ClientInterface;
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Media\Movie;
 
@@ -31,10 +32,11 @@ class CheckIn
      * @param $json
      * @param $id
      * @param AccessToken $token
+     * @param ClientInterface $client
      */
-    public function __construct($json, $id, AccessToken $token)
+    public function __construct($json, $id, AccessToken $token, ClientInterface $client)
     {
-        $this->movie = new Movie($json, $id, $token);
+        $this->movie = new Movie($json, $id, $token, $client);
         $this->sharing = $json->sharing;
 
         $this->id = $id;

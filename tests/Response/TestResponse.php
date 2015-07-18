@@ -5,7 +5,7 @@ use GuzzleHttp\Message\ResponseInterface;
 use GuzzleHttp\Stream\StreamInterface;
 use GuzzleHttp\Utils;
 
-class MockResponse implements ResponseInterface
+class TestResponse implements ResponseInterface
 {
 
     private $json;

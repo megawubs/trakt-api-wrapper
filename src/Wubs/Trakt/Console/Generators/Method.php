@@ -5,6 +5,7 @@ namespace Wubs\Trakt\Console\Generators;
 
 use Illuminate\Support\Collection;
 use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemInterface;
 use ReflectionClass;
 use ReflectionException;
 
@@ -33,10 +34,10 @@ class Method
 
     /**
      * @param ReflectionClass $reflection
-     * @param Filesystem $filesystem
+     * @param FilesystemInterface $filesystem
      * @param null $name
      */
-    public function __construct(ReflectionClass $reflection, Filesystem $filesystem, $name = null)
+    public function __construct(ReflectionClass $reflection, FilesystemInterface $filesystem, $name = null)
     {
 
         $this->reflection = $reflection;

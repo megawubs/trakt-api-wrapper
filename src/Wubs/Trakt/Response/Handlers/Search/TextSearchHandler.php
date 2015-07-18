@@ -21,7 +21,7 @@ use Wubs\Trakt\Response\Handlers\AbstractResponseHandler;
 class TextSearchHandler extends AbstractResponseHandler implements ResponseHandler
 {
 
-    public function handle(ResponseInterface $response)
+    public function handle(ResponseInterface $response, \GuzzleHttp\ClientInterface $client)
     {
         $items = $this->getJson($response);
 

@@ -12,6 +12,11 @@ use Wubs\Trakt\Request\Users\History;
 class HistoryTest extends PHPUnit_Framework_TestCase
 {
 
+    protected function tearDown()
+    {
+        Mockery::close();
+    }
+
     public function testThatItWorks()
     {
         $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
@@ -19,7 +24,9 @@ class HistoryTest extends PHPUnit_Framework_TestCase
         $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
 
         $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
         $response->shouldReceive("json")->once()->andReturn([]);
+        $client->shouldReceive("send")->andReturn($response);
 
         $clientId = ClientId::set(getenv("CLIENT_ID"));
 

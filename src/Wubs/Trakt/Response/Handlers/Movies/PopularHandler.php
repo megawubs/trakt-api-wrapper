@@ -19,9 +19,10 @@ class PopularHandler extends AbstractResponseHandler implements ResponseHandler
 
     /**
      * @param ResponseInterface $response
-     * @return Movie[]
+     * @param \GuzzleHttp\ClientInterface|GuzzleHttp\ClientInterface $client
+     * @return \Wubs\Trakt\Media\Movie[]
      */
-    public function handle(ResponseInterface $response)
+    public function handle(ResponseInterface $response, \GuzzleHttp\ClientInterface $client)
     {
         $json = $this->getJson($response);
 

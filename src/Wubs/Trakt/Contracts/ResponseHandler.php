@@ -12,7 +12,7 @@ use League\OAuth2\Client\Token\AccessToken;
  */
 interface ResponseHandler
 {
-    public function handle(ResponseInterface $response);
+    public function handle(ResponseInterface $response, \GuzzleHttp\ClientInterface $client);
 
     public function setId($id);
 

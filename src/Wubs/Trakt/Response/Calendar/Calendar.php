@@ -9,6 +9,7 @@
 namespace Wubs\Trakt\Response\Calendar;
 
 
+use GuzzleHttp\ClientInterface;
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\ClientId;
 use Wubs\Trakt\Request\Parameters\Type;
@@ -21,7 +22,7 @@ class Calendar
      */
     public $days = [];
     /**
-     * @var ClientId
+     * @var integer
      */
     private $id;
     /**
@@ -32,20 +33,26 @@ class Calendar
      * @var Type
      */
     private $type;
+    /**
+     * @var ClientInterface
+     */
+    private $client;
 
     /**
      * @param $json
      * @param Type $type
-     * @param ClientId $id
+     * @param $id
      * @param AccessToken $token
      */
-    public function __construct($json, Type $type, ClientId $id, $token)
+    public function __construct($json, Type $type, $id, $token, ClientInterface $client)
     {
         $this->id = $id;
         $this->token = $token;
         $this->type = $type;
+        $this->client = $client;
 
         $this->setDays($json);
+
     }
 
     /**
@@ -55,7 +62,7 @@ class Calendar
     private function setDays($json)
     {
         foreach ($json as $date => $movies) {
-            $this->days[] = new Day($date, $movies, $this->type, $this->id, $this->token);
+            $this->days[] = new Day($date, $movies, $this->type, $this->id, $this->token, $this->client);
         }
     }
 }

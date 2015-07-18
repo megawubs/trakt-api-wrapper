@@ -20,9 +20,10 @@ class Shows extends AbstractResponseHandler implements ResponseHandler
 {
     /**
      * @param ResponseInterface $response
-     * @return Day[]
+     * @param \GuzzleHttp\ClientInterface|GuzzleHttp\ClientInterface $client
+     * @return \Wubs\Trakt\Response\Calendar\Day[]
      */
-    public function handle(ResponseInterface $response)
+    public function handle(ResponseInterface $response, \GuzzleHttp\ClientInterface $client)
     {
         $json = $this->getJson($response);
 

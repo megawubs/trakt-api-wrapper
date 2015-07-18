@@ -9,6 +9,7 @@
 namespace Wubs\Trakt\Media;
 
 
+use GuzzleHttp\ClientInterface;
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\ClientId;
 use Wubs\Trakt\Request\Calendars\MyShows;
@@ -37,21 +38,28 @@ abstract class Media
     protected $token;
 
     protected $type;
+    /**
+     * @var ClientInterface
+     */
+    private $client;
 
     /**
      * @param $json
      * @param $ClientId
      * @param AccessToken $token
+     * @param ClientInterface $client
      */
-    public function __construct($json, $ClientId, AccessToken $token)
+    public function __construct($json, $ClientId, AccessToken $token, ClientInterface $client)
     {
         $this->json = $json;
         $this->id = $ClientId;
         $this->token = $token;
+        $this->client = $client;
 
         $this->media = $this->getMedia($json);
 
         $this->setMediaFields();
+
     }
 
     public function json()
@@ -88,9 +96,9 @@ abstract class Media
         $appVersion,
         $appDate
     ) {
-        return new Create(
+        return (
+        new Create(
             $this->token,
-            $this->id,
             $this,
             $sharing,
             $message,
@@ -98,7 +106,8 @@ abstract class Media
             $venueName,
             $appVersion,
             $appDate
-        );
+        )
+        )->make($this->id, $this->client);
     }
 
     public function checkOut()

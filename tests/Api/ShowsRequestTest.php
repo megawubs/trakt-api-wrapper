@@ -1,8 +1,12 @@
 <?php
 
 
+use Carbon\Carbon;
 use Wubs\Trakt\Api;
 use Wubs\Trakt\Trakt;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Message\RequestInterface;
+use GuzzleHttp\Message\ResponseInterface;
 
 class ShowsRequestTest extends PHPUnit_Framework_TestCase
 {
@@ -25,7 +29,10 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
         $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
 
         $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
         $response->shouldReceive("json")->once()->andReturn([]);
+        $client->shouldReceive("send")->andReturn($response);
+
         $trakt = new Trakt(getenv("CLIENT_ID"), $client);
 
         $aliases = $trakt->shows->aliases($this->id);
@@ -40,7 +47,10 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
         $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
 
         $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
         $response->shouldReceive("json")->once()->andReturn([]);
+        $client->shouldReceive("send")->andReturn($response);
+
         $trakt = new Trakt(getenv("CLIENT_ID"), $client);
 
         $comments = $trakt->shows->comments($this->id, get_token());
@@ -55,12 +65,15 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
         $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
 
         $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
         $response->shouldReceive("json")->once()->andReturn([]);
+        $client->shouldReceive("send")->andReturn($response);
+
         $trakt = new Trakt(getenv("CLIENT_ID"), $client);
 
         $people = $trakt->shows->people($this->id);
 
-        $this->assertInternalType("object", $people);
+        $this->assertInternalType("array", $people);
     }
 
     public function testPopular()
@@ -70,7 +83,10 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
         $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
 
         $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
         $response->shouldReceive("json")->once()->andReturn([]);
+        $client->shouldReceive("send")->andReturn($response);
+
         $trakt = new Trakt(getenv("CLIENT_ID"), $client);
 
         $popular = $trakt->shows->popular();
@@ -85,12 +101,15 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
         $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
 
         $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
         $response->shouldReceive("json")->once()->andReturn([]);
+        $client->shouldReceive("send")->andReturn($response);
+
         $trakt = new Trakt(getenv("CLIENT_ID"), $client);
 
         $ratings = $trakt->shows->ratings($this->id);
 
-        $this->assertInternalType("object", $ratings);
+        $this->assertInternalType("array", $ratings);
     }
 
     public function testRelated()
@@ -100,7 +119,10 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
         $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
 
         $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
         $response->shouldReceive("json")->once()->andReturn([]);
+        $client->shouldReceive("send")->andReturn($response);
+
         $trakt = new Trakt(getenv("CLIENT_ID"), $client);
 
         $res = $trakt->shows->related($this->id);
@@ -115,12 +137,15 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
         $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
 
         $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
         $response->shouldReceive("json")->once()->andReturn([]);
+        $client->shouldReceive("send")->andReturn($response);
+
         $trakt = new Trakt(getenv("CLIENT_ID"), $client);
 
         $stats = $trakt->shows->stats($this->id);
 
-        $this->assertInternalType("object", $stats);
+        $this->assertInternalType("array", $stats);
     }
 
     public function testSummary()
@@ -130,12 +155,15 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
         $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
 
         $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
         $response->shouldReceive("json")->once()->andReturn([]);
+        $client->shouldReceive("send")->andReturn($response);
+
         $trakt = new Trakt(getenv("CLIENT_ID"), $client);
 
         $res = $trakt->shows->summary($this->id);
 
-        $this->assertInternalType("object", $res);
+        $this->assertInternalType("array", $res);
     }
 
     public function testTranslations()
@@ -145,7 +173,10 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
         $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
 
         $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
         $response->shouldReceive("json")->once()->andReturn([]);
+        $client->shouldReceive("send")->andReturn($response);
+
         $trakt = new Trakt(getenv("CLIENT_ID"), $client);
 
         $res = $trakt->shows->translations($this->id, "NL");
@@ -160,10 +191,13 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
         $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
 
         $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
         $response->shouldReceive("json")->once()->andReturn([]);
+        $client->shouldReceive("send")->andReturn($response);
+
         $trakt = new Trakt(getenv("CLIENT_ID"), $client);
 
-        $res = $trakt->shows->trending(get_token());
+        $res = $trakt->shows->trending();
 
         $this->assertInternalType("array", $res);
     }
@@ -175,10 +209,13 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
         $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
 
         $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
         $response->shouldReceive("json")->once()->andReturn([]);
+        $client->shouldReceive("send")->andReturn($response);
+
         $trakt = new Trakt(getenv("CLIENT_ID"), $client);
 
-        $res = $trakt->shows->updates();
+        $res = $trakt->shows->updates(Carbon::now());
 
         $this->assertInternalType("array", $res);
     }
@@ -190,7 +227,10 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
         $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
 
         $client->shouldReceive("createRequest")->once()->andReturn($request);
+        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
         $response->shouldReceive("json")->once()->andReturn([]);
+        $client->shouldReceive("send")->andReturn($response);
+
         $trakt = new Trakt(getenv("CLIENT_ID"), $client);
 
         $res = $trakt->shows->watching($this->id);

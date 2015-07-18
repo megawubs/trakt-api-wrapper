@@ -10,6 +10,7 @@ namespace Wubs\Trakt\Response\Calendar;
 
 
 use Carbon\Carbon;
+use GuzzleHttp\ClientInterface;
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\ClientId;
 use Wubs\Trakt\Media\Media;
@@ -41,22 +42,29 @@ class Day
      * @var Type
      */
     private $type;
+    /**
+     * @var ClientInterface
+     */
+    private $client;
 
     /**
      * @param $date
      * @param $items
      * @param Type $type
-     * @param ClientId $id
+     * @param $id
      * @param AccessToken $token
+     * @param ClientInterface $client
      */
-    public function __construct($date, $items, Type $type, ClientId $id, $token)
+    public function __construct($date, $items, Type $type, $id, $token, ClientInterface $client)
     {
         $this->id = $id;
         $this->token = $token;
         $this->type = $type;
+        $this->client = $client;
 
         $this->setDate($date);
         $this->setReleases($items);
+
 
     }
 
@@ -66,7 +74,7 @@ class Day
      */
     private function setDate($date)
     {
-        $this->date = Carbon::createFromFormat("Y-m-d\\TH:i:s.uO", $date, new \DateTimeZone("GMT"));
+        $this->date = Carbon::createFromFormat("Y-m-d", $date, new \DateTimeZone("GMT"));
     }
 
     /**
@@ -76,10 +84,10 @@ class Day
     {
         foreach ($items as $item) {
             if ($this->type == Type::movie()) {
-                $this->releases[] = new Movie($item, $this->id, $this->token);
+                $this->releases[] = new Movie($item, $this->id, $this->token, $this->client);
             }
             if ($this->type == Type::show()) {
-                $this->releases[] = new Show($item, $this->id, $this->token);
+                $this->releases[] = new Show($item, $this->id, $this->token, $this->client);
             }
         }
     }

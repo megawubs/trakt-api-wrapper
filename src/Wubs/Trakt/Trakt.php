@@ -27,12 +27,6 @@ use Wubs\Trakt\Request\AbstractRequest;
 
 class Trakt
 {
-
-    const API_URL = 'api-v2launch.trakt.tv';
-
-    const API_VERSION = 2;
-
-    const API_SCHEME = 'https';
     /**
      * @var Calendars
      */
@@ -125,6 +119,7 @@ class Trakt
     {
         return new Auth(ClientId::set($clientId), $clientSecret, $redirectUrl);
     }
+
 
     /**
      * Creates the wrappers for all public properties and sets them.

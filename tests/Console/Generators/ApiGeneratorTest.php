@@ -1,19 +1,20 @@
 <?php
 
 
+use GuzzleHttp\ClientInterface;
+use Illuminate\Support\Collection;
 use League\Flysystem\Adapter\Local;
+use League\Flysystem\File;
 use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemInterface;
+use Symfony\Component\Console\Helper\DialogHelper;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use Wubs\Trakt\Console\Generators\EndpointGenerator;
 
 class ApiGeneratorTest extends PHPUnit_Framework_TestCase
 {
     protected $file;
-
-    /**
-     * @var EndpointGenerator
-     */
-    protected $generator;
 
     /**
      * @var Filesystem
@@ -28,9 +29,6 @@ class ApiGeneratorTest extends PHPUnit_Framework_TestCase
     {
         parent::__construct();
         $this->file = __DIR__ . "/../../../src/Wubs/Trakt/Api/Comments.php";
-        $mock = $this->getMock(OutputInterface::class);
-        $this->generator = new EndpointGenerator($mock);
-
         $this->filesystem = new Filesystem(
             new Local(
                 __DIR__ . "/../../../src/Wubs/Trakt/Api/"
@@ -38,21 +36,32 @@ class ApiGeneratorTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    protected function tearDown()
+    {
+        Mockery::close();
+    }
+
     public static function tearDownAfterClass()
     {
-        unlink(__DIR__ . "/../../../src/Wubs/Trakt/Api/Comments.php");
-        print_r(self::$content);
         self::$content = "";
     }
 
 
     public function testGeneratesClassFile()
     {
-        $this->generator->generateForEndpoint("Comments");
+        $outMock = Mockery::mock(OutputInterface::class);
+        $outMock->shouldReceive("writeln");
+        $outMock->shouldReceive("write")->andReturn(true);
+
+        $dialog = Mockery::mock(QuestionHelper::class);
+        $dialog->shouldReceive("askConfirmation")->andReturn(true);
+        $generator = new EndpointGenerator($outMock, $dialog);
+
+        $generator->generateForEndpoint("Comments");
 
         $this->assertTrue($this->filesystem->has("Comments.php"));
 
-        self::$content = $this->filesystem->read("Comments.php");
+        self::$content = $generator->getGeneratedTemplate();
 
     }
 
@@ -69,7 +78,7 @@ class ApiGeneratorTest extends PHPUnit_Framework_TestCase
      */
     public function testClassHasMethodWithGivenName()
     {
-        $this->assertContains("public function delete", self::$content);
+        $this->assertContains("public function deleteComment", self::$content);
     }
 
     /**
@@ -77,7 +86,7 @@ class ApiGeneratorTest extends PHPUnit_Framework_TestCase
      */
     public function testMethodHasParameters()
     {
-        $this->assertContains('public function delete($id, $token)', self::$content);
+        $this->assertContains('public function deleteComment(AccessToken $token, $commentId)', self::$content);
     }
 
     /**
@@ -101,18 +110,27 @@ class ApiGeneratorTest extends PHPUnit_Framework_TestCase
      */
     public function testRequestClassHasParameters()
     {
-        $this->assertContains('$id = ClientId::set($id)', self::$content);
-        $this->assertContains('new DeleteComment($id)', self::$content);
+        $this->assertContains('new DeleteCommentRequest($token, $commentId)', self::$content);
     }
 
     public function testClassIsFormattedWithoutToken()
     {
-        $this->generator->generateForEndpoint("Episodes");
-        $content = $this->filesystem->read("Episodes.php");
+        $outMock = Mockery::mock(OutputInterface::class);
+        $outMock->shouldReceive("writeln");
+        $outMock->shouldReceive("write");
+
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+
+
+        $dialog = Mockery::mock(QuestionHelper::class);
+        $dialog->shouldReceive("askConfirmation")->andReturn(true);
+        $generator = new EndpointGenerator($outMock, $dialog);
+
+        $generator->generateForEndpoint("Episodes");
+        $content = $generator->getGeneratedTemplate();
         $this->assertNotContains('$token', $content);
-        $class = new Wubs\Trakt\Api\Episodes(get_client_id());
+        $class = new Wubs\Trakt\Api\Episodes(get_client_id(), $client);
         $this->assertInstanceOf("Wubs\\Trakt\\Api\\Episodes", $class);
-        $this->filesystem->delete("Episodes.php");
     }
 
     /**
@@ -120,7 +138,8 @@ class ApiGeneratorTest extends PHPUnit_Framework_TestCase
      */
     public function testClassCanBeInitiated()
     {
-        $class = new $this->namespace(get_client_id());
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $class = new $this->namespace(get_client_id(), $client);
 
         $this->assertInstanceOf($this->namespace, $class);
     }

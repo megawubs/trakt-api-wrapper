@@ -8,6 +8,7 @@
 
 namespace Wubs\Trakt\Request\Movies;
 
+use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\Parameters\MediaIdTrait;
 use Wubs\Trakt\Request\RequestType;
@@ -19,12 +20,14 @@ class Summary extends AbstractRequest
 
 
     /**
+     * @param AccessToken $token
      * @param $mediaId
      */
-    public function __construct($mediaId)
+    public function __construct(AccessToken $token, $mediaId)
     {
         parent::__construct();
         $this->id = $mediaId;
+        $this->setToken($token);
         $this->setResponseHandler(new SummaryHandler());
     }
 

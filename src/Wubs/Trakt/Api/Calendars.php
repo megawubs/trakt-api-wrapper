@@ -13,8 +13,8 @@ use Carbon\Carbon;
 use Wubs\Trakt\Request\Calendars\AllMovies as AllMoviesRequest;
 use Wubs\Trakt\Request\Calendars\AllNewShows as AllNewShowsRequest;
 use Wubs\Trakt\Request\Calendars\AllSeasonPremieres as AllSeasonPremieresRequest;
-use Wubs\Trakt\Request\Calendars\AllShows as AllShowsRequest;
 use League\OAuth2\Client\Token\AccessToken;
+use Wubs\Trakt\Request\Calendars\AllShows as AllShowsRequest;
 use Wubs\Trakt\Request\Calendars\MyMovies as MyMoviesRequest;
 use Wubs\Trakt\Request\Calendars\MyNewShows as MyNewShowsRequest;
 use Wubs\Trakt\Request\Calendars\MySeasonPremieres as MySeasonPremieresRequest;
@@ -37,9 +37,9 @@ class Calendars extends Endpoint {
         return $this->request(new AllSeasonPremieresRequest($startDate, $days));
     }
 
-	public function allShows(Carbon $startDate, $days)
+	public function allShows(AccessToken $token, Carbon $startDate, $days)
     {
-        return $this->request(new AllShowsRequest($startDate, $days));
+        return $this->request(new AllShowsRequest($token, $startDate, $days));
     }
 
 	public function myMovies(AccessToken $accessToken, Carbon $startDate, $days)

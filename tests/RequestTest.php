@@ -1,10 +1,13 @@
 <?php
+use Carbon\Carbon;
+use GuzzleHttp\ClientInterface;
 use Wubs\Trakt\Request\Calendars\MyMovies;
 use Wubs\Trakt\Request\Parameters\Days;
 use Wubs\Trakt\Request\Parameters\StartDate;
 use Wubs\Trakt\Request\Parameters\Type;
 use Wubs\Trakt\Request\Parameters\Username;
 use Wubs\Trakt\Request\Users\History;
+use Wubs\Trakt\TraktHttpClient;
 
 /**
  * Created by PhpStorm.
@@ -16,17 +19,17 @@ class RequestTest extends PHPUnit_Framework_TestCase
 {
     public function testCanMakeRequest()
     {
-        $result = (new MyMovies(StartDate::standard(), Days::standard()))->make(
+        $result = (new MyMovies(get_token(), Carbon::today(), 7))->make(
             get_client_id(),
-            get_token()
+            TraktHttpClient::make()
         );
 
-        $this->assertInstanceOf(Wubs\Trakt\Response\Calendar\Calendar::class, $result);
+        $this->assertInternalType("array", $result);
     }
 
     public function testRequestWithoutToken()
     {
-        $response = (new History(Username::set('megawubs'), Type::movies()))->make(get_client_id());
+        $response = (new History('megawubs', Type::movies()))->make(get_client_id(), TraktHttpClient::make());
 
         $this->assertInternalType("array", $response);
 

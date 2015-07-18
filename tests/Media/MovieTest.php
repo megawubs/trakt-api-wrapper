@@ -1,4 +1,5 @@
 <?php
+use GuzzleHttp\ClientInterface;
 use Wubs\Trakt\Media\Movie;
 use Wubs\Trakt\Request\Parameters\Query;
 
@@ -10,6 +11,11 @@ use Wubs\Trakt\Request\Parameters\Query;
  */
 class MovieTest extends PHPUnit_Framework_TestCase
 {
+
+    protected function tearDown()
+    {
+        Mockery::close();
+    }
 
     public function testCanMakeMovieObjectFromSearchResult()
     {
@@ -42,9 +48,9 @@ class MovieTest extends PHPUnit_Framework_TestCase
   }';
         $clientId = get_client_id();
         $token = get_token();
-        $mockResponse = new MockResponse($json);
-
-        $movie = new Movie($mockResponse->json(['object' => true]), $clientId, $token);
+        $mockResponse = new TestResponse($json);
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $movie = new Movie($mockResponse->json(['object' => true]), $clientId, $token, $client);
 
         $this->assertInstanceOf("Wubs\\Trakt\\Media\\Movie", $movie);
         $this->assertEquals(26.019499, $movie->score);
@@ -63,10 +69,11 @@ class MovieTest extends PHPUnit_Framework_TestCase
       "tmdb": 155
     }
   }';
-        $mockResponse = new MockResponse($json);
+        $mockResponse = new TestResponse($json);
         $json = $mockResponse->json(["object" => true]);
 
-        $movie = new Movie($json, get_client_id(), get_token());
+        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $movie = new Movie($json, get_client_id(), get_token(), $client);
 
         $this->assertEquals("The Dark Knight", $movie->title);
     }

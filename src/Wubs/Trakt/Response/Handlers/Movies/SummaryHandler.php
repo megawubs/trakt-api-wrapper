@@ -17,10 +17,10 @@ use Wubs\Trakt\Response\Handlers\AbstractResponseHandler;
 class SummaryHandler extends AbstractResponseHandler implements ResponseHandler
 {
 
-    public function handle(ResponseInterface $response)
+    public function handle(ResponseInterface $response, \GuzzleHttp\ClientInterface $client)
     {
         $json = $this->getJson($response);
 
-        return new Movie($json, $this->getId(), $this->getToken());
+        return new Movie($json, $this->getId(), $this->getToken(), $client);
     }
 }

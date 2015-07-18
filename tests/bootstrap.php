@@ -7,6 +7,7 @@
  */
 
 use Dotenv\Dotenv;
+use GuzzleHttp\ClientInterface;
 use Wubs\Trakt\ClientId;
 use Wubs\Trakt\Media\Movie;
 use Wubs\Trakt\Token\TraktAccessToken;
@@ -42,9 +43,18 @@ function get_client_id()
  *
  * @return Movie
  */
-function movie()
+function movie(ClientInterface $client)
 {
-    $json = '{
+    $clientId = get_client_id();
+    $token = get_token();
+    $testResponse = new TestResponse(movieJson());
+
+    return new Movie($testResponse->json(['object' => true]), $clientId, $token, $client);
+}
+
+function movieJson()
+{
+    return '{
     "type": "movie",
     "score": 26.019499,
     "movie": {
@@ -71,9 +81,4 @@ function movie()
       }
     }
   }';
-    $clientId = get_client_id();
-    $token = get_token();
-    $mockResponse = new MockResponse($json);
-
-    return new Movie($mockResponse->json(['object' => true]), $clientId, $token);
 }

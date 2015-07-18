@@ -29,12 +29,6 @@ abstract class AbstractRequest
 
     private $limit = 10;
 
-    private $scheme = 'https';
-
-    private $host = 'api-v2launch.trakt.tv';
-
-    protected $staging = "https://api.staging.trakt.tv";
-
     protected $queryParams = [];
 
     protected $allowedExtended;
@@ -156,7 +150,7 @@ abstract class AbstractRequest
             throw ExceptionStatusCodeFactory::create($response->getStatusCode());
         }
 
-        return $this->handleResponse($response);
+        return $this->handleResponse($response, $client);
     }
 
     public function getUrl()
@@ -173,14 +167,14 @@ abstract class AbstractRequest
     }
 
 
-    protected function handleResponse(ResponseInterface $response)
+    protected function handleResponse(ResponseInterface $response, ClientInterface $client)
     {
         $handler = $this->getResponseHandler();
 
         $handler->setId($this->clientId);
         $handler->setToken($this->token);
 
-        return $handler->handle($response);
+        return $handler->handle($response, $client);
     }
 
     /**
@@ -226,20 +220,6 @@ abstract class AbstractRequest
     private function requestNotSuccessful(ResponseInterface $response)
     {
         return (!in_array($response->getStatusCode(), [200, 201, 204, 504]));
-    }
-
-    /**
-     *
-     * @return Client
-     */
-    private function getClient()
-    {
-        $host = $this->host;
-
-        if ($this->environment === 'staging') {
-            $host = $this->staging;
-        }
-        return new Client(['base_url' => [$this->scheme . '://' . $host, ['version' => $this->apiVersion]]]);
     }
 
     /**

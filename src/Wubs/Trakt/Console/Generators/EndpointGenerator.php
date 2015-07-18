@@ -7,9 +7,11 @@ namespace Wubs\Trakt\Console\Generators;
 use Illuminate\Support\Collection;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemInterface;
 use ReflectionClass;
 use ReflectionException;
 use Symfony\Component\Console\Helper\DialogHelper;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use Wubs\Trakt\Exception\ClassCanNotBeImplementedAsEndpointException;
 use Wubs\Trakt\Exception\RequestMalformedException;
@@ -55,16 +57,22 @@ class EndpointGenerator
     private $className;
 
     private $file;
+    /**
+     * @var DialogHelper
+     */
+    private $dialogHelper;
 
 
     /**
      * @param OutputInterface $outputInterface
+     * @param QuestionHelper $dialogHelper
      */
-    public function __construct(OutputInterface $outputInterface)
+    public function __construct(OutputInterface $outputInterface, QuestionHelper $dialogHelper)
     {
+        $this->out = $outputInterface;
         $localAdapter = new Local(__DIR__ . "/../..");
         $this->filesystem = new Filesystem($localAdapter);
-        $this->out = $outputInterface;
+        $this->dialogHelper = $dialogHelper;
     }
 
     /**
@@ -91,6 +99,11 @@ class EndpointGenerator
         }
 
         return $this->createContent()->writeToFile();
+    }
+
+    public function getGeneratedTemplate()
+    {
+        return $this->template;
     }
 
     /**
@@ -122,8 +135,6 @@ class EndpointGenerator
         );
         $this->out->writeln("Class " . $this->className . " is generated");
         return $this;
-
-
     }
 
     /**
@@ -181,13 +192,13 @@ class EndpointGenerator
         $unique = $this->uses->unique();
         $aliases = new Collection();
         $unique->each(
-            function ($use) use ($aliases) {
-                /** @var ReflectionClass $use */
-                $parent = $use->getParentClass();
+            function ($useStatement) use ($aliases) {
+                /** @var ReflectionClass $useStatement */
+                $parent = $useStatement->getParentClass();
                 if ($parent !== false && $parent->getName() === AbstractRequest::class) {
-                    $aliases->push($use->getName() . " as " . $use->getShortName() . "Request");
+                    $aliases->push($useStatement->getName() . " as " . $useStatement->getShortName() . "Request");
                 } else {
-                    $aliases->push($use->getName());
+                    $aliases->push($useStatement->getName());
                 }
             }
         );
@@ -231,8 +242,7 @@ class EndpointGenerator
      */
     private function userWantsToOverwrite()
     {
-        $dialog = new DialogHelper();
-        return $dialog->askConfirmation(
+        return $this->dialogHelper->askConfirmation(
             $this->out,
             "Class " . $this->className . " already exist, do you want to overwrite it? [y/n] "
         );
