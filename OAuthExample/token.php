@@ -1,16 +1,17 @@
 <?php
-
+use Dotenv\Dotenv;
+use Wubs\Trakt\Auth;
+use Wubs\Trakt\Provider\TraktProvider;
 use Wubs\Trakt\Trakt;
+use Wubs\Trakt\TraktHttpClient;
 
 require '../vendor/autoload.php';
+session_start();
+(new Dotenv(__DIR__ . "/../"))->load();
 
-Dotenv::load(__DIR__ . "/../");
-$trakt = new Trakt(
-    getenv("CLIENT_ID"),
-    getenv("CLIENT_SECRET"),
-    getenv("TRAKT_REDIRECT_URI")
-);
+$provider = new TraktProvider(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
+$auth = new Auth($provider);
 
-$token = $trakt->getAccessToken($_GET['code']);
+$trakt = new Trakt(getenv("CLIENT_ID"), TraktHttpClient::make(), $auth);
 
-var_dump($token);
+$trakt = $trakt->auth->token("token-retrieval-code-here");
