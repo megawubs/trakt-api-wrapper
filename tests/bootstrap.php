@@ -39,6 +39,16 @@ function get_client_id()
     return getenv("CLIENT_ID");
 }
 
+function get_client_secret()
+{
+    return getenv("CLIENT_SECRET");
+}
+
+function get_redirect_url()
+{
+    return getenv("TRAKT_REDIRECT_URI");
+}
+
 /**
  * A helper function to get a movie object
  *

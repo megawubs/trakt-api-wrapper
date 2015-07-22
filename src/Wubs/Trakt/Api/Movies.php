@@ -25,6 +25,8 @@ use Wubs\Trakt\Request\Movies\Watching as WatchingRequest;
 
 class Movies extends Endpoint {
 
+    
+
     public function aliases($mediaId)
     {
         return $this->request(new AliasesRequest($mediaId));

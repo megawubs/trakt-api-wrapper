@@ -22,6 +22,8 @@ use Wubs\Trakt\Request\Calendars\MyShows as MyShowsRequest;
 
 class Calendars extends Endpoint {
 
+    
+
     public function allMovies(Carbon $startDate = null, $days = null)
     {
         return $this->request(new AllMoviesRequest($startDate, $days));

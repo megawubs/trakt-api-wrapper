@@ -14,7 +14,9 @@ use Wubs\Trakt\Media\Media;
 use Wubs\Trakt\Request\CheckIn\Create as CreateRequest;
 use Wubs\Trakt\Request\CheckIn\Delete as DeleteRequest;
 
-class Checkin extends Endpoint {
+class CheckIn extends Endpoint {
+
+    
 
     public function create(AccessToken $token, Media $media, $message = null, array $sharing = [], $venueId = null, $venueName = null, $appVersion = null, $appDate = null)
     {

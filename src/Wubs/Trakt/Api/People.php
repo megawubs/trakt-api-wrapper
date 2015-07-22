@@ -15,6 +15,8 @@ use Wubs\Trakt\Request\People\Summary as SummaryRequest;
 
 class People extends Endpoint {
 
+    
+
     public function movies($mediaId)
     {
         return $this->request(new MoviesRequest($mediaId));

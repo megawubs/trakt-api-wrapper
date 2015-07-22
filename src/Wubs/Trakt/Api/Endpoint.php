@@ -25,13 +25,29 @@ abstract class Endpoint
         $this->clientId = $clientId;
         $this->client = $client;
 
-        foreach ($this as $property) {
-            dump($property);
+        $reflection = new \ReflectionClass($this);
+        foreach ($reflection->getProperties() as $property) {
+            $name = $property->getName();
+            $class = $this->parseDockBlock($property->getDocComment());
+            $this->{$name} = $class->newInstanceArgs([$this->clientId, $this->client]);
         }
+
     }
 
     protected function request(AbstractRequest $request)
     {
         return $request->make($this->clientId, $this->client);
+    }
+
+    /**
+     * @param $dockBlock
+     * @return \ReflectionClass
+     */
+    private function parseDockBlock($dockBlock)
+    {
+        $match = [];
+        preg_match('/(?<=@var\s).+/', $dockBlock, $match);
+        dump($match);
+        return new \ReflectionClass($match[0]);
     }
 }

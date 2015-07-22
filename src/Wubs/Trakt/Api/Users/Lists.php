@@ -16,8 +16,8 @@ use Wubs\Trakt\Request\Users\Lists\Update as UpdateRequest;
 use Wubs\Trakt\Api\Endpoint;
 
 class Lists extends Endpoint {
-
     
+
 
     public function create(AccessToken $token, $username, $list)
     {

@@ -16,6 +16,8 @@ use Wubs\Trakt\Request\Recommendations\Shows as ShowsRequest;
 
 class Recommendations extends Endpoint {
 
+    
+
     public function dismissMovie($mediaId)
     {
         return $this->request(new DismissMovieRequest($mediaId));
@@ -26,14 +28,14 @@ class Recommendations extends Endpoint {
         return $this->request(new DismissShowRequest($mediaId));
     }
 
-	public function movies(array $queryParams = [])
+	public function movies()
     {
-        return $this->request(new MoviesRequest($queryParams));
+        return $this->request(new MoviesRequest());
     }
 
-	public function shows(array $queryParams = [])
+	public function shows()
     {
-        return $this->request(new ShowsRequest($queryParams));
+        return $this->request(new ShowsRequest());
     }
 
 }

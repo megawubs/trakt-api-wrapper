@@ -8,7 +8,6 @@ use Illuminate\Support\Collection;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use ReflectionClass;
-use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -121,7 +120,7 @@ class EndpointGenerator
      */
     private function createContent()
     {
-        $this->out->writeln("Generating class for API endpoint: " . lcfirst($this->endpoint));
+        $this->out->writeln("Generating class for API endpoint: " . $this->endpoint->implode("\\"));
         $this->setNamespace()
             ->setClassName()
             ->generateMethods()
@@ -283,12 +282,11 @@ class EndpointGenerator
                     $this->apiNamespace . "\\" . $this->endpoint->implode("\\") . "\\" . $property,
                     $this->filesystem
                 );
-                dump($property);
                 $formatted->push($generator->generate());
             }
         );
 
-        return $this->writeInTemplate('public_properties', $formatted->implode("\n\n\t"));
+        return $this->writeInTemplate('public_properties', "\n" . $formatted->implode("\n\n"));
     }
 
     /**
@@ -336,7 +334,11 @@ class EndpointGenerator
      */
     private function createEndpoint($endpoint)
     {
-        return collect(explode('\\', $endpoint));
+        return collect(explode('\\', $endpoint))->map(
+            function ($endpoint) {
+                return ucfirst($endpoint);
+            }
+        );
     }
 
     private function setNamespace()

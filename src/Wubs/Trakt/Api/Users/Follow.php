@@ -15,8 +15,8 @@ use Wubs\Trakt\Request\Users\Follow\Deny as DenyRequest;
 use Wubs\Trakt\Api\Endpoint;
 
 class Follow extends Endpoint {
-
     
+
 
     public function approve(AccessToken $token, $followerRequestId)
     {

@@ -27,6 +27,8 @@ use Wubs\Trakt\Request\Shows\Watching as WatchingRequest;
 
 class Shows extends Endpoint {
 
+    
+
     public function aliases($mediaId)
     {
         return $this->request(new AliasesRequest($mediaId));
@@ -47,9 +49,9 @@ class Shows extends Endpoint {
         return $this->request(new PeopleRequest($mediaId));
     }
 
-	public function popular(array $queryParams = [])
+	public function popular()
     {
-        return $this->request(new PopularRequest($queryParams));
+        return $this->request(new PopularRequest());
     }
 
 	public function ratings($mediaId)
@@ -82,9 +84,9 @@ class Shows extends Endpoint {
         return $this->request(new TranslationsRequest($mediaId, $language));
     }
 
-	public function trending(array $queryParams = [])
+	public function trending()
     {
-        return $this->request(new TrendingRequest($queryParams));
+        return $this->request(new TrendingRequest());
     }
 
 	public function updates(Carbon $date = null)

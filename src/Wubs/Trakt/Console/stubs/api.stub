@@ -12,7 +12,6 @@ namespace {{namespace}};
 {{use_statements}}
 
 class {{class_name}} extends Endpoint {
-
     {{public_properties}}
 
     {{methods}}

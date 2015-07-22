@@ -16,6 +16,8 @@ use Wubs\Trakt\Request\Scrobble\Stop as StopRequest;
 
 class Scrobble extends Endpoint {
 
+    
+
     public function pause(Media $media)
     {
         return $this->request(new PauseRequest($media));

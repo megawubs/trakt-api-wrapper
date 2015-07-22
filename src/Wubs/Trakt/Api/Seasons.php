@@ -17,6 +17,8 @@ use Wubs\Trakt\Request\Seasons\Watching as WatchingRequest;
 
 class Seasons extends Endpoint {
 
+    
+
     public function comments($mediaId, $season)
     {
         return $this->request(new CommentsRequest($mediaId, $season));

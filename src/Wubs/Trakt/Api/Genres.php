@@ -13,6 +13,8 @@ use Wubs\Trakt\Request\Genres\GenresList as GenresListRequest;
 
 class Genres extends Endpoint {
 
+    
+
     public function genresList($type)
     {
         return $this->request(new GenresListRequest($type));
