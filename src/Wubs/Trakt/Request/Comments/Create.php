@@ -14,7 +14,7 @@ use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\Exception\CommentTooShortException;
 use Wubs\Trakt\Request\RequestType;
 
-class PostComment extends AbstractRequest
+class Create extends AbstractRequest
 {
 
     use CommentSize;
@@ -37,7 +37,7 @@ class PostComment extends AbstractRequest
      * @param $spoiler
      * @throws CommentTooShortException
      */
-    public function __construct(Media $media,  $comment, $spoiler)
+    public function __construct(Media $media, $comment, $spoiler = false)
     {
         parent::__construct();
 

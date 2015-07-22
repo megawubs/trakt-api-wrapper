@@ -4,7 +4,9 @@
 use GuzzleHttp\ClientInterface;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
+use Symfony\Component\Console\Helper\HelperInterface;
 use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Wubs\Trakt\Console\Generators\EndpointGenerator;
@@ -43,13 +45,14 @@ class MethodGeneratorTest extends PHPUnit_Framework_TestCase
 
     public function testClassesInGivenNameSpaceRootAreAddedAsMethods()
     {
-        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $client = Mockery::mock(ClientInterface::class);
         $out = Mockery::mock(OutputInterface::class);
         $out->shouldReceive("write");
         $out->shouldReceive("writeln")->times(12);
+        $inMock = Mockery::mock(InputInterface::class);
         $dialog = Mockery::mock(QuestionHelper::class);
-        $dialog->shouldReceive("askConfirmation")->andReturn(true);
-        $generator = new EndpointGenerator($out, $dialog);
+        $dialog->shouldReceive("ask")->andReturn(true);
+        $generator = new EndpointGenerator($inMock, $out, $dialog);
         $generator->generateForEndpoint("Episodes");
         $content = $this->filesystem->read("Episodes.php");
 
@@ -61,6 +64,5 @@ class MethodGeneratorTest extends PHPUnit_Framework_TestCase
         $this->assertContains('public function watching', $content);
         $class = new Wubs\Trakt\Api\Episodes(get_client_id(), $client);
         $this->assertInstanceOf("Wubs\\Trakt\\Api\\Episodes", $class);
-//        $this->filesystem->delete("Episodes.php");
     }
 }

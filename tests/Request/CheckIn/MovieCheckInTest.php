@@ -24,7 +24,7 @@ class MovieCheckInTest extends PHPUnit_Framework_TestCase
     {
         $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
 
-        $request = new Create(get_token(), movie($client), [], "Awesome Movie!", null, null, null, null);
+        $request = new Create(get_token(), movie($client), "Awesome Movie!", [], null, null, null, null);
 
         $url = $request->getUrl();
 

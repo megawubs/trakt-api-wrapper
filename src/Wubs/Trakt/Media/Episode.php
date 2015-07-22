@@ -25,31 +25,31 @@ class Episode extends Media
     public function __construct($json, $clientId, AccessToken $token, ClientInterface $client)
     {
         parent::__construct($json, $clientId, $token, $client);
-        $this->episode = $this->json->episode;
+        $this->media = $this->json->episode;
     }
 
     public function getTitle()
     {
-        return $this->episode->title;
+        return $this->media->title;
     }
 
     public function getIds()
     {
-        return $this->episode->ids;
+        return $this->media->ids;
     }
 
     public function getShow()
     {
-        return new Show($this->json->show, $this->id, $this->token);
+        return new Show($this->json->show, $this->id, $this->token, $this->client);
     }
 
     public function getSeasonNumber()
     {
-        return $this->episode->season;
+        return $this->media->season;
     }
 
     public function getEpisodeNumber()
     {
-        return $this->episode->number;
+        return $this->media->number;
     }
 }

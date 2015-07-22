@@ -10,6 +10,7 @@ namespace Wubs\Trakt\Request\CheckIn;
 
 
 use League\OAuth2\Client\Token\AccessToken;
+use Wubs\Trakt\Media\Media;
 use Wubs\Trakt\Media\Movie;
 use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\RequestType;
@@ -20,7 +21,7 @@ class Create extends AbstractRequest
     /**
      * @var Movie
      */
-    private $movie;
+    private $media;
     /**
      * @var
      */
@@ -49,9 +50,9 @@ class Create extends AbstractRequest
 
     /**
      * @param AccessToken $token
-     * @param Movie $movie
-     * @param array $sharing
+     * @param Media $media
      * @param $message
+     * @param array $sharing
      * @param $venueId
      * @param $venueName
      * @param $appVersion
@@ -59,16 +60,16 @@ class Create extends AbstractRequest
      */
     public function __construct(
         AccessToken $token,
-        Movie $movie,
+        Media $media,
+        $message = null,
         array $sharing = [],
-        $message,
-        $venueId,
-        $venueName,
-        $appVersion,
-        $appDate
+        $venueId = null,
+        $venueName = null,
+        $appVersion = null,
+        $appDate = null
     ) {
         parent::__construct();
-        $this->movie = $movie;
+        $this->media = $media;
         $this->setToken($token);
 
         $this->setResponseHandler(new CheckinHandler());
@@ -92,8 +93,9 @@ class Create extends AbstractRequest
 
     protected function getPostBody()
     {
+        $type = $this->media->getType();
         return [
-            'movie' => $this->movie->getStandardFields(),
+            $type => $this->media->getStandardFields(),
             "sharing" => $this->sharing,
             "message" => $this->message,
             "venue_id" => $this->venueId,

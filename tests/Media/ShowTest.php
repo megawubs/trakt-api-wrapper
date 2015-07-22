@@ -46,9 +46,9 @@ class ShowTest extends PHPUnit_Framework_TestCase
     }
   }
 }';
-        $mockResponse = new TestResponse($json);
-        $json = $mockResponse->json(['object' => true]);
-        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+
+        $json = json_decode($json);
+        $client = Mockery::mock(ClientInterface::class);
         $show = new Show($json, get_client_id(), get_token(), $client);
 
         $this->assertEquals("Breaking Bad", $show->title);

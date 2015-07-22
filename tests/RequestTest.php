@@ -24,14 +24,14 @@ class RequestTest extends PHPUnit_Framework_TestCase
             TraktHttpClient::make()
         );
 
-        $this->assertInternalType("array", $result);
+        $this->assertInternalType("object", $result);
     }
 
     public function testRequestWithoutToken()
     {
         $response = (new History('megawubs', Type::movies()))->make(get_client_id(), TraktHttpClient::make());
 
-        $this->assertInternalType("array", $response);
+        $this->assertInternalType("object", $response);
 
     }
 

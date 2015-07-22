@@ -2,9 +2,9 @@
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Message\RequestInterface;
 use GuzzleHttp\Message\ResponseInterface;
-use Wubs\Trakt\Request\Comments\DeleteComment;
-use Wubs\Trakt\Request\Comments\GetComment;
-use Wubs\Trakt\Request\Comments\PostComment;
+use Wubs\Trakt\Request\Comments\Delete;
+use Wubs\Trakt\Request\Comments\Get;
+use Wubs\Trakt\Request\Comments\Create;
 use Wubs\Trakt\Request\Parameters\Comment;
 use Wubs\Trakt\Request\Parameters\CommentId;
 use Wubs\Trakt\Request\Parameters\Spoiler;
@@ -19,11 +19,6 @@ use Wubs\Trakt\Request\RequestType;
 class CommentsTest extends PHPUnit_Framework_TestCase
 {
 
-    /**
-     * @var CommentId
-     */
-    private $commentId;
-
     protected function tearDown()
     {
         Mockery::close();
@@ -31,9 +26,9 @@ class CommentsTest extends PHPUnit_Framework_TestCase
 
     public function testCanPostCommentFromMovieObject()
     {
-        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $client = Mockery::mock(ClientInterface::class);
 
-        $request = new PostComment(
+        $request = new Create(
             movie($client),
             "This was an awesome movie! I really liked it",
             false
@@ -50,7 +45,7 @@ class CommentsTest extends PHPUnit_Framework_TestCase
 
     public function testCanDeleteCommentById()
     {
-        $request = new DeleteComment(get_token(), 1223);
+        $request = new Delete(get_token(), 1223);
 
         $type = $request->getRequestType();
 
@@ -70,6 +65,6 @@ class CommentsTest extends PHPUnit_Framework_TestCase
 
         $movie = movie($client);
 
-        new PostComment($movie, "too short", false);
+        new Create($movie, "too short", false);
     }
 }

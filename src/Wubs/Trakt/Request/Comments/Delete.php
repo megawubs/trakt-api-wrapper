@@ -12,7 +12,7 @@ use Wubs\Trakt\Response\Handlers\DefaultDeleteHandler;
  * Date: 15/03/15
  * Time: 17:01
  */
-class DeleteComment extends AbstractRequest
+class Delete extends AbstractRequest
 {
     /**
      * @var

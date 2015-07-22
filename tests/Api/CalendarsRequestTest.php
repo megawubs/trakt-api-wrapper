@@ -17,7 +17,7 @@ class CalendarsRequestTest extends PHPUnit_Framework_TestCase
     protected $trakt;
     private $today;
 
-    public function tearDown()
+    protected function tearDown()
     {
         Mockery::close();
     }
@@ -30,14 +30,7 @@ class CalendarsRequestTest extends PHPUnit_Framework_TestCase
 
     public function testShows()
     {
-        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
-        $request = Mockery::mock(stdClass::class . ", " . RequestInterface::class);
-        $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
-
-        $client->shouldReceive("createRequest")->once()->andReturn($request);
-        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
-        $response->shouldReceive("json")->once()->andReturn([]);
-        $client->shouldReceive("send")->andReturn($response);
+        $client = mock_client(200, "[]");
 
         $auth = Mockery::mock(Auth::class);
 
@@ -45,19 +38,12 @@ class CalendarsRequestTest extends PHPUnit_Framework_TestCase
 
         $res = $trakt->calendars->myShows(get_token(), $this->today, 7);
 
-        $this->assertInternalType("array", $res);
+        $this->assertInternalType("object", $res);
     }
 
     public function testNewShows()
     {
-        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
-        $request = Mockery::mock(stdClass::class . ", " . RequestInterface::class);
-        $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
-
-        $client->shouldReceive("createRequest")->once()->andReturn($request);
-        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
-        $response->shouldReceive("json")->once()->andReturn([]);
-        $client->shouldReceive("send")->andReturn($response);
+        $client = mock_client(200, "[]");
 
         $auth = Mockery::mock(Auth::class);
 
@@ -65,19 +51,12 @@ class CalendarsRequestTest extends PHPUnit_Framework_TestCase
 
         $res = $trakt->calendars->myNewShows(get_token(), $this->today, 7);
 
-        $this->assertInternalType("array", $res);
+        $this->assertInternalType("object", $res);
     }
 
     public function testPremieres()
     {
-        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
-        $request = Mockery::mock(stdClass::class . ", " . RequestInterface::class);
-        $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
-
-        $client->shouldReceive("createRequest")->once()->andReturn($request);
-        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
-        $response->shouldReceive("json")->once()->andReturn([]);
-        $client->shouldReceive("send")->andReturn($response);
+        $client = mock_client(200, "[]");
 
         $auth = Mockery::mock(Auth::class);
 
@@ -85,19 +64,12 @@ class CalendarsRequestTest extends PHPUnit_Framework_TestCase
 
         $res = $trakt->calendars->mySeasonPremieres(get_token(), $this->today, 7);
 
-        $this->assertInternalType("array", $res);
+        $this->assertInternalType("object", $res);
     }
 
     public function testMovies()
     {
-        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
-        $request = Mockery::mock(stdClass::class . ", " . RequestInterface::class);
-        $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
-
-        $client->shouldReceive("createRequest")->once()->andReturn($request);
-        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
-        $response->shouldReceive("json")->once()->andReturn([]);
-        $client->shouldReceive("send")->andReturn($response);
+        $client = mock_client(200, "[]");
 
         $auth = Mockery::mock(Auth::class);
 
@@ -105,19 +77,12 @@ class CalendarsRequestTest extends PHPUnit_Framework_TestCase
 
         $res = $trakt->calendars->myMovies(get_token(), $this->today, 7);
 
-        $this->assertInternalType("array", $res);
+        $this->assertInternalType("object", $res);
     }
 
     public function testAllShows()
     {
-        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
-        $request = Mockery::mock(stdClass::class . ", " . RequestInterface::class);
-        $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
-
-        $client->shouldReceive("createRequest")->once()->andReturn($request);
-        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
-        $response->shouldReceive("json")->once()->andReturn([]);
-        $client->shouldReceive("send")->andReturn($response);
+        $client = mock_client(200, "[]");
 
         $auth = Mockery::mock(Auth::class);
 
@@ -125,6 +90,6 @@ class CalendarsRequestTest extends PHPUnit_Framework_TestCase
 
         $res = $trakt->calendars->allShows(get_token(), $this->today, 7);
 
-        $this->assertInternalType("array", $res);
+        $this->assertInternalType("object", $res);
     }
 }

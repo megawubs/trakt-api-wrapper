@@ -92,10 +92,11 @@ class Method
             try {
                 if ($parameter->isArray()) {
                     $parameterString = "array" . $parameterString;
-                    if ($parameter->getDefaultValue() === []) {
-                        $parameterString .= " = []";
-                    }
                 }
+                if ($parameter->isDefaultValueAvailable()) {
+                    $parameterString .= " = " . json_encode($parameter->getDefaultValue());
+                }
+//                if($parameter->isDefaultValueConstant())
             } catch (ReflectionException $exception) {
                 $methodParameters->push(trim($parameterString));
                 continue;

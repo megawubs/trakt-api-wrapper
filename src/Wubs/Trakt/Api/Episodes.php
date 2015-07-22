@@ -17,9 +17,9 @@ use Wubs\Trakt\Request\Episodes\Watching as WatchingRequest;
 
 class Episodes extends Endpoint {
 
-    public function comments($commentId, $season, $episode)
+    public function comments($showId, $season, $episode)
     {
-        return $this->request(new CommentsRequest($commentId, $season, $episode));
+        return $this->request(new CommentsRequest($showId, $season, $episode));
     }
 
 	public function ratings($mediaId, $season, $episode)

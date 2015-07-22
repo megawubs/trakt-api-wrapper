@@ -11,7 +11,10 @@ namespace Wubs\Trakt\Response;
 
 use GuzzleHttp\ClientInterface;
 use League\OAuth2\Client\Token\AccessToken;
+use Wubs\Trakt\Exception\CheckInTypeNotSupportedException;
+use Wubs\Trakt\Media\Episode;
 use Wubs\Trakt\Media\Movie;
+use Wubs\Trakt\Request\Parameters\Type;
 
 class CheckIn
 {
@@ -19,7 +22,7 @@ class CheckIn
     /**
      * @var Movie
      */
-    public $movie;
+    public $media;
 
     private $sharing;
     private $id;
@@ -27,6 +30,11 @@ class CheckIn
      * @var AccessToken
      */
     private $token;
+    /**
+     * @var ClientInterface
+     */
+    private $client;
+    private $json;
 
     /**
      * @param $json
@@ -36,16 +44,19 @@ class CheckIn
      */
     public function __construct($json, $id, AccessToken $token, ClientInterface $client)
     {
-        $this->movie = new Movie($json, $id, $token, $client);
         $this->sharing = $json->sharing;
-
         $this->id = $id;
         $this->token = $token;
+        $this->json = $json;
+        $this->client = $client;
+//        dump($this->client);
+
+        $this->media = $this->makeMediaObject();
     }
 
-    public function getMovie()
+    public function getMedia()
     {
-        return $this->movie;
+        return $this->media;
     }
 
     public function isSharedOnFacebook()
@@ -66,5 +77,36 @@ class CheckIn
     private function isSharedOn($medium)
     {
         return $this->sharing->{$medium};
+    }
+
+    private function makeMediaObject()
+    {
+        if ($this->isMovie()) {
+            return $this->json->movie;
+        }
+        if ($this->isEpisode()) {
+            return $this->json->episode;
+        }
+
+        throw new CheckInTypeNotSupportedException(
+            "The given object is of an unknown media type and can not be
+        turned into an object"
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    private function isMovie()
+    {
+        return property_exists($this->json, "movie");
+    }
+
+    /**
+     * @return bool
+     */
+    private function isEpisode()
+    {
+        return property_exists($this->json, "episode");
     }
 }

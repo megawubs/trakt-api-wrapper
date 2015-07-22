@@ -87,7 +87,7 @@ class Shows extends Endpoint {
         return $this->request(new TrendingRequest($queryParams));
     }
 
-	public function updates(Carbon $date)
+	public function updates(Carbon $date = null)
     {
         return $this->request(new UpdatesRequest($date));
     }

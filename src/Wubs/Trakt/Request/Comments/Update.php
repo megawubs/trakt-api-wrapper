@@ -14,7 +14,7 @@ use Wubs\Trakt\Request\Exception\CommentTooShortException;
 use Wubs\Trakt\Request\RequestType;
 use Wubs\Trakt\Response\Handlers\Comments\CommentHandler;
 
-class UpdateComment extends AbstractRequest
+class Update extends AbstractRequest
 {
     use CommentSize;
     /**
@@ -38,7 +38,7 @@ class UpdateComment extends AbstractRequest
      */
     public function __construct($commentId, $comment, $spoiler)
     {
-
+        parent::__construct();
         $this->id = $commentId;
         $this->comment = $comment;
         $this->spoiler = $spoiler;

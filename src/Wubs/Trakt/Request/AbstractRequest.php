@@ -171,7 +171,7 @@ abstract class AbstractRequest
     {
         $handler = $this->getResponseHandler();
 
-        $handler->setId($this->clientId);
+        $handler->setClientId($this->clientId);
         $handler->setToken($this->token);
 
         return $handler->handle($response, $client);

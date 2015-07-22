@@ -10,18 +10,12 @@ namespace Wubs\Trakt\Media;
 
 
 use GuzzleHttp\ClientInterface;
-use League\OAuth2\Client\Token\AccessToken;;
+use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Request\CheckIn\Create;
 use Wubs\Trakt\Request\CheckIn\Delete;
-use Wubs\Trakt\Request\Comments\PostComment;
+use Wubs\Trakt\Request\Comments\Create as CreateCommend;
 use Wubs\Trakt\Request\Movies\Comments;
-use Wubs\Trakt\Request\Parameters\Comment;
-use Wubs\Trakt\Request\Parameters\MediaId;
-use Wubs\Trakt\Request\Parameters\Parameter;
-use Wubs\Trakt\Request\Parameters\Query;
 use Wubs\Trakt\Request\Parameters\Type;
-use Wubs\Trakt\Request\Parameters\Year;
-use Wubs\Trakt\Request\Search\Text;
 
 abstract class Media
 {
@@ -39,7 +33,7 @@ abstract class Media
     /**
      * @var ClientInterface
      */
-    private $client;
+    protected $client;
 
     /**
      * @param $json
@@ -79,31 +73,26 @@ abstract class Media
         return $fields;
     }
 
-    public static function search($id, AccessToken $token, Parameter $query, Year $year = null)
-    {
-        if ($query instanceof Query) {
-            return Text::make($id, $token, [$query, Type::movie(), $year]);
-        }
-    }
-
+    /**
+     * @param array $sharing
+     * @param null $message
+     * @param null $venueId
+     * @param null $venueName
+     * @param null $appVersion
+     * @param null $appDate
+     * @return \stdClass
+     */
     public function checkIn(
         array $sharing = [],
-        $message,
-        $venueId,
-        $venueName,
-        $appVersion,
-        $appDate
+        $message = null,
+        $venueId = null,
+        $venueName = null,
+        $appVersion = null,
+        $appDate = null
     ) {
         return (
         new Create(
-            $this->token,
-            $this,
-            $sharing,
-            $message,
-            $venueId,
-            $venueName,
-            $appVersion,
-            $appDate
+            $this->token, $this, $message, $sharing, $venueId, $venueName, $appVersion, $appDate
         )
         )->make($this->id, $this->client);
     }
@@ -115,7 +104,7 @@ abstract class Media
 
     public function comment(Comment $comment)
     {
-        return PostComment::make($this->id, $this->token, [$this, $comment]);
+        return CreateCommend::make($this->id, $this->token, [$this, $comment]);
     }
 
     /**
@@ -124,7 +113,7 @@ abstract class Media
     public function comments()
     {
         $slug = $this->getSlug();
-        return Comments::make($this->id, $this->token, [MediaId::set($slug)]);
+        return (new Comments($slug))->make($this->id, $this->client);
     }
 
     public function getTitle()
@@ -154,6 +143,11 @@ abstract class Media
             }
         }
 
+    }
+
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**

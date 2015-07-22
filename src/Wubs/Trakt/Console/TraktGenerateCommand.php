@@ -5,6 +5,7 @@ namespace Wubs\Trakt\Console;
 
 
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -28,7 +29,7 @@ class TraktGenerateCommand extends Command
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $endpoint = $input->getArgument('endpoint');
-        $generator = new EndpointGenerator($output);
+        $generator = new EndpointGenerator($input, $output, new QuestionHelper());
         if ($endpoint) {
             $output->writeln("Generating endpoint wrapper for: " . $endpoint);
             $generator->generateForEndpoint($endpoint);

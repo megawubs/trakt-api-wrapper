@@ -8,6 +8,9 @@
 
 use Dotenv\Dotenv;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Message\RequestInterface;
+use GuzzleHttp\Message\ResponseInterface;
+use Wubs\Trakt\Media\Episode;
 use Wubs\Trakt\Media\Movie;
 use Wubs\Trakt\Token\TraktAccessToken;
 
@@ -37,15 +40,12 @@ function get_client_id()
 /**
  * A helper function to get a movie object
  *
+ * @param ClientInterface $client
  * @return Movie
  */
 function movie(ClientInterface $client)
 {
-    $clientId = get_client_id();
-    $token = get_token();
-    $testResponse = new TestResponse(movieJson());
-
-    return new Movie($testResponse->json(['object' => true]), $clientId, $token, $client);
+    return new Movie(json_decode(movieJson()), get_client_id(), get_token(), $client);
 }
 
 function movieJson()
@@ -77,4 +77,63 @@ function movieJson()
       }
     }
   }';
+}
+
+function episode(ClientInterface $client)
+{
+    return new Episode(json_decode(episodeJson()), get_client_id(), get_token(), $client);
+}
+
+function episodeJson()
+{
+    return '{
+    "type": "episode",
+    "score": 42.50835,
+    "episode": {
+      "season": 1,
+      "number": 5,
+      "title": "Gray Matter",
+      "overview": "Walter and Skyler attend a former colleagus party",
+      "images": {
+        "screenshot": {
+          "full": "https://walter.trakt.us/images/episodes/000/000/062/screenshots/original/dbb0a11808.jpg?1412374314",
+          "medium": "https://walter.trakt.us/images/episodes/000/000/062/screenshots/medium/dbb0a11808.jpg?1412374314",
+          "thumb": "https://walter.trakt.us/images/episodes/000/000/062/screenshots/thumb/dbb0a11808.jpg?1412374314"
+        }
+},
+"ids": {
+    "trakt": 20,
+        "tvdb": 349238,
+        "imdb": "tt1054727",
+        "tmdb": 62089,
+        "tvrage": 637646
+      }
+    },
+    "show": {
+    "title": "Breaking Bad",
+      "year": 2008,
+      "ids": {
+        "trakt": 1
+      }
+    }
+  }';
+}
+
+/**
+ * @param integer $statusCode
+ * @param string $requestResponse
+ * @return \Mockery\MockInterface
+ */
+function mock_client($statusCode, $requestResponse = '[]')
+{
+    $client = Mockery::mock(ClientInterface::class);
+    $request = Mockery::mock(RequestInterface::class);
+    $response = Mockery::mock(ResponseInterface::class);
+
+    $client->shouldReceive("createRequest")->once()->andReturn($request);
+    $client->shouldReceive("send")->once()->andReturn($response);
+    $response->shouldReceive("getStatusCode")->once()->andReturn($statusCode);
+    $response->shouldReceive("json")->once()->andReturn(json_decode($requestResponse));
+
+    return $client;
 }

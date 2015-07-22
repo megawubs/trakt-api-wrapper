@@ -19,14 +19,14 @@ class Comments extends AbstractRequest
 
 
     /**
-     * @param int $commentId
+     * @param int $showId
      * @param int $season
      * @param int $episode
      */
-    public function __construct($commentId, $season, $episode)
+    public function __construct($showId, $season, $episode)
     {
         parent::__construct();
-        $this->id = $commentId;
+        $this->id = $showId;
         $this->season = $season;
         $this->episode = $episode;
     }

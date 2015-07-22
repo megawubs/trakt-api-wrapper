@@ -12,7 +12,9 @@ use ReflectionClass;
 use ReflectionException;
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\Question;
 use Wubs\Trakt\Exception\ClassCanNotBeImplementedAsEndpointException;
 use Wubs\Trakt\Exception\RequestMalformedException;
 use Wubs\Trakt\Request\AbstractRequest;
@@ -61,18 +63,28 @@ class EndpointGenerator
      * @var DialogHelper
      */
     private $dialogHelper;
+    /**
+     * @var InputInterface
+     */
+    private $inputInterface;
 
 
     /**
+     * @param InputInterface $inputInterface
      * @param OutputInterface $outputInterface
      * @param QuestionHelper $dialogHelper
      */
-    public function __construct(OutputInterface $outputInterface, QuestionHelper $dialogHelper)
-    {
+    public function __construct(
+        InputInterface $inputInterface,
+        OutputInterface $outputInterface,
+        QuestionHelper $dialogHelper
+    ) {
         $this->out = $outputInterface;
+        $this->dialogHelper = $dialogHelper;
+        $this->inputInterface = $inputInterface;
+
         $localAdapter = new Local(__DIR__ . "/../..");
         $this->filesystem = new Filesystem($localAdapter);
-        $this->dialogHelper = $dialogHelper;
     }
 
     /**
@@ -242,9 +254,11 @@ class EndpointGenerator
      */
     private function userWantsToOverwrite()
     {
-        return $this->dialogHelper->askConfirmation(
+        $question = new Question("Class " . $this->className . " already exist, do you want to overwrite it?", false);
+        return $this->dialogHelper->ask(
+            $this->inputInterface,
             $this->out,
-            "Class " . $this->className . " already exist, do you want to overwrite it? [y/n] "
+            $question
         );
     }
 

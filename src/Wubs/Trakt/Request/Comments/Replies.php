@@ -27,7 +27,7 @@ class Replies extends AbstractRequest
     {
         parent::__construct();
         $this->id = $commentId;
-//        $this->setResponseHandler(new CommentHandler());
+        $this->setResponseHandler(new CommentHandler());
     }
 
     public function getRequestType()

@@ -96,7 +96,7 @@ class AbstractRequestTest extends PHPUnit_Framework_TestCase
 
         $response = (new MyMovies(get_token(), Carbon::now(), 20))->make(get_client_id(), $client);
 
-        $this->assertInternalType("array", $response);
+        $this->assertInternalType("object", $response);
     }
 
 }

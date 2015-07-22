@@ -1,7 +1,13 @@
 <?php
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Message\RequestInterface;
+use GuzzleHttp\Message\ResponseInterface;
+use Illuminate\Support\Collection;
+use Wubs\Trakt\Auth;
 use Wubs\Trakt\Media\Movie;
 use Wubs\Trakt\Request\Parameters\Query;
+use Wubs\Trakt\Request\Parameters\Type;
+use Wubs\Trakt\Trakt;
 
 /**
  * Created by PhpStorm.
@@ -49,7 +55,7 @@ class MovieTest extends PHPUnit_Framework_TestCase
         $clientId = get_client_id();
         $token = get_token();
         $mockResponse = new TestResponse($json);
-        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $client = Mockery::mock(ClientInterface::class);
         $movie = new Movie($mockResponse->json(['object' => true]), $clientId, $token, $client);
 
         $this->assertInstanceOf("Wubs\\Trakt\\Media\\Movie", $movie);
@@ -69,12 +75,47 @@ class MovieTest extends PHPUnit_Framework_TestCase
       "tmdb": 155
     }
   }';
-        $mockResponse = new TestResponse($json);
-        $json = $mockResponse->json(["object" => true]);
+        $json = json_decode($json);
 
-        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $client = Mockery::mock(ClientInterface::class);
         $movie = new Movie($json, get_client_id(), get_token(), $client);
 
         $this->assertEquals("The Dark Knight", $movie->title);
     }
+
+    public function testCanCheckInFromMovieObject()
+    {
+
+        $client = mock_client(
+            201,
+            '{
+                  "watched_at": "2014-08-06T01:11:37.953Z",
+                  "sharing": {
+                    "facebook": true,
+                    "twitter": true,
+                    "tumblr": false
+                  },
+                  "movie": {
+                    "title": "Guardians of the Galaxy",
+                    "year": 2014,
+                    "ids": {
+                      "trakt": 28,
+                      "slug": "guardians-of-the-galaxy-2014",
+                      "imdb": "tt2015381",
+                      "tmdb": 118340
+                    }
+                  }
+                }'
+        );
+
+        $movie = movie($client);
+
+        $checkin = $movie->checkIn([], "Never seen this one before!");
+
+        $this->assertInstanceOf("Wubs\\Trakt\\Response\\CheckIn", $checkin);
+
+        $this->assertTrue($checkin->isSharedOnFacebook());
+        $this->assertEquals("Guardians of the Galaxy", $checkin->media->title);
+    }
+
 }

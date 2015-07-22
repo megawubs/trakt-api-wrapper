@@ -12,7 +12,7 @@ namespace Wubs\Trakt\Request\Comments;
 use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\RequestType;
 
-class GetComment extends AbstractRequest
+class Get extends AbstractRequest
 {
 
     private $id;

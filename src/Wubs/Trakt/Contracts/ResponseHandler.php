@@ -14,7 +14,7 @@ interface ResponseHandler
 {
     public function handle(ResponseInterface $response, \GuzzleHttp\ClientInterface $client);
 
-    public function setId($id);
+    public function setClientId($id);
 
     public function setToken(AccessToken $token);
 }

@@ -8,7 +8,9 @@ use League\Flysystem\File;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
+use Symfony\Component\Console\Helper\HelperInterface;
 use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Wubs\Trakt\Console\Generators\EndpointGenerator;
 
@@ -53,9 +55,11 @@ class ApiGeneratorTest extends PHPUnit_Framework_TestCase
         $outMock->shouldReceive("writeln");
         $outMock->shouldReceive("write")->andReturn(true);
 
+        $inMock = Mockery::mock(InputInterface::class);
+
         $dialog = Mockery::mock(QuestionHelper::class);
-        $dialog->shouldReceive("askConfirmation")->andReturn(true);
-        $generator = new EndpointGenerator($outMock, $dialog);
+        $dialog->shouldReceive("ask")->andReturn(true);
+        $generator = new EndpointGenerator($inMock, $outMock, $dialog);
 
         $generator->generateForEndpoint("Comments");
 
@@ -78,7 +82,7 @@ class ApiGeneratorTest extends PHPUnit_Framework_TestCase
      */
     public function testClassHasMethodWithGivenName()
     {
-        $this->assertContains("public function deleteComment", self::$content);
+        $this->assertContains("public function delete", self::$content);
     }
 
     /**
@@ -86,7 +90,7 @@ class ApiGeneratorTest extends PHPUnit_Framework_TestCase
      */
     public function testMethodHasParameters()
     {
-        $this->assertContains('public function deleteComment(AccessToken $token, $commentId)', self::$content);
+        $this->assertContains('public function delete(AccessToken $token, $commentId)', self::$content);
     }
 
     /**
@@ -102,7 +106,7 @@ class ApiGeneratorTest extends PHPUnit_Framework_TestCase
      */
     public function testRequestClassIsPassed()
     {
-        $this->assertContains("new DeleteComment", self::$content);
+        $this->assertContains("new DeleteRequest", self::$content);
     }
 
     /**
@@ -110,7 +114,7 @@ class ApiGeneratorTest extends PHPUnit_Framework_TestCase
      */
     public function testRequestClassHasParameters()
     {
-        $this->assertContains('new DeleteCommentRequest($token, $commentId)', self::$content);
+        $this->assertContains('new DeleteRequest($token, $commentId)', self::$content);
     }
 
     public function testClassIsFormattedWithoutToken()
@@ -118,13 +122,14 @@ class ApiGeneratorTest extends PHPUnit_Framework_TestCase
         $outMock = Mockery::mock(OutputInterface::class);
         $outMock->shouldReceive("writeln");
         $outMock->shouldReceive("write");
+        $inMock = Mockery::mock(InputInterface::class);
 
-        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $client = Mockery::mock(ClientInterface::class);
 
 
         $dialog = Mockery::mock(QuestionHelper::class);
-        $dialog->shouldReceive("askConfirmation")->andReturn(true);
-        $generator = new EndpointGenerator($outMock, $dialog);
+        $dialog->shouldReceive("ask")->andReturn(true);
+        $generator = new EndpointGenerator($inMock, $outMock, $dialog);
 
         $generator->generateForEndpoint("Episodes");
         $content = $generator->getGeneratedTemplate();
@@ -138,9 +143,34 @@ class ApiGeneratorTest extends PHPUnit_Framework_TestCase
      */
     public function testClassCanBeInitiated()
     {
-        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $client = Mockery::mock(ClientInterface::class);
         $class = new $this->namespace(get_client_id(), $client);
 
         $this->assertInstanceOf($this->namespace, $class);
+    }
+
+    /**
+     * @skip
+     */
+    public function testAddsDefaultValueToParametersWithDefaultValue()
+    {
+        $outMock = Mockery::mock(OutputInterface::class);
+        $outMock->shouldReceive("writeln");
+        $outMock->shouldReceive("write");
+        $inMock = Mockery::mock(InputInterface::class);
+
+        $dialog = Mockery::mock(QuestionHelper::class);
+        $dialog->shouldReceive("ask")->andReturn(true);
+        $generator = new EndpointGenerator($inMock, $outMock, $dialog);
+
+        $generator->generateForEndpoint("Search");
+
+        $content = $generator->getGeneratedTemplate();
+
+        $this->assertContains(
+            'public function text($query, $type = null, $year = null, AccessToken $token = null)',
+            $content
+        );
+
     }
 }

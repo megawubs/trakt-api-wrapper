@@ -30,6 +30,6 @@ class HistoryTest extends PHPUnit_Framework_TestCase
 
         $response = (new History(get_token(), 'rolle', Type::movies()))->make($clientId, $client);
 
-        $this->assertInternalType("array", $response);
+        $this->assertInternalType("object", $response);
     }
 }

@@ -10,6 +10,7 @@ namespace Wubs\Trakt\Response\Handlers\Movies;
 
 
 use GuzzleHttp\Message\ResponseInterface;
+use Illuminate\Support\Collection;
 use Wubs\Trakt\Contracts\ResponseHandler;
 use Wubs\Trakt\Response\Comment;
 use Wubs\Trakt\Response\Handlers\AbstractResponseHandler;
@@ -20,7 +21,7 @@ class CommentsHandler extends AbstractResponseHandler implements ResponseHandler
     /**
      * @param ResponseInterface $response
      * @param \GuzzleHttp\ClientInterface|GuzzleHttp\ClientInterface $client
-     * @return \Wubs\Trakt\Response\Comment[]
+     * @return \Wubs\Trakt\Response\Comment[]|Collection
      */
     public function handle(ResponseInterface $response, \GuzzleHttp\ClientInterface $client)
     {
@@ -41,6 +42,6 @@ class CommentsHandler extends AbstractResponseHandler implements ResponseHandler
         foreach ($json as $item) {
             $comments[] = new Comment($item, $this->getClientId(), $this->getToken());
         }
-        return $comments;
+        return collect($comments);
     }
 }

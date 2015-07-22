@@ -106,7 +106,7 @@ class Trakt
      * @param ClientInterface $client
      * @param Auth $auth
      */
-    public function __construct($clientId, ClientInterface $client, Auth $auth)
+    public function __construct($clientId, ClientInterface $client, Auth $auth = null)
     {
         $this->client = $client;
         $this->clientId = $clientId;

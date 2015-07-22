@@ -9,7 +9,9 @@
 namespace Wubs\Trakt\Response\Handlers\Search;
 
 
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Message\ResponseInterface;
+use Illuminate\Support\Collection;
 use Wubs\Trakt\Exception\MediaTypeNotSupportedException;
 use Wubs\Trakt\Media\Episode;
 use Wubs\Trakt\Media\Movie;
@@ -18,20 +20,23 @@ use Wubs\Trakt\Media\Show;
 use Wubs\Trakt\Request\Parameters\Type;
 use Wubs\Trakt\Response\Handlers\AbstractResponseHandler;
 
-class TextSearchHandler extends AbstractResponseHandler implements ResponseHandler
+class SearchHandler extends AbstractResponseHandler implements ResponseHandler
 {
 
     public function handle(ResponseInterface $response, \GuzzleHttp\ClientInterface $client)
     {
         $items = $this->getJson($response);
 
-        $result = [];
 
-        foreach ($items as $item) {
-            $result[] = $this->toMedia($item);
+        if ($this->getToken() !== null) {
+            $result = new Collection();
+            foreach ($items as $item) {
+                $result->push($this->toMedia($item, $client));
+            }
+            return $result;
         }
 
-        return $result;
+        return collect($items);
     }
 
     /**
@@ -39,21 +44,21 @@ class TextSearchHandler extends AbstractResponseHandler implements ResponseHandl
      * @return Movie|Show
      * @throws MediaTypeNotSupportedException
      */
-    protected function toMedia($item)
+    protected function toMedia($item, ClientInterface $client)
     {
         $id = $this->getClientId();
         $token = $this->getToken();
 
         if ($this->isMovie($item)) {
-            return new Movie($item, $id, $token);
+            return new Movie($item, $id, $token, $client);
         }
 
         if ($this->isShow($item)) {
-            return new Show($item, $id, $token);
+            return new Show($item, $id, $token, $client);
         }
 
         if ($this->isEpisode($item)) {
-            return new Episode($item, $id, $token);
+            return new Episode($item, $id, $token, $client);
         }
 
         throw new MediaTypeNotSupportedException;

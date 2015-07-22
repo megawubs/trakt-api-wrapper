@@ -20,11 +20,10 @@ class CheckInHandler extends AbstractResponseHandler implements ResponseHandler
 
     /**
      * @param ResponseInterface $response
-     * @param ClientInterface|GuzzleHttp\ClientInterface $client
+     * @param $client
      * @return CheckIn
-     * @internal param ClientInterface $client
      */
-    public function handle(ResponseInterface $response, \GuzzleHttp\ClientInterface $client)
+    public function handle(ResponseInterface $response, ClientInterface $client)
     {
         $object = $this->getJson($response);
 

@@ -60,7 +60,7 @@ class ApiTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf("Wubs\\Trakt\\Api\\Calendars", $calendars);
 
         $movies = $calendars->allMovies($this->today, 7);
-        $this->assertInternalType('array', $movies);
+        $this->assertInternalType('object', $movies);
     }
 
     public function testCheckIn()
@@ -95,19 +95,19 @@ class ApiTest extends PHPUnit_Framework_TestCase
 
         $auth = Mockery::mock(Auth::class);
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
+        $trakt = new Trakt(get_client_id(), $client, $auth);
 
         $checkIn = $trakt->checkIn;
         $this->assertInstanceOf("Wubs\\Trakt\\Api\\CheckIn", $checkIn);
         $response = $checkIn->create(
             get_token(),
             movie($client),
+            "nooo way!",
             [
                 'facebook' => false,
                 'twitter' => false,
                 'tumblr' => false
             ],
-            "nooo way!",
             "1200",
             "blablabla",
             "1.1",

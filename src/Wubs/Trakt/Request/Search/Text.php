@@ -9,9 +9,10 @@
 namespace Wubs\Trakt\Request\Search;
 
 
+use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\RequestType;
-use Wubs\Trakt\Response\Handlers\Search\TextSearchHandler;
+use Wubs\Trakt\Response\Handlers\Search\SearchHandler;
 
 class Text extends AbstractRequest
 {
@@ -32,8 +33,9 @@ class Text extends AbstractRequest
      * @param string $query
      * @param string $type
      * @param int $year
+     * @param AccessToken $token
      */
-    public function __construct($query, $type = null, $year = null)
+    public function __construct($query, $type = null, $year = null, AccessToken $token = null)
     {
         parent::__construct();
 
@@ -41,9 +43,13 @@ class Text extends AbstractRequest
         $this->type = $type;
         $this->year = $year;
 
+        if ($token !== null) {
+            $this->setToken($token);
+        }
+
         $queryParams = $this->makeQueryParams();
         $this->setQueryParams($queryParams);
-        $this->setResponseHandler(new TextSearchHandler());
+        $this->setResponseHandler(new SearchHandler());
     }
 
     public function getRequestType()

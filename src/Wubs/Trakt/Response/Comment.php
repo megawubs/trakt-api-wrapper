@@ -9,26 +9,22 @@
 namespace Wubs\Trakt\Response;
 
 
+use Carbon\Carbon;
+use GuzzleHttp\ClientInterface;
 use League\OAuth2\Client\Token\AccessToken;
-use Wubs\Trakt\Request\Comments\DeleteComment;
+use Wubs\Trakt\Request\Comments\Delete;
 
 class Comment
 {
     private $clientId;
-    private $json;
-    /**
-     * @var AccessToken
-     */
-    private $token;
 
-    /**
-     * @var CommentId
-     */
+    private $json;
+
     public $id;
 
     public $parentId;
 
-    public $ceatedAt;
+    public $createdAt;
 
     public $comment;
 
@@ -41,116 +37,41 @@ class Comment
     public $likes;
 
     public $user;
+    /**
+     * @var ClientInterface
+     */
+    private $client;
 
     /**
      * @param $json
      * @param $clientId
-     * @param AccessToken $token
+     * @param ClientInterface $client
      */
-    public function __construct($json, $clientId, AccessToken $token)
+    public function __construct($json, $clientId, ClientInterface $client)
     {
         $this->clientId = $clientId;
         $this->json = $json;
-        $this->token = $token;
 
-        $this->setCeatedAt($json->created_at);
-        $this->setId($json->id);
-        $this->setParentId($json->parent_id);
-        $this->setComment($json->comment);
-        $this->setSpoiler($json->spoiler);
-        $this->setReview($json->review);
-        $this->setReplies($json->replies);
-        $this->setLikes($json->likes);
-        $this->setUser($json->user);
-    }
-
-    /**
-     * @param mixed $ceatedAt
-     */
-    public function setCeatedAt($ceatedAt)
-    {
-        $this->ceatedAt = $ceatedAt;
-    }
-
-    /**
-     * @param mixed $comment
-     */
-    public function setComment($comment)
-    {
-        $this->comment = $comment;
-    }
-
-    /**
-     * @param $id
-     */
-    public function setId($id)
-    {
-        $this->id = CommentId::set($id);
-    }
-
-    /**
-     * @param mixed $likes
-     */
-    public function setLikes($likes)
-    {
-        $this->likes = $likes;
-    }
-
-    /**
-     * @param mixed $parentId
-     */
-    public function setParentId($parentId)
-    {
-        $this->parentId = CommentId::set($parentId);
-    }
-
-    /**
-     * @param mixed $replies
-     */
-    public function setReplies($replies)
-    {
-        $this->replies = $replies;
-    }
-
-    /**
-     * @param mixed $review
-     */
-    public function setReview($review)
-    {
-        $this->review = $review;
-    }
-
-    /**
-     * @param mixed $spoiler
-     */
-    public function setSpoiler($spoiler)
-    {
-        $this->spoiler = $spoiler;
-    }
-
-    /**
-     * @param mixed $user
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
-    }
-
-    /**
-     * @return CommentId
-     */
-    public function getId()
-    {
-        return $this->id;
+        $this->createdAt = Carbon::createFromFormat('Y-m-d\TH:i:s.uO', $json->created_at);
+        $this->id = $json->id;
+        $this->parent_id = $json->parent_id;
+        $this->comment = $json->comment;
+        $this->spoiler = $json->spoiler;
+        $this->review = $json->review;
+        $this->replies = $json->replies;
+        $this->likes = $json->likes;
+        $this->user = $json->user;
+        $this->client = $client;
     }
 
 
     /**
-     * @return boolean
+     * @param AccessToken $token
+     * @return bool
      */
-    public function delete()
+    public function delete(AccessToken $token)
     {
-        return DeleteComment::make($this->clientId, $this->token, $this->getId());
+        return (new Delete($token, $this->id))->make($this->clientId, $this->client);
     }
 
 

@@ -42,7 +42,7 @@ class HowItShouldWorkTest extends PHPUnit_Framework_TestCase
     {
 
         $popular = $this->trakt->movies->popular();
-        $this->assertInternalType("array", $popular);
+        $this->assertInternalType("object", $popular);
 
     }
 

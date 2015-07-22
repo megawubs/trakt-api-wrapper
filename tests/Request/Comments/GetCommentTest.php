@@ -1,5 +1,5 @@
 <?php
-use Wubs\Trakt\Request\Comments\GetComment;
+use Wubs\Trakt\Request\Comments\Get;
 use Wubs\Trakt\Request\Parameters\CommentId;
 use Wubs\Trakt\Request\RequestType;
 
@@ -14,7 +14,7 @@ class GetCommentTest extends PHPUnit_Framework_TestCase
     public function testStaticCall()
     {
 
-        $request = new GetComment(41);
+        $request = new Get(41);
 
         $url = $request->getUrl();
 
