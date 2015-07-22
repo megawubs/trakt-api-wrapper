@@ -2,6 +2,7 @@
 
 use GuzzleHttp\Message\Response;
 use GuzzleHttp\Message\ResponseInterface;
+use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\RequestType;
 
@@ -13,6 +14,12 @@ use Wubs\Trakt\Request\RequestType;
  */
 class Settings extends AbstractRequest
 {
+
+    public function __construct(AccessToken $token)
+    {
+        parent::__construct();
+        $this->setToken($token);
+    }
 
     public function getRequestType()
     {

@@ -4,46 +4,35 @@
 namespace Wubs\Trakt\Request\Users;
 
 
+use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\RequestType;
 
-class Hidden extends AbstractRequest
+class Likes extends AbstractRequest
 {
-    /**
-     * @var
-     */
-    private $section;
     /**
      * @var
      */
     private $type;
 
     /**
-     * @param $section
+     * @param AccessToken $token
      * @param $type
      */
-    public function __construct($section, $type)
+    public function __construct(AccessToken $token, $type)
     {
-        $this->section = $section;
+        parent::__construct();
+        $this->setToken($token);
         $this->type = $type;
     }
 
     /**
-     * @return string
-     */
-    public function getSection()
-    {
-        return $this->section;
-    }
-
-    /**
-     * @return string
+     * @return mixed
      */
     public function getType()
     {
         return $this->type;
     }
-
 
     public function getRequestType()
     {
@@ -52,6 +41,6 @@ class Hidden extends AbstractRequest
 
     public function getUri()
     {
-        return "users/hidden/:section?type=:type";
+        return 'users/likes/:type';
     }
 }

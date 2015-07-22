@@ -4,6 +4,7 @@
 namespace Wubs\Trakt\Request\Users;
 
 
+use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\Parameters\FollowerRequestId;
 use Wubs\Trakt\Request\RequestType;
@@ -16,18 +17,16 @@ class DenyFollowRequest extends AbstractRequest
     private $id;
 
     /**
+     * @param AccessToken $token
      * @param int $followerRequestId
      */
-    public function __construct($followerRequestId)
+    public function __construct(AccessToken $token, $followerRequestId)
     {
         parent::__construct();
-
+        $this->setToken($token);
         $this->id = $followerRequestId;
     }
 
-    /**
-     * @return FollowerRequestId
-     */
     public function getId()
     {
         return $this->id;

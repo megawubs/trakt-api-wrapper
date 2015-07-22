@@ -38,10 +38,6 @@ abstract class AbstractRequest
      */
     private $responseHandler;
 
-    private $apiVersion = 2;
-
-    private $extended;
-
     private $environment = 'prod';
 
     /**
@@ -55,16 +51,11 @@ abstract class AbstractRequest
     private $token = null;
 
     /**
-     * @param array $queryParams
+     *
      */
-    public function __construct(array $queryParams = [])
+    public function __construct()
     {
-//        $this->extended = $extended;
-//        $this->client = $this->getClient($this->apiVersion);
-//        $this->apiVersion = $apiVersion;
-//        $this->page = $page;
-//        $this->limit = $limit;
-        $this->queryParams = $queryParams;
+        $this->queryParams = [];
 
         $this->setResponseHandler(new DefaultResponseHandler());
     }

@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: bwubs
- * Date: 24/03/15
- * Time: 21:24
- */
+
 
 namespace Wubs\Trakt\Request\Users;
 
@@ -13,44 +8,30 @@ use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\RequestType;
 
-class History extends AbstractRequest
+class Lists extends AbstractRequest
 {
     /**
      * @var string
      */
     private $username;
-    /**
-     * @var string
-     */
-    private $type;
 
     /**
      * @param string $username
-     * @param string $type
-     * @param AccessToken $token
+     * @param AccessToken|null $token
      */
-    public function __construct($username, $type, AccessToken $token = null)
+    public function __construct($username, AccessToken $token = null)
     {
         parent::__construct();
         $this->setToken($token);
         $this->username = $username;
-        $this->type = $type;
     }
 
     /**
-     * @return string
+     * @return array
      */
     public function getUsername()
     {
         return $this->username;
-    }
-
-    /**
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
     }
 
     public function getRequestType()
@@ -60,6 +41,6 @@ class History extends AbstractRequest
 
     public function getUri()
     {
-        return "users/:username/history/:type";
+        return "users/:username/lists";
     }
 }
