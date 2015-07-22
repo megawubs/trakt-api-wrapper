@@ -28,7 +28,7 @@ class HistoryTest extends PHPUnit_Framework_TestCase
 
         $clientId = getenv("CLIENT_ID");
 
-        $response = (new History(get_token(), 'rolle', Type::movies()))->make($clientId, $client);
+        $response = (new History('rolle', Type::movies(), get_token()))->make($clientId, $client);
 
         $this->assertInternalType("object", $response);
     }

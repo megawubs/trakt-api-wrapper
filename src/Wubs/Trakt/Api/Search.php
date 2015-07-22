@@ -14,8 +14,8 @@ use Wubs\Trakt\Request\Search\ID as IDRequest;
 use Wubs\Trakt\Request\Search\Text as TextRequest;
 
 class Search extends Endpoint {
-
     
+
 
     public function iD($idType, $mediaId, AccessToken $token = null)
     {

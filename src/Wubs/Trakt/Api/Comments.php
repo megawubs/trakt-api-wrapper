@@ -20,8 +20,8 @@ use Wubs\Trakt\Request\Comments\Replies as RepliesRequest;
 use Wubs\Trakt\Request\Comments\Update as UpdateRequest;
 
 class Comments extends Endpoint {
-
     
+
 
     public function create(Media $media, $comment, $spoiler = false)
     {

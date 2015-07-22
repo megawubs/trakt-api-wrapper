@@ -318,13 +318,11 @@ class EndpointGenerator
      */
     private function handleDirectory(Collection $properties, $content)
     {
-
         $properties->push($content['filename']);
 
         $this->filesystem->createDir('Api/' . $this->endpoint->first());
         $generator = new EndpointGenerator($this->inputInterface, $this->out, $this->dialogHelper);
-        $endpoint = $this->endpoint->first() . "\\" . $content['filename'];
-
+        $endpoint = str_replace("Request/", "", $content['path']);
         $generator->generateForEndpoint($endpoint);
     }
 
@@ -334,7 +332,7 @@ class EndpointGenerator
      */
     private function createEndpoint($endpoint)
     {
-        return collect(explode('\\', $endpoint))->map(
+        return collect(explode('/', $endpoint))->map(
             function ($endpoint) {
                 return ucfirst($endpoint);
             }
@@ -343,8 +341,10 @@ class EndpointGenerator
 
     private function setNamespace()
     {
+        $parts = clone $this->endpoint;
+        $parts->pop();
         $namespace = ($this->endpoint->count() === 1) ? $this->apiNamespace : $this->apiNamespace . '\\' .
-            $this->endpoint->first();
+            $parts->implode("\\");
 
         return $this->writeInTemplate("namespace", $namespace);
     }

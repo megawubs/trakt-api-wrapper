@@ -16,8 +16,8 @@ use Wubs\Trakt\Request\Episodes\Summary as SummaryRequest;
 use Wubs\Trakt\Request\Episodes\Watching as WatchingRequest;
 
 class Episodes extends Endpoint {
-
     
+
 
     public function comments($showId, $season, $episode)
     {

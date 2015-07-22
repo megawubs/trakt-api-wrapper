@@ -138,16 +138,16 @@ class ApiGeneratorTest extends PHPUnit_Framework_TestCase
 //        $this->assertInstanceOf("Wubs\\Trakt\\Api\\Episodes", $class);
     }
 
-//    /**
-//     * @depends testGeneratesClassFile
-//     */
-//    public function testClassCanBeInitiated()
-//    {
-//        $client = Mockery::mock(ClientInterface::class);
-//        $class = new $this->namespace(get_client_id(), $client);
-//
-//        $this->assertInstanceOf($this->namespace, $class);
-//    }
+    /**
+     * @depends testGeneratesClassFile
+     */
+    public function testClassCanBeInitiated()
+    {
+        $client = Mockery::mock(ClientInterface::class);
+        $class = new $this->namespace(get_client_id(), $client);
+
+        $this->assertInstanceOf($this->namespace, $class);
+    }
 
     /**
      * @skip

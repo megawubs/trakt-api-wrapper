@@ -77,7 +77,7 @@ class NestedRequestsGeneratorTest extends PHPUnit_Framework_TestCase
     {
         $generator = $this->getGenerator();
 
-        $generator->generateForEndpoint("Users\\Follow");
+        $generator->generateForEndpoint("Users/Follow");
 
         static::$content = $generator->getGeneratedTemplate();
 

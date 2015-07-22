@@ -47,7 +47,6 @@ abstract class Endpoint
     {
         $match = [];
         preg_match('/(?<=@var\s).+/', $dockBlock, $match);
-        dump($match);
         return new \ReflectionClass($match[0]);
     }
 }

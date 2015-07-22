@@ -14,7 +14,7 @@ class SettingsTest extends PHPUnit_Framework_TestCase
 
     public function testInitiation()
     {
-        $settingsRequest = new Settings();
+        $settingsRequest = new Settings(get_token());
 
         $this->assertEquals(RequestType::GET, $settingsRequest->getRequestType());
         $this->assertEquals("users/settings", $settingsRequest->getUrl());
