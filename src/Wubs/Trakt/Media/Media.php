@@ -11,6 +11,7 @@ namespace Wubs\Trakt\Media;
 
 use GuzzleHttp\ClientInterface;
 use League\OAuth2\Client\Token\AccessToken;
+use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\CheckIn\Create;
 use Wubs\Trakt\Request\CheckIn\Delete;
 use Wubs\Trakt\Request\Comments\Create as CreateCommend;
@@ -90,21 +91,20 @@ abstract class Media
         $appVersion = null,
         $appDate = null
     ) {
-        return (
-        new Create(
-            $this->token, $this, $message, $sharing, $venueId, $venueName, $appVersion, $appDate
-        )
-        )->make($this->id, $this->client);
+        $request = new Create($this->token, $this, $message, $sharing, $venueId, $venueName, $appVersion, $appDate);
+        return $this->make($request);
     }
 
     public function checkOut()
     {
-        return Delete::make($this->id, $this->token);
+        $request = new Delete($this->token);
+        return $this->make($request);
     }
 
-    public function comment(Comment $comment)
+    public function comment($comment)
     {
-        return CreateCommend::make($this->id, $this->token, [$this, $comment]);
+        $request = new CreateCommend($this, $comment);
+        return $this->make($request);
     }
 
     /**
@@ -113,7 +113,8 @@ abstract class Media
     public function comments()
     {
         $slug = $this->getSlug();
-        return (new Comments($slug))->make($this->id, $this->client);
+        $request = new Comments($slug);
+        return $this->make($request);
     }
 
     public function getTitle()
@@ -172,5 +173,14 @@ abstract class Media
         }
 
         return $this->json;
+    }
+
+    /**
+     * @param $request
+     * @return mixed
+     */
+    private function make(AbstractRequest $request)
+    {
+        return $request->make($this->id, $this->client);
     }
 }

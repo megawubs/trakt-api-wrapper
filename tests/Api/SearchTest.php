@@ -2,7 +2,7 @@
 
 
 use Illuminate\Support\Collection;
-use Wubs\Trakt\Auth;
+use Wubs\Trakt\Auth\Auth;
 use Wubs\Trakt\Media\Movie;
 use Wubs\Trakt\Request\Parameters\Type;
 use Wubs\Trakt\Trakt;
@@ -49,8 +49,8 @@ class SearchTest extends PHPUnit_Framework_TestCase
   }
 ]'
         );
-        $auth = Mockery::mock(Auth::class);
-        $trakt = new Trakt(get_client_id(), $client, $auth);
+        $auth = mock_auth();
+        $trakt = new Trakt($auth, $client);
 
         $result = $trakt->search->text("Batman Begins", Type::show(), 2011);
 
@@ -95,8 +95,8 @@ class SearchTest extends PHPUnit_Framework_TestCase
 ]'
         );
 
-        $auth = Mockery::mock(Auth::class);
-        $trakt = new Trakt(get_client_id(), $client, $auth);
+        $auth = mock_auth();
+        $trakt = new Trakt($auth, $client);
         $search = $trakt->search->text("Batman", Type::movie(), 2011, get_token());
 
         $this->assertInstanceOf(Collection::class, $search);
@@ -138,8 +138,8 @@ class SearchTest extends PHPUnit_Framework_TestCase
 ]'
         );
 
-        $auth = Mockery::mock(Auth::class);
-        $trakt = new Trakt(get_client_id(), $client, $auth);
+        $auth = mock_auth();
+        $trakt = new Trakt($auth, $client);
 
         $result = $trakt->search->iD('trakt-movie', 12);
 
@@ -183,8 +183,8 @@ class SearchTest extends PHPUnit_Framework_TestCase
 ]'
         );
 
-        $auth = Mockery::mock(Auth::class);
-        $trakt = new Trakt(get_client_id(), $client, $auth);
+        $auth = mock_auth();
+        $trakt = new Trakt($auth, $client);
 
         $result = $trakt->search->iD('trakt-movie', 12, get_token());
 

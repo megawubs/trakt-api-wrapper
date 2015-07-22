@@ -1,14 +1,16 @@
 <?php
 
 
-namespace Wubs\Trakt;
+namespace Wubs\Trakt\Auth;
 
 
 use Wubs\Trakt\Exception\InvalidOauthRequestException;
-use Wubs\Trakt\Provider\TraktProvider;
+use Wubs\Trakt\Auth\TraktProvider;
 
 class Auth
 {
+    public $provider;
+
     /**
      * @param TraktProvider $provider
      */

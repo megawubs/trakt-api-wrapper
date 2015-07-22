@@ -3,7 +3,7 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Message\RequestInterface;
 use GuzzleHttp\Message\ResponseInterface;
 use Illuminate\Support\Collection;
-use Wubs\Trakt\Auth;
+use Wubs\Trakt\Auth\Auth;
 use Wubs\Trakt\Media\Movie;
 use Wubs\Trakt\Request\Parameters\Query;
 use Wubs\Trakt\Request\Parameters\Type;

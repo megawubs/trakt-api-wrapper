@@ -1,8 +1,8 @@
 <?php
 use GuzzleHttp\Client;
-use Wubs\Trakt\Auth;
+use Wubs\Trakt\Auth\Auth;
 use Wubs\Trakt\Contracts\ExecutesRequest;
-use Wubs\Trakt\Provider\TraktProvider;
+use Wubs\Trakt\Auth\TraktProvider;
 use Wubs\Trakt\Request\DescribesRequest;
 use Wubs\Trakt\Trakt;
 use Wubs\Trakt\TraktHttpClient;
@@ -31,7 +31,7 @@ class HowItShouldWorkTest extends PHPUnit_Framework_TestCase
         $provider = new TraktProvider(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
         $auth = new Auth($provider);
 
-        $this->trakt = new Trakt(getenv("CLIENT_ID"), TraktHttpClient::make(), $auth);
+        $this->trakt = new Trakt($auth, TraktHttpClient::make());
 
     }
 
@@ -50,9 +50,10 @@ class HowItShouldWorkTest extends PHPUnit_Framework_TestCase
     {
         $provider = Mockery::mock(TraktProvider::class);
         $provider->shouldReceive("authorize")->once();
+        $provider->shouldReceive("getClientId")->once()->andReturn(get_client_id());
         $auth = new Auth($provider);
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), TraktHttpClient::make(), $auth);
+        $trakt = new Trakt($auth, TraktHttpClient::make());
 
         $trakt->auth->authorize(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), "uri");
     }

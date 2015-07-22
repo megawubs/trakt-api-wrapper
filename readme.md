@@ -11,13 +11,18 @@ In your composer.json file add:`"wubs/trakt": "dev-master"` and run `composer in
 
 The goal of this wrapper is to make communicating with the Trakt api easier. It aims to be easy, readable and usable in many cases. Designed as a composer package it can be easy installed inside a lager application.
 
+## Instantiating the Trakt API Wrapper
+
+The API Wrapper needs three dependencies. The first is the `Wubs\Trakt\Auth` class, that in turn depends on 
+`Wubs\Trakt\Provider\TraktProvider You can find this  
+
 ## OAuth
 
 To get your OAuth token, do the following
 
 ```PHP
 <?php
-$auth = $trakt->authorize($clientId, $clientSecret, $redirectUrl);
+$trakt->authorize($clientId, $clientSecret, $redirectUrl);
 ```
  
 The redirect url is where you have to specify the url Trakt is going to send you the code to obtain an access code. 
@@ -30,22 +35,16 @@ site, you need to tell Trakt that you want to redirect to them self and display 
 token. You can do this by providing the following  string as redirect url: `urn:ietf:wg:oauth:2.0:oob`
 
 So, lets say your client id is `12345678` and you client secret is `secret01` and we have are redirect url to the 
-local dev machine `trakt.dev` Now, `trakt.dev/trakt/auth` is going to be our redirect url. Creating the Auth object can 
-now be done like this:
- 
- ```PHP
- <?php
- $auth = Trakt::auth("12345678", "secret01", "trakt.dev/trakt/auth");
- ```
+local dev machine `trakt.dev` Now, `trakt.dev/trakt/auth` is going to be our redirect url. 
 
-Now you can create a route from witch you do the following (note, this is not the `trakt/auth` route!):
+Now you can create a route from witch you do the following (note, this should not be not the `trakt/auth` route!):
 
  ```PHP
 <?php
 
 // route: trakt
-$auth = Trakt::auth("12345678", "secret01", "trakt.dev/trakt/auth");
-$auth->authorize();
+
+$auth = $trakt->authorize();
 
 //route: trakt/auth
 $auth = new Trakt::auth("12345678", "secret01", "trakt.dev/trakt/auth");

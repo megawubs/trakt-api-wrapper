@@ -6,7 +6,7 @@
  * Time: 22:12
  */
 
-namespace Wubs\Trakt\Provider;
+namespace Wubs\Trakt\Auth;
 
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessToken;
@@ -58,6 +58,10 @@ class TraktProvider extends AbstractProvider
         return $this->urlAuthorize() . '?' . $this->httpBuildQuery($params, '', '&');
     }
 
+    public function getClientId()
+    {
+        return $this->clientId;
+    }
 
     /**
      * Get the URL that this provider users to request an access token.

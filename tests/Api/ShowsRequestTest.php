@@ -3,7 +3,7 @@
 
 use Carbon\Carbon;
 use Wubs\Trakt\Api;
-use Wubs\Trakt\Auth;
+use Wubs\Trakt\Auth\Auth;
 use Wubs\Trakt\Trakt;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Message\RequestInterface;
@@ -27,9 +27,9 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
     {
         $client = mock_client(200, "[]");
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = mock_auth();
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
+        $trakt = new Trakt($auth, $client);
 
         $aliases = $trakt->shows->aliases($this->id);
 
@@ -40,9 +40,9 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
     {
         $client = mock_client(200, "[]");
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = mock_auth();
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
+        $trakt = new Trakt($auth, $client);
 
         $comments = $trakt->shows->comments($this->id, get_token());
 
@@ -53,9 +53,9 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
     {
         $client = mock_client(200, "[]");
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = mock_auth();
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
+        $trakt = new Trakt($auth, $client);
 
         $people = $trakt->shows->people($this->id);
 
@@ -66,9 +66,9 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
     {
         $client = mock_client(200, "[]");
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = mock_auth();
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
+        $trakt = new Trakt($auth, $client);
 
         $popular = $trakt->shows->popular();
 
@@ -79,9 +79,9 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
     {
         $client = mock_client(200, "[]");
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = mock_auth();
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
+        $trakt = new Trakt($auth, $client);
 
         $ratings = $trakt->shows->ratings($this->id);
 
@@ -92,9 +92,9 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
     {
         $client = mock_client(200, "[]");
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = mock_auth();
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
+        $trakt = new Trakt($auth, $client);
 
         $res = $trakt->shows->related($this->id);
 
@@ -105,9 +105,9 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
     {
         $client = mock_client(200, "[]");
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = mock_auth();
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
+        $trakt = new Trakt($auth, $client);
 
         $stats = $trakt->shows->stats($this->id);
 
@@ -118,9 +118,9 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
     {
         $client = mock_client(200, "[]");
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = mock_auth();
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
+        $trakt = new Trakt($auth, $client);
 
         $res = $trakt->shows->summary($this->id);
 
@@ -131,9 +131,9 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
     {
         $client = mock_client(200, "[]");
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = mock_auth();
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
+        $trakt = new Trakt($auth, $client);
 
         $res = $trakt->shows->translations($this->id, "NL");
 
@@ -144,9 +144,9 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
     {
         $client = mock_client(200, "[]");
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = mock_auth();
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
+        $trakt = new Trakt($auth, $client);
 
         $res = $trakt->shows->trending();
 
@@ -157,9 +157,9 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
     {
         $client = mock_client(200, "[]");
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = mock_auth();
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
+        $trakt = new Trakt($auth, $client);
 
         $res = $trakt->shows->updates(Carbon::now());
 
@@ -170,9 +170,9 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
     {
         $client = mock_client(200, "[]");
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = mock_auth();
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
+        $trakt = new Trakt($auth, $client);
 
         $res = $trakt->shows->watching($this->id);
 

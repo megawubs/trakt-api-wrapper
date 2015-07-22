@@ -2,7 +2,7 @@
 
 
 use Illuminate\Support\Collection;
-use Wubs\Trakt\Auth;
+use Wubs\Trakt\Auth\Auth;
 use Wubs\Trakt\Trakt;
 
 class EpisodesRequestTest extends PHPUnit_Framework_TestCase
@@ -37,8 +37,8 @@ class EpisodesRequestTest extends PHPUnit_Framework_TestCase
               }
             ]'
         );
-        $auth = Mockery::mock(Auth::class);
-        $trakt = new Trakt(get_client_id(), $client, $auth);
+        $auth = mock_auth();
+        $trakt = new Trakt($auth, $client);
 
         $comments = $trakt->episodes->comments(8, 2, 1);
 

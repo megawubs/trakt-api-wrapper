@@ -4,7 +4,7 @@
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Message\RequestInterface;
 use GuzzleHttp\Message\ResponseInterface;
-use Wubs\Trakt\Auth;
+use Wubs\Trakt\Auth\Auth;
 use Wubs\Trakt\Trakt;
 
 class CheckOutRequestTest extends PHPUnit_Framework_TestCase
@@ -25,9 +25,9 @@ class CheckOutRequestTest extends PHPUnit_Framework_TestCase
         $client->shouldReceive("send")->once()->andReturn($response);
         $response->shouldReceive("getStatusCode")->twice()->andReturn(204);
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = mock_auth();
 
-        $trakt = new Trakt(get_client_id(), $client, $auth);
+        $trakt = new Trakt($auth, $client);
 
         $this->assertTrue($trakt->checkIn->delete(get_token()));
     }

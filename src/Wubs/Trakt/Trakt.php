@@ -20,9 +20,10 @@ use Wubs\Trakt\Api\Search;
 use Wubs\Trakt\Api\Seasons;
 use Wubs\Trakt\Api\Shows;
 use Wubs\Trakt\Api\Users;
+use Wubs\Trakt\Auth\Auth;
 use Wubs\Trakt\Contracts\RequestInterface;
 use Wubs\Trakt\Exception\InvalidOauthRequestException;
-use Wubs\Trakt\Provider\TraktProvider;
+use Wubs\Trakt\Auth\TraktProvider;
 use Wubs\Trakt\Request\AbstractRequest;
 
 class Trakt
@@ -94,22 +95,18 @@ class Trakt
      */
     private $client;
 
-
-    private $clientId;
     /**
      * @var TraktProvider
      */
     public $auth;
 
     /**
-     * @param $clientId
-     * @param ClientInterface $client
      * @param Auth $auth
+     * @param ClientInterface $client
      */
-    public function __construct($clientId, ClientInterface $client, Auth $auth = null)
+    public function __construct(Auth $auth, ClientInterface $client)
     {
         $this->client = $client;
-        $this->clientId = $clientId;
         $this->auth = $auth;
         $this->createWrappers();
     }
@@ -120,18 +117,19 @@ class Trakt
      */
     private function createWrappers()
     {
-        $this->calendars = new Calendars($this->clientId, $this->client);
-        $this->checkIn = new CheckIn($this->clientId, $this->client);
-        $this->comments = new Comments($this->clientId, $this->client);
-        $this->episodes = new Episodes($this->clientId, $this->client);
-        $this->genres = new Genres($this->clientId, $this->client);
-        $this->movies = new Movies($this->clientId, $this->client);
-        $this->people = new People($this->clientId, $this->client);
-        $this->recommendations = new Recommendations($this->clientId, $this->client);
-        $this->scrobble = new Scrobble($this->clientId, $this->client);
-        $this->search = new Search($this->clientId, $this->client);
-        $this->seasons = new Seasons($this->clientId, $this->client);
-        $this->shows = new Shows($this->clientId, $this->client);
-        $this->users = new Users($this->clientId, $this->client);
+        $id = $this->auth->provider->getClientId();
+        $this->calendars = new Calendars($id, $this->client);
+        $this->checkIn = new CheckIn($id, $this->client);
+        $this->comments = new Comments($id, $this->client);
+        $this->episodes = new Episodes($id, $this->client);
+        $this->genres = new Genres($id, $this->client);
+        $this->movies = new Movies($id, $this->client);
+        $this->people = new People($id, $this->client);
+        $this->recommendations = new Recommendations($id, $this->client);
+        $this->scrobble = new Scrobble($id, $this->client);
+        $this->search = new Search($id, $this->client);
+        $this->seasons = new Seasons($id, $this->client);
+        $this->shows = new Shows($id, $this->client);
+        $this->users = new Users($id, $this->client);
     }
 }

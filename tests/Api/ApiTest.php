@@ -7,7 +7,7 @@ use GuzzleHttp\Message\RequestInterface;
 use GuzzleHttp\Message\ResponseInterface;
 use Mockery\Mock;
 use Wubs\Trakt\Api;
-use Wubs\Trakt\Auth;
+use Wubs\Trakt\Auth\Auth;
 use Wubs\Trakt\Response\CheckIn;
 use Wubs\Trakt\Trakt;
 
@@ -32,9 +32,9 @@ class ApiTest extends PHPUnit_Framework_TestCase
     {
         $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = mock_auth();
 
-        $this->trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
+        $this->trakt = new Trakt($auth, $client);
 
         $this->today = Carbon::today(new DateTimeZone("Europe/Amsterdam"));
     }
@@ -51,9 +51,9 @@ class ApiTest extends PHPUnit_Framework_TestCase
         $client->shouldReceive("createRequest")->once()->andReturn($request);
         $client->shouldReceive("send")->once()->andReturn($response);
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = mock_auth();
 
-        $trakt = new Trakt(getenv("CLIENT_ID"), $client, $auth);
+        $trakt = new Trakt($auth, $client);
 
         $calendars = $trakt->calendars;
 
@@ -93,9 +93,9 @@ class ApiTest extends PHPUnit_Framework_TestCase
 
         $client->shouldReceive("send")->once()->andReturn($response);
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = mock_auth();
 
-        $trakt = new Trakt(get_client_id(), $client, $auth);
+        $trakt = new Trakt($auth, $client);
 
         $checkIn = $trakt->checkIn;
         $this->assertInstanceOf("Wubs\\Trakt\\Api\\CheckIn", $checkIn);

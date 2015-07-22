@@ -6,13 +6,13 @@
  * Time: 14:49
  */
 
-namespace Wubs\Trakt\Token;
+namespace Wubs\Trakt\Auth;
 
 
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Request\Parameters\AccessToken as TokenParameter;
 
-class TraktAccessToken
+class Token
 {
 
     public static function create($token, $type, $expires, $refresh, $scope)

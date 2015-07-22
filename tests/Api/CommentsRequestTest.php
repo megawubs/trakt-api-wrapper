@@ -5,7 +5,7 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Message\RequestInterface;
 use GuzzleHttp\Message\ResponseInterface;
 use Illuminate\Support\Collection;
-use Wubs\Trakt\Auth;
+use Wubs\Trakt\Auth\Auth;
 use Wubs\Trakt\Response\Comment;
 use Wubs\Trakt\Trakt;
 
@@ -41,10 +41,10 @@ class CommentsRequestTest extends PHPUnit_Framework_TestCase
               }
             }'
         );
-        $auth = Mockery::mock(Auth::class);
+        $auth = mock_auth();
 //        $movieClient = mock_client(200, '[]');
 
-        $trakt = new Trakt(get_client_id(), $client, $auth);
+        $trakt = new Trakt($auth, $client);
 
         $commend = $trakt->comments->create(movie($client), "This was so awesome! I really liked it!", false);
         $this->assertInternalType("object", $commend);
@@ -60,9 +60,9 @@ class CommentsRequestTest extends PHPUnit_Framework_TestCase
         $client->shouldReceive("send")->once()->andReturn($response);
         $response->shouldReceive("getStatusCode")->twice()->andReturn(204);
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = mock_auth();
 
-        $trakt = new Trakt(get_client_id(), $client, $auth);
+        $trakt = new Trakt($auth, $client);
 
         $this->assertTrue($trakt->comments->delete(get_token(), 190));
 
@@ -92,9 +92,9 @@ class CommentsRequestTest extends PHPUnit_Framework_TestCase
               }
             }'
         );
-        $auth = Mockery::mock(Auth::class);
+        $auth = mock_auth();
 
-        $trakt = new Trakt(get_client_id(), $client, $auth);
+        $trakt = new Trakt($auth, $client);
         $comment = $trakt->comments->get(190);
 
         $this->assertInternalType("object", $comment);
@@ -123,9 +123,9 @@ class CommentsRequestTest extends PHPUnit_Framework_TestCase
     }
 }'
         );
-        $auth = Mockery::mock(Auth::class);
+        $auth = mock_auth();
 
-        $trakt = new Trakt(get_client_id(), $client, $auth);
+        $trakt = new Trakt($auth, $client);
 
         $commend = "Whuu, whaa blaaa, taduuuudoumwhoooom. I don't have any inspiration left!";
         $update = $trakt->comments->update(1, $commend, false);
@@ -143,9 +143,9 @@ class CommentsRequestTest extends PHPUnit_Framework_TestCase
         $client->shouldReceive("send")->once()->andReturn($response);
         $response->shouldReceive("getStatusCode")->twice()->andReturn(204);
 //        $response->shouldReceive("json")->once()->andReturn(json_decode($json));
-        $auth = Mockery::mock(Auth::class);
+        $auth = mock_auth();
 
-        $trakt = new Trakt(get_client_id(), $client, $auth);
+        $trakt = new Trakt($auth, $client);
 
         $this->assertTrue($trakt->comments->like(190));
     }
@@ -175,9 +175,9 @@ class CommentsRequestTest extends PHPUnit_Framework_TestCase
   }
 ]'
         );
-        $auth = Mockery::mock(Auth::class);
+        $auth = mock_auth();
 
-        $trakt = new Trakt(get_client_id(), $client, $auth);
+        $trakt = new Trakt($auth, $client);
 
         $replies = $trakt->comments->replies(1);
 
@@ -195,9 +195,9 @@ class CommentsRequestTest extends PHPUnit_Framework_TestCase
         $client->shouldReceive("send")->once()->andReturn($response);
         $response->shouldReceive("getStatusCode")->twice()->andReturn(204);
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = mock_auth();
 
-        $trakt = new Trakt(get_client_id(), $client, $auth);
+        $trakt = new Trakt($auth, $client);
 
         $response = $trakt->comments->deleteLike(get_token(), 1);
 

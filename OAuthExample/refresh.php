@@ -1,7 +1,7 @@
 <?php
 use Dotenv\Dotenv;
-use Wubs\Trakt\Auth;
-use Wubs\Trakt\Provider\TraktProvider;
+use Wubs\Trakt\Auth\Auth;
+use Wubs\Trakt\Auth\TraktProvider;
 use Wubs\Trakt\Trakt;
 use Wubs\Trakt\TraktHttpClient;
 
@@ -12,6 +12,6 @@ session_start();
 $provider = new TraktProvider(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
 $auth = new Auth($provider);
 
-$trakt = new Trakt(getenv("CLIENT_ID"), TraktHttpClient::make(), $auth);
+$trakt = new Trakt($auth, TraktHttpClient::make());
 
 $trakt = $trakt->auth->refresh("user-refresh-token-here");

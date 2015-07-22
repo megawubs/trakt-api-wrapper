@@ -1,5 +1,5 @@
 <?php
-use Wubs\Trakt\Token\TraktAccessToken;
+use Wubs\Trakt\Auth\Token;
 
 /**
  * Created by PhpStorm.
@@ -13,7 +13,7 @@ class TraktTokenTest extends PHPUnit_Framework_TestCase
 
     public function testTokenCanBeCreated()
     {
-        $token = TraktAccessToken::create(
+        $token = Token::create(
             getenv("TRAKT_ACCESS_TOKEN"),
             getenv("TRAKT_TOKEN_TYPE"),
             getenv("TRAKT_EXPIRES_IN"),

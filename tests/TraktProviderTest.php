@@ -1,5 +1,5 @@
 <?php
-use Wubs\Trakt\Provider\TraktProvider;
+use Wubs\Trakt\Auth\TraktProvider;
 
 /**
  * Created by PhpStorm.
@@ -14,7 +14,7 @@ class TraktProviderTest extends PHPUnit_Framework_TestCase
         $clientId = getenv("CLIENT_ID");
         $provider = new TraktProvider($clientId, getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
 
-        $this->assertInstanceOf('Wubs\\Trakt\\Provider\\TraktProvider', $provider);
+        $this->assertInstanceOf(TraktProvider::class, $provider);
     }
 
     public function testAuthUrlHasClientId()
@@ -30,11 +30,11 @@ class TraktProviderTest extends PHPUnit_Framework_TestCase
 
     public function testGetTraktAuthorizationUrl()
     {
-        $clientId = getenv("CLIENT_ID");
+        $clientId = get_client_id();
         $provider = new TraktProvider($clientId, getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
         $authUrl = $provider->getAuthorizationUrl();
 
         $this->assertContains("https://trakt.tv/oauth/authorize", $authUrl);
-        $this->assertContains(getenv('CLIENT_ID'), $authUrl);
+        $this->assertContains(get_client_id(), $authUrl);
     }
 }

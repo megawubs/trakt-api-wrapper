@@ -1,7 +1,7 @@
 <?php
 
 
-use Wubs\Trakt\Auth;
+use Wubs\Trakt\Auth\Auth;
 use Wubs\Trakt\Response\CheckIn;
 use Wubs\Trakt\Trakt;
 
@@ -39,9 +39,9 @@ class CheckInRequestTest extends PHPUnit_Framework_TestCase
             }'
         );
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = mock_auth();
 
-        $trakt = new Trakt(get_client_id(), $client, $auth);
+        $trakt = new Trakt($auth, $client);
 
         $response = $trakt->checkIn->create(get_token(), movie($client), "Such an awesome movie! I love it");
 
@@ -69,9 +69,9 @@ class CheckInRequestTest extends PHPUnit_Framework_TestCase
 }'
         );
 
-        $auth = Mockery::mock(Auth::class);
+        $auth = mock_auth();
 
-        $trakt = new Trakt(get_client_id(), $client, $auth);
+        $trakt = new Trakt($auth, $client);
 
         /** @var CheckIn $response */
         $response = $trakt->checkIn->create(get_token(), episode($client), "Whoooot! I like this so much!");

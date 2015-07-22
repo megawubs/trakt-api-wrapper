@@ -10,9 +10,11 @@ use Dotenv\Dotenv;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Message\RequestInterface;
 use GuzzleHttp\Message\ResponseInterface;
+use Wubs\Trakt\Auth\Auth;
 use Wubs\Trakt\Media\Episode;
 use Wubs\Trakt\Media\Movie;
-use Wubs\Trakt\Token\TraktAccessToken;
+use Wubs\Trakt\Auth\TraktProvider;
+use Wubs\Trakt\Auth\Token;
 
 require __DIR__ . "/../vendor/autoload.php";
 
@@ -23,7 +25,7 @@ require __DIR__ . "/../vendor/autoload.php";
  */
 function get_token()
 {
-    return TraktAccessToken::create(
+    return Token::create(
         getenv("TRAKT_ACCESS_TOKEN"),
         getenv("TRAKT_TOKEN_TYPE"),
         getenv("TRAKT_EXPIRES_IN"),
@@ -136,4 +138,12 @@ function mock_client($statusCode, $requestResponse = '[]')
     $response->shouldReceive("json")->once()->andReturn(json_decode($requestResponse));
 
     return $client;
+}
+
+function mock_auth()
+{
+    $provider = Mockery::mock(TraktProvider::class);
+    $provider->shouldReceive("getClientId")->once()->andReturn(get_client_id());
+
+    return new Auth($provider);
 }
