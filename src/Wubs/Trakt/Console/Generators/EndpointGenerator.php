@@ -7,16 +7,14 @@ namespace Wubs\Trakt\Console\Generators;
 use Illuminate\Support\Collection;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
-use League\Flysystem\FilesystemInterface;
 use ReflectionClass;
-use ReflectionException;
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
+use Wubs\Trakt\Api\Endpoint;
 use Wubs\Trakt\Exception\ClassCanNotBeImplementedAsEndpointException;
-use Wubs\Trakt\Exception\RequestMalformedException;
 use Wubs\Trakt\Request\AbstractRequest;
 
 /**
@@ -35,7 +33,7 @@ class EndpointGenerator
     /**
      * @var string
      */
-    private $apiNamespace = "Wubs\\Trakt\\Api\\";
+    private $apiNamespace = "Wubs\\Trakt\\Api";
 
     /**
      * @var string
@@ -43,7 +41,7 @@ class EndpointGenerator
     private $requestsNamespace = "Wubs\\Trakt\\Request\\";
 
     /**
-     * @var
+     * @var Collection
      */
     private $endpoint;
 
@@ -94,11 +92,11 @@ class EndpointGenerator
     public function generateForEndpoint($endpoint)
     {
         $this->template = $this->filesystem->read("/Console/stubs/api.stub");
-        $this->endpoint = ucfirst($endpoint);
+        $this->endpoint = $this->createEndpoint($endpoint);
 
-        $this->file = "/Api/" . $this->endpoint . '.php';
+        $this->file = "/Api/" . $this->endpoint->implode('/') . '.php';
 
-        $this->className = $this->apiNamespace . $this->endpoint;
+        $this->className = $this->apiNamespace . '\\' . $this->endpoint->implode('\\');
 
         $this->uses = new Collection();
 
@@ -124,7 +122,8 @@ class EndpointGenerator
     private function createContent()
     {
         $this->out->writeln("Generating class for API endpoint: " . lcfirst($this->endpoint));
-        $this->setClassName()
+        $this->setNamespace()
+            ->setClassName()
             ->generateMethods()
             ->addUseStatements()
             ->deleteUnusedPlaceholders();
@@ -155,25 +154,22 @@ class EndpointGenerator
     private function generateMethods()
     {
         $methods = new Collection();
-        foreach ($this->getRequestFiles() as $file) {
+        $properties = new Collection();
+        foreach ($this->getRequestFolderContents() as $content) {
+
             try {
-                $method = $this->createMethod($this->endpoint, $file);
+                if ($content['type'] === 'file') {
+                    $this->handleFile($content, $methods);
+                }
+                if ($content['type'] === 'dir') {
+                    $this->handleDirectory($properties, $content);
+                }
             } catch (ClassCanNotBeImplementedAsEndpointException $exception) {
                 continue;
             }
-
-            $methods->push($method->generate());
-            $this->updateUsages($method);
-
-            $this->out->writeln("Generated method for: '" . $method->getName() . "'");
-
-            if ($method->getName() === "summary") {
-                $methods->push($this->createMethod($this->endpoint, $file, 'get')->generate());
-                $this->out->writeln("Generated alias method get for summary");
-            }
         };
         $this->out->writeln("Adding generated methods to template");
-        return $this->writeInTemplate("methods", $methods->implode("\n\n\t"));
+        return $this->writeInTemplate("methods", $methods->implode("\n\n\t"))->addProperties($properties);
 
     }
 
@@ -184,9 +180,13 @@ class EndpointGenerator
      * @return Method
      * @throws ClassCanNotBeImplementedAsEndpointException
      */
-    private function createMethod($className, $file, $methodName = null)
+    private function createMethod(Collection $className, $file, $methodName = null)
     {
-        $reflection = new ReflectionClass($this->requestsNamespace . $className . "\\" . $file['filename']);
+
+        $reflection = new ReflectionClass(
+            $this->requestsNamespace . $className->implode("\\") . "\\" .
+            $file['filename']
+        );
         if (!$reflection->isTrait() || !$reflection->isAbstract()) {
             $method = new Method($reflection, $this->filesystem, $methodName);
 
@@ -201,6 +201,9 @@ class EndpointGenerator
      */
     private function addUseStatements()
     {
+        if ($this->endpoint->count() > 1) {
+            $this->uses->push(new ReflectionClass(Endpoint::class));
+        }
         $unique = $this->uses->unique();
         $aliases = new Collection();
         $unique->each(
@@ -235,7 +238,7 @@ class EndpointGenerator
      */
     private function setClassName()
     {
-        return $this->writeInTemplate("class_name", $this->endpoint);
+        return $this->writeInTemplate("class_name", $this->endpoint->last());
     }
 
     public function generateAllEndpoints()
@@ -265,13 +268,82 @@ class EndpointGenerator
     /**
      * @return Collection
      */
-    private function getRequestFiles()
+    private function getRequestFolderContents()
     {
-        $contents = new Collection($this->filesystem->listContents("/Request/" . $this->endpoint));
-        return $contents->filter(
-            function ($content) {
-                return $content['type'] === "file";
+
+        return new Collection($this->filesystem->listContents("/Request/" . $this->endpoint->implode("/")));
+    }
+
+    private function addProperties(Collection $properties)
+    {
+        $formatted = new Collection();
+        $properties->each(
+            function ($property) use ($formatted) {
+                $generator = new Property(
+                    $this->apiNamespace . "\\" . $this->endpoint->implode("\\") . "\\" . $property,
+                    $this->filesystem
+                );
+                dump($property);
+                $formatted->push($generator->generate());
             }
         );
+
+        return $this->writeInTemplate('public_properties', $formatted->implode("\n\n\t"));
+    }
+
+    /**
+     * @param $content
+     * @param $methods
+     * @return Collection|Method[]
+     * @throws ClassCanNotBeImplementedAsEndpointException
+     */
+    private function handleFile($content, Collection $methods)
+    {
+        $method = $this->createMethod($this->endpoint, $content);
+        $methods->push($method->generate());
+
+        $this->out->writeln("Generated method for: '" . $method->getName() . "'");
+
+        $this->updateUsages($method);
+
+        if ($method->getName() === "summary") {
+            $methods->push($this->createMethod($this->endpoint, $content, 'get')->generate());
+            $this->out->writeln("Generated alias method get for summary");
+        }
+
+        return $methods;
+    }
+
+    /**
+     * @param $properties
+     * @param $content
+     */
+    private function handleDirectory(Collection $properties, $content)
+    {
+
+        $properties->push($content['filename']);
+
+        $this->filesystem->createDir('Api/' . $this->endpoint->first());
+        $generator = new EndpointGenerator($this->inputInterface, $this->out, $this->dialogHelper);
+        $endpoint = $this->endpoint->first() . "\\" . $content['filename'];
+
+        $generator->generateForEndpoint($endpoint);
+    }
+
+    /**
+     * @param $endpoint
+     * @return string
+     */
+    private function createEndpoint($endpoint)
+    {
+        return collect(explode('\\', $endpoint));
+    }
+
+    private function setNamespace()
+    {
+        $namespace = ($this->endpoint->count() === 1) ? $this->apiNamespace : $this->apiNamespace . '\\' .
+            $this->endpoint->first();
+
+        return $this->writeInTemplate("namespace", $namespace);
     }
 }

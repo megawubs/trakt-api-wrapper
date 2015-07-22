@@ -9,6 +9,9 @@ use Wubs\Trakt\Auth\TraktProvider;
 
 class Auth
 {
+    /**
+     * @var \Wubs\Trakt\Auth\TraktProvider
+     */
     public $provider;
 
     /**

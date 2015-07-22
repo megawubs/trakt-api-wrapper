@@ -1,44 +1,36 @@
 <?php
 
 
-namespace Wubs\Trakt\Request\Users;
+namespace Wubs\Trakt\Request\Users\Lists;
 
 
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\RequestType;
 
-class CustomList extends AbstractRequest
+class Create extends AbstractRequest
 {
     /**
      * @var
      */
-    private $listId;
+    private $list;
     /**
      * @var
      */
     private $username;
 
     /**
+     * @param AccessToken $token
      * @param $username
-     * @param $listId
-     * @param AccessToken|null $token
+     * @param array $list
      */
-    public function __construct($username, $listId, AccessToken $token = null)
+    public function __construct(AccessToken $token, $username, $list)
     {
         parent::__construct();
         $this->setToken($token);
 
-        $this->listId = $listId;
+        $this->list = $list;
         $this->username = $username;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getListId()
-    {
-        return $this->listId;
     }
 
     /**
@@ -49,14 +41,20 @@ class CustomList extends AbstractRequest
         return $this->username;
     }
 
-
     public function getRequestType()
     {
-        return RequestType::GET;
+        return RequestType::POST;
     }
 
     public function getUri()
     {
-        return 'users/:username/lists/:id';
+        return 'users/:username/lists';
     }
+
+    protected function getPostBody()
+    {
+        return $this->list;
+    }
+
+
 }

@@ -25,7 +25,9 @@ class MethodGeneratorTest extends PHPUnit_Framework_TestCase
 
     public static $content;
 
-    public function __construct()
+    private $file;
+
+    protected function setUp()
     {
         parent::__construct();
         $this->file = __DIR__ . "/../../../src/Wubs/Trakt/Api/Comments.php";
@@ -62,7 +64,5 @@ class MethodGeneratorTest extends PHPUnit_Framework_TestCase
         $this->assertContains('public function summary', $content);
         $this->assertContains('public function get', $content);
         $this->assertContains('public function watching', $content);
-        $class = new Wubs\Trakt\Api\Episodes(get_client_id(), $client);
-        $this->assertInstanceOf("Wubs\\Trakt\\Api\\Episodes", $class);
     }
 }

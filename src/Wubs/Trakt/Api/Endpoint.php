@@ -24,6 +24,10 @@ abstract class Endpoint
     {
         $this->clientId = $clientId;
         $this->client = $client;
+
+        foreach ($this as $property) {
+            dump($property);
+        }
     }
 
     protected function request(AbstractRequest $request)

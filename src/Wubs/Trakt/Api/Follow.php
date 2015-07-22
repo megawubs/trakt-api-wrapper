@@ -7,15 +7,15 @@
 |
 |
 */
-namespace {{namespace}};
+namespace Wubs\Trakt\Api;
 
-{{use_statements}}
+use Wubs\Trakt\Api\Endpoint;
 
-class {{class_name}} extends Endpoint {
+class Follow extends Endpoint {
 
-    {{public_properties}}
+    
 
-    {{methods}}
+    
 
 }
 

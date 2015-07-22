@@ -1,14 +1,15 @@
 <?php
 
 
-namespace Wubs\Trakt\Request\Users;
+namespace Wubs\Trakt\Request\Users\Follow;
 
 
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Request\AbstractRequest;
+use Wubs\Trakt\Request\Parameters\FollowerRequestId;
 use Wubs\Trakt\Request\RequestType;
 
-class ApproveFollowRequest extends AbstractRequest
+class Deny extends AbstractRequest
 {
     /**
      * @var
@@ -26,9 +27,6 @@ class ApproveFollowRequest extends AbstractRequest
         $this->id = $followerRequestId;
     }
 
-    /**
-     * @return int
-     */
     public function getId()
     {
         return $this->id;
@@ -36,7 +34,7 @@ class ApproveFollowRequest extends AbstractRequest
 
     public function getRequestType()
     {
-        return RequestType::POST;
+        return RequestType::DELETE;
     }
 
 

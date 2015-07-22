@@ -1,0 +1,4 @@
+/**
+ * @var \{{property_type}}
+*/
+public ${{property_name}};

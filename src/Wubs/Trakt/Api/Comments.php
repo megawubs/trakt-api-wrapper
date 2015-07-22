@@ -21,6 +21,8 @@ use Wubs\Trakt\Request\Comments\Update as UpdateRequest;
 
 class Comments extends Endpoint {
 
+    
+
     public function create(Media $media, $comment, $spoiler = false)
     {
         return $this->request(new CreateRequest($media, $comment, $spoiler));

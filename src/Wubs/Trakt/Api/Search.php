@@ -15,6 +15,8 @@ use Wubs\Trakt\Request\Search\Text as TextRequest;
 
 class Search extends Endpoint {
 
+    
+
     public function iD($idType, $mediaId, AccessToken $token = null)
     {
         return $this->request(new IDRequest($idType, $mediaId, $token));
