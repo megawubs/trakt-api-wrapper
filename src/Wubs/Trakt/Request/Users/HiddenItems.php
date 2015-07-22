@@ -4,10 +4,11 @@
 namespace Wubs\Trakt\Request\Users;
 
 
+use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\RequestType;
 
-class Hidden extends AbstractRequest
+class HiddenItems extends AbstractRequest
 {
     /**
      * @var
@@ -19,11 +20,14 @@ class Hidden extends AbstractRequest
     private $type;
 
     /**
+     * @param AccessToken $token
      * @param $section
      * @param $type
      */
-    public function __construct($section, $type)
+    public function __construct(AccessToken $token, $section, $type)
     {
+        parent::__construct();
+        $this->setToken($token);
         $this->section = $section;
         $this->type = $type;
     }

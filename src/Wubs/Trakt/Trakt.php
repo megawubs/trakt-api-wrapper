@@ -104,9 +104,12 @@ class Trakt
      * @param Auth $auth
      * @param ClientInterface $client
      */
-    public function __construct(Auth $auth, ClientInterface $client)
+    public function __construct(Auth $auth, ClientInterface $client = null)
     {
         $this->client = $client;
+        if ($client == null) {
+            $this->client = TraktHttpClient::make();
+        }
         $this->auth = $auth;
         $this->createWrappers();
     }

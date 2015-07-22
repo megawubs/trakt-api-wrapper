@@ -9,6 +9,7 @@
 namespace Wubs\Trakt\Request\Users;
 
 
+use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\RequestType;
 
@@ -26,10 +27,12 @@ class History extends AbstractRequest
     /**
      * @param string $username
      * @param string $type
+     * @param AccessToken $token
      */
-    public function __construct($username, $type)
+    public function __construct($username, $type, AccessToken $token = null)
     {
         parent::__construct();
+        $this->setToken($token);
         $this->username = $username;
         $this->type = $type;
     }
