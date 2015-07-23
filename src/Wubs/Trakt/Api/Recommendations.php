@@ -15,8 +15,8 @@ use Wubs\Trakt\Request\Recommendations\Movies as MoviesRequest;
 use Wubs\Trakt\Request\Recommendations\Shows as ShowsRequest;
 
 class Recommendations extends Endpoint {
-
     
+
 
     public function dismissMovie($mediaId)
     {

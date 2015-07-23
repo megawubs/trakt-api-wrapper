@@ -26,8 +26,8 @@ use Wubs\Trakt\Request\Shows\WatchedProgress as WatchedProgressRequest;
 use Wubs\Trakt\Request\Shows\Watching as WatchingRequest;
 
 class Shows extends Endpoint {
-
     
+
 
     public function aliases($mediaId)
     {

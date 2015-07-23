@@ -12,8 +12,8 @@ namespace Wubs\Trakt\Api;
 use Wubs\Trakt\Request\Genres\GenresList as GenresListRequest;
 
 class Genres extends Endpoint {
-
     
+
 
     public function genresList($type)
     {

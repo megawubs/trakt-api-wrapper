@@ -21,8 +21,8 @@ use Wubs\Trakt\Request\Calendars\MySeasonPremieres as MySeasonPremieresRequest;
 use Wubs\Trakt\Request\Calendars\MyShows as MyShowsRequest;
 
 class Calendars extends Endpoint {
-
     
+
 
     public function allMovies(Carbon $startDate = null, $days = null)
     {

@@ -24,8 +24,8 @@ use Wubs\Trakt\Request\Movies\Trending as TrendingRequest;
 use Wubs\Trakt\Request\Movies\Watching as WatchingRequest;
 
 class Movies extends Endpoint {
-
     
+
 
     public function aliases($mediaId)
     {

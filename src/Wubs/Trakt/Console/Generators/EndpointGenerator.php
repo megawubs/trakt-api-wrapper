@@ -64,6 +64,11 @@ class EndpointGenerator
      * @var InputInterface
      */
     private $inputInterface;
+    private $options;
+
+    private $delete = false;
+
+    private $force = false;
 
 
     /**
@@ -85,11 +90,29 @@ class EndpointGenerator
     }
 
     /**
+     * @param boolean $force
+     */
+    public function setForce($force)
+    {
+        $this->force = $force;
+    }
+
+    /**
+     * @param boolean $delete
+     */
+    public function setDelete($delete)
+    {
+        $this->delete = $delete;
+    }
+
+
+    /**
      * @param $endpoint
      * @return bool
      */
     public function generateForEndpoint($endpoint)
     {
+        $this->handleOptions();
         $this->template = $this->filesystem->read("/Console/stubs/api.stub");
         $this->endpoint = $this->createEndpoint($endpoint);
 
@@ -347,5 +370,35 @@ class EndpointGenerator
             $parts->implode("\\");
 
         return $this->writeInTemplate("namespace", $namespace);
+    }
+
+    private function handleOptions()
+    {
+        if ($this->delete) {
+            $this->getItemsToDelete()->each(
+                function ($item) {
+                    if ($item['type'] === 'dir') {
+                        $this->filesystem->deleteDir($item['path']);
+                    }
+                    $this->filesystem->delete($item['path']);
+                }
+            );
+
+        }
+    }
+
+    /**
+     * @return Collection
+     */
+    private function getItemsToDelete()
+    {
+        return collect($this->filesystem->listContents("/Api"))->each(
+            function ($content) {
+                if (!$content['filename'] === "Endpoint") {
+                    return false;
+                };
+                return true;
+            }
+        );
     }
 }

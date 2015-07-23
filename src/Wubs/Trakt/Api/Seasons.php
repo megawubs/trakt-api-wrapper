@@ -16,8 +16,8 @@ use Wubs\Trakt\Request\Seasons\Summary as SummaryRequest;
 use Wubs\Trakt\Request\Seasons\Watching as WatchingRequest;
 
 class Seasons extends Endpoint {
-
     
+
 
     public function comments($mediaId, $season)
     {
