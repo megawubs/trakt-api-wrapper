@@ -3,7 +3,7 @@ use Wubs\Trakt\Request\Parameters\Query;
 use Wubs\Trakt\Request\Parameters\Type;
 use Wubs\Trakt\Request\Parameters\Year;
 use Wubs\Trakt\Request\RequestType;
-use Wubs\Trakt\Request\Search\Text;
+use Wubs\Trakt\Request\Search\ByText;
 
 /**
  * Created by PhpStorm.
@@ -15,7 +15,7 @@ class TextTest extends PHPUnit_Framework_TestCase
 {
     public function testSearchMovie()
     {
-        $request = new Text(
+        $request = new ByText(
             "guardians of the galaxy",
             Type::movie(),
             "2014"

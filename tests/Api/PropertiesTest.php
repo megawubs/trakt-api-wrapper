@@ -2,6 +2,7 @@
 
 
 use Wubs\Trakt\Api\Users\Follow;
+use Wubs\Trakt\Api\Users\Followers;
 use Wubs\Trakt\Auth\Auth;
 use Wubs\Trakt\Auth\TraktProvider;
 use Wubs\Trakt\Trakt;
@@ -20,6 +21,6 @@ class PropertiesTest extends PHPUnit_Framework_TestCase
 
         $trakt = new Trakt($auth);
 
-        $this->assertInstanceOf(Follow::class, $trakt->users->follow);
+        $this->assertInstanceOf(Followers::class, $trakt->users->followers);
     }
 }

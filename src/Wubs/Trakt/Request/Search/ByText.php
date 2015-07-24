@@ -14,7 +14,7 @@ use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\RequestType;
 use Wubs\Trakt\Response\Handlers\Search\SearchHandler;
 
-class Text extends AbstractRequest
+class ByText extends AbstractRequest
 {
     /**
      * @var

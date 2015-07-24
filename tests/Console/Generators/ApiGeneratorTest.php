@@ -168,7 +168,7 @@ class ApiGeneratorTest extends PHPUnit_Framework_TestCase
         $content = $generator->getGeneratedTemplate();
 
         $this->assertContains(
-            'public function text($query, $type = null, $year = null, AccessToken $token = null)',
+            'public function byText($query, $type = null, $year = null, AccessToken $token = null)',
             $content
         );
 

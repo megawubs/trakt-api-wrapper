@@ -52,7 +52,7 @@ class SearchTest extends PHPUnit_Framework_TestCase
         $auth = mock_auth();
         $trakt = new Trakt($auth, $client);
 
-        $result = $trakt->search->text("Batman Begins", Type::show(), 2011);
+        $result = $trakt->search->byText("Batman Begins", Type::show(), 2011);
 
         $this->assertInstanceOf(Collection::class, $result);
 
@@ -97,7 +97,7 @@ class SearchTest extends PHPUnit_Framework_TestCase
 
         $auth = mock_auth();
         $trakt = new Trakt($auth, $client);
-        $search = $trakt->search->text("Batman", Type::movie(), 2011, get_token());
+        $search = $trakt->search->byText("Batman", Type::movie(), 2011, get_token());
 
         $this->assertInstanceOf(Collection::class, $search);
         $this->assertInstanceOf(Movie::class, $search->first());
@@ -141,7 +141,7 @@ class SearchTest extends PHPUnit_Framework_TestCase
         $auth = mock_auth();
         $trakt = new Trakt($auth, $client);
 
-        $result = $trakt->search->iD('trakt-movie', 12);
+        $result = $trakt->search->byId('trakt-movie', 12);
 
         $this->assertInstanceOf(Collection::class, $result);
         $this->assertInternalType("object", $result->first());
@@ -186,7 +186,7 @@ class SearchTest extends PHPUnit_Framework_TestCase
         $auth = mock_auth();
         $trakt = new Trakt($auth, $client);
 
-        $result = $trakt->search->iD('trakt-movie', 12, get_token());
+        $result = $trakt->search->byId('trakt-movie', 12, get_token());
 
         $this->assertInstanceOf(Collection::class, $result);
         $this->assertInternalType("object", $result->first());

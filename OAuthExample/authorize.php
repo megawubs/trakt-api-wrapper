@@ -21,4 +21,4 @@ $auth = new Auth($provider);
 
 $trakt = new Trakt($auth, TraktHttpClient::make());
 
-$trakt = $trakt->auth->authorize();
+$trakt->auth->authorize();

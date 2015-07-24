@@ -14,7 +14,7 @@ use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\RequestType;
 use Wubs\Trakt\Response\Handlers\Search\SearchHandler;
 
-class ID extends AbstractRequest
+class ById extends AbstractRequest
 {
 
     /**

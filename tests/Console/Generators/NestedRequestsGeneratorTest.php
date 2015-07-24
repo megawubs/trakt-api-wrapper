@@ -50,7 +50,7 @@ class NestedRequestsGeneratorTest extends PHPUnit_Framework_TestCase
 
         $content = $generator->getGeneratedTemplate();
 
-        $this->assertContains('public $follow;', $content);
+        $this->assertContains('public $followers;', $content);
     }
 
     /**
@@ -77,11 +77,11 @@ class NestedRequestsGeneratorTest extends PHPUnit_Framework_TestCase
     {
         $generator = $this->getGenerator();
 
-        $generator->generateForEndpoint("Users/Follow");
+        $generator->generateForEndpoint("Users/Followers");
 
         static::$content = $generator->getGeneratedTemplate();
 
-        $check = $this->filesystem->has('Users/Follow.php');
+        $check = $this->filesystem->has('Users/Followers.php');
 
         $this->assertTrue($check);
 

@@ -10,21 +10,21 @@
 namespace Wubs\Trakt\Api;
 
 use League\OAuth2\Client\Token\AccessToken;
-use Wubs\Trakt\Request\Search\ID as IDRequest;
-use Wubs\Trakt\Request\Search\Text as TextRequest;
+use Wubs\Trakt\Request\Search\ById as ByIdRequest;
+use Wubs\Trakt\Request\Search\ByText as ByTextRequest;
 
 class Search extends Endpoint {
     
 
 
-    public function iD($idType, $mediaId, AccessToken $token = null)
+    public function byId($idType, $mediaId, AccessToken $token = null)
     {
-        return $this->request(new IDRequest($idType, $mediaId, $token));
+        return $this->request(new ByIdRequest($idType, $mediaId, $token));
     }
 
-	public function text($query, $type = null, $year = null, AccessToken $token = null)
+	public function byText($query, $type = null, $year = null, AccessToken $token = null)
     {
-        return $this->request(new TextRequest($query, $type, $year, $token));
+        return $this->request(new ByTextRequest($query, $type, $year, $token));
     }
 
 }

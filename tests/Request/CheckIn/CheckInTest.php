@@ -9,7 +9,7 @@ use Wubs\Trakt\Request\CheckIn\Create;
 use Wubs\Trakt\Request\Parameters\Query;
 use Wubs\Trakt\Request\Parameters\Type;
 use Wubs\Trakt\Request\Parameters\Year;
-use Wubs\Trakt\Request\Search\Text;
+use Wubs\Trakt\Request\Search\ByText;
 use Wubs\Trakt\Response\CheckIn;
 
 /**
