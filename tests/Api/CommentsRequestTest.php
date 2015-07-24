@@ -199,7 +199,7 @@ class CommentsRequestTest extends PHPUnit_Framework_TestCase
 
         $trakt = new Trakt($auth, $client);
 
-        $response = $trakt->comments->deleteLike(get_token(), 1);
+        $response = $trakt->comments->like->delete(get_token(), 1);
 
         $this->assertTrue($response);
     }

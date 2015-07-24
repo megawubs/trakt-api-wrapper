@@ -59,7 +59,7 @@ class ApiTest extends PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf("Wubs\\Trakt\\Api\\Calendars", $calendars);
 
-        $movies = $calendars->allMovies($this->today, 7);
+        $movies = $calendars->movies($this->today, 7);
         $this->assertInternalType('object', $movies);
     }
 

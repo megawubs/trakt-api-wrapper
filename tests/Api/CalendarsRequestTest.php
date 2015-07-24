@@ -12,9 +12,10 @@ use Wubs\Trakt\Trakt;
 class CalendarsRequestTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Api
+     * @var Trakt
      */
     protected $trakt;
+
     private $today;
 
     protected function tearDown()
@@ -36,7 +37,7 @@ class CalendarsRequestTest extends PHPUnit_Framework_TestCase
 
         $trakt = new Trakt($auth, $client);
 
-        $res = $trakt->calendars->myShows(get_token(), $this->today, 7);
+        $res = $trakt->calendars->my->shows(get_token(), $this->today, 7);
 
         $this->assertInternalType("object", $res);
     }
@@ -49,7 +50,7 @@ class CalendarsRequestTest extends PHPUnit_Framework_TestCase
 
         $trakt = new Trakt($auth, $client);
 
-        $res = $trakt->calendars->myNewShows(get_token(), $this->today, 7);
+        $res = $trakt->calendars->my->newShows(get_token(), $this->today, 7);
 
         $this->assertInternalType("object", $res);
     }
@@ -62,7 +63,7 @@ class CalendarsRequestTest extends PHPUnit_Framework_TestCase
 
         $trakt = new Trakt($auth, $client);
 
-        $res = $trakt->calendars->mySeasonPremieres(get_token(), $this->today, 7);
+        $res = $trakt->calendars->my->premieres(get_token(), $this->today, 7);
 
         $this->assertInternalType("object", $res);
     }
@@ -75,7 +76,7 @@ class CalendarsRequestTest extends PHPUnit_Framework_TestCase
 
         $trakt = new Trakt($auth, $client);
 
-        $res = $trakt->calendars->myMovies(get_token(), $this->today, 7);
+        $res = $trakt->calendars->my->movies(get_token(), $this->today, 7);
 
         $this->assertInternalType("object", $res);
     }
@@ -88,7 +89,7 @@ class CalendarsRequestTest extends PHPUnit_Framework_TestCase
 
         $trakt = new Trakt($auth, $client);
 
-        $res = $trakt->calendars->allShows(get_token(), $this->today, 7);
+        $res = $trakt->calendars->shows($this->today, 7);
 
         $this->assertInternalType("object", $res);
     }

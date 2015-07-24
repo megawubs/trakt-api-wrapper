@@ -23,18 +23,24 @@ class History extends AbstractRequest
      * @var string
      */
     private $type;
+    /**
+     * @var null
+     */
+    private $id;
 
     /**
      * @param string $username
      * @param string $type
+     * @param null $id
      * @param AccessToken $token
      */
-    public function __construct($username, $type, AccessToken $token = null)
+    public function __construct($username, $type = null, $id = null, AccessToken $token = null)
     {
         parent::__construct();
         $this->setToken($token);
         $this->username = $username;
         $this->type = $type;
+        $this->id = $id;
     }
 
     /**
@@ -53,6 +59,14 @@ class History extends AbstractRequest
         return $this->type;
     }
 
+    /**
+     * @return null
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function getRequestType()
     {
         return RequestType::GET;
@@ -60,6 +74,12 @@ class History extends AbstractRequest
 
     public function getUri()
     {
-        return "users/:username/history/:type";
+        if (is_string($this->type) && !is_null($this->id)) {
+            return "users/:username/history/:type/:id";
+        } elseif (is_null($this->id) && is_string($this->type)) {
+            return "users/:username/history/:type";
+        }
+
+        return "users/:username/history";
     }
 }

@@ -64,7 +64,6 @@ class EndpointGenerator
      * @var InputInterface
      */
     private $inputInterface;
-    private $options;
 
     private $delete = false;
 
@@ -112,7 +111,6 @@ class EndpointGenerator
      */
     public function generateForEndpoint($endpoint)
     {
-        $this->handleOptions();
         $this->template = $this->filesystem->read("/Console/stubs/api.stub");
         $this->endpoint = $this->createEndpoint($endpoint);
 
@@ -239,11 +237,16 @@ class EndpointGenerator
                 }
             }
         );
-        $uses = $aliases->implode(";\nuse ");
-        $this->out->writeln(
-            "Adding use statements to template"
-        );
-        return $this->writeInTemplate("use_statements", "use " . $uses . ";");
+        if ($aliases->count() > 0) {
+            $uses = $aliases->implode(";\nuse ");
+            $this->out->writeln(
+                "Adding use statements to template"
+            );
+            return $this->writeInTemplate("use_statements", "use " . $uses . ";");
+        }
+
+        return $this;
+
     }
 
     /**
@@ -265,6 +268,7 @@ class EndpointGenerator
 
     public function generateAllEndpoints()
     {
+        $this->handleOptions();
         foreach ($this->filesystem->listContents("/Request") as $content) {
             if ($content['type'] === 'dir'
                 && $content['basename'] !== "Exception"
@@ -378,9 +382,12 @@ class EndpointGenerator
             $this->getItemsToDelete()->each(
                 function ($item) {
                     if ($item['type'] === 'dir') {
+                        dump($item);
                         $this->filesystem->deleteDir($item['path']);
+                        return true;
                     }
                     $this->filesystem->delete($item['path']);
+                    return true;
                 }
             );
 
@@ -392,9 +399,9 @@ class EndpointGenerator
      */
     private function getItemsToDelete()
     {
-        return collect($this->filesystem->listContents("/Api"))->each(
+        return collect($this->filesystem->listContents("/Api"))->filter(
             function ($content) {
-                if (!$content['filename'] === "Endpoint") {
+                if ($content['filename'] === "Endpoint") {
                     return false;
                 };
                 return true;

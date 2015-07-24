@@ -1,7 +1,7 @@
 <?php
 use Carbon\Carbon;
 use GuzzleHttp\ClientInterface;
-use Wubs\Trakt\Request\Calendars\MyMovies;
+use Wubs\Trakt\Request\Calendars\My\Movies;
 use Wubs\Trakt\Request\Parameters\Days;
 use Wubs\Trakt\Request\Parameters\StartDate;
 use Wubs\Trakt\Request\Parameters\Type;
@@ -19,7 +19,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
 {
     public function testCanMakeRequest()
     {
-        $result = (new MyMovies(get_token(), Carbon::today(), 7))->make(
+        $result = (new Movies(get_token(), Carbon::today(), 7))->make(
             get_client_id(),
             TraktHttpClient::make()
         );

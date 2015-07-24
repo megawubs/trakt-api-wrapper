@@ -13,7 +13,6 @@ use Wubs\Trakt\Media\Media;
 use Wubs\Trakt\Request\Comments\Create as CreateRequest;
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Request\Comments\Delete as DeleteRequest;
-use Wubs\Trakt\Request\Comments\DeleteLike as DeleteLikeRequest;
 use Wubs\Trakt\Request\Comments\Get as GetRequest;
 use Wubs\Trakt\Request\Comments\Like as LikeRequest;
 use Wubs\Trakt\Request\Comments\Replies as RepliesRequest;
@@ -21,7 +20,10 @@ use Wubs\Trakt\Request\Comments\Update as UpdateRequest;
 
 class Comments extends Endpoint {
     
-
+    /**
+     * @var \Wubs\Trakt\Api\Comments\Like
+    */
+    public $like;
 
     public function create(Media $media, $comment, $spoiler = false)
     {
@@ -31,11 +33,6 @@ class Comments extends Endpoint {
 	public function delete(AccessToken $token, $commentId)
     {
         return $this->request(new DeleteRequest($token, $commentId));
-    }
-
-	public function deleteLike(AccessToken $token, $commentId)
-    {
-        return $this->request(new DeleteLikeRequest($token, $commentId));
     }
 
 	public function get($commentId)
