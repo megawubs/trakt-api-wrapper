@@ -34,7 +34,9 @@ class UriBuilder
 
         $values = $builder->getValuesFromUriParameters($parts);
 
-        return $builder->formatUri($values);
+        $uri = $builder->formatUri($values);
+
+        return $builder->addQuery($uri);
     }
 
     private function getParametersInUri()
@@ -114,6 +116,18 @@ class UriBuilder
         }
 
         return $parameter;
+    }
+
+    /**
+     * @param string $uri
+     * @return string
+     */
+    private function addQuery($uri)
+    {
+        $extended = $this->request->getExtended();
+        $uri .= "?extended=" . $extended;
+        dump($uri);
+        return $uri;
     }
 
 

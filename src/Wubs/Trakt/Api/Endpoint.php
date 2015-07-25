@@ -5,10 +5,16 @@ namespace Wubs\Trakt\Api;
 
 
 use GuzzleHttp\ClientInterface;
+use Illuminate\Support\Collection;
 use Wubs\Trakt\Request\AbstractRequest;
 
 abstract class Endpoint
 {
+
+    /**
+     * @var Collection
+     */
+    private $extended;
 
     private $clientId;
     /**
@@ -24,6 +30,7 @@ abstract class Endpoint
     {
         $this->clientId = $clientId;
         $this->client = $client;
+        $this->extended = new Collection(["min"]);
 
         $reflection = new \ReflectionClass($this);
         foreach ($reflection->getProperties() as $property) {
@@ -34,8 +41,26 @@ abstract class Endpoint
 
     }
 
+    public function extendWithImages()
+    {
+        return $this->extend('images');
+    }
+
+    public function extendWithFull()
+    {
+        return $this->extend("full");
+    }
+
+    private function extend($level)
+    {
+        $this->extended->forget(0);
+        $this->extended->push($level);
+        return $this;
+    }
+
     protected function request(AbstractRequest $request)
     {
+        $request->setExtended($this->extended->implode(','));
         return $request->make($this->clientId, $this->client);
     }
 

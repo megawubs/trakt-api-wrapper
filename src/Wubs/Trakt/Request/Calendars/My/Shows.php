@@ -27,7 +27,6 @@ class Shows extends AbstractRequest
         $this->setDays($days);
         $this->setStartDate($startDate);
 
-//        $this->setResponseHandler(new ShowsResponse());
         $this->setToken($accessToken);
     }
 

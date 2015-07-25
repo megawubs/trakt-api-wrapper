@@ -38,17 +38,12 @@ abstract class AbstractRequest
      */
     private $responseHandler;
 
-    private $environment = 'prod';
-
-    /**
-     * @var Client
-     */
-    private $client;
-
     /**
      * @var AccessToken|null
      */
     private $token = null;
+
+    private $extended;
 
     /**
      *
@@ -87,20 +82,20 @@ abstract class AbstractRequest
     }
 
     /**
+     * @return mixed
+     */
+    public function getExtended()
+    {
+        return $this->extended;
+    }
+
+
+    /**
      * @param array $params
      */
     public function setQueryParams(array $params)
     {
         $this->queryParams = $params;
-    }
-
-    public function setEnvironment($environment)
-    {
-        $allowed = ['prod', 'staging'];
-        if (in_array($environment, $allowed)) {
-            $this->environment = $environment;
-            $this->client = $this->getClient();
-        }
     }
 
     /**
@@ -125,6 +120,7 @@ abstract class AbstractRequest
     public function call($clientId = null, ClientInterface $client)
     {
         $this->setClientId($clientId);
+
         $request = $client->createRequest(
             $this->getRequestType(),
             $this->getUrl(),
