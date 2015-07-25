@@ -5,7 +5,7 @@ This is the Trakt API wrapper for their new API (version 2). It's in active deve
 
 ## Installation
 
-In your composer.json file add:`"wubs/trakt": "dev-master"` and run `composer install`
+In your composer.json file add:`"wubs/trakt": "dev-develop"` and run `composer install`
 
 ## The goal
 
@@ -85,7 +85,7 @@ Now that you have the access token, you can use it to retrieve user-specific dat
 
 // initiate Auth here
 
-$trakt = new $trakt($auth);
+$trakt = new Trakt($auth);
 
 $settings = $trakt->users->settings($token);
 $comment = $trakt->comments->get($commentId);
