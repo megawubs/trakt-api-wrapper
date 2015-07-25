@@ -68,7 +68,7 @@ class NestedRequestsGeneratorTest extends PHPUnit_Framework_TestCase
      */
     public function testCreatesFileForSubFolder()
     {
-        $check = $this->filesystem->has('Users/Follow.php');
+        $check = $this->filesystem->has('Users/Followers.php');
 
         $this->assertTrue($check);
     }
@@ -101,7 +101,7 @@ class NestedRequestsGeneratorTest extends PHPUnit_Framework_TestCase
      */
     public function testAddsClassName()
     {
-        $this->assertContains("class Follow extends Endpoint", static::$content);
+        $this->assertContains("class Followers extends Endpoint", static::$content);
     }
 
     /**

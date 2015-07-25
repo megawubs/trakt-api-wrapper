@@ -125,8 +125,11 @@ class UriBuilder
     private function addQuery($uri)
     {
         $extended = $this->request->getExtended();
-        $uri .= "?extended=" . $extended;
-        dump($uri);
+        if ($extended) {
+            $uri .= "?extended=" . $extended;
+        }
+
+
         return $uri;
     }
 
