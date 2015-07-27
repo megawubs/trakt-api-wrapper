@@ -74,12 +74,13 @@ $token = $auth->token($_GET['code']);
 
 When you now go through the OAuth flow, you'll get your token dumped out on the screen. Store the values from the 
 token somewhere. With the values you can re-create the `AccessToken` when you need it by 
-using the `\Wubs\Trakt\Auth\Token::create()` method and pass the required parameters `$token`, `$type` and`$expires`
+using the `\Wubs\Trakt\Auth\Token::create()` method and pass the required parameters `$token`, `$type`,`$expires`, 
+`$refresh` and `$scope`.
 
 ## Using the api wrapper
 
 Now that you have the access token, you can use it to retrieve user-specific data from trakt.tv with the `Trakt` class.
-
+  
 ```PHP
 <?php
 
