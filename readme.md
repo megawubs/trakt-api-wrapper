@@ -74,7 +74,7 @@ $token = $auth->token($_GET['code']);
 
 When you now go through the OAuth flow, you'll get your token dumped out on the screen. Store the values from the 
 token somewhere. With the values you can re-create the `AccessToken` when you need it by 
-using the `TraktAccessToken::ceate()` method and pass the required parameters `$token`, `$type` and`$expires`
+using the `\Wubs\Trakt\Auth\Token::ceate()` method and pass the required parameters `$token`, `$type` and`$expires`
 
 ## Using the api wrapper
 
