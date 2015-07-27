@@ -16,6 +16,10 @@ abstract class Endpoint
      */
     private $extended;
 
+    private $page = 1;
+
+    private $limit = 10;
+
     private $clientId;
     /**
      * @var ClientInterface
@@ -68,9 +72,30 @@ abstract class Endpoint
         return $this;
     }
 
+    /**
+     * @param mixed $page
+     * @return $this
+     */
+    public function page($page)
+    {
+        $this->page = $page;
+        return $this;
+    }
+
+    /**
+     * @param int $limit
+     * @return Endpoint
+     */
+    public function limit($limit)
+    {
+        $this->limit = $limit;
+        return $this;
+    }
+
     protected function request(AbstractRequest $request)
     {
         $request->setExtended($this->extended->implode(','));
+        $request->setPage($this->page);
         return $request->make($this->clientId, $this->client);
     }
 

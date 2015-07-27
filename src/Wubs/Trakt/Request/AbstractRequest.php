@@ -231,4 +231,24 @@ abstract class AbstractRequest
     abstract public function getRequestType();
 
     abstract public function getUri();
+
+    /**
+     * @param int $page
+     * @return AbstractRequest
+     */
+    public function setPage($page)
+    {
+        $this->page = $page;
+        return $this;
+    }
+
+    /**
+     * @param int $limit
+     * @return AbstractRequest
+     */
+    public function setLimit($limit)
+    {
+        $this->limit = $limit;
+        return $this;
+    }
 }
