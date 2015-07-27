@@ -13,11 +13,11 @@ class Watchlist extends AbstractRequest
     /**
      * @var null
      */
-    private $type;
+    public $type;
     /**
      * @var
      */
-    private $username;
+    public $username;
 
     /**
      * @param $username
@@ -32,6 +32,7 @@ class Watchlist extends AbstractRequest
         $this->type = $type;
         $this->username = $username;
     }
+
 
     public function getRequestType()
     {

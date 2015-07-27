@@ -41,16 +41,26 @@ abstract class Endpoint
 
     }
 
-    public function extendWithImages()
+    /**
+     * @return $this
+     */
+    public function withImages()
     {
         return $this->extend('images');
     }
 
-    public function extendWithFull()
+    /**
+     * @return $this
+     */
+    public function withFull()
     {
         return $this->extend("full");
     }
 
+    /**
+     * @param $level
+     * @return $this
+     */
     private function extend($level)
     {
         $this->extended->forget(0);

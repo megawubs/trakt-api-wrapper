@@ -62,12 +62,23 @@ class UriBuilder
     }
 
     /**
+     * Get the value for the parameter that is prefixed with a ":" inside the url.
+     * It can be retrieved by a getter (get+ParameterName) or by assigning the value
+     * to a public property with the same name as the url parameter.
+     *
+     * $url = "users/:username/history"
+     * becomes "user/megawubs/history" when $request::username is set to "megawubs"
+     *
      * @param $parameter
      * @return mixed
      * @throws MalformedParameterException
      */
     private function getValueFromParameter($parameter)
     {
+        if (property_exists($this->request, $parameter)) {
+            return $this->request->{$parameter};
+        }
+
         $getter = $this->getValueGetter($parameter);
         if (method_exists($this->request, $getter)) {
             return $this->request->{$getter}();
