@@ -75,13 +75,13 @@ class UriBuilder
      */
     private function getValueFromParameter($parameter)
     {
-        if (property_exists($this->request, $parameter)) {
-            return $this->request->{$parameter};
-        }
-
         $getter = $this->getValueGetter($parameter);
         if (method_exists($this->request, $getter)) {
             return $this->request->{$getter}();
+        }
+
+        if (property_exists($this->request, $parameter)) {
+            return $this->request->{$parameter};
         }
 
         throw new MalformedParameterException;
