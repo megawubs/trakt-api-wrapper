@@ -65,17 +65,6 @@ abstract class Endpoint
     }
 
     /**
-     * @param $level
-     * @return $this
-     */
-    private function extend($level)
-    {
-        $this->extended->forget(0);
-        $this->extended->push($level);
-        return $this;
-    }
-
-    /**
      * @param mixed $page
      * @return $this
      */
@@ -95,6 +84,17 @@ abstract class Endpoint
         return $this;
     }
 
+    /**
+     * Requests the abstract request. But before it does so, it sets a few properties
+     * on the request like the extended level, page and it's limit
+     *
+     * @param AbstractRequest $request
+     * @return mixed
+     * @throws \Wubs\Trakt\Request\Exception\HttpCodeException\RateLimitExceededException
+     * @throws \Wubs\Trakt\Request\Exception\HttpCodeException\ServerErrorException
+     * @throws \Wubs\Trakt\Request\Exception\HttpCodeException\ServerUnavailableException
+     * @throws \Wubs\Trakt\Request\Exception\HttpCodeException\StatusCodeException
+     */
     protected function request(AbstractRequest $request)
     {
         return $request
@@ -102,6 +102,17 @@ abstract class Endpoint
             ->setPage($this->page)
             ->setLimit($this->limit)
             ->make($this->clientId, $this->client);
+    }
+
+    /**
+     * @param $level
+     * @return $this
+     */
+    private function extend($level)
+    {
+        $this->extended->forget(0);
+        $this->extended->push($level);
+        return $this;
     }
 
     /**

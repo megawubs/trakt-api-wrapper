@@ -19,6 +19,7 @@ use Wubs\Trakt\Api\Scrobble;
 use Wubs\Trakt\Api\Search;
 use Wubs\Trakt\Api\Seasons;
 use Wubs\Trakt\Api\Shows;
+use Wubs\Trakt\Api\Sync;
 use Wubs\Trakt\Api\Users;
 use Wubs\Trakt\Auth\Auth;
 use Wubs\Trakt\Contracts\RequestInterface;
@@ -90,6 +91,11 @@ class Trakt
      * @var Users
      */
     public $users;
+
+    /**
+     * @var Sync
+     */
+    public $sync;
     /**
      * @var ClientInterface
      */
@@ -133,6 +139,7 @@ class Trakt
         $this->search = new Search($id, $this->client);
         $this->seasons = new Seasons($id, $this->client);
         $this->shows = new Shows($id, $this->client);
+        $this->sync = new Sync($id, $this->client);
         $this->users = new Users($id, $this->client);
     }
 }
