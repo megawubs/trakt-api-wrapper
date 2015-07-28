@@ -134,7 +134,7 @@ function episodeJson()
 /**
  * @param integer $statusCode
  * @param string $requestResponse
- * @return \Mockery\MockInterface
+ * @return \Mockery\MockInterface|ClientInterface
  */
 function mock_client($statusCode, $requestResponse = '[]')
 {

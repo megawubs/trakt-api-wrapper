@@ -4,11 +4,13 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Message\RequestInterface;
 use GuzzleHttp\Message\ResponseInterface;
 use Wubs\Trakt\Contracts\ResponseHandler;
+use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\Calendars\My;
 use Wubs\Trakt\Request\Calendars\My\Movies;
 use Wubs\Trakt\Request\Parameters\Days;
 use Wubs\Trakt\Request\Parameters\StartDate;
 use Wubs\Trakt\Response\Handlers\AbstractResponseHandler;
+use Wubs\Trakt\TraktHttpClient;
 
 /**
  * Created by PhpStorm.
@@ -18,6 +20,7 @@ use Wubs\Trakt\Response\Handlers\AbstractResponseHandler;
  */
 class AbstractRequestTest extends PHPUnit_Framework_TestCase
 {
+
 
     protected function tearDown()
     {
@@ -36,9 +39,9 @@ class AbstractRequestTest extends PHPUnit_Framework_TestCase
 
     public function testCanSetResponseHandlerOnStaticRequest()
     {
-        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
-        $request = Mockery::mock(stdClass::class . ", " . RequestInterface::class);
-        $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
+        $client = Mockery::mock(ClientInterface::class);
+        $request = Mockery::mock(RequestInterface::class);
+        $response = Mockery::mock(ResponseInterface::class);
 
         $client->shouldReceive("createRequest")->once()->andReturn($request);
         $response->shouldReceive("getStatusCode")->once()->andReturn(200);
@@ -51,9 +54,9 @@ class AbstractRequestTest extends PHPUnit_Framework_TestCase
 
     public function testCanOmitRequestParametersAsParameter()
     {
-        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
-        $request = Mockery::mock(stdClass::class . ", " . RequestInterface::class);
-        $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
+        $client = Mockery::mock(ClientInterface::class);
+        $request = Mockery::mock(RequestInterface::class);
+        $response = Mockery::mock(ResponseInterface::class);
 
         $client->shouldReceive("createRequest")->once()->andReturn($request);
         $response->shouldReceive("getStatusCode")->once()->andReturn(200);
@@ -66,9 +69,9 @@ class AbstractRequestTest extends PHPUnit_Framework_TestCase
 
     public function testOnlyPassRequestParameters()
     {
-        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
-        $request = Mockery::mock(stdClass::class . ", " . RequestInterface::class);
-        $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
+        $client = Mockery::mock(ClientInterface::class);
+        $request = Mockery::mock(RequestInterface::class);
+        $response = Mockery::mock(ResponseInterface::class);
 
         $client->shouldReceive("createRequest")->once()->andReturn($request);
         $response->shouldReceive("getStatusCode")->once()->andReturn(200);
@@ -78,6 +81,14 @@ class AbstractRequestTest extends PHPUnit_Framework_TestCase
         $response = (new Movies(get_token(), Carbon::now(), 20))->make(get_client_id(), $client);
 
         $this->assertInternalType("object", $response);
+    }
+
+    public function testCanAddQueryParamsToRequestObject()
+    {
+        $request = new My\Shows(get_token(), Carbon::now());
+        $request->addQueryParam("extended", "images")->addQueryParam("page", 2);
+
+        $this->assertInstanceOf(AbstractRequest::class, $request);
     }
 
 }

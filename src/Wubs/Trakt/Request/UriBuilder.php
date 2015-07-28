@@ -26,6 +26,16 @@ class UriBuilder
         $this->request = $request;
     }
 
+    /**
+     * Formats the uri for a Request object. Parts of the uri that start with an
+     * ":" are the parameters of the uri. This method initiates the formatting process
+     * for such an uri by getting the parameters first, and with the name of a parameter,
+     * i'ts value can be retrieved. The value is either stored inside a public property of
+     * the request object. Or it can be retrieved by a getter.
+     *
+     * @param AbstractRequest $request
+     * @return string
+     */
     public static function format(AbstractRequest $request)
     {
         $builder = new static($request);
@@ -34,11 +44,14 @@ class UriBuilder
 
         $values = $builder->getValuesFromUriParameters($parts);
 
-        $uri = $builder->formatUri($values);
-
-        return $builder->addQuery($uri);
+        return $builder->formatUri($values);
     }
 
+    /**
+     * Gets all parameters inside the uri as an array.
+     *
+     * @return array
+     */
     private function getParametersInUri()
     {
         $url = $this->request->getUri();
@@ -50,6 +63,15 @@ class UriBuilder
         return $parts;
     }
 
+    /**
+     * Gets the values for all the parameters that are retrieved by getParametersInUri.
+     * When all the parameters are retrieved, it returns an associative array of [parameter => value]
+     * If one parameter fails to be retrieved, it results in a MalformedParameterException.
+     *
+     * @param array $parameters
+     * @return array
+     * @throws MalformedParameterException
+     */
     private function getValuesFromUriParameters(array $parameters)
     {
         $values = [];
@@ -75,6 +97,7 @@ class UriBuilder
      */
     private function getValueFromParameter($parameter)
     {
+
         $getter = $this->getValueGetter($parameter);
         if (method_exists($this->request, $getter)) {
             return $this->request->{$getter}();
@@ -100,11 +123,22 @@ class UriBuilder
         return $camelCase;
     }
 
+    /**
+     * @param $parameter
+     * @return string
+     */
     private function getValueGetter($parameter)
     {
         return "get" . $this->toCamelCase($parameter);
     }
 
+    /**
+     * Formats the uri, it replaces the parameters with the values it has retrieved from
+     * the request object.
+     *
+     * @param $values
+     * @return mixed
+     */
     private function formatUri($values)
     {
         $uri = $this->request->getUri();
@@ -128,21 +162,4 @@ class UriBuilder
 
         return $parameter;
     }
-
-    /**
-     * @param string $uri
-     * @return string
-     */
-    private function addQuery($uri)
-    {
-        $extended = $this->request->getExtended();
-        if ($extended) {
-            $uri .= "?extended=" . $extended;
-        }
-
-
-        return $uri;
-    }
-
-
 }

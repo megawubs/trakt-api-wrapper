@@ -9,7 +9,7 @@ use Wubs\Trakt\Trakt;
 class UsersTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testCanGetWathchlist()
+    public function testCanGetWatchlist()
     {
         $trakt = new Trakt(new Auth(new TraktProvider(get_client_id(), get_client_secret(), get_redirect_url())));
 

@@ -12,6 +12,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Message\ResponseInterface;
+use Illuminate\Support\Collection;
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Contracts\ResponseHandler;
 use Wubs\Trakt\Request\Exception\HttpCodeException\ExceptionStatusCodeFactory;
@@ -29,7 +30,10 @@ abstract class AbstractRequest
 
     private $limit = 10;
 
-    protected $queryParams = [];
+    /**
+     * @var Collection|string[]
+     */
+    protected $queryParams;
 
     protected $allowedExtended;
 
@@ -50,7 +54,7 @@ abstract class AbstractRequest
      */
     public function __construct()
     {
-        $this->queryParams = [];
+        $this->queryParams = new Collection();
 
         $this->setResponseHandler(new DefaultResponseHandler());
     }
@@ -75,10 +79,12 @@ abstract class AbstractRequest
 
     /**
      * @param $level
+     * @return $this
      */
     public function setExtended($level)
     {
-        $this->extended = $level;
+        $this->addQueryParam("extended", $level);
+        return $this;
     }
 
     /**
@@ -91,11 +97,48 @@ abstract class AbstractRequest
 
 
     /**
-     * @param array $params
+     * @param int $page
+     * @return AbstractRequest
      */
-    public function setQueryParams(array $params)
+    public function setPage($page)
     {
-        $this->queryParams = $params;
+        $this->addQueryParam('page', $page);
+        return $this;
+    }
+
+    /**
+     * @param int $limit
+     * @return AbstractRequest
+     */
+    public function setLimit($limit)
+    {
+        $this->limit = $limit;
+        return $this;
+    }
+
+    public function addQueryParam($key, $value)
+    {
+        $this->queryParams->put($key, $value);
+        return $this;
+    }
+
+    /**
+     * @param array $params
+     * @return $this
+     */
+    public function setQueryParams($params)
+    {
+        if (is_array($params)) {
+            $this->queryParams = collect($params);
+            return $this;
+        }
+
+        if ($params instanceof Collection) {
+            $this->queryParams = $params;
+            return $this;
+        }
+
+        throw new \InvalidArgumentException("The parameters should be an array or an instance of " . Collection::class);
     }
 
     /**
@@ -110,30 +153,15 @@ abstract class AbstractRequest
      */
     public function make($clientId, ClientInterface $client, ResponseHandler $responseHandler = null)
     {
-        if ($responseHandler) {
-            $this->setResponseHandler($responseHandler);
-        }
+        $this->setResponseHandler($responseHandler);
 
-        return $this->call($clientId, $client);
-    }
-
-    public function call($clientId = null, ClientInterface $client)
-    {
         $this->setClientId($clientId);
 
-        $request = $client->createRequest(
-            $this->getRequestType(),
-            $this->getUrl(),
-            $this->getOptions()
-        );
-        try {
-            $response = $client->send($request);
-        } catch (ServerException $exception) {
-            $response = $exception->getResponse();
-        }
+        $request = $this->createRequest($client);
 
+        $response = $this->send($client, $request);
 
-        if ($this->requestNotSuccessful($response)) {
+        if ($this->notSuccessful($response)) {
             throw ExceptionStatusCodeFactory::create($response->getStatusCode());
         }
 
@@ -148,9 +176,11 @@ abstract class AbstractRequest
     /**
      * @param ResponseHandler $responseHandler
      */
-    public function setResponseHandler(ResponseHandler $responseHandler)
+    public function setResponseHandler(ResponseHandler $responseHandler = null)
     {
-        $this->responseHandler = $responseHandler;
+        if ($responseHandler) {
+            $this->responseHandler = $responseHandler;
+        }
     }
 
 
@@ -184,7 +214,7 @@ abstract class AbstractRequest
     {
         $options = [
             "headers" => $this->getHeaders(),
-            "query" => $this->queryParams
+            "query" => $this->queryParams->toArray()
         ];
 
         return $this->setBody($options);
@@ -204,7 +234,7 @@ abstract class AbstractRequest
         ];
     }
 
-    private function requestNotSuccessful(ResponseInterface $response)
+    private function notSuccessful(ResponseInterface $response)
     {
         return (!in_array($response->getStatusCode(), [200, 201, 204, 504]));
     }
@@ -226,6 +256,36 @@ abstract class AbstractRequest
     private function needsPostBody()
     {
         return in_array($this->getRequestType(), [RequestType::PUT, RequestType::POST]);
+    }
+
+    /**
+     * @param ClientInterface $client
+     * @param $request
+     * @return ResponseInterface|null
+     */
+    private function send(ClientInterface $client, $request)
+    {
+        try {
+            $response = $client->send($request);
+            return $response;
+        } catch (ServerException $exception) {
+            $response = $exception->getResponse();
+            return $response;
+        }
+    }
+
+    /**
+     * @param ClientInterface $client
+     * @return \GuzzleHttp\Message\RequestInterface
+     */
+    private function createRequest(ClientInterface $client)
+    {
+        $request = $client->createRequest(
+            $this->getRequestType(),
+            $this->getUrl(),
+            $this->getOptions()
+        );
+        return $request;
     }
 
     abstract public function getRequestType();

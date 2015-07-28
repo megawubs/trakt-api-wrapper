@@ -16,6 +16,10 @@ abstract class Endpoint
      */
     private $extended;
 
+    private $page = 1;
+
+    private $limit = 10;
+
     private $clientId;
     /**
      * @var ClientInterface
@@ -46,7 +50,10 @@ abstract class Endpoint
      */
     public function withImages()
     {
-        return $this->extend('images');
+        if (!$this->extended->contains("images")) {
+            return $this->extend('images');
+        }
+        return $this;
     }
 
     /**
@@ -68,10 +75,33 @@ abstract class Endpoint
         return $this;
     }
 
+    /**
+     * @param mixed $page
+     * @return $this
+     */
+    public function page($page)
+    {
+        $this->page = $page;
+        return $this;
+    }
+
+    /**
+     * @param int $limit
+     * @return $this
+     */
+    public function limit($limit)
+    {
+        $this->limit = $limit;
+        return $this;
+    }
+
     protected function request(AbstractRequest $request)
     {
-        $request->setExtended($this->extended->implode(','));
-        return $request->make($this->clientId, $this->client);
+        return $request
+            ->setExtended($this->extended->implode(','))
+            ->setPage($this->page)
+            ->setLimit($this->limit)
+            ->make($this->clientId, $this->client);
     }
 
     /**
