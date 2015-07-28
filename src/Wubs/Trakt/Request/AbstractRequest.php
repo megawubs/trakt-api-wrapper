@@ -130,30 +130,15 @@ abstract class AbstractRequest
      */
     public function make($clientId, ClientInterface $client, ResponseHandler $responseHandler = null)
     {
-        if ($responseHandler) {
-            $this->setResponseHandler($responseHandler);
-        }
+        $this->setResponseHandler($responseHandler);
 
-        return $this->call($clientId, $client);
-    }
-
-    public function call($clientId = null, ClientInterface $client)
-    {
         $this->setClientId($clientId);
 
-        $request = $client->createRequest(
-            $this->getRequestType(),
-            $this->getUrl(),
-            $this->getOptions()
-        );
-        try {
-            $response = $client->send($request);
-        } catch (ServerException $exception) {
-            $response = $exception->getResponse();
-        }
+        $request = $this->createRequest($client);
 
+        $response = $this->send($client, $request);
 
-        if ($this->requestNotSuccessful($response)) {
+        if ($this->notSuccessful($response)) {
             throw ExceptionStatusCodeFactory::create($response->getStatusCode());
         }
 
@@ -170,7 +155,9 @@ abstract class AbstractRequest
      */
     public function setResponseHandler(ResponseHandler $responseHandler)
     {
-        $this->responseHandler = $responseHandler;
+        if ($responseHandler) {
+            $this->responseHandler = $responseHandler;
+        }
     }
 
 
@@ -224,7 +211,7 @@ abstract class AbstractRequest
         ];
     }
 
-    private function requestNotSuccessful(ResponseInterface $response)
+    private function notSuccessful(ResponseInterface $response)
     {
         return (!in_array($response->getStatusCode(), [200, 201, 204, 504]));
     }
@@ -246,6 +233,36 @@ abstract class AbstractRequest
     private function needsPostBody()
     {
         return in_array($this->getRequestType(), [RequestType::PUT, RequestType::POST]);
+    }
+
+    /**
+     * @param ClientInterface $client
+     * @param $request
+     * @return ResponseInterface|null
+     */
+    private function send(ClientInterface $client, $request)
+    {
+        try {
+            $response = $client->send($request);
+            return $response;
+        } catch (ServerException $exception) {
+            $response = $exception->getResponse();
+            return $response;
+        }
+    }
+
+    /**
+     * @param ClientInterface $client
+     * @return \GuzzleHttp\Message\RequestInterface
+     */
+    private function createRequest(ClientInterface $client)
+    {
+        $request = $client->createRequest(
+            $this->getRequestType(),
+            $this->getUrl(),
+            $this->getOptions()
+        );
+        return $request;
     }
 
     abstract public function getRequestType();
