@@ -84,7 +84,7 @@ abstract class Endpoint
 
     /**
      * @param int $limit
-     * @return Endpoint
+     * @return $this
      */
     public function limit($limit)
     {
