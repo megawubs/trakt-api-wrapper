@@ -50,7 +50,10 @@ abstract class Endpoint
      */
     public function withImages()
     {
-        return $this->extend('images');
+        if (!$this->extended->contains("images")) {
+            return $this->extend('images');
+        }
+        return $this;
     }
 
     /**
@@ -94,9 +97,11 @@ abstract class Endpoint
 
     protected function request(AbstractRequest $request)
     {
-        $request->setExtended($this->extended->implode(','));
-        $request->setPage($this->page);
-        return $request->make($this->clientId, $this->client);
+        return $request
+            ->setExtended($this->extended->implode(','))
+            ->setPage($this->page)
+            ->setLimit($this->limit)
+            ->make($this->clientId, $this->client);
     }
 
     /**

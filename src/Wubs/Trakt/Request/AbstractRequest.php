@@ -12,6 +12,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Message\ResponseInterface;
+use Illuminate\Support\Collection;
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Contracts\ResponseHandler;
 use Wubs\Trakt\Request\Exception\HttpCodeException\ExceptionStatusCodeFactory;
@@ -29,7 +30,10 @@ abstract class AbstractRequest
 
     private $limit = 10;
 
-    protected $queryParams = [];
+    /**
+     * @var Collection|string[]
+     */
+    protected $queryParams;
 
     protected $allowedExtended;
 
@@ -50,7 +54,7 @@ abstract class AbstractRequest
      */
     public function __construct()
     {
-        $this->queryParams = [];
+        $this->queryParams = new Collection();
 
         $this->setResponseHandler(new DefaultResponseHandler());
     }
@@ -75,10 +79,12 @@ abstract class AbstractRequest
 
     /**
      * @param $level
+     * @return $this
      */
     public function setExtended($level)
     {
-        $this->extended = $level;
+        $this->addQueryParam("extended", $level);
+        return $this;
     }
 
     /**
@@ -96,7 +102,7 @@ abstract class AbstractRequest
      */
     public function setPage($page)
     {
-        $this->page = $page;
+        $this->addQueryParam('page', $page);
         return $this;
     }
 
@@ -110,12 +116,29 @@ abstract class AbstractRequest
         return $this;
     }
 
+    public function addQueryParam($key, $value)
+    {
+        $this->queryParams->put($key, $value);
+        return $this;
+    }
+
     /**
      * @param array $params
+     * @return $this
      */
-    public function setQueryParams(array $params)
+    public function setQueryParams($params)
     {
-        $this->queryParams = $params;
+        if (is_array($params)) {
+            $this->queryParams = collect($params);
+            return $this;
+        }
+
+        if ($params instanceof Collection) {
+            $this->queryParams = $params;
+            return $this;
+        }
+
+        throw new \InvalidArgumentException("The parameters should be an array or an instance of " . Collection::class);
     }
 
     /**
@@ -153,7 +176,7 @@ abstract class AbstractRequest
     /**
      * @param ResponseHandler $responseHandler
      */
-    public function setResponseHandler(ResponseHandler $responseHandler)
+    public function setResponseHandler(ResponseHandler $responseHandler = null)
     {
         if ($responseHandler) {
             $this->responseHandler = $responseHandler;
@@ -191,7 +214,7 @@ abstract class AbstractRequest
     {
         $options = [
             "headers" => $this->getHeaders(),
-            "query" => $this->queryParams
+            "query" => $this->queryParams->toArray()
         ];
 
         return $this->setBody($options);
