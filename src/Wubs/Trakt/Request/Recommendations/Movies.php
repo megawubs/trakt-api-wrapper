@@ -9,11 +9,20 @@
 namespace Wubs\Trakt\Request\Recommendations;
 
 
+use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\RequestType;
 
 class Movies extends AbstractRequest
 {
+    /**
+     * @param AccessToken $token
+     */
+    public function __construct(AccessToken $token)
+    {
+        parent::__construct();
+        $this->setToken($token);
+    }
 
     public function getRequestType()
     {

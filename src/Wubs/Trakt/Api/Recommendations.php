@@ -9,6 +9,7 @@
 */
 namespace Wubs\Trakt\Api;
 
+use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Request\Recommendations\Movies as MoviesRequest;
 use Wubs\Trakt\Request\Recommendations\Shows as ShowsRequest;
 
@@ -19,14 +20,14 @@ class Recommendations extends Endpoint {
     */
     public $dismiss;
 
-    public function movies()
+    public function movies(AccessToken $token)
     {
-        return $this->request(new MoviesRequest());
+        return $this->request(new MoviesRequest($token));
     }
 
-	public function shows()
+	public function shows(AccessToken $token)
     {
-        return $this->request(new ShowsRequest());
+        return $this->request(new ShowsRequest($token));
     }
 
 }
