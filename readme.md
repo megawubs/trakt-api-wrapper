@@ -84,7 +84,7 @@ Now that you have the access token, you can use it to retrieve user-specific dat
 ```PHP
 <?php
 
-// initiate Auth here
+//initialize Auth here...
 
 $trakt = new Trakt($auth);
 
@@ -94,6 +94,42 @@ $movie = $trakt->search->byId($type, $id);
 $movie = $trakt->search->byId($type, $id, $token); //can be with, or without token.
 ```
 
+### Pagination and Extended info
+
+To utilise the extended info and pagination features, you have to set the page or extended info level before calling 
+the endpoint. Here is an example:
+
+```php
+<?php
+$trakt->movies->page(2)->collected(); //this will get the second page of the /movies/collected endpoint
+//when you want to specify a limit
+$trakt->movies->page(2)->limit(15)->collected(); //this will give you the second page, with 15 items
+```
+
+Extended info goes along the same way:
+```php
+<?php
+
+$trakt->movies->withImages()->collected();//this will give you all kinds of extra images
+//or
+$trakt->movies->withFull()->collected(); //this will give you a lot of extra data
+```
+
+You can also combine all of this:
+
+```php
+<?php
+$response = trakt->movies
+    ->page(2)
+    ->withImages()
+    ->withFull()
+    ->limit(20)
+    ->collected();
+    
+```
+
+The response will now be the second page of the `movies/collected` endpoint, with all images and all data limited to 
+20 items per page.
 
 
 Feel free to contact me or help development :)
