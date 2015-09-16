@@ -31,5 +31,6 @@ class ExtendedInfoTest extends PHPUnit_Framework_TestCase
         $first = $calendar->first();
 
         $this->assertObjectHasAttribute("images", $first->episode);
+
     }
 }

@@ -14,4 +14,6 @@ $auth = new Auth($provider);
 
 $trakt = new Trakt($auth, TraktHttpClient::make());
 
-$trakt = $trakt->auth->refresh("user-refresh-token-here");
+$token = $trakt->auth->refresh(getenv("TRAKT_REFRESH_TOKEN"));
+
+dump($token);

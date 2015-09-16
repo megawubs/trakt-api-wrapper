@@ -22,3 +22,5 @@ $auth = new Auth($provider);
 $trakt = new Trakt($auth, TraktHttpClient::make());
 
 $trakt->auth->authorize();
+//after authorization the user will be redirected to the page where you preform a token
+// request. see token.php

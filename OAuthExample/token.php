@@ -14,4 +14,4 @@ $auth = new Auth($provider);
 
 $trakt = new Trakt($auth, TraktHttpClient::make());
 
-$trakt = $trakt->auth->token("token-retrieval-code-here");
+$token = $trakt->auth->token("token-retrieval-code-here");
