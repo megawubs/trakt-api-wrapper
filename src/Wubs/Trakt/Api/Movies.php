@@ -10,8 +10,10 @@
 namespace Wubs\Trakt\Api;
 
 use Wubs\Trakt\Request\Movies\Aliases as AliasesRequest;
+use Wubs\Trakt\Request\Movies\Collected as CollectedRequest;
 use Wubs\Trakt\Request\Movies\Comments as CommentsRequest;
 use Wubs\Trakt\Request\Movies\People as PeopleRequest;
+use Wubs\Trakt\Request\Movies\Played as PlayedRequest;
 use Wubs\Trakt\Request\Movies\Popular as PopularRequest;
 use Wubs\Trakt\Request\Movies\Ratings as RatingsRequest;
 use Wubs\Trakt\Request\Movies\Related as RelatedRequest;
@@ -21,6 +23,7 @@ use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Request\Movies\Summary as SummaryRequest;
 use Wubs\Trakt\Request\Movies\Translations as TranslationsRequest;
 use Wubs\Trakt\Request\Movies\Trending as TrendingRequest;
+use Wubs\Trakt\Request\Movies\Watched as WatchedRequest;
 use Wubs\Trakt\Request\Movies\Watching as WatchingRequest;
 
 class Movies extends Endpoint {
@@ -32,6 +35,11 @@ class Movies extends Endpoint {
         return $this->request(new AliasesRequest($mediaId));
     }
 
+	public function collected($period = null)
+    {
+        return $this->request(new CollectedRequest($period));
+    }
+
 	public function comments($mediaId)
     {
         return $this->request(new CommentsRequest($mediaId));
@@ -40,6 +48,11 @@ class Movies extends Endpoint {
 	public function people($mediaId)
     {
         return $this->request(new PeopleRequest($mediaId));
+    }
+
+	public function played($period = null)
+    {
+        return $this->request(new PlayedRequest($period));
     }
 
 	public function popular()
@@ -85,6 +98,11 @@ class Movies extends Endpoint {
 	public function trending()
     {
         return $this->request(new TrendingRequest());
+    }
+
+	public function watched($period)
+    {
+        return $this->request(new WatchedRequest($period));
     }
 
 	public function watching($id)
