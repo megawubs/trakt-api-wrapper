@@ -10,7 +10,7 @@
   "minimum-stability": "stable",
   "require": {
     "php": ">=5.4.7",
-    "illuminate/support": "v5.1.1",
+    "illuminate/support": "~5.1.1",
     "nesbot/carbon": "~1",
     "guzzlehttp/guzzle": "~5",
     "league/oauth2-client": "~0.8",
