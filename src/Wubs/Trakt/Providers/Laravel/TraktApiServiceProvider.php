@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Wubs\Trakt\Providers\Larvel;
+namespace Wubs\Trakt\Providers\Laravel;
 
 
 use Illuminate\Support\ServiceProvider;
@@ -38,5 +38,7 @@ class TraktApiServiceProvider extends ServiceProvider
                 );
             }
         );
+
+        $this->app->bind('trakt', Trakt::class);
     }
 }
