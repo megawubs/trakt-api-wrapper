@@ -10,6 +10,7 @@ namespace Wubs\Trakt\Media;
 
 
 use GuzzleHttp\ClientInterface;
+use Illuminate\Contracts\Support\Arrayable;
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\CheckIn\Create;
@@ -18,7 +19,7 @@ use Wubs\Trakt\Request\Comments\Create as CreateCommend;
 use Wubs\Trakt\Request\Movies\Comments;
 use Wubs\Trakt\Request\Parameters\Type;
 
-abstract class Media
+abstract class Media implements Arrayable
 {
     protected $json;
 
@@ -149,6 +150,11 @@ abstract class Media
     public function getType()
     {
         return $this->type;
+    }
+
+    public function toArray()
+    {
+        return $this->json;
     }
 
     /**
