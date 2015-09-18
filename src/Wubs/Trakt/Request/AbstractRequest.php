@@ -112,7 +112,7 @@ abstract class AbstractRequest
      */
     public function setLimit($limit)
     {
-        $this->limit = $limit;
+        $this->addQueryParam('limit', $limit);
         return $this;
     }
 
