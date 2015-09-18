@@ -154,7 +154,7 @@ abstract class Media implements Arrayable
 
     public function toArray()
     {
-        return $this->json;
+        return json_decode(json_encode($this->media), true);
     }
 
     /**
