@@ -53,4 +53,9 @@ class Auth
         $params = ['refresh_token' => $refreshToken, 'code' => $refreshToken];
         return $this->provider->getAccessToken("refresh_token", $params);
     }
+
+    public function createToken($token, $type, $expires, $refresh, $scope)
+    {
+        return Token::create($token, $type, $expires, $refresh, $scope);
+    }
 }

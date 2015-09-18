@@ -80,4 +80,6 @@ class TraktProvider extends AbstractProvider
     public function userDetails($response, AccessToken $token)
     {
     }
+
+
 }

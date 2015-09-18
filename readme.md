@@ -11,6 +11,26 @@ In your composer.json file add:`"wubs/trakt": "~2.0"` and run `composer install`
 
 The goal of this wrapper is to make communicating with the Trakt api easier. It aims to be easy, readable and usable in many cases. Designed as a composer package it can be easy installed inside a lager application.
 
+## Laravel usage
+
+To use the wrapper inside Laravel, you only have to add 
+`Wubs\Trakt\Providers\Laravel\TraktApiServiceProvider::class` to the `providers` array in your `config/app.php` file.
+ When you've done this, use the `\Wubs\Trakt\Trakt` class as a type hint to inject it into routes or methods. See 
+ here an example:
+ 
+ ```php
+  Route::get(
+     '/',
+     function (\Wubs\Trakt\Trakt $trakt) {
+         dump($trakt->movies->popular());
+     }
+ );
+```
+
+### Non Laravel Usage
+
+If you don't use Laravel, you have to do a bit more to get it working.
+
 ## Instantiating the Trakt API Wrapper
 
 The API Wrapper needs one dependency. The `Wubs\Trakt\Auth` class, that in turn depends on 
@@ -37,19 +57,19 @@ Once you've created the Trakt object, you should register it inside your IoC con
 
 ## OAuth
 
-To get your OAuth token, do the following after creating the `Auth` object.
+To get your OAuth token, do the following after creating the `Trakt` object.
 
 ```PHP
 <?php
-$auth->authorize();
+$trakt->auth->authorize();
 ```
  
-Wehn you created the Auth object, you specified a redirect url. This is the url Trakt is going to redirect the user 
+When you created the Auth object, you specified a redirect url. This is the url Trakt is going to redirect the user 
 to, with an code you can use to obtain an access token. 
 
-The moment you call `$auth->authorize();` the user will be directed to the authorization page of trakt.tv. After 
+The moment you call `$trakt->auth->authorize();` the user will be directed to the authorization page of trakt.tv. After 
 giving your application access to their account, Trakt redirects to the provided url, with a code. This code can than
- be used to obtain the access token. This can be done like so: `$auth->token($code);`
+ be used to obtain the access token. This can be done like so: `$trakt->auth->token($code);`
  
 But, when you don’t have a website running yet, you can’t specify a return url. To get the code displayed on the trakt
 site, you need to tell Trakt that you want to redirect to them self and display the code you need to obtain an access 
@@ -66,16 +86,18 @@ With this you can create a route from witch you do the following. Lets say it's 
 
 //... initiate Auth
 
-$auth = $trakt->authorize();
+$auth = $trakt->auth->authorize();
 
 //route: trakt/auth
-$token = $auth->token($_GET['code']);
+$token = $trakt->auth->token($_GET['code']);
 ```
 
-When you now go through the OAuth flow, you'll get your token dumped out on the screen. Store the values from the 
-token somewhere. With the values you can re-create the `AccessToken` when you need it by 
-using the `\Wubs\Trakt\Auth\Token::create()` method and pass the required parameters `$token`, `$type`,`$expires`, 
-`$refresh` and `$scope`.
+When you now go through the OAuth flow, you'll get your token (an instance of 
+`League\OAuth2\Client\Token\AccessToken`) dumped out on the screen. Store the 
+values from the token somewhere so you can recreate it later when the user needs it. You can do this by 
+using `$trakt->auth->createToken()` and pass the required parameters `$token`, `$type`,`$expires`, 
+`$refresh` and `$scope`. This wil return an instance of `League\OAuth2\Client\Token\AccessToken` which you can pass 
+to methods that (optionally )require an token.
 
 ## Using the api wrapper
 
@@ -87,6 +109,7 @@ Now that you have the access token, you can use it to retrieve user-specific dat
 //initialize Auth here...
 
 $trakt = new Trakt($auth);
+$token = $trakt->auth->createToken($token, $type, $expires, $refresh, $scope);
 
 $settings = $trakt->users->settings($token);
 $comment = $trakt->comments->get($commentId);
