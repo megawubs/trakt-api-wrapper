@@ -37,23 +37,6 @@ class PaginationTest extends PHPUnit_Framework_TestCase
 
         $this->assertCount(15, $movies);
     }
-
-    public function testPaginationUserHistory()
-    {
-        $history = new History("megawubs", null, null, get_token());
-
-        /** @var ResponseInterface $response */
-        $response = $history->setLimit(50)->make(
-            get_client_id(),
-            TraktHttpClient::make(),
-            new PaginationTestResponseHandler()
-        );
-        $url = $response->getEffectiveUrl();
-        $this->assertEquals('50', $response->getHeader('X-Pagination-Limit'));
-        $this->assertContains("limit=50", $url);
-        $history = collect($response->json(['object' => true]));
-        $this->assertCount(50, $history);
-    }
 }
 
 class PaginationTestResponseHandler extends AbstractResponseHandler implements ResponseHandler

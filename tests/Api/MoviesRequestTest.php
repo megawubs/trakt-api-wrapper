@@ -3,6 +3,7 @@
 
 use Wubs\Trakt\Api;
 use Wubs\Trakt\Auth\Auth;
+use Wubs\Trakt\Auth\TraktProvider;
 use Wubs\Trakt\Media\Movie;
 use Wubs\Trakt\Trakt;
 use GuzzleHttp\ClientInterface;
