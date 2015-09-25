@@ -1,1 +1,0 @@
-../_posts/2015-09-25-contribution.md
