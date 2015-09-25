@@ -26,5 +26,4 @@ $trakt->checkIn->create($token, $media->first());
 
 //cancle the checkin
 $trakt->checkIn->delete($token);
-        
 ```
