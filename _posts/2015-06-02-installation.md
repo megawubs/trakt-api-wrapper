@@ -23,7 +23,7 @@ Composer is installed!
 
 ### Existing Project
 
-When you already have an existing composer project, just type `composer require wubs/trakt dev-master` and let it 
+When you already have an existing composer project, just type `composer require wubs/trakt ~2.0` and let it 
 install.
 
 ### Creating a new project
@@ -43,15 +43,15 @@ This wil initialize a new composer project for you and ask you a few questions. 
  the licence of your choice. 
   
   After doing all of this you'll be asked to add dependencies. Hit enter (the default is yes) and specify 
-  `wubs/trakt` as the dependency. For the version constraint type `dev-master`. Add other dependency's if you like, 
-  when done hit enter when asking for a new dependency. Do the same for `require-dev` packages. Next, review the 
+  `wubs/trakt` as the dependency. For the version constraint type `~2.0`. Add other dependency's if you like. 
+  When done hit enter when asking for a new dependency. Do the same for `require-dev` packages. Next, review the 
   composer.json file that's going to be created. If you were following along, you should have something like this:
   
 ```JSON
  {
-     "name": "vendor/project",
+     "name": "foo/project",
      "require": {
-         "wubs/trakt": "dev-master"
+         "wubs/trakt": "~2.0"
      },
      "authors": [
          {
@@ -59,10 +59,10 @@ This wil initialize a new composer project for you and ask you a few questions. 
              "email": "john@doe.com"
          }
      ],
-     "minimum-stability": "dev",
+     "minimum-stability": "stable",
      "autoload": {
          "psr-4": {
-           "Vendor\\": "src/"
+           "Foo\\": "src/"
          }
        }
  }
@@ -78,10 +78,10 @@ $ composer install
 ```
 
 This will show the install process. You'll see a few things you didn't specify in your composer.json file, that's ok,
- that are dependencies of your dependencies (inception anyone?).
- When everything is installed you should see a new folder called `vendor`. This is the place where all of the 
- dependencies defined in `composer.json` are located. You can browse the folder and see a few other folders, of which
-  `wubs` is one. That's the one where the Trakt API library is in installed.
+that are dependencies of your dependencies. When everything is installed you should see a new folder called `vendor`. 
+This is the place where all of the dependencies defined in `composer.json` are located. You can browse the folder and 
+see a few other folders, of which `wubs` is one (probably the last one). That's the one where the Trakt API library 
+is located.
 
 ### Access the code
 
@@ -90,16 +90,12 @@ directory and add an index.php file in it and paste the following code inside:
 
 ```PHP
 <?php
-require_once 'vendor/autoload.php'
+require __DIR__ .'/vendor/autoload.php'
 ```
 
 This will include all the auto loading settings for each dependency you have installed!
 
-If you want to include your own library inside the auto loading, visit [this][composer] url to read how it's done 
-through Composer.
-
- 
-
+If you want to leverage composer's auto loading for your own code, visit [this][composer] url to read how it's done.
 
 [composer]: https://getcomposer.org/doc/01-basic-usage.md#autoloading
 
