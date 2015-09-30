@@ -85,7 +85,7 @@ is located.
 
 ### Access the code
 
-Now, you need a way to be able to use the API wrapper. This can be done fairly easy. Create a folder `src` in your 
+Now, you need a way to be able to use the API wrapper. This can be done fairly easy. Create the folder `src` in your 
 directory and add an index.php file in it and paste the following code inside:
 
 ```PHP
