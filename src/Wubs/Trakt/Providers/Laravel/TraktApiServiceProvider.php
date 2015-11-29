@@ -16,7 +16,7 @@ class TraktApiServiceProvider extends ServiceProvider
     {
         $this->publishes(
             [
-                __DIR__ . 'trakt.php' => config_path('trakt.php'),
+                __DIR__ . '/trakt.php' => config_path('trakt.php'),
             ]
         );
     }
