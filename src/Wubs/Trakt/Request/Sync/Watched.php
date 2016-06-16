@@ -26,6 +26,14 @@ class Watched extends AbstractRequest
         $this->type = $type;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+    
     public function getRequestType()
     {
         return RequestType::GET;
