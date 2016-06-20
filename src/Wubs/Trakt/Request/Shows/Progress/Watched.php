@@ -9,6 +9,7 @@
 namespace Wubs\Trakt\Request\Shows\Progress;
 
 
+use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Request\AbstractRequest;
 use Wubs\Trakt\Request\Parameters\MediaIdTrait;
 use Wubs\Trakt\Request\RequestType;
@@ -21,9 +22,10 @@ class Watched extends AbstractRequest
     /**
      * @param $mediaId
      */
-    public function __construct($mediaId)
+    public function __construct(AccessToken $token, $mediaId)
     {
         parent::__construct();
+        $this->setToken($token);
         $this->id = $mediaId;
     }
 
