@@ -65,6 +65,14 @@ abstract class Endpoint
     }
 
     /**
+     * @return $this
+     */
+    public function withNoSeasons()
+    {
+        return $this->extend('noseasons');
+    }
+
+    /**
      * @param mixed $page
      * @return $this
      */
