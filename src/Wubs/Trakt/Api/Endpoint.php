@@ -67,7 +67,7 @@ abstract class Endpoint
     /**
      * @return $this
      */
-    public function withNoSeasons()
+    public function withoutSeasons()
     {
         return $this->extend('noseasons');
     }
