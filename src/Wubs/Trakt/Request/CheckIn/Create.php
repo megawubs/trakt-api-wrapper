@@ -72,7 +72,7 @@ class Create extends AbstractRequest
         $this->media = $media;
         $this->setToken($token);
 
-        $this->setResponseHandler(new CheckinHandler());
+        $this->setResponseHandler(new CheckInHandler());
         $this->venueId = $venueId;
         $this->appDate = $appDate;
         $this->appVersion = $appVersion;

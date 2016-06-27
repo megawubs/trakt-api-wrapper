@@ -9,6 +9,7 @@
 */
 namespace Wubs\Trakt\Api;
 
+use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Media\Media;
 use Wubs\Trakt\Request\Scrobble\Pause as PauseRequest;
 use Wubs\Trakt\Request\Scrobble\Start as StartRequest;
@@ -18,19 +19,19 @@ class Scrobble extends Endpoint {
     
 
 
-    public function pause(Media $media)
+    public function pause(AccessToken $token, Media $media, $progress = 0, $appVersion = null, $appDate = null)
     {
-        return $this->request(new PauseRequest($media));
+        return $this->request(new PauseRequest($token, $media, $progress, $appVersion, $appDate));
     }
 
-	public function start(Media $media)
+	public function start(AccessToken $token, Media $media, $progress = 0, $appVersion = null, $appDate = null)
     {
-        return $this->request(new StartRequest($media));
+        return $this->request(new StartRequest($token, $media, $progress, $appVersion, $appDate));
     }
 
-	public function stop(Media $media)
+	public function stop(AccessToken $token, Media $media, $progress = 0, $appVersion = null, $appDate = null)
     {
-        return $this->request(new StopRequest($media));
+        return $this->request(new StopRequest($token, $media, $progress, $appVersion, $appDate));
     }
 
 }

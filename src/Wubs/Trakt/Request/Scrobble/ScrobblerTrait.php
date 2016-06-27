@@ -21,7 +21,13 @@ trait ScrobblerTrait
 
     protected function getPostBody()
     {
-        return $this->media->getStandardFields();
+        $type = $this->media->getType();
+        return [
+            $type => $this->media->getStandardFields(),
+            "progress" => 0,
+            "app_version" => 0,
+            "app_date" => 0
+        ];
     }
 
     public function getRequestType()
