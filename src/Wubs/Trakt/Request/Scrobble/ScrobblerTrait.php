@@ -19,14 +19,19 @@ trait ScrobblerTrait
      */
     private $media;
 
+    private $progress;
+    private $appVersion;
+    private $appDate;
+
+
     protected function getPostBody()
     {
         $type = $this->media->getType();
         return [
             $type => $this->media->getStandardFields(),
-            "progress" => 0,
-            "app_version" => 0,
-            "app_date" => 0
+            'progress' => $this->progress,
+            'app_version' => $this->appVersion,
+            'app_date' => $this->appDate
         ];
     }
 
@@ -34,4 +39,5 @@ trait ScrobblerTrait
     {
         return RequestType::POST;
     }
+
 }

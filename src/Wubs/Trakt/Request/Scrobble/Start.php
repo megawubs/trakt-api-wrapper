@@ -12,7 +12,6 @@ namespace Wubs\Trakt\Request\Scrobble;
 use League\OAuth2\Client\Token\AccessToken;
 use Wubs\Trakt\Media\Media;
 use Wubs\Trakt\Request\AbstractRequest;
-use Wubs\Trakt\Request\RequestType;
 use Wubs\Trakt\Response\Handlers\Scrobble\ScrobbleHandler;
 
 class Start extends AbstractRequest
