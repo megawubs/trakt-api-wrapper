@@ -1,0 +1,8 @@
+trakt-api:
+  image: megawubs/trakt-api:dev
+  volumes:
+    - '.:/source'
+  environment:
+    - PHP_IDE_CONFIG=serverName=trakt.dev
+    - XDEBUG_CONFIG=idekey=phpstorm remote_host=192.168.1.123
+

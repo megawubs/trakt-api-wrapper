@@ -8,7 +8,6 @@
 
 namespace Wubs\Trakt\Request;
 
-
 use Wubs\Trakt\Exception\MalformedParameterException;
 
 class UriBuilder
@@ -40,11 +39,10 @@ class UriBuilder
     {
         $builder = new static($request);
 
-        $parts = $builder->getParametersInUri();
+        $keys = $builder->getParametersInUri();
 
-        $values = $builder->getValuesFromUriParameters($parts);
-
-        return $builder->formatUri($values);
+        $values = $builder->getValuesFromUriParameters($keys);
+        return $builder->formatUri($keys, $values);
     }
 
     /**
@@ -56,11 +54,11 @@ class UriBuilder
     {
         $url = $this->request->getUri();
 
-        $parts = explode("/:", $url);
+        $parts = array_map(function ($part) { return ':' . $part; }, explode("/:", $url));
 
         unset($parts[0]); //remove the base uri
 
-        return $parts;
+        return array_map(function ($part) { return $this->stripTrailingPart($part); }, $parts);
     }
 
     /**
@@ -74,13 +72,9 @@ class UriBuilder
      */
     private function getValuesFromUriParameters(array $parameters)
     {
-        $values = [];
-        foreach ($parameters as $parameter) {
-            $parameter = $this->stripTrailingPart($parameter);
-            $values[$parameter] = $this->getValueFromParameter($parameter);
-        }
-
-        return $values;
+        return array_map(function ($parameter) {
+            return $this->getValueFromParameter($parameter);
+        }, $parameters);
     }
 
     /**
@@ -116,11 +110,7 @@ class UriBuilder
      */
     private function toCamelCase($parameter)
     {
-        $words = str_replace('_', ' ', $parameter);
-
-        $camelCase = str_replace(' ', '', ucwords($words));
-
-        return $camelCase;
+        return ucwords(str_replace(['_', ' ', ':',], '', $parameter));
     }
 
     /**
@@ -136,17 +126,13 @@ class UriBuilder
      * Formats the uri, it replaces the parameters with the values it has retrieved from
      * the request object.
      *
+     * @param $keys
      * @param $values
      * @return mixed
      */
-    private function formatUri($values)
+    private function formatUri($keys, $values)
     {
-        $uri = $this->request->getUri();
-        foreach ($values as $parameter => $value) {
-            $uri = str_replace(":" . $parameter, $value, $uri);
-        }
-
-        return $uri;
+        return str_replace($keys, $values, $this->request->getUri());
     }
 
     /**
@@ -155,11 +141,10 @@ class UriBuilder
      */
     private function stripTrailingPart($parameter)
     {
-        if (strstr($parameter, "/")) {
-            $pos = strpos($parameter, "/");
-            $parameter = substr($parameter, 0, $pos);
-        }
+        if (!strstr($parameter, "/"))
+            return $parameter;
 
-        return $parameter;
+        $pos = strpos($parameter, "/");
+        return substr($parameter, 0, $pos);
     }
 }

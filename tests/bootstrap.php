@@ -36,12 +36,12 @@ function get_token()
 
 function get_client_id()
 {
-    return getenv("CLIENT_ID");
+    return getenv("TRAKT_CLIENT_ID");
 }
 
 function get_client_secret()
 {
-    return getenv("CLIENT_SECRET");
+    return getenv("TRAKT_CLIENT_SECRET");
 }
 
 function get_redirect_url()

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Wubs\Trakt\Console\Generators;
-
 
 use Illuminate\Support\Collection;
 use League\Flysystem\Adapter\Local;
@@ -65,45 +63,40 @@ class EndpointGenerator
      */
     private $inputInterface;
 
-    private $delete = false;
+    /**
+     * @var bool
+     */
+    private $delete;
 
-    private $force = false;
-
+    /**
+     * @var bool
+     */
+    private $force;
 
     /**
      * @param InputInterface $inputInterface
      * @param OutputInterface $outputInterface
      * @param QuestionHelper $dialogHelper
+     * @param bool $force
+     * @param bool $delete
      */
     public function __construct(
         InputInterface $inputInterface,
         OutputInterface $outputInterface,
-        QuestionHelper $dialogHelper
-    ) {
+        QuestionHelper $dialogHelper,
+        $force = false,
+        $delete = false
+    )
+    {
         $this->out = $outputInterface;
         $this->dialogHelper = $dialogHelper;
         $this->inputInterface = $inputInterface;
+        $this->force = $force;
+        $this->delete = $delete;
 
         $localAdapter = new Local(__DIR__ . "/../..");
         $this->filesystem = new Filesystem($localAdapter);
     }
-
-    /**
-     * @param boolean $force
-     */
-    public function setForce($force)
-    {
-        $this->force = $force;
-    }
-
-    /**
-     * @param boolean $delete
-     */
-    public function setDelete($delete)
-    {
-        $this->delete = $delete;
-    }
-
 
     /**
      * @param $endpoint
@@ -151,7 +144,6 @@ class EndpointGenerator
         $this->out->writeln("Deleted unused placeholders in template");
 
         return $this;
-
     }
 
     /**
@@ -190,7 +182,6 @@ class EndpointGenerator
         };
         $this->out->writeln("Adding generated methods to template");
         return $this->writeInTemplate("methods", $methods->implode("\n\n\t"))->addProperties($properties);
-
     }
 
     /**
@@ -207,13 +198,10 @@ class EndpointGenerator
             $this->requestsNamespace . $className->implode("\\") . "\\" .
             $file['filename']
         );
-        if (!$reflection->isTrait() || !$reflection->isAbstract()) {
-            $method = new Method($reflection, $this->filesystem, $methodName);
+        if ($reflection->isTrait() || $reflection->isAbstract())
+            throw new ClassCanNotBeImplementedAsEndpointException;
 
-            return $method;
-        }
-
-        throw new ClassCanNotBeImplementedAsEndpointException;
+        return new Method($reflection, $this->filesystem, $methodName);
     }
 
     /**
@@ -224,16 +212,13 @@ class EndpointGenerator
         if ($this->endpoint->count() > 1) {
             $this->uses->push(new ReflectionClass(Endpoint::class));
         }
-        $unique = $this->uses->unique();
-        $aliases = new Collection();
-        $unique->each(
-            function ($useStatement) use ($aliases) {
-                /** @var ReflectionClass $useStatement */
+        $aliases = $this->uses->unique()->map(
+            function (ReflectionClass $useStatement) {
                 $parent = $useStatement->getParentClass();
                 if ($parent !== false && $parent->getName() === AbstractRequest::class) {
-                    $aliases->push($useStatement->getName() . " as " . $useStatement->getShortName() . "Request");
+                    return $useStatement->getName() . " as " . $useStatement->getShortName() . "Request";
                 } else {
-                    $aliases->push($useStatement->getName());
+                    return $useStatement->getName();
                 }
             }
         );
@@ -246,7 +231,6 @@ class EndpointGenerator
         }
 
         return $this;
-
     }
 
     /**
@@ -254,8 +238,7 @@ class EndpointGenerator
      */
     private function updateUsages(Method $method)
     {
-        $this->uses = $this->uses->merge($method->getUses());
-        $this->uses->push($method->getRequestClass());
+        $this->uses = $this->uses->merge($method->getUses())->push($method->getRequestClass());
     }
 
     /**
@@ -390,7 +373,6 @@ class EndpointGenerator
                     return true;
                 }
             );
-
         }
     }
 

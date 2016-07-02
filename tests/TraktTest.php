@@ -14,7 +14,7 @@ class TraktTest extends PHPUnit_Framework_TestCase
 {
     public function testCanInitiateTrakt()
     {
-        $provider = new TraktProvider(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
+        $provider = new TraktProvider(getenv("TRAKT_CLIENT_ID"), getenv("TRAKT_CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
         $auth = new Auth($provider);
 
         $trakt = new Trakt($auth, new Client());
@@ -24,7 +24,7 @@ class TraktTest extends PHPUnit_Framework_TestCase
 
     public function testInvalidAuthorization()
     {
-        $provider = new TraktProvider(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
+        $provider = new TraktProvider(getenv("TRAKT_CLIENT_ID"), getenv("TRAKT_CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
         $auth = new Auth($provider);
 
         $trakt = new Trakt($auth, new Client());
@@ -38,7 +38,7 @@ class TraktTest extends PHPUnit_Framework_TestCase
 
     public function testValidAuthorization()
     {
-        $provider = new TraktProvider(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
+        $provider = new TraktProvider(getenv("TRAKT_CLIENT_ID"), getenv("TRAKT_CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
         $auth = new Auth($provider);
 
         $trakt = new Trakt($auth, new Client());

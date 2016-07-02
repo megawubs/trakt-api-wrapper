@@ -18,12 +18,12 @@
   },
   "require-dev": {
     "vlucas/phpdotenv": "^2.0",
-    "phpunit/phpunit": "4.4.*",
     "mockery/mockery": "^0.9.4",
     "symfony/console": "^2.7",
     "league/flysystem": "^1.0",
     "symfony/var-dumper": "v2.7.1",
-    "psr/log": "^1.0"
+    "psr/log": "^1.0",
+    "phpunit/phpunit": "^5.4"
   },
   "autoload": {
     "psr-0": {
@@ -35,5 +35,8 @@
   },
   "bin": [
     "bin/trakt"
-  ]
+  ],
+  "config": {
+    "bin-dir": "scripts"
+  }
 }

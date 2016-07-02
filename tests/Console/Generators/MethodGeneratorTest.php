@@ -1,6 +1,5 @@
 <?php
 
-
 use GuzzleHttp\ClientInterface;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
@@ -32,7 +31,6 @@ class MethodGeneratorTest extends PHPUnit_Framework_TestCase
         parent::__construct();
         $this->file = __DIR__ . "/../../../src/Wubs/Trakt/Api/Comments.php";
 
-
         $this->filesystem = new Filesystem(
             new Local(
                 __DIR__ . "/../../../src/Wubs/Trakt/Api/"
@@ -47,7 +45,6 @@ class MethodGeneratorTest extends PHPUnit_Framework_TestCase
 
     public function testClassesInGivenNameSpaceRootAreAddedAsMethods()
     {
-        $client = Mockery::mock(ClientInterface::class);
         $out = Mockery::mock(OutputInterface::class);
         $out->shouldReceive("write");
         $out->shouldReceive("writeln")->times(12);
