@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+user=${1:?'Please provide a user as first argument'}
+path=${2:?'Please provide a path as second argument'}
+
+setfacl -R -m u:${user}:rwX  ${path}
+setfacl -dR -m u:${user}:rwX ${path}

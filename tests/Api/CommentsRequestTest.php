@@ -1,6 +1,5 @@
 <?php
 
-
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Message\RequestInterface;
 use GuzzleHttp\Message\ResponseInterface;
@@ -11,7 +10,6 @@ use Wubs\Trakt\Trakt;
 
 class CommentsRequestTest extends PHPUnit_Framework_TestCase
 {
-
 
     protected function tearDown()
     {
@@ -41,10 +39,8 @@ class CommentsRequestTest extends PHPUnit_Framework_TestCase
               }
             }'
         );
-        $auth = mock_auth();
-//        $movieClient = mock_client(200, '[]');
 
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), $client);
 
         $commend = $trakt->comments->create(movie($client), "This was so awesome! I really liked it!", false);
         $this->assertInternalType("object", $commend);
@@ -65,7 +61,6 @@ class CommentsRequestTest extends PHPUnit_Framework_TestCase
         $trakt = new Trakt($auth, $client);
 
         $this->assertTrue($trakt->comments->delete(get_token(), 190));
-
     }
 
     public function testGetCommentById()
@@ -142,7 +137,7 @@ class CommentsRequestTest extends PHPUnit_Framework_TestCase
         $client->shouldReceive("createRequest")->once()->andReturn($request);
         $client->shouldReceive("send")->once()->andReturn($response);
         $response->shouldReceive("getStatusCode")->twice()->andReturn(204);
-//        $response->shouldReceive("json")->once()->andReturn(json_decode($json));
+        //        $response->shouldReceive("json")->once()->andReturn(json_decode($json));
         $auth = mock_auth();
 
         $trakt = new Trakt($auth, $client);

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Wubs\Trakt\Auth;
-
 
 use Wubs\Trakt\Exception\InvalidOauthRequestException;
 use Wubs\Trakt\Auth\TraktProvider;
@@ -31,8 +29,7 @@ class Auth
     public function token($code)
     {
         try {
-            $params = ["code" => $code];
-            return $this->provider->getAccessToken("authorization_code", $params);
+            return $this->provider->getAccessToken("authorization_code", ["code" => $code]);
         } catch (\Exception $exception) {
             throw new InvalidOauthRequestException;
         }
@@ -50,8 +47,7 @@ class Auth
 
     public function refresh($refreshToken)
     {
-        $params = ['refresh_token' => $refreshToken, 'code' => $refreshToken];
-        return $this->provider->getAccessToken("refresh_token", $params);
+        return $this->provider->getAccessToken("refresh_token", ['refresh_token' => $refreshToken, 'code' => $refreshToken]);
     }
 
     public function createToken($token, $type, $expires, $refresh, $scope)

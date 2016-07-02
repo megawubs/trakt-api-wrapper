@@ -7,3 +7,4 @@ tests.txt
 .env
 _site
 composer.phar
+*.DS_Store

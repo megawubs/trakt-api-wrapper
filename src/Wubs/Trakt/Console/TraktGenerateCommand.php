@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Wubs\Trakt\Console;
-
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -34,16 +32,11 @@ class TraktGenerateCommand extends Command
                 InputOption::VALUE_NONE,
                 "Delete all files and folders before regenerating. Useful for when names are changed."
             );
-
-
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $generator = new EndpointGenerator($input, $output, new QuestionHelper());
-
-        $generator->setDelete($input->getOption("delete"));
-        $generator->setForce($input->getOption("force"));
+        $generator = new EndpointGenerator($input, $output, new QuestionHelper(), $input->getOption("force"), $input->getOption("delete"));
 
         if ($endpoint = $input->getArgument('endpoint')) {
             $output->writeln("Generating endpoint wrapper for: " . $endpoint);

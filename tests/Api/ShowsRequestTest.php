@@ -25,11 +25,7 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
 
     public function testAliases()
     {
-        $client = mock_client(200, "[]");
-
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), mock_client(200, "[]"));
 
         $aliases = $trakt->shows->aliases($this->id);
 
@@ -38,11 +34,7 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
 
     public function testComments()
     {
-        $client = mock_client(200, "[]");
-
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), mock_client(200, "[]"));
 
         $comments = $trakt->shows->comments($this->id, get_token());
 
@@ -51,11 +43,7 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
 
     public function testPeople()
     {
-        $client = mock_client(200, "[]");
-
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), mock_client(200, "[]"));
 
         $people = $trakt->shows->people($this->id);
 
@@ -64,11 +52,7 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
 
     public function testPopular()
     {
-        $client = mock_client(200, "[]");
-
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), mock_client(200, "[]"));
 
         $popular = $trakt->shows->popular();
 
@@ -77,11 +61,7 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
 
     public function testRatings()
     {
-        $client = mock_client(200, "[]");
-
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), mock_client(200, "[]"));
 
         $ratings = $trakt->shows->ratings($this->id);
 
@@ -90,11 +70,7 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
 
     public function testRelated()
     {
-        $client = mock_client(200, "[]");
-
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), mock_client(200, "[]"));
 
         $res = $trakt->shows->related($this->id);
 
@@ -103,11 +79,7 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
 
     public function testStats()
     {
-        $client = mock_client(200, "[]");
-
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), mock_client(200, "[]"));
 
         $stats = $trakt->shows->stats($this->id);
 
@@ -116,11 +88,7 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
 
     public function testSummary()
     {
-        $client = mock_client(200, "[]");
-
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), mock_client(200, "[]"));
 
         $res = $trakt->shows->summary($this->id);
 
@@ -129,11 +97,7 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
 
     public function testTranslations()
     {
-        $client = mock_client(200, "[]");
-
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), mock_client(200, "[]"));
 
         $res = $trakt->shows->translations($this->id, "NL");
 
@@ -142,11 +106,7 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
 
     public function testTrending()
     {
-        $client = mock_client(200, "[]");
-
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), mock_client(200, "[]"));
 
         $res = $trakt->shows->trending();
 
@@ -155,11 +115,7 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
 
     public function testUpdates()
     {
-        $client = mock_client(200, "[]");
-
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), mock_client(200, "[]"));
 
         $res = $trakt->shows->updates(Carbon::now());
 
@@ -168,11 +124,7 @@ class ShowsRequestTest extends PHPUnit_Framework_TestCase
 
     public function testWatching()
     {
-        $client = mock_client(200, "[]");
-
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), mock_client(200, "[]"));
 
         $res = $trakt->shows->watching($this->id);
 

@@ -1,15 +1,13 @@
 <?php
 
-
 namespace Wubs\Trakt;
-
 
 use GuzzleHttp\Client;
 
 class TraktHttpClient
 {
 
-    const API_URL = 'api-v2launch.trakt.tv';
+    const API_URL = 'api.trakt.tv';
 
     const API_VERSION = 2;
 

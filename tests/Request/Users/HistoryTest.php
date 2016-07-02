@@ -1,6 +1,5 @@
 <?php
 
-
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Message\RequestInterface;
 use GuzzleHttp\Message\ResponseInterface;
@@ -26,7 +25,7 @@ class HistoryTest extends PHPUnit_Framework_TestCase
         $response->shouldReceive("json")->once()->andReturn([]);
         $client->shouldReceive("send")->andReturn($response);
 
-        $clientId = getenv("CLIENT_ID");
+        $clientId = getenv("TRAKT_CLIENT_ID");
 
         $response = (new History('rolle', Type::movies(), get_token()))->make($clientId, $client);
 

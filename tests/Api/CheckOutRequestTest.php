@@ -25,9 +25,7 @@ class CheckOutRequestTest extends PHPUnit_Framework_TestCase
         $client->shouldReceive("send")->once()->andReturn($response);
         $response->shouldReceive("getStatusCode")->twice()->andReturn(204);
 
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), $client);
 
         $this->assertTrue($trakt->checkIn->delete(get_token()));
     }
