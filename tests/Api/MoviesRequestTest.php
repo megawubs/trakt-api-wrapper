@@ -1,6 +1,5 @@
 <?php
 
-
 use Wubs\Trakt\Api;
 use Wubs\Trakt\Auth\Auth;
 use Wubs\Trakt\Auth\TraktProvider;
@@ -12,9 +11,6 @@ use GuzzleHttp\Message\ResponseInterface;
 
 class MoviesRequestTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @var Api
-     */
     protected $trakt;
 
     protected $id = "tron-legacy-2010";
@@ -31,11 +27,7 @@ class MoviesRequestTest extends PHPUnit_Framework_TestCase
 
     public function testAliases()
     {
-        $client = mock_client(200, "[]");
-
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), mock_client(200, "[]"));
 
         $aliases = $trakt->movies->aliases($this->id);
 
@@ -44,11 +36,9 @@ class MoviesRequestTest extends PHPUnit_Framework_TestCase
 
     public function testComments()
     {
-        $client = mock_client(200, "[]");
-
         $auth = mock_auth();
 
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt($auth, mock_client(200, "[]"));
 
         $comments = $trakt->movies->comments($this->id, get_token());
 
@@ -57,11 +47,7 @@ class MoviesRequestTest extends PHPUnit_Framework_TestCase
 
     public function testPeople()
     {
-        $client = mock_client(200, "[]");
-
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), mock_client(200, "[]"));
 
         $people = $trakt->movies->people($this->id);
 
@@ -70,11 +56,7 @@ class MoviesRequestTest extends PHPUnit_Framework_TestCase
 
     public function testPopular()
     {
-        $client = mock_client(200, "[]");
-
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), mock_client(200, "[]"));
 
         $popular = $trakt->movies->popular();
 
@@ -83,11 +65,7 @@ class MoviesRequestTest extends PHPUnit_Framework_TestCase
 
     public function testRatings()
     {
-        $client = mock_client(200, "[]");
-
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), mock_client(200, "[]"));
 
         $ratings = $trakt->movies->ratings($this->id);
 
@@ -96,11 +74,7 @@ class MoviesRequestTest extends PHPUnit_Framework_TestCase
 
     public function testReleases()
     {
-        $client = mock_client(200, "[]");
-
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), mock_client(200, "[]"));
 
         $ratings = $trakt->movies->releases($this->id, "NL");
 
@@ -109,11 +83,7 @@ class MoviesRequestTest extends PHPUnit_Framework_TestCase
 
     public function testRelated()
     {
-        $client = mock_client(200, "[]");
-
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), mock_client(200, "[]"));
 
         $res = $trakt->movies->related($this->id);
 
@@ -122,11 +92,7 @@ class MoviesRequestTest extends PHPUnit_Framework_TestCase
 
     public function testStats()
     {
-        $client = mock_client(200, "[]");
-
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), mock_client(200, "[]"));
 
         $stats = $trakt->movies->stats($this->id);
 
@@ -135,10 +101,7 @@ class MoviesRequestTest extends PHPUnit_Framework_TestCase
 
     public function testSummary()
     {
-        $client = mock_client(200, movieJson());
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), mock_client(200, movieJson()));
 
         $res = $trakt->movies->summary(get_token(), $this->id);
         $this->assertInstanceOf(Movie::class, $res);
@@ -146,11 +109,7 @@ class MoviesRequestTest extends PHPUnit_Framework_TestCase
 
     public function testTranslations()
     {
-        $client = mock_client(200, "[]");
-
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), mock_client(200, "[]"));
 
         $res = $trakt->movies->translations($this->id, "NL");
 
@@ -159,11 +118,7 @@ class MoviesRequestTest extends PHPUnit_Framework_TestCase
 
     public function testTrending()
     {
-        $client = mock_client(200, "[]");
-
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), mock_client(200, "[]"));
 
         $res = $trakt->movies->trending(get_token());
 
@@ -172,11 +127,7 @@ class MoviesRequestTest extends PHPUnit_Framework_TestCase
 
     public function testWatching()
     {
-        $client = mock_client(200, "[]");
-
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), mock_client(200, "[]"));
 
         $res = $trakt->movies->watching($this->id);
 

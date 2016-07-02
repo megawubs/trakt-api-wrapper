@@ -17,7 +17,7 @@ class SearchTest extends PHPUnit_Framework_TestCase
 
     public function testSearchMovieWithoutToken()
     {
-        $client = mock_client(
+        $trakt = new Trakt(mock_auth(), mock_client(
             200,
             '[
   {
@@ -48,9 +48,7 @@ class SearchTest extends PHPUnit_Framework_TestCase
     }
   }
 ]'
-        );
-        $auth = mock_auth();
-        $trakt = new Trakt($auth, $client);
+        ));
 
         $result = $trakt->search->byText("Batman Begins", Type::show(), 2011);
 

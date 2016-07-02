@@ -1,6 +1,5 @@
 <?php
 
-
 use Carbon\Carbon;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Message\RequestInterface;
@@ -30,7 +29,7 @@ class ApiTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
+        $client = Mockery::mock(ClientInterface::class);
 
         $auth = mock_auth();
 
@@ -39,12 +38,11 @@ class ApiTest extends PHPUnit_Framework_TestCase
         $this->today = Carbon::today(new DateTimeZone("Europe/Amsterdam"));
     }
 
-
     public function testCalendars()
     {
-        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
-        $request = Mockery::mock(stdClass::class . ", " . RequestInterface::class);
-        $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
+        $client = Mockery::mock(ClientInterface::class);
+        $request = Mockery::mock(RequestInterface::class);
+        $response = Mockery::mock(ResponseInterface::class);
 
         $response->shouldReceive("getStatusCode")->once()->andReturn(200);
         $response->shouldReceive("json")->once()->andReturn([]);
@@ -83,9 +81,9 @@ class ApiTest extends PHPUnit_Framework_TestCase
     }
   }
 }';
-        $client = Mockery::mock(stdClass::class . ", " . ClientInterface::class);
-        $request = Mockery::mock(stdClass::class . ", " . RequestInterface::class);
-        $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
+        $client = Mockery::mock(ClientInterface::class);
+        $request = Mockery::mock(RequestInterface::class);
+        $response = Mockery::mock(ResponseInterface::class);
 
         $client->shouldReceive("createRequest")->once()->andReturn($request);
         $response->shouldReceive("getStatusCode")->once()->andReturn(200);

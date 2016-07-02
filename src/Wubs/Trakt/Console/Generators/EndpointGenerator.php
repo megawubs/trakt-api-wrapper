@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use ReflectionClass;
+use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -55,9 +56,9 @@ class EndpointGenerator
 
     private $file;
     /**
-     * @var DialogHelper
+     * @var QuestionHelper
      */
-    private $dialogHelper;
+    private $questionHelper;
     /**
      * @var InputInterface
      */
@@ -76,20 +77,20 @@ class EndpointGenerator
     /**
      * @param InputInterface $inputInterface
      * @param OutputInterface $outputInterface
-     * @param QuestionHelper $dialogHelper
+     * @param QuestionHelper $questionHelper
      * @param bool $force
      * @param bool $delete
      */
     public function __construct(
         InputInterface $inputInterface,
         OutputInterface $outputInterface,
-        QuestionHelper $dialogHelper,
+        QuestionHelper $questionHelper,
         $force = false,
         $delete = false
     )
     {
         $this->out = $outputInterface;
-        $this->dialogHelper = $dialogHelper;
+        $this->questionHelper = $questionHelper;
         $this->inputInterface = $inputInterface;
         $this->force = $force;
         $this->delete = $delete;
@@ -113,15 +114,13 @@ class EndpointGenerator
 
         $this->uses = new Collection();
 
-        if ($this->filesystem->has($this->file)) {
-            if (!$this->userWantsToOverwrite()) {
-                $this->out->writeln("Not overwriting " . $this->file);
-                return $this;
-            };
+        if ($this->filesystem->has($this->file) && $this->userWantsToOverwrite()) {
             $this->filesystem->delete($this->file);
+            return $this->createContent()->writeToFile();
         }
 
-        return $this->createContent()->writeToFile();
+        $this->out->writeln("Not overwriting " . $this->file);
+        return $this;
     }
 
     public function getGeneratedTemplate()
@@ -267,7 +266,7 @@ class EndpointGenerator
     private function userWantsToOverwrite()
     {
         $question = new Question("Class " . $this->className . " already exist, do you want to overwrite it?", false);
-        return $this->dialogHelper->ask(
+        return $this->questionHelper->ask(
             $this->inputInterface,
             $this->out,
             $question
@@ -331,7 +330,7 @@ class EndpointGenerator
         $properties->push($content['filename']);
 
         $this->filesystem->createDir('Api/' . $this->endpoint->first());
-        $generator = new EndpointGenerator($this->inputInterface, $this->out, $this->dialogHelper);
+        $generator = new EndpointGenerator($this->inputInterface, $this->out, $this->questionHelper);
         $endpoint = str_replace("Request/", "", $content['path']);
         $generator->generateForEndpoint($endpoint);
     }

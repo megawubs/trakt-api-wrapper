@@ -31,11 +31,7 @@ class CalendarsRequestTest extends PHPUnit_Framework_TestCase
 
     public function testShows()
     {
-        $client = mock_client(200, "[]");
-
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), mock_client(200, "[]"));
 
         $res = $trakt->calendars->my->shows(get_token(), $this->today, 7);
 
@@ -44,11 +40,7 @@ class CalendarsRequestTest extends PHPUnit_Framework_TestCase
 
     public function testNewShows()
     {
-        $client = mock_client(200, "[]");
-
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), mock_client(200, "[]"));
 
         $res = $trakt->calendars->my->newShows(get_token(), $this->today, 7);
 
@@ -57,11 +49,7 @@ class CalendarsRequestTest extends PHPUnit_Framework_TestCase
 
     public function testPremieres()
     {
-        $client = mock_client(200, "[]");
-
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), mock_client(200, "[]"));
 
         $res = $trakt->calendars->my->premieres(get_token(), $this->today, 7);
 
@@ -70,11 +58,7 @@ class CalendarsRequestTest extends PHPUnit_Framework_TestCase
 
     public function testMovies()
     {
-        $client = mock_client(200, "[]");
-
-        $auth = mock_auth();
-
-        $trakt = new Trakt($auth, $client);
+        $trakt = new Trakt(mock_auth(), mock_client(200, "[]"));
 
         $res = $trakt->calendars->my->movies(get_token(), $this->today, 7);
 
@@ -83,13 +67,9 @@ class CalendarsRequestTest extends PHPUnit_Framework_TestCase
 
     public function testAllShows()
     {
-        $client = mock_client(200, "[]");
-
         $auth = mock_auth();
 
-        $trakt = new Trakt($auth, $client);
-
-        $res = $trakt->calendars->shows($this->today, 7);
+        $res = (new Trakt($auth, mock_client(200, "[]")))->calendars->shows($this->today, 7);
 
         $this->assertInternalType("object", $res);
     }
