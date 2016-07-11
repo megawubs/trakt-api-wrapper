@@ -19,6 +19,9 @@ trait ScrobblerTrait
      */
     private $media;
 
+    /**
+     * @var integer
+     */
     private $progress;
     private $appVersion;
     private $appDate;

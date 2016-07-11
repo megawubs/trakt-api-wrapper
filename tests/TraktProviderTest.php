@@ -11,27 +11,27 @@ class TraktProviderTest extends PHPUnit_Framework_TestCase
 {
     public function testProviderCanBeInitiated()
     {
-        $clientId = getenv("CLIENT_ID");
-        $provider = new TraktProvider($clientId, getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
+        $clientId = getenv("TRAKT_CLIENT_ID");
+        $provider = new TraktProvider($clientId, getenv("TRAKT_CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
 
         $this->assertInstanceOf(TraktProvider::class, $provider);
     }
 
     public function testAuthUrlHasClientId()
     {
-        $clientId = getenv("CLIENT_ID");
-        $provider = new TraktProvider($clientId, getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
+        $clientId = getenv("TRAKT_CLIENT_ID");
+        $provider = new TraktProvider($clientId, getenv("TRAKT_CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
 
         $authUrl = $provider->getAuthorizationUrl();
 
-        $this->assertContains(getenv("CLIENT_ID"), $authUrl);
+        $this->assertContains(getenv("TRAKT_CLIENT_ID"), $authUrl);
 
     }
 
     public function testGetTraktAuthorizationUrl()
     {
         $clientId = get_client_id();
-        $provider = new TraktProvider($clientId, getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
+        $provider = new TraktProvider($clientId, getenv("TRAKT_CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
         $authUrl = $provider->getAuthorizationUrl();
 
         $this->assertContains("https://trakt.tv/oauth/authorize", $authUrl);

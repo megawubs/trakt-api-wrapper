@@ -19,7 +19,6 @@ class UpdatedHandlerTest extends PHPUnit_Framework_TestCase
         Mockery::close();
     }
 
-
     public function testResponseHandlerConvertsResponseToUpdatedObjects()
     {
         $json = '[
@@ -55,14 +54,14 @@ class UpdatedHandlerTest extends PHPUnit_Framework_TestCase
         $request = Mockery::mock(stdClass::class . ", " . RequestInterface::class);
         $response = Mockery::mock(stdClass::class . ", " . ResponseInterface::class);
 
-//        $client->shouldReceive("createRequest")->once()->andReturn($request);
-//        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
+        //        $client->shouldReceive("createRequest")->once()->andReturn($request);
+        //        $response->shouldReceive("getStatusCode")->once()->andReturn(200);
         $response->shouldReceive("json")->once()->andReturn(json_decode($json));
         $client->shouldReceive("send")->andReturn($response);
 
         $handler = new UpdatedHandler();
 
-        $handler->setClientId(getenv("CLIENT_ID"));
+        $handler->setClientId(getenv("TRAKT_CLIENT_ID"));
         $handler->setToken(get_token());
 
         $updates = $handler->handle($response, $client);

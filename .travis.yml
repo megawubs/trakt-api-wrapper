@@ -1,0 +1,15 @@
+sudo: required
+
+services:
+  - docker
+
+before_script:
+  - env | grep TRAKT_ > .env
+
+before_install:
+  - docker pull megawubs/trakt-api:dev
+
+install:
+  - docker-compose run trakt-api composer install --prefer-dist
+
+script: bin/phpunit

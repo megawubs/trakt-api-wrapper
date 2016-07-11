@@ -28,7 +28,7 @@ class HowItShouldWorkTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $provider = new TraktProvider(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
+        $provider = new TraktProvider(getenv("TRAKT_CLIENT_ID"), getenv("TRAKT_CLIENT_SECRET"), getenv("TRAKT_REDIRECT_URI"));
         $auth = new Auth($provider);
 
         $this->trakt = new Trakt($auth, TraktHttpClient::make());
@@ -55,6 +55,6 @@ class HowItShouldWorkTest extends PHPUnit_Framework_TestCase
 
         $trakt = new Trakt($auth, TraktHttpClient::make());
 
-        $trakt->auth->authorize(getenv("CLIENT_ID"), getenv("CLIENT_SECRET"), "uri");
+        $trakt->auth->authorize(getenv("TRAKT_CLIENT_ID"), getenv("TRAKT_CLIENT_SECRET"), "uri");
     }
 }

@@ -1,13 +1,12 @@
 <?php
 
-
 namespace Wubs\Trakt\Console\Generators;
-
 
 use Illuminate\Support\Collection;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use ReflectionClass;
+use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -57,53 +56,48 @@ class EndpointGenerator
 
     private $file;
     /**
-     * @var DialogHelper
+     * @var QuestionHelper
      */
-    private $dialogHelper;
+    private $questionHelper;
     /**
      * @var InputInterface
      */
     private $inputInterface;
 
-    private $delete = false;
+    /**
+     * @var bool
+     */
+    private $delete;
 
-    private $force = false;
-
+    /**
+     * @var bool
+     */
+    private $force;
 
     /**
      * @param InputInterface $inputInterface
      * @param OutputInterface $outputInterface
-     * @param QuestionHelper $dialogHelper
+     * @param QuestionHelper $questionHelper
+     * @param bool $force
+     * @param bool $delete
      */
     public function __construct(
         InputInterface $inputInterface,
         OutputInterface $outputInterface,
-        QuestionHelper $dialogHelper
-    ) {
+        QuestionHelper $questionHelper,
+        $force = false,
+        $delete = false
+    )
+    {
         $this->out = $outputInterface;
-        $this->dialogHelper = $dialogHelper;
+        $this->questionHelper = $questionHelper;
         $this->inputInterface = $inputInterface;
+        $this->force = $force;
+        $this->delete = $delete;
 
         $localAdapter = new Local(__DIR__ . "/../..");
         $this->filesystem = new Filesystem($localAdapter);
     }
-
-    /**
-     * @param boolean $force
-     */
-    public function setForce($force)
-    {
-        $this->force = $force;
-    }
-
-    /**
-     * @param boolean $delete
-     */
-    public function setDelete($delete)
-    {
-        $this->delete = $delete;
-    }
-
 
     /**
      * @param $endpoint
@@ -120,15 +114,13 @@ class EndpointGenerator
 
         $this->uses = new Collection();
 
-        if ($this->filesystem->has($this->file)) {
-            if (!$this->userWantsToOverwrite()) {
-                $this->out->writeln("Not overwriting " . $this->file);
-                return $this;
-            };
+        if ($this->filesystem->has($this->file) && $this->userWantsToOverwrite()) {
             $this->filesystem->delete($this->file);
+            return $this->createContent()->writeToFile();
         }
 
-        return $this->createContent()->writeToFile();
+        $this->out->writeln("Not overwriting " . $this->file);
+        return $this;
     }
 
     public function getGeneratedTemplate()
@@ -151,7 +143,6 @@ class EndpointGenerator
         $this->out->writeln("Deleted unused placeholders in template");
 
         return $this;
-
     }
 
     /**
@@ -190,7 +181,6 @@ class EndpointGenerator
         };
         $this->out->writeln("Adding generated methods to template");
         return $this->writeInTemplate("methods", $methods->implode("\n\n\t"))->addProperties($properties);
-
     }
 
     /**
@@ -207,13 +197,10 @@ class EndpointGenerator
             $this->requestsNamespace . $className->implode("\\") . "\\" .
             $file['filename']
         );
-        if (!$reflection->isTrait() || !$reflection->isAbstract()) {
-            $method = new Method($reflection, $this->filesystem, $methodName);
+        if ($reflection->isTrait() || $reflection->isAbstract())
+            throw new ClassCanNotBeImplementedAsEndpointException;
 
-            return $method;
-        }
-
-        throw new ClassCanNotBeImplementedAsEndpointException;
+        return new Method($reflection, $this->filesystem, $methodName);
     }
 
     /**
@@ -224,16 +211,13 @@ class EndpointGenerator
         if ($this->endpoint->count() > 1) {
             $this->uses->push(new ReflectionClass(Endpoint::class));
         }
-        $unique = $this->uses->unique();
-        $aliases = new Collection();
-        $unique->each(
-            function ($useStatement) use ($aliases) {
-                /** @var ReflectionClass $useStatement */
+        $aliases = $this->uses->unique()->map(
+            function (ReflectionClass $useStatement) {
                 $parent = $useStatement->getParentClass();
                 if ($parent !== false && $parent->getName() === AbstractRequest::class) {
-                    $aliases->push($useStatement->getName() . " as " . $useStatement->getShortName() . "Request");
+                    return $useStatement->getName() . " as " . $useStatement->getShortName() . "Request";
                 } else {
-                    $aliases->push($useStatement->getName());
+                    return $useStatement->getName();
                 }
             }
         );
@@ -246,7 +230,6 @@ class EndpointGenerator
         }
 
         return $this;
-
     }
 
     /**
@@ -254,8 +237,7 @@ class EndpointGenerator
      */
     private function updateUsages(Method $method)
     {
-        $this->uses = $this->uses->merge($method->getUses());
-        $this->uses->push($method->getRequestClass());
+        $this->uses = $this->uses->merge($method->getUses())->push($method->getRequestClass());
     }
 
     /**
@@ -284,7 +266,7 @@ class EndpointGenerator
     private function userWantsToOverwrite()
     {
         $question = new Question("Class " . $this->className . " already exist, do you want to overwrite it?", false);
-        return $this->dialogHelper->ask(
+        return $this->questionHelper->ask(
             $this->inputInterface,
             $this->out,
             $question
@@ -348,7 +330,7 @@ class EndpointGenerator
         $properties->push($content['filename']);
 
         $this->filesystem->createDir('Api/' . $this->endpoint->first());
-        $generator = new EndpointGenerator($this->inputInterface, $this->out, $this->dialogHelper);
+        $generator = new EndpointGenerator($this->inputInterface, $this->out, $this->questionHelper);
         $endpoint = str_replace("Request/", "", $content['path']);
         $generator->generateForEndpoint($endpoint);
     }
@@ -390,7 +372,6 @@ class EndpointGenerator
                     return true;
                 }
             );
-
         }
     }
 

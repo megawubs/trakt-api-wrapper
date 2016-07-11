@@ -15,7 +15,7 @@ class EpisodesRequestTest extends PHPUnit_Framework_TestCase
 
     public function testGetCommentsFromEpisode()
     {
-        $client = mock_client(
+        $trakt = new Trakt(mock_auth(), mock_client(
             200,
             '[
               {
@@ -36,9 +36,7 @@ class EpisodesRequestTest extends PHPUnit_Framework_TestCase
                 }
               }
             ]'
-        );
-        $auth = mock_auth();
-        $trakt = new Trakt($auth, $client);
+        ));
 
         $comments = $trakt->episodes->comments(8, 2, 1);
 
