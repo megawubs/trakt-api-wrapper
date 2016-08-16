@@ -8,6 +8,7 @@
 
 namespace Wubs\Trakt\Request\Scrobble;
 
+
 use Wubs\Trakt\Media\Media;
 use Wubs\Trakt\Request\RequestType;
 
@@ -19,15 +20,21 @@ trait ScrobblerTrait
     private $media;
 
     /**
-     * @var int
+     * @var integer
      */
     private $progress;
+    private $appVersion;
+    private $appDate;
+
 
     protected function getPostBody()
     {
+        $type = $this->media->getType();
         return [
-            $this->media->getType() => $this->media->getStandardFields(),
-            'progress' => $this->progress
+            $type => $this->media->getStandardFields(),
+            'progress' => $this->progress,
+            'app_version' => $this->appVersion,
+            'app_date' => $this->appDate
         ];
     }
 
@@ -35,4 +42,5 @@ trait ScrobblerTrait
     {
         return RequestType::POST;
     }
+
 }

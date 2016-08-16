@@ -19,19 +19,19 @@ class Scrobble extends Endpoint {
     
 
 
-    public function pause(AccessToken $token, Media $media, $progress)
+    public function pause(AccessToken $token, Media $media, $progress = 0, $appVersion = null, $appDate = null)
     {
-        return $this->request(new PauseRequest($token, $media, $progress));
+        return $this->request(new PauseRequest($token, $media, $progress, $appVersion, $appDate));
     }
 
-	public function start(AccessToken $token, Media $media, $progress)
+	public function start(AccessToken $token, Media $media, $progress = 0, $appVersion = null, $appDate = null)
     {
-        return $this->request(new StartRequest($token, $media, $progress));
+        return $this->request(new StartRequest($token, $media, $progress, $appVersion, $appDate));
     }
 
-	public function stop(AccessToken $token, Media $media, $progress)
+	public function stop(AccessToken $token, Media $media, $progress = 0, $appVersion = null, $appDate = null)
     {
-        return $this->request(new StopRequest($token, $media, $progress));
+        return $this->request(new StopRequest($token, $media, $progress, $appVersion, $appDate));
     }
 
 }
