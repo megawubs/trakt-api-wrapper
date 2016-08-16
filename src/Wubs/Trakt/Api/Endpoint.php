@@ -67,6 +67,14 @@ abstract class Endpoint
     /**
      * @return $this
      */
+    public function withEpisodes()
+    {
+        return $this->extend('episodes');
+    }
+
+    /**
+     * @return $this
+     */
     public function withoutSeasons()
     {
         return $this->extend('noseasons');
