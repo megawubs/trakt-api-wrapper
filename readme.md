@@ -1,3 +1,6 @@
+Notice: This package is abandoned by its maintainer. Please fork and continue from there.
+=========
+
 Trakt-api-wrapper version 2
 =================
 
