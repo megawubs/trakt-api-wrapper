@@ -4,7 +4,7 @@ Notice: This package is abandoned by its maintainer. Please fork and continue fr
 Trakt-api-wrapper version 2
 =================
 
-This is the Trakt API wrapper for their new API (version 2). It's in active development
+This is the Trakt API wrapper for their new API (version 2).
 
 ## Installation
 
