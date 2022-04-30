@@ -65,6 +65,14 @@ abstract class Endpoint
     }
 
     /**
+     * @return $this
+     */
+    public function withEpisodes()
+    {
+        return $this->extend("episodes");
+    }    
+    
+    /**
      * @param mixed $page
      * @return $this
      */
